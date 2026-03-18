@@ -22,12 +22,18 @@ export function InstallPrompt() {
       return;
     }
 
-    // Check if user dismissed before
-    const wasDismissed = localStorage.getItem("pwa-install-dismissed");
-    if (wasDismissed) {
+    // Check if user dismissed before (with 7-day expiry)
+    const dismissedUntil = localStorage.getItem("pwa-install-dismissed");
+    if (dismissedUntil && Date.now() < parseInt(dismissedUntil, 10)) {
       setDismissed(true);
       return;
     }
+    localStorage.removeItem("pwa-install-dismissed");
+
+    // Only show after 2 visits
+    const visitCount = parseInt(localStorage.getItem("pwa-visit-count") || "0", 10) + 1;
+    localStorage.setItem("pwa-visit-count", String(visitCount));
+    if (visitCount < 2) return;
 
     const handler = (e: Event) => {
       e.preventDefault();
@@ -55,7 +61,8 @@ export function InstallPrompt() {
 
   const handleDismiss = () => {
     setDismissed(true);
-    localStorage.setItem("pwa-install-dismissed", "true");
+    // Remember dismissal for 7 days
+    localStorage.setItem("pwa-install-dismissed", String(Date.now() + 7 * 24 * 60 * 60 * 1000));
   };
 
   if (isInstalled || dismissed || !deferredPrompt) return null;

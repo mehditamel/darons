@@ -2,6 +2,8 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
+import { OfflineBanner } from "@/components/pwa/offline-fallback";
+import { SessionTracker } from "@/components/analytics/session-tracker";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function DashboardLayout({
@@ -53,6 +55,7 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen bg-background">
       <ServiceWorkerRegister />
+      <SessionTracker />
       <Sidebar />
       <div className="lg:pl-64">
         <Topbar
@@ -61,6 +64,7 @@ export default async function DashboardLayout({
           alertCount={alertCount}
         />
         <main className="p-4 lg:p-6">
+          <OfflineBanner />
           <InstallPrompt />
           {children}
         </main>

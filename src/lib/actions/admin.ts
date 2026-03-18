@@ -135,6 +135,60 @@ export async function computeDailyMetrics(): Promise<ActionResult> {
   return { success: true };
 }
 
+export async function getAdminEngagementMetrics(): Promise<
+  ActionResult<{
+    dau: number;
+    mau: number;
+    dauMauRatio: number;
+    activationRate: number;
+  }>
+> {
+  const { user, supabase } = await getAuthenticatedUser();
+  if (!user) return { success: false, error: "Non authentifié" };
+  if (!(await isAdmin(supabase, user.id)))
+    return { success: false, error: "Accès refusé" };
+
+  const today = new Date().toISOString().split("T")[0];
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  // DAU — distinct users active today
+  const { count: dau } = await supabase
+    .from("user_sessions")
+    .select("*", { count: "exact", head: true })
+    .eq("session_date", today);
+
+  // MAU — distinct users active in last 30 days
+  const { count: mau } = await supabase
+    .from("user_sessions")
+    .select("user_id", { count: "exact", head: true })
+    .gte("session_date", thirtyDaysAgo.toISOString().split("T")[0]);
+
+  // Activation rate — users who completed onboarding (have at least 1 family member)
+  const { count: totalUsers } = await supabase
+    .from("profiles")
+    .select("*", { count: "exact", head: true });
+
+  const { count: activatedUsers } = await supabase
+    .from("households")
+    .select("*", { count: "exact", head: true });
+
+  const total = totalUsers ?? 0;
+  const dauVal = dau ?? 0;
+  const mauVal = mau ?? 0;
+  const activated = activatedUsers ?? 0;
+
+  return {
+    success: true,
+    data: {
+      dau: dauVal,
+      mau: mauVal,
+      dauMauRatio: mauVal > 0 ? Math.round((dauVal / mauVal) * 100) : 0,
+      activationRate: total > 0 ? Math.round((activated / total) * 100) : 0,
+    },
+  };
+}
+
 export async function getAdminDashboardSummary(): Promise<
   ActionResult<{
     totalUsers: number;

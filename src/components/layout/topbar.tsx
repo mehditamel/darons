@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Menu, Bell, LogOut, Settings, User } from "lucide-react";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -58,6 +59,8 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
       </Sheet>
 
       <div className="flex-1" />
+
+      <ThemeToggle />
 
       <Button
         variant="ghost"

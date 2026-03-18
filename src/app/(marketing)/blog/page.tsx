@@ -23,6 +23,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Fiscal": "bg-warm-gold/10 text-warm-gold",
   "Garde": "bg-warm-orange/10 text-warm-orange",
   "Budget": "bg-warm-blue/10 text-warm-blue",
+  "Démarches": "bg-warm-purple/10 text-warm-purple",
+  "Identité": "bg-warm-green/10 text-warm-green",
 };
 
 export default function BlogPage() {
