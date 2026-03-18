@@ -54,7 +54,7 @@ export default async function SanteEnrichiePage() {
       />
 
       <SanteEnrichieTabs
-        children={children}
+        members={children}
         examinationsByMember={examinationsByMember}
         journalByMember={journalByMember}
         allergiesByMember={allergiesByMember}
