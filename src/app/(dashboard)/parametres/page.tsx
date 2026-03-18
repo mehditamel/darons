@@ -4,20 +4,38 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { MemberList } from "@/components/famille/member-list";
+import { getFamilyMembers } from "@/lib/actions/family";
 
 export const metadata: Metadata = {
-  title: "Param\u00e8tres",
+  title: "Paramètres",
 };
 
-export default function ParametresPage() {
+export default async function ParametresPage() {
+  const membersResult = await getFamilyMembers();
+  const members = membersResult.data ?? [];
+
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Param\u00e8tres"
-        description="G\u00e9rez votre compte, votre foyer et votre abonnement"
+        title="Paramètres"
+        description="Gérez votre compte, votre foyer et votre abonnement"
       />
 
       <div className="grid gap-6">
+        {/* Family members section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Mon foyer</CardTitle>
+            <CardDescription>
+              Gérez les membres de votre famille
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <MemberList members={members} />
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader>
             <CardTitle>Mon compte</CardTitle>
@@ -28,7 +46,7 @@ export default function ParametresPage() {
           <CardContent className="space-y-4">
             <div className="grid gap-2 sm:grid-cols-2">
               <div>
-                <p className="text-sm text-muted-foreground">Pr\u00e9nom</p>
+                <p className="text-sm text-muted-foreground">Prénom</p>
                 <p className="font-medium">Mehdi</p>
               </div>
               <div>
@@ -40,8 +58,8 @@ export default function ParametresPage() {
                 <p className="font-medium">mehdi@tamel.fr</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">R\u00f4le</p>
-                <p className="font-medium">Propri\u00e9taire</p>
+                <p className="text-sm text-muted-foreground">Rôle</p>
+                <p className="font-medium">Propriétaire</p>
               </div>
             </div>
             <Button variant="outline" size="sm">
@@ -83,20 +101,20 @@ export default function ParametresPage() {
                 <span className="text-muted-foreground">Non inclus</span>
               </li>
             </ul>
-            <Button>Passer \u00e0 Premium — 9,90 \u20ac/mois</Button>
+            <Button>Passer à Premium — 9,90 €/mois</Button>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Donn\u00e9es & confidentialit\u00e9</CardTitle>
+            <CardTitle>Données & confidentialité</CardTitle>
             <CardDescription>
-              RGPD : g\u00e9rez vos donn\u00e9es personnelles
+              RGPD : gérez vos données personnelles
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button variant="outline" size="sm">
-              Exporter mes donn\u00e9es (JSON)
+              Exporter mes données (JSON)
             </Button>
             <Separator />
             <div>
@@ -107,7 +125,7 @@ export default function ParametresPage() {
                 Supprimer mon compte
               </Button>
               <p className="mt-1 text-xs text-muted-foreground">
-                Toutes vos donn\u00e9es seront supprim\u00e9es sous 30 jours.
+                Toutes vos données seront supprimées sous 30 jours.
               </p>
             </div>
           </CardContent>

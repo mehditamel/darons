@@ -3,73 +3,137 @@ import {
   HeartPulse,
   Wallet,
   Calculator,
-  IdCard,
-  Baby,
   Syringe,
   FileText,
   ArrowRight,
+  IdCard,
+  Users,
+  AlertTriangle,
 } from "lucide-react";
+import Link from "next/link";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
 import { AlertCard } from "@/components/shared/alert-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { getGreeting } from "@/lib/utils";
+import { getGreeting, formatDate } from "@/lib/utils";
+import { getFamilyMembers } from "@/lib/actions/family";
+import { getIdentityDocuments, getExpiringDocuments } from "@/lib/actions/identity";
+import { getVaccinations } from "@/lib/actions/health";
+import { getDocuments } from "@/lib/actions/documents";
+import { VACCINATION_SCHEDULE } from "@/lib/constants";
+import { DOCUMENT_TYPE_LABELS } from "@/types/family";
+import { differenceInMonths } from "date-fns";
 
 export const metadata: Metadata = {
   title: "Tableau de bord",
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
   const greeting = getGreeting();
+
+  const [membersResult, docsResult, expiringResult, vaultResult] = await Promise.all([
+    getFamilyMembers(),
+    getIdentityDocuments(),
+    getExpiringDocuments(),
+    getDocuments(),
+  ]);
+
+  const members = membersResult.data ?? [];
+  const identityDocs = docsResult.data ?? [];
+  const expiring = expiringResult.data ?? [];
+  const vaultDocs = vaultResult.data ?? [];
+  const children = members.filter((m) => m.memberType === "child");
+
+  // Get vaccination stats for all children
+  let totalDoses = 0;
+  let doneDoses = 0;
+  for (const child of children) {
+    const vaccResult = await getVaccinations(child.id);
+    const vaccinations = vaccResult.data ?? [];
+    const childAgeMonths = differenceInMonths(new Date(), new Date(child.birthDate));
+
+    for (const vaccine of VACCINATION_SCHEDULE) {
+      for (const dose of vaccine.doses) {
+        if (dose.ageMonths <= childAgeMonths + 3) {
+          totalDoses++;
+          const existing = vaccinations.find(
+            (v) => v.vaccineCode === vaccine.code && v.doseNumber === dose.doseNumber && v.status === "done"
+          );
+          if (existing) doneDoses++;
+        }
+      }
+    }
+  }
+
+  // Profile completion
+  const completionChecks = [
+    members.length > 0,
+    children.length > 0,
+    identityDocs.length > 0,
+    doneDoses > 0,
+    vaultDocs.length > 0,
+  ];
+  const completionPercent = Math.round(
+    (completionChecks.filter(Boolean).length / completionChecks.length) * 100
+  );
+
+  const firstAdult = members.find((m) => m.memberType === "adult");
+  const displayName = firstAdult?.firstName ?? "Utilisateur";
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title={`${greeting}, Mehdi`}
-        description="Voici un r\u00e9sum\u00e9 de votre foyer familial"
+        title={`${greeting}, ${displayName}`}
+        description="Voici un résumé de votre foyer familial"
       />
 
       {/* Profile completion */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm font-medium">Compl\u00e9tude du profil</p>
-            <span className="text-sm text-muted-foreground">30%</span>
-          </div>
-          <Progress value={30} className="h-2" />
-          <p className="mt-2 text-xs text-muted-foreground">
-            Ajoutez des vaccins, des documents et des donn\u00e9es fiscales pour compl\u00e9ter votre profil.
-          </p>
-        </CardContent>
-      </Card>
+      {completionPercent < 100 && (
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm font-medium">Complétude du profil</p>
+              <span className="text-sm text-muted-foreground">{completionPercent}%</span>
+            </div>
+            <Progress value={completionPercent} className="h-2" />
+            <p className="mt-2 text-xs text-muted-foreground">
+              {completionPercent < 40
+                ? "Ajoutez des membres, documents et vaccins pour compléter votre profil."
+                : completionPercent < 80
+                ? "Vous avez bien avancé ! Continuez à enrichir votre cockpit."
+                : "Presque terminé ! Plus que quelques étapes."}
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Membres du foyer"
-          value="3"
-          icon={Baby}
+          value={String(members.length)}
+          icon={Users}
           color="bg-warm-teal/10 text-warm-teal"
         />
         <StatCard
-          label="Vaccins \u00e0 jour"
-          value="4/24"
+          label="Vaccins à jour"
+          value={totalDoses > 0 ? `${doneDoses}/${totalDoses}` : "—"}
           icon={Syringe}
           color="bg-warm-orange/10 text-warm-orange"
         />
         <StatCard
-          label="Budget mensuel"
-          value="1 245 \u20ac"
-          icon={Wallet}
+          label="Documents identité"
+          value={String(identityDocs.length)}
+          icon={IdCard}
           color="bg-warm-blue/10 text-warm-blue"
         />
         <StatCard
-          label="\u00c9conomie fiscale"
-          value="3 850 \u20ac"
-          icon={Calculator}
-          color="bg-warm-gold/10 text-warm-gold"
+          label="Coffre-fort"
+          value={`${vaultDocs.length} doc${vaultDocs.length > 1 ? "s" : ""}`}
+          icon={FileText}
+          color="bg-warm-purple/10 text-warm-purple"
         />
       </div>
 
@@ -80,26 +144,26 @@ export default function DashboardPage() {
             <CardTitle className="text-lg">Alertes</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <AlertCard
-              title="Vaccin DTPCa - 2\u00e8me dose"
-              message="La 2\u00e8me dose de Matis est pr\u00e9vue pour ses 4 mois (juillet 2025)"
-              priority="medium"
-              category="Sant\u00e9"
-              dueDate="10/07/2025"
-            />
-            <AlertCard
-              title="D\u00e9claration de revenus"
-              message="N'oubliez pas la d\u00e9claration IR 2025 sur les revenus 2024"
-              priority="high"
-              category="Fiscal"
-              dueDate="Mai 2025"
-            />
-            <AlertCard
-              title="Renouvellement CMG"
-              message="Pensez \u00e0 renouveler votre d\u00e9claration CMG aupr\u00e8s de la CAF"
-              priority="low"
-              category="CAF"
-            />
+            {expiring.length > 0 ? (
+              expiring.slice(0, 3).map((doc) => (
+                <AlertCard
+                  key={doc.id}
+                  title={`${DOCUMENT_TYPE_LABELS[doc.documentType]} — ${doc.memberFirstName}`}
+                  message={
+                    doc.status === "expired"
+                      ? `Expiré le ${formatDate(doc.expiryDate!)}`
+                      : `Expire le ${formatDate(doc.expiryDate!)}`
+                  }
+                  priority={doc.status === "expired" ? "high" : "medium"}
+                  category="Identité"
+                  dueDate={formatDate(doc.expiryDate!)}
+                />
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground py-4 text-center">
+                Aucune alerte en cours. Tout est en ordre !
+              </p>
+            )}
           </CardContent>
         </Card>
 
@@ -117,22 +181,22 @@ export default function DashboardPage() {
                 color: "text-warm-teal",
               },
               {
-                label: "Ajouter un document",
+                label: "Importer un document",
                 href: "/documents",
                 icon: FileText,
                 color: "text-warm-blue",
               },
               {
-                label: "Saisir une d\u00e9pense",
-                href: "/budget",
-                icon: Wallet,
-                color: "text-warm-purple",
-              },
-              {
-                label: "Ajouter une pi\u00e8ce d'identit\u00e9",
+                label: "Ajouter une pièce d'identité",
                 href: "/identite",
                 icon: IdCard,
                 color: "text-warm-orange",
+              },
+              {
+                label: "Gérer les membres",
+                href: "/parametres",
+                icon: Users,
+                color: "text-warm-purple",
               },
             ].map((action) => (
               <Button
@@ -141,13 +205,13 @@ export default function DashboardPage() {
                 className="w-full justify-between h-auto py-3"
                 asChild
               >
-                <a href={action.href}>
+                <Link href={action.href}>
                   <div className="flex items-center gap-3">
                     <action.icon className={`h-5 w-5 ${action.color}`} />
                     <span>{action.label}</span>
                   </div>
                   <ArrowRight className="h-4 w-4 text-muted-foreground" />
-                </a>
+                </Link>
               </Button>
             ))}
           </CardContent>
