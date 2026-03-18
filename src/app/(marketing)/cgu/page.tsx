@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Conditions g\u00e9n\u00e9rales d'utilisation",
+  title: "Conditions générales d'utilisation",
+  description: "CGU de Ma Vie Parentale — conditions d'utilisation du service, abonnements, responsabilités, résiliation.",
+  openGraph: {
+    title: "CGU — Ma Vie Parentale",
+    description: "Conditions générales d'utilisation de Ma Vie Parentale.",
+  },
 };
 
 export default function CguPage() {

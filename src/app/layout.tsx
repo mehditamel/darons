@@ -1,5 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  themeColor: "#1B2838",
+};
 
 export const metadata: Metadata = {
   title: {
@@ -19,7 +23,6 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Ma Vie Parentale" }],
   manifest: "/manifest.json",
-  themeColor: "#1B2838",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

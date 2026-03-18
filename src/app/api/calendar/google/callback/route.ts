@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 
 // Google OAuth2 callback for Calendar sync
 // Exchanges authorization code for access/refresh tokens
@@ -30,6 +31,16 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // Verify the user is authenticated
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.redirect(
+        new URL("/login?redirect=/parametres", request.url)
+      );
+    }
+
     // Exchange code for tokens
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
@@ -51,10 +62,21 @@ export async function GET(request: NextRequest) {
 
     const tokens = await tokenResponse.json();
 
-    // TODO: Store tokens securely in Supabase for the authenticated user
-    // For now, redirect with success status
-    // In production: encrypt and store refresh_token in user profile or dedicated table
-    void tokens;
+    // Store tokens in the user's profile
+    const calendarTokens = {
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+      expires_at: Date.now() + (tokens.expires_in ?? 3600) * 1000,
+      scope: tokens.scope,
+    };
+
+    await supabase
+      .from("profiles")
+      .update({
+        calendar_tokens: calendarTokens,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", user.id);
 
     return NextResponse.redirect(
       new URL("/parametres?calendar_connected=true", request.url)

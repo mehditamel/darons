@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Politique de confidentialit\u00e9",
+  title: "Politique de confidentialité",
+  description: "Politique de confidentialité de Ma Vie Parentale — traitement des données personnelles, RGPD, droits des utilisateurs, sous-traitants.",
+  openGraph: {
+    title: "Politique de confidentialité — Ma Vie Parentale",
+    description: "Protection des données personnelles et droits RGPD sur Ma Vie Parentale.",
+  },
 };
 
 export default function PolitiqueConfidentialitePage() {

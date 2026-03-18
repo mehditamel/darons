@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Mentions l\u00e9gales",
+  title: "Mentions légales",
+  description: "Mentions légales de Ma Vie Parentale — éditeur, hébergeur, DPO, conditions d'accès au service.",
+  openGraph: {
+    title: "Mentions légales — Ma Vie Parentale",
+    description: "Informations légales de Ma Vie Parentale.",
+  },
 };
 
 export default function MentionsLegalesPage() {
