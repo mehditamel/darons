@@ -1,32 +1,76 @@
 import type { Metadata } from "next";
-import { Wallet, Plus } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
-import { EmptyState } from "@/components/shared/empty-state";
-import { Button } from "@/components/ui/button";
+import { BudgetTabs } from "@/components/budget/budget-tabs";
+import { getFamilyMembers } from "@/lib/actions/family";
+import {
+  getBudgetEntries,
+  getCafAllocations,
+  getSavingsGoals,
+  getBudgetSummary,
+  getBudgetHistory,
+} from "@/lib/actions/budget";
 
 export const metadata: Metadata = {
   title: "Budget familial",
+  description: "Suivez vos dépenses, allocations CAF et reste à charge",
 };
 
-export default function BudgetPage() {
+export default async function BudgetPage() {
+  const now = new Date();
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
+
+  const [membersResult, entriesResult, allocResult, goalsResult, summaryResult, historyResult] =
+    await Promise.all([
+      getFamilyMembers(),
+      getBudgetEntries(currentMonth),
+      getCafAllocations(),
+      getSavingsGoals(),
+      getBudgetSummary(currentMonth),
+      getBudgetHistory(6),
+    ]);
+
+  const members = membersResult.data ?? [];
+  const entries = entriesResult.data ?? [];
+  const allocations = allocResult.data ?? [];
+  const goals = goalsResult.data ?? [];
+  const history = historyResult.data ?? [];
+
+  const summary = summaryResult.data ?? {
+    month: currentMonth,
+    totalExpenses: 0,
+    totalIncome: 0,
+    totalAllocations: allocations
+      .filter((a) => a.active)
+      .reduce((sum, a) => sum + a.monthlyAmount, 0),
+    netBalance: 0,
+    byCategory: {},
+    byMember: {},
+    entryCount: 0,
+  };
+
+  // Add allocations to summary if not already counted
+  if (summary.totalAllocations === 0 && allocations.length > 0) {
+    summary.totalAllocations = allocations
+      .filter((a) => a.active)
+      .reduce((sum, a) => sum + a.monthlyAmount, 0);
+    summary.netBalance = summary.totalAllocations + summary.totalIncome - summary.totalExpenses;
+  }
+
   return (
     <div className="space-y-6">
       <PageHeader
         title="Budget familial"
-        description="Suivez vos d\u00e9penses, allocations CAF et reste \u00e0 charge"
-      >
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Ajouter une d\u00e9pense
-        </Button>
-      </PageHeader>
+        description="Suivez vos dépenses, allocations CAF et reste à charge"
+      />
 
-      <EmptyState
-        icon={Wallet}
-        title="Votre budget vous attend"
-        description="Connectez votre banque pour un suivi automatique, ou ajoutez vos d\u00e9penses manuellement."
-        actionLabel="Connecter ma banque"
-        secondaryLabel="Saisie manuelle"
+      <BudgetTabs
+        entries={entries}
+        allocations={allocations}
+        goals={goals}
+        summary={summary}
+        history={history}
+        members={members}
+        currentMonth={currentMonth}
       />
     </div>
   );
