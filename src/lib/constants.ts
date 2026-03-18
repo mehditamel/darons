@@ -46,6 +46,13 @@ export const PLAN_LIMITS = {
 
 export type PlanName = keyof typeof PLAN_LIMITS;
 
+// AI usage limits per plan (calls per month)
+export const AI_MONTHLY_LIMITS: Record<PlanName, number> = {
+  free: 0,
+  premium: 200,
+  family_pro: 500,
+} as const;
+
 // Barème IR 2025 (revenus 2024)
 export const IR_BRACKETS_2025 = [
   { min: 0, max: 11294, rate: 0 },

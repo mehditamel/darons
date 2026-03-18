@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { BudgetTabs } from "@/components/budget/budget-tabs";
+import { AiCoachCard } from "@/components/budget/ai-coach-card";
 import { getFamilyMembers } from "@/lib/actions/family";
 import {
   getBudgetEntries,
@@ -9,6 +10,8 @@ import {
   getBudgetSummary,
   getBudgetHistory,
 } from "@/lib/actions/budget";
+import { PLAN_LIMITS } from "@/lib/constants";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Budget familial",
@@ -18,6 +21,14 @@ export const metadata: Metadata = {
 export default async function BudgetPage() {
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
+
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = user
+    ? await supabase.from("profiles").select("subscription_plan").eq("id", user.id).single()
+    : { data: null };
+  const plan = (profile?.subscription_plan ?? "free") as keyof typeof PLAN_LIMITS;
+  const hasAiCoach = PLAN_LIMITS[plan].hasAiCoach;
 
   const [membersResult, entriesResult, allocResult, goalsResult, summaryResult, historyResult] =
     await Promise.all([
@@ -72,6 +83,8 @@ export default async function BudgetPage() {
         members={members}
         currentMonth={currentMonth}
       />
+
+      <AiCoachCard hasAccess={hasAiCoach} />
     </div>
   );
 }

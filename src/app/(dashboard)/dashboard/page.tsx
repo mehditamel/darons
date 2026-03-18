@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
 import {
   HeartPulse,
-  Wallet,
-  Calculator,
   Syringe,
   FileText,
   ArrowRight,
   IdCard,
   Users,
-  AlertTriangle,
 } from "lucide-react";
 import Link from "next/link";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
-import { AlertCard } from "@/components/shared/alert-card";
+import { DismissibleAlertCard } from "@/components/shared/dismissible-alert-card";
+import { MonthlySummaryCard } from "@/components/dashboard/monthly-summary-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -22,16 +20,35 @@ import { getFamilyMembers } from "@/lib/actions/family";
 import { getIdentityDocuments, getExpiringDocuments } from "@/lib/actions/identity";
 import { getVaccinations } from "@/lib/actions/health";
 import { getDocuments } from "@/lib/actions/documents";
-import { VACCINATION_SCHEDULE } from "@/lib/constants";
+import { getAlerts, generateProactiveAlerts } from "@/lib/actions/alerts";
+import { VACCINATION_SCHEDULE, PLAN_LIMITS } from "@/lib/constants";
 import { DOCUMENT_TYPE_LABELS } from "@/types/family";
+import { createClient } from "@/lib/supabase/server";
 import { differenceInMonths } from "date-fns";
 
 export const metadata: Metadata = {
   title: "Tableau de bord",
 };
 
+const ALERT_CATEGORY_LABELS: Record<string, string> = {
+  identite: "Identité",
+  sante: "Santé",
+  fiscal: "Fiscal",
+  caf: "CAF",
+  scolarite: "Scolarité",
+  budget: "Budget",
+};
+
 export default async function DashboardPage() {
   const greeting = getGreeting();
+
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = user
+    ? await supabase.from("profiles").select("subscription_plan").eq("id", user.id).single()
+    : { data: null };
+  const plan = (profile?.subscription_plan ?? "free") as keyof typeof PLAN_LIMITS;
+  const hasAiSummary = PLAN_LIMITS[plan].hasAiCoach;
 
   const [membersResult, docsResult, expiringResult, vaultResult] = await Promise.all([
     getFamilyMembers(),
@@ -66,6 +83,16 @@ export default async function DashboardPage() {
       }
     }
   }
+
+  // Generate proactive alerts (runs deterministic checks)
+  await generateProactiveAlerts();
+
+  // Get alerts (combines proactive + document expiration alerts)
+  const alertsResult = await getAlerts();
+  const proactiveAlerts = alertsResult.data ?? [];
+
+  // Fallback to legacy expiring docs if no proactive alerts
+  const hasProactiveAlerts = proactiveAlerts.length > 0;
 
   // Profile completion
   const completionChecks = [
@@ -144,10 +171,24 @@ export default async function DashboardPage() {
             <CardTitle className="text-lg">Alertes</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            {expiring.length > 0 ? (
+            {hasProactiveAlerts ? (
+              proactiveAlerts.slice(0, 5).map((alert) => (
+                <DismissibleAlertCard
+                  key={alert.id}
+                  id={alert.id}
+                  title={alert.title}
+                  message={alert.message}
+                  priority={alert.priority}
+                  category={ALERT_CATEGORY_LABELS[alert.category] ?? alert.category}
+                  dueDate={alert.dueDate ? formatDate(alert.dueDate) : undefined}
+                  actionUrl={alert.actionUrl}
+                />
+              ))
+            ) : expiring.length > 0 ? (
               expiring.slice(0, 3).map((doc) => (
-                <AlertCard
+                <DismissibleAlertCard
                   key={doc.id}
+                  id={doc.id}
                   title={`${DOCUMENT_TYPE_LABELS[doc.documentType]} — ${doc.memberFirstName}`}
                   message={
                     doc.status === "expired"
@@ -217,6 +258,9 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Monthly AI Summary */}
+      <MonthlySummaryCard hasAccess={hasAiSummary} />
     </div>
   );
 }
