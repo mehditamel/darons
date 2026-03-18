@@ -223,7 +223,7 @@ export function DailyJournalForm({
           </div>
 
           <div>
-            <Label htmlFor="screenTimeMinutes">Temps d'\u00e9cran (minutes)</Label>
+            <Label htmlFor="screenTimeMinutes">Temps d&apos;\u00e9cran (minutes)</Label>
             <Input
               id="screenTimeMinutes"
               type="number"

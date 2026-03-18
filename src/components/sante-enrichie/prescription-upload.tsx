@@ -133,7 +133,7 @@ export function PrescriptionUpload({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <Label>Scanner / Photographier l'ordonnance (OCR)</Label>
+            <Label>Scanner / Photographier l&apos;ordonnance (OCR)</Label>
             <div className="mt-1 flex items-center gap-2">
               <label className="flex items-center gap-2 px-4 py-2 border border-dashed rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
                 <Upload className="h-4 w-4 text-muted-foreground" />
@@ -151,7 +151,7 @@ export function PrescriptionUpload({
               {ocrLoading && <Loader2 className="h-4 w-4 animate-spin" />}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              Formats accept\u00e9s : JPG, PNG, PDF. L'OCR extraira automatiquement les m\u00e9dicaments.
+              Formats accept\u00e9s : JPG, PNG, PDF. L&apos;OCR extraira automatiquement les m\u00e9dicaments.
             </p>
           </div>
 

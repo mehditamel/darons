@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { MemberList } from "@/components/famille/member-list";
 import { NotificationPreferences } from "@/components/parametres/notification-preferences";
 import { CalendarSyncCard } from "@/components/parametres/calendar-sync-card";
+import { ExportPdfButton } from "@/components/parametres/export-pdf-button";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { PLAN_LIMITS } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
@@ -157,9 +158,12 @@ export default async function ParametresPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button variant="outline" size="sm">
-              Exporter mes données (JSON)
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" size="sm">
+                Exporter mes données (JSON)
+              </Button>
+              <ExportPdfButton hasAccess={planLimits.hasPdfExport} />
+            </div>
             <Separator />
             <div>
               <p className="mb-2 text-sm font-medium text-destructive">

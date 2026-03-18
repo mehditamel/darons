@@ -255,6 +255,14 @@ export const SIDEBAR_NAVIGATION = [
       { label: "Sant\u00e9 enrichie", href: "/sante-enrichie", icon: "Stethoscope" },
     ],
   },
+  {
+    group: "Partage",
+    items: [
+      { label: "Multi-foyers", href: "/partage", icon: "UsersRound" },
+      { label: "D\u00e9penses partag\u00e9es", href: "/depenses-partagees", icon: "Split" },
+      { label: "Parrainage", href: "/parrainage", icon: "Gift" },
+    ],
+  },
 ] as const;
 
 // Checklist démarches administratives (grossesse → 3 ans)

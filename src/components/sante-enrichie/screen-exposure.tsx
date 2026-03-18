@@ -109,7 +109,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
           <CardContent className="py-8 text-center">
             <Monitor className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
             <p className="text-sm text-muted-foreground">
-              Le suivi de l'exposition aux \u00e9crans commence \u00e0 partir de 3 mois.
+              Le suivi de l&apos;exposition aux \u00e9crans commence \u00e0 partir de 3 mois.
             </p>
           </CardContent>
         </Card>
@@ -119,7 +119,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base">
-              \u00c9volution du temps d'\u00e9cran (30 derniers jours)
+              \u00c9volution du temps d&apos;\u00e9cran (30 derniers jours)
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -167,7 +167,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
           <CardContent className="py-8 text-center">
             <Monitor className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
             <p className="text-sm text-muted-foreground">
-              Aucune donn\u00e9e d'exposition aux \u00e9crans. Renseignez le temps d'\u00e9cran
+              Aucune donn\u00e9e d&apos;exposition aux \u00e9crans. Renseignez le temps d&apos;\u00e9cran
               dans le journal quotidien.
             </p>
           </CardContent>
