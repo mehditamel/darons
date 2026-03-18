@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { BudgetTabs } from "@/components/budget/budget-tabs";
 import { AiCoachCard } from "@/components/budget/ai-coach-card";
+import { RoundupSettingsCard } from "@/components/budget/roundup-settings-card";
 import { getFamilyMembers } from "@/lib/actions/family";
 import {
   getBudgetEntries,
@@ -10,6 +11,7 @@ import {
   getBudgetSummary,
   getBudgetHistory,
 } from "@/lib/actions/budget";
+import { getRoundupSettings } from "@/lib/actions/roundup";
 import { PLAN_LIMITS } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 
@@ -29,8 +31,9 @@ export default async function BudgetPage() {
     : { data: null };
   const plan = (profile?.subscription_plan ?? "free") as keyof typeof PLAN_LIMITS;
   const hasAiCoach = PLAN_LIMITS[plan].hasAiCoach;
+  const hasOpenBanking = PLAN_LIMITS[plan].hasOpenBanking;
 
-  const [membersResult, entriesResult, allocResult, goalsResult, summaryResult, historyResult] =
+  const [membersResult, entriesResult, allocResult, goalsResult, summaryResult, historyResult, roundupResult] =
     await Promise.all([
       getFamilyMembers(),
       getBudgetEntries(currentMonth),
@@ -38,6 +41,7 @@ export default async function BudgetPage() {
       getSavingsGoals(),
       getBudgetSummary(currentMonth),
       getBudgetHistory(6),
+      getRoundupSettings(),
     ]);
 
   const members = membersResult.data ?? [];
@@ -83,6 +87,10 @@ export default async function BudgetPage() {
         members={members}
         currentMonth={currentMonth}
       />
+
+      {hasOpenBanking && roundupResult.data && (
+        <RoundupSettingsCard settings={roundupResult.data} goals={goals} />
+      )}
 
       <AiCoachCard hasAccess={hasAiCoach} />
     </div>
