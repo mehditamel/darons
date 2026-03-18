@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, CreditCard, TrendingUp, BarChart3, Gift, Percent } from "lucide-react";
+import { Users, CreditCard, TrendingUp, BarChart3, Gift, Percent, Activity, UserCheck } from "lucide-react";
 
 interface AdminStatsGridProps {
   summary: {
@@ -10,9 +10,15 @@ interface AdminStatsGridProps {
     conversionRate: number;
     referralCount: number;
   };
+  engagement?: {
+    dau: number;
+    mau: number;
+    dauMauRatio: number;
+    activationRate: number;
+  };
 }
 
-export function AdminStatsGrid({ summary }: AdminStatsGridProps) {
+export function AdminStatsGrid({ summary, engagement }: AdminStatsGridProps) {
   const stats = [
     {
       label: "Utilisateurs totaux",
@@ -56,10 +62,28 @@ export function AdminStatsGrid({ summary }: AdminStatsGridProps) {
       color: "text-warm-teal",
       bg: "bg-warm-teal/10",
     },
+    ...(engagement
+      ? [
+          {
+            label: "DAU / MAU",
+            value: `${engagement.dau} / ${engagement.mau} (${engagement.dauMauRatio}%)`,
+            icon: Activity,
+            color: "text-warm-green",
+            bg: "bg-warm-green/10",
+          },
+          {
+            label: "Taux d'activation",
+            value: `${engagement.activationRate}%`,
+            icon: UserCheck,
+            color: "text-warm-blue",
+            bg: "bg-warm-blue/10",
+          },
+        ]
+      : []),
   ];
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => (
         <Card key={stat.label}>
           <CardContent className="p-4 flex items-center gap-3">

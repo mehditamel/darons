@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { AdminMetricsChart } from "@/components/admin/admin-metrics-chart";
 import { AdminStatsGrid } from "@/components/admin/admin-stats-grid";
-import { getAdminDashboardSummary, getAdminMetrics, computeDailyMetrics } from "@/lib/actions/admin";
+import { getAdminDashboardSummary, getAdminMetrics, computeDailyMetrics, getAdminEngagementMetrics } from "@/lib/actions/admin";
 import { createClient } from "@/lib/supabase/server";
 import { BarChart3, RefreshCw } from "lucide-react";
 
@@ -27,9 +27,10 @@ export default async function AdminPage() {
 
   if (profile?.email !== "mehdi@tamel.fr") redirect("/dashboard");
 
-  const [summaryResult, metricsResult] = await Promise.all([
+  const [summaryResult, metricsResult, engagementResult] = await Promise.all([
     getAdminDashboardSummary(),
     getAdminMetrics(30),
+    getAdminEngagementMetrics(),
   ]);
 
   const summary = summaryResult.data ?? {
@@ -43,6 +44,13 @@ export default async function AdminPage() {
 
   const metrics = metricsResult.data ?? [];
 
+  const engagement = engagementResult.data ?? {
+    dau: 0,
+    mau: 0,
+    dauMauRatio: 0,
+    activationRate: 0,
+  };
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -51,7 +59,7 @@ export default async function AdminPage() {
       />
 
       {/* KPIs */}
-      <AdminStatsGrid summary={summary} />
+      <AdminStatsGrid summary={summary} engagement={engagement} />
 
       {/* Metrics chart */}
       <Card>
