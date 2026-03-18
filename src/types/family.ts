@@ -35,6 +35,7 @@ export interface FamilyMember {
   memberType: MemberType;
   photoUrl: string | null;
   notes: string | null;
+  gestationalAgeWeeks: number | null;
   createdAt: string;
   updatedAt: string;
 }

@@ -14,10 +14,12 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Ruler, Weight, Circle } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { EmptyState } from "@/components/shared/empty-state";
 import { GrowthForm } from "@/components/sante/growth-form";
 import { getPercentileData } from "@/data/oms-percentiles";
-import { differenceInMonths } from "date-fns";
+import { differenceInMonths, differenceInWeeks } from "date-fns";
 import type { GrowthMeasurement } from "@/types/health";
 import type { FamilyMember, Gender } from "@/types/family";
 
@@ -37,6 +39,13 @@ const METRIC_CONFIG: Record<MetricType, { label: string; unit: string; icon: typ
 export function GrowthChart({ member, measurements }: GrowthChartProps) {
   const [formOpen, setFormOpen] = useState(false);
   const [activeMetric, setActiveMetric] = useState<MetricType>("weight");
+  const [useCorrectedAge, setUseCorrectedAge] = useState(false);
+
+  const isPremature =
+    member.gestationalAgeWeeks !== null &&
+    member.gestationalAgeWeeks !== undefined &&
+    member.gestationalAgeWeeks < 37;
+  const correctionWeeks = isPremature ? 40 - (member.gestationalAgeWeeks ?? 40) : 0;
 
   if (measurements.length === 0) {
     return (
@@ -58,7 +67,11 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
 
   const childData = measurements
     .map((m) => {
-      const ageMonths = differenceInMonths(new Date(m.measurementDate), new Date(member.birthDate));
+      let ageMonths = differenceInMonths(new Date(m.measurementDate), new Date(member.birthDate));
+      if (useCorrectedAge && isPremature) {
+        const correctionMonths = Math.round(correctionWeeks / 4.33);
+        ageMonths = Math.max(0, ageMonths - correctionMonths);
+      }
       const value =
         activeMetric === "weight" ? m.weightKg :
         activeMetric === "height" ? m.heightCm :
@@ -99,7 +112,7 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex gap-2">
           {(Object.entries(METRIC_CONFIG) as [MetricType, typeof config][]).map(([key, cfg]) => (
             <Button
@@ -112,16 +125,35 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
             </Button>
           ))}
         </div>
-        <Button size="sm" onClick={() => setFormOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Mesure
-        </Button>
+        <div className="flex items-center gap-3">
+          {isPremature && (
+            <div className="flex items-center gap-2">
+              <Switch
+                id="corrected-age"
+                checked={useCorrectedAge}
+                onCheckedChange={setUseCorrectedAge}
+              />
+              <Label htmlFor="corrected-age" className="text-xs cursor-pointer">
+                \u00c2ge corrig\u00e9 ({member.gestationalAgeWeeks} SA)
+              </Label>
+            </div>
+          )}
+          <Button size="sm" onClick={() => setFormOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Mesure
+          </Button>
+        </div>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle className="text-base">
-            {config.label} — {member.firstName} ({member.gender === "M" ? "Garçon" : "Fille"})
+            {config.label} — {member.firstName} ({member.gender === "M" ? "Gar\u00e7on" : "Fille"})
+            {useCorrectedAge && isPremature && (
+              <span className="text-xs font-normal text-muted-foreground ml-2">
+                (\u00e2ge corrig\u00e9)
+              </span>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent>

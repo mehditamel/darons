@@ -249,6 +249,12 @@ export const SIDEBAR_NAVIGATION = [
       { label: "D\u00e9marches", href: "/demarches", icon: "ClipboardList" },
     ],
   },
+  {
+    group: "Sant\u00e9 enrichie",
+    items: [
+      { label: "Sant\u00e9 enrichie", href: "/sante-enrichie", icon: "Stethoscope" },
+    ],
+  },
 ] as const;
 
 // Checklist démarches administratives (grossesse → 3 ans)
@@ -482,6 +488,124 @@ export const DEMARCHES_CHECKLIST_TEMPLATES = [
 ] as const;
 
 export type DemarcheTemplate = (typeof DEMARCHES_CHECKLIST_TEMPLATES)[number];
+
+// Emergency numbers (France)
+export const EMERGENCY_NUMBERS = [
+  { name: "SAMU", number: "15", description: "Urgences m\u00e9dicales" },
+  { name: "Urgences europ\u00e9ennes", number: "112", description: "Num\u00e9ro d'urgence europ\u00e9en" },
+  { name: "Num\u00e9ro d'urgence pour les sourds", number: "114", description: "Par SMS ou fax" },
+  { name: "Centre antipoison", number: "01 40 05 48 48", description: "H\u00f4pital Fernand-Widal, Paris (24h/24)" },
+  { name: "SOS M\u00e9decins", number: "3624", description: "M\u00e9decin de garde \u00e0 domicile" },
+  { name: "Pompiers", number: "18", description: "Secours et incendies" },
+  { name: "Enfance en danger", number: "119", description: "Num\u00e9ro national (24h/24)" },
+] as const;
+
+// TND screening grids by age range (simplified observation items)
+export const TND_SCREENING_GRIDS = [
+  {
+    ageRange: "3-6 mois",
+    minMonths: 3,
+    maxMonths: 6,
+    items: [
+      { category: "motricite", label: "Tient sa t\u00eate bien droite", key: "head_control" },
+      { category: "motricite", label: "Attrape un objet pr\u00e9sent\u00e9", key: "grasping" },
+      { category: "motricite", label: "Se retourne du dos au ventre", key: "rolling" },
+      { category: "langage", label: "Gazouille, vocalise", key: "cooing" },
+      { category: "langage", label: "R\u00e9agit aux bruits", key: "sound_reaction" },
+      { category: "attention", label: "Suit un objet du regard", key: "visual_tracking" },
+      { category: "attention", label: "S'int\u00e9resse \u00e0 son environnement", key: "environment_interest" },
+      { category: "social", label: "Sourire social", key: "social_smile" },
+      { category: "social", label: "Contact visuel", key: "eye_contact" },
+    ],
+  },
+  {
+    ageRange: "6-12 mois",
+    minMonths: 6,
+    maxMonths: 12,
+    items: [
+      { category: "motricite", label: "S'assoit sans soutien", key: "sitting" },
+      { category: "motricite", label: "Transfert d'objet d'une main \u00e0 l'autre", key: "object_transfer" },
+      { category: "motricite", label: "Se d\u00e9place (\u00e0 quatre pattes ou rampe)", key: "crawling" },
+      { category: "langage", label: "Babille (ba-ba, ma-ma)", key: "babbling" },
+      { category: "langage", label: "R\u00e9pond \u00e0 son pr\u00e9nom", key: "name_response" },
+      { category: "attention", label: "Permanence de l'objet (cherche un jouet cach\u00e9)", key: "object_permanence" },
+      { category: "attention", label: "Explore les objets", key: "object_exploration" },
+      { category: "social", label: "Angoisse de s\u00e9paration", key: "separation_anxiety" },
+      { category: "social", label: "Imite des gestes simples (coucou, bravo)", key: "gesture_imitation" },
+    ],
+  },
+  {
+    ageRange: "12-24 mois",
+    minMonths: 12,
+    maxMonths: 24,
+    items: [
+      { category: "motricite", label: "Marche seul", key: "walking" },
+      { category: "motricite", label: "Empile 2-3 cubes", key: "stacking" },
+      { category: "motricite", label: "Gribouille avec un crayon", key: "scribbling" },
+      { category: "langage", label: "Dit au moins 5 mots", key: "five_words" },
+      { category: "langage", label: "Montre du doigt pour d\u00e9signer", key: "pointing" },
+      { category: "langage", label: "Comprend des consignes simples", key: "simple_instructions" },
+      { category: "attention", label: "Joue avec des jouets de mani\u00e8re adapt\u00e9e", key: "appropriate_play" },
+      { category: "attention", label: "Maintient l'attention sur une activit\u00e9 quelques minutes", key: "attention_span" },
+      { category: "social", label: "Joue \u00e0 c\u00f4t\u00e9 des autres enfants", key: "parallel_play" },
+      { category: "social", label: "Cherche le r\u00e9confort de l'adulte", key: "comfort_seeking" },
+    ],
+  },
+  {
+    ageRange: "24-36 mois",
+    minMonths: 24,
+    maxMonths: 36,
+    items: [
+      { category: "motricite", label: "Court", key: "running" },
+      { category: "motricite", label: "Monte et descend les escaliers", key: "stairs" },
+      { category: "motricite", label: "Saute sur place", key: "jumping" },
+      { category: "langage", label: "Associe 2 mots (phrase simple)", key: "two_word_phrases" },
+      { category: "langage", label: "Utilise le \u00ab je \u00bb", key: "uses_i" },
+      { category: "langage", label: "Nomme des images", key: "names_pictures" },
+      { category: "attention", label: "Tri par couleur ou forme", key: "sorting" },
+      { category: "attention", label: "Suit une histoire courte", key: "story_following" },
+      { category: "social", label: "Joue avec les autres enfants", key: "cooperative_play" },
+      { category: "social", label: "Exprime ses \u00e9motions", key: "emotion_expression" },
+      { category: "social", label: "Partage (avec encouragement)", key: "sharing" },
+    ],
+  },
+] as const;
+
+// Screen exposure recommendations by age (carnet de sant\u00e9 2025)
+export const SCREEN_EXPOSURE_RECOMMENDATIONS = [
+  {
+    ageRange: "0-2 ans",
+    minMonths: 0,
+    maxMonths: 24,
+    recommendation: "Aucun \u00e9cran recommand\u00e9",
+    details: "Les \u00e9crans ne sont pas recommand\u00e9s avant 2 ans. Privil\u00e9giez les interactions directes, les jeux libres et la lecture.",
+    maxMinutesPerDay: 0,
+  },
+  {
+    ageRange: "2-3 ans",
+    minMonths: 24,
+    maxMonths: 36,
+    recommendation: "Maximum 30 minutes par jour, supervis\u00e9",
+    details: "Si \u00e9cran, toujours accompagn\u00e9 d'un adulte. Contenu adapt\u00e9 \u00e0 l'\u00e2ge. Jamais pendant les repas ni avant le coucher.",
+    maxMinutesPerDay: 30,
+  },
+  {
+    ageRange: "3-6 ans",
+    minMonths: 36,
+    maxMonths: 72,
+    recommendation: "Maximum 1 heure par jour, supervis\u00e9",
+    details: "Contenu \u00e9ducatif privil\u00e9gi\u00e9. Pas d'\u00e9cran dans la chambre. Pas d'\u00e9cran 1 heure avant le coucher.",
+    maxMinutesPerDay: 60,
+  },
+  {
+    ageRange: "6+ ans",
+    minMonths: 72,
+    maxMonths: 216,
+    recommendation: "Temps limit\u00e9, r\u00e8gles familiales",
+    details: "D\u00e9finir des r\u00e8gles claires en famille. Pas d'\u00e9cran pendant les repas, les devoirs et avant le coucher.",
+    maxMinutesPerDay: 120,
+  },
+] as const;
 
 // Error codes
 export const ERROR_CODES = {

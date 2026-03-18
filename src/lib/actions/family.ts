@@ -76,6 +76,7 @@ export async function getFamilyMembers(): Promise<ActionResult<FamilyMember[]>> 
       memberType: m.member_type,
       photoUrl: m.photo_url,
       notes: m.notes,
+      gestationalAgeWeeks: m.gestational_age_weeks ?? null,
       createdAt: m.created_at,
       updatedAt: m.updated_at,
     })),
@@ -134,10 +135,30 @@ export async function createFamilyMember(
       memberType: data.member_type,
       photoUrl: data.photo_url,
       notes: data.notes,
+      gestationalAgeWeeks: data.gestational_age_weeks ?? null,
       createdAt: data.created_at,
       updatedAt: data.updated_at,
     },
   };
+}
+
+export async function updateGestationalAge(
+  memberId: string,
+  gestationalAgeWeeks: number | null
+): Promise<ActionResult> {
+  const { user, supabase } = await getAuthenticatedUser();
+  if (!user) return { success: false, error: "Non authentifi\u00e9" };
+
+  const { error } = await supabase
+    .from("family_members")
+    .update({ gestational_age_weeks: gestationalAgeWeeks })
+    .eq("id", memberId);
+
+  if (error) return { success: false, error: "Erreur lors de la mise \u00e0 jour" };
+
+  revalidatePath("/sante");
+  revalidatePath("/sante-enrichie");
+  return { success: true };
 }
 
 export async function updateFamilyMember(

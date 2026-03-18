@@ -14,6 +14,7 @@ import {
   Wallet,
   Baby,
   ClipboardList,
+  Stethoscope,
   Settings,
   type LucideIcon,
 } from "lucide-react";
@@ -32,6 +33,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   Wallet,
   Baby,
   ClipboardList,
+  Stethoscope,
   Settings,
 };
 
