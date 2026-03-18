@@ -16,6 +16,9 @@ import {
   ClipboardList,
   Stethoscope,
   Settings,
+  UsersRound,
+  Split,
+  Gift,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -35,6 +38,9 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   ClipboardList,
   Stethoscope,
   Settings,
+  UsersRound,
+  Split,
+  Gift,
 };
 
 export function Sidebar() {

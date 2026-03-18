@@ -100,7 +100,7 @@ export function ExaminationForm({
           <input type="hidden" {...register("examAgeLabel")} />
 
           <div>
-            <Label htmlFor="completedDate">Date de l'examen</Label>
+            <Label htmlFor="completedDate">Date de l&apos;examen</Label>
             <Input
               id="completedDate"
               type="date"

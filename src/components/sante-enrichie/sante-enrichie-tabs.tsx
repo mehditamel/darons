@@ -19,7 +19,7 @@ import type {
 } from "@/types/health";
 
 interface SanteEnrichieTabsProps {
-  children: FamilyMember[];
+  childMembers: FamilyMember[];
   examinationsByMember: Record<string, HealthExamination[]>;
   journalByMember: Record<string, DailyHealthJournal[]>;
   allergiesByMember: Record<string, Allergy[]>;
@@ -27,15 +27,15 @@ interface SanteEnrichieTabsProps {
 }
 
 export function SanteEnrichieTabs({
-  children,
+  childMembers,
   examinationsByMember,
   journalByMember,
   allergiesByMember,
   prescriptionsByMember,
 }: SanteEnrichieTabsProps) {
-  const [selectedChildId, setSelectedChildId] = useState(children[0]?.id ?? "");
+  const [selectedChildId, setSelectedChildId] = useState(childMembers[0]?.id ?? "");
 
-  const selectedChild = children.find((c) => c.id === selectedChildId);
+  const selectedChild = childMembers.find((c) => c.id === selectedChildId);
   const examinations = examinationsByMember[selectedChildId] ?? [];
   const journal = journalByMember[selectedChildId] ?? [];
   const allergies = allergiesByMember[selectedChildId] ?? [];
@@ -57,7 +57,7 @@ export function SanteEnrichieTabs({
         selectedId={selectedChildId}
         onSelect={setSelectedChildId}
       >
-        {children}
+        {childMembers}
       </ChildSelector>
 
       <Tabs defaultValue="examens" className="space-y-4">
