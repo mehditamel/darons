@@ -62,8 +62,12 @@ export function RegisterForm() {
       }
 
       setSuccess(true);
-    } catch {
-      setError("Une erreur est survenue. Veuillez réessayer.");
+    } catch (err) {
+      if (err instanceof Error && err.message.includes("Supabase")) {
+        setError("La connexion à Supabase n'est pas configurée. Vérifiez vos variables d'environnement.");
+      } else {
+        setError("Une erreur est survenue. Veuillez réessayer.");
+      }
     } finally {
       setIsLoading(false);
     }

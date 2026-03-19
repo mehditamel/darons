@@ -54,8 +54,12 @@ export function LoginForm() {
 
       router.push("/dashboard");
       router.refresh();
-    } catch {
-      setError("Une erreur est survenue. Veuillez réessayer.");
+    } catch (err) {
+      if (err instanceof Error && err.message.includes("Supabase")) {
+        setError("La connexion à Supabase n'est pas configurée. Vérifiez vos variables d'environnement.");
+      } else {
+        setError("Une erreur est survenue. Veuillez réessayer.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -86,8 +90,12 @@ export function LoginForm() {
       }
 
       setMagicLinkSent(true);
-    } catch {
-      setError("Une erreur est survenue. Veuillez réessayer.");
+    } catch (err) {
+      if (err instanceof Error && err.message.includes("Supabase")) {
+        setError("La connexion à Supabase n'est pas configurée. Vérifiez vos variables d'environnement.");
+      } else {
+        setError("Une erreur est survenue. Veuillez réessayer.");
+      }
     } finally {
       setIsLoading(false);
     }
