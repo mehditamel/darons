@@ -3,6 +3,8 @@ export type ExamStatus = "upcoming" | "completed" | "missed";
 export type MilestoneCategory = "motricite" | "langage" | "cognition" | "social" | "autonomie";
 export type Mood = "great" | "good" | "neutral" | "difficult" | "tough";
 
+export type SyncSource = "local" | "fhir";
+
 export interface Vaccination {
   id: string;
   memberId: string;
@@ -15,6 +17,9 @@ export interface Vaccination {
   batchNumber: string | null;
   notes: string | null;
   status: VaccinationStatus;
+  fhirResourceId?: string | null;
+  fhirLastUpdated?: string | null;
+  syncSource?: SyncSource;
   createdAt: string;
 }
 
@@ -38,6 +43,9 @@ export interface GrowthMeasurement {
   heightCm: number | null;
   headCircumferenceCm: number | null;
   notes: string | null;
+  fhirResourceId?: string | null;
+  fhirLastUpdated?: string | null;
+  syncSource?: SyncSource;
   createdAt: string;
 }
 
@@ -153,6 +161,9 @@ export interface Allergy {
   diagnosedDate: string | null;
   active: boolean;
   notes: string | null;
+  fhirResourceId?: string | null;
+  fhirLastUpdated?: string | null;
+  syncSource?: SyncSource;
   createdAt: string;
 }
 

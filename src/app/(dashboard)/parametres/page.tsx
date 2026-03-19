@@ -8,6 +8,7 @@ import { MemberList } from "@/components/famille/member-list";
 import { NotificationPreferences } from "@/components/parametres/notification-preferences";
 import { PushNotificationSettings } from "@/components/parametres/push-notification-settings";
 import { CalendarSyncCard } from "@/components/parametres/calendar-sync-card";
+import { MESConnectionCard } from "@/components/sante/mes-connection-card";
 import { ExportPdfButton } from "@/components/parametres/export-pdf-button";
 import { DataExportButton } from "@/components/parametres/data-export-button";
 import { DeleteAccountDialog } from "@/components/parametres/delete-account-dialog";
@@ -112,6 +113,13 @@ export default async function ParametresPage() {
 
         {/* Push notifications */}
         <PushNotificationSettings hasPush={hasPush} />
+
+        {/* Mon Espace Santé */}
+        <MESConnectionCard
+          childMembers={members
+            .filter((m) => m.memberType === "child")
+            .map((c) => ({ id: c.id, firstName: c.firstName }))}
+        />
 
         {/* Calendar sync */}
         <CalendarSyncCard

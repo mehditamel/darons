@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { SanteTabs } from "@/components/sante/sante-tabs";
 import { PractitionerSearch } from "@/components/sante/practitioner-search";
+import { MESConnectionCard } from "@/components/sante/mes-connection-card";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getVaccinations, getMedicalAppointments, getGrowthMeasurements } from "@/lib/actions/health";
 import type { Vaccination, MedicalAppointment, GrowthMeasurement } from "@/types/health";
@@ -38,6 +39,10 @@ export default async function SantePage() {
       <PageHeader
         title="Santé & vaccinations"
         description="Suivez les vaccins, rendez-vous médicaux et courbes de croissance"
+      />
+
+      <MESConnectionCard
+        childMembers={children.map((c) => ({ id: c.id, firstName: c.firstName }))}
       />
 
       <SanteTabs
