@@ -48,14 +48,7 @@ CREATE TABLE identity_documents (
   expiry_date DATE,
   issuing_authority TEXT,
   file_path TEXT,
-  status TEXT GENERATED ALWAYS AS (
-    CASE
-      WHEN expiry_date IS NULL THEN 'valid'
-      WHEN expiry_date < CURRENT_DATE THEN 'expired'
-      WHEN expiry_date < CURRENT_DATE + INTERVAL '3 months' THEN 'expiring_soon'
-      ELSE 'valid'
-    END
-  ) STORED,
+  status TEXT NOT NULL DEFAULT 'valid' CHECK (status IN ('valid', 'expired', 'expiring_soon')),
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
@@ -353,3 +346,21 @@ CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 CREATE TRIGGER update_family_members_updated_at BEFORE UPDATE ON family_members
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- Auto-compute identity_documents status based on expiry_date
+CREATE OR REPLACE FUNCTION compute_document_status()
+RETURNS trigger AS $$
+BEGIN
+  NEW.status := CASE
+    WHEN NEW.expiry_date IS NULL THEN 'valid'
+    WHEN NEW.expiry_date < CURRENT_DATE THEN 'expired'
+    WHEN NEW.expiry_date < CURRENT_DATE + INTERVAL '3 months' THEN 'expiring_soon'
+    ELSE 'valid'
+  END;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER compute_identity_document_status
+  BEFORE INSERT OR UPDATE ON identity_documents
+  FOR EACH ROW EXECUTE FUNCTION compute_document_status();
