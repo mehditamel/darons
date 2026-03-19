@@ -1,55 +1,33 @@
-// Feature gating by subscription plan
+// Darons est 100% gratuit — pas de tiers, pas de premium, tout est accessible
+export const APP_LIMITS = {
+  maxAdults: Infinity,
+  maxChildren: Infinity,
+  maxDocuments: Infinity,
+  storageBytes: 1 * 1024 * 1024 * 1024, // 1 Go
+  journalEntriesPerMonth: Infinity,
+  hasOpenBanking: true,
+  hasAiCoach: true,
+  hasCalendarSync: true,
+  hasOcr: true,
+  hasPdfExport: true,
+  hasMultiHousehold: true,
+  alertChannels: ["email", "push", "sms"] as const,
+} as const;
+
+// Backward compat — PLAN_LIMITS maps all tiers to the same unlimited config
 export const PLAN_LIMITS = {
-  free: {
-    maxAdults: 1,
-    maxChildren: 1,
-    maxDocuments: 5,
-    storageBytes: 500 * 1024 * 1024,
-    journalEntriesPerMonth: 10,
-    hasOpenBanking: false,
-    hasAiCoach: false,
-    hasCalendarSync: false,
-    hasOcr: false,
-    hasPdfExport: false,
-    hasMultiHousehold: false,
-    alertChannels: ["email"] as const,
-  },
-  premium: {
-    maxAdults: Infinity,
-    maxChildren: Infinity,
-    maxDocuments: Infinity,
-    storageBytes: 10 * 1024 * 1024 * 1024,
-    journalEntriesPerMonth: Infinity,
-    hasOpenBanking: true,
-    hasAiCoach: true,
-    hasCalendarSync: true,
-    hasOcr: false,
-    hasPdfExport: false,
-    hasMultiHousehold: false,
-    alertChannels: ["email", "push"] as const,
-  },
-  family_pro: {
-    maxAdults: Infinity,
-    maxChildren: Infinity,
-    maxDocuments: Infinity,
-    storageBytes: 50 * 1024 * 1024 * 1024,
-    journalEntriesPerMonth: Infinity,
-    hasOpenBanking: true,
-    hasAiCoach: true,
-    hasCalendarSync: true,
-    hasOcr: true,
-    hasPdfExport: true,
-    hasMultiHousehold: true,
-    alertChannels: ["email", "push", "sms"] as const,
-  },
+  free: APP_LIMITS,
+  premium: APP_LIMITS,
+  family_pro: APP_LIMITS,
 } as const;
 
 export type PlanName = keyof typeof PLAN_LIMITS;
 
-// AI usage limits per plan (calls per month)
+// AI usage: 500 calls/month for everyone
+export const AI_MONTHLY_LIMIT = 500;
 export const AI_MONTHLY_LIMITS: Record<PlanName, number> = {
-  free: 0,
-  premium: 200,
+  free: 500,
+  premium: 500,
   family_pro: 500,
 } as const;
 
@@ -204,11 +182,9 @@ export const DEVELOPMENT_MILESTONES_REFERENCE = [
   { category: "autonomie", name: "S'habille seul", expectedAgeMonths: 36 },
 ] as const;
 
-// Plan pricing
+// Darons est gratuit — pas de pricing
 export const PLAN_PRICING = {
   free: { price: 0, label: "Gratuit" },
-  premium: { price: 9.90, label: "Premium" },
-  family_pro: { price: 19.90, label: "Family Pro" },
 } as const;
 
 // Sidebar navigation
@@ -621,18 +597,136 @@ export const SCREEN_EXPOSURE_RECOMMENDATIONS = [
   },
 ] as const;
 
+// Congé parental — PreParE (barèmes 2025)
+export const CONGE_PARENTAL_RATES = {
+  taux_plein: 428.71,    // €/mois à taux plein
+  mi_temps: 277.14,      // €/mois à mi-temps (50%)
+  temps_partiel_80: 160.09, // €/mois à 80%
+  duree_1er_enfant_mois: 6,   // max 6 mois par parent pour 1er enfant
+  duree_2plus_enfant_mois: 24, // max 24 mois pour 2e enfant+
+} as const;
+
+// Coût moyen d'un enfant par tranche d'âge (€/mois, source INSEE/DREES 2024)
+export const CHILD_COST_REFERENCE = [
+  {
+    ageRange: "0-1 an",
+    minMonths: 0,
+    maxMonths: 12,
+    categories: {
+      alimentation: 120,
+      couches_hygiene: 80,
+      garde: 600,
+      vetements: 60,
+      sante: 30,
+      loisirs: 20,
+      equipement: 80,
+    },
+  },
+  {
+    ageRange: "1-3 ans",
+    minMonths: 12,
+    maxMonths: 36,
+    categories: {
+      alimentation: 150,
+      couches_hygiene: 50,
+      garde: 500,
+      vetements: 50,
+      sante: 25,
+      loisirs: 40,
+      equipement: 30,
+    },
+  },
+  {
+    ageRange: "3-6 ans",
+    minMonths: 36,
+    maxMonths: 72,
+    categories: {
+      alimentation: 180,
+      couches_hygiene: 20,
+      garde: 200,
+      vetements: 50,
+      sante: 25,
+      loisirs: 80,
+      scolarite: 30,
+    },
+  },
+  {
+    ageRange: "6-11 ans",
+    minMonths: 72,
+    maxMonths: 132,
+    categories: {
+      alimentation: 200,
+      couches_hygiene: 15,
+      garde: 100,
+      vetements: 60,
+      sante: 30,
+      loisirs: 100,
+      scolarite: 40,
+    },
+  },
+  {
+    ageRange: "11-14 ans",
+    minMonths: 132,
+    maxMonths: 168,
+    categories: {
+      alimentation: 230,
+      couches_hygiene: 20,
+      garde: 0,
+      vetements: 80,
+      sante: 30,
+      loisirs: 120,
+      scolarite: 60,
+    },
+  },
+  {
+    ageRange: "14-18 ans",
+    minMonths: 168,
+    maxMonths: 216,
+    categories: {
+      alimentation: 250,
+      couches_hygiene: 25,
+      garde: 0,
+      vetements: 100,
+      sante: 35,
+      loisirs: 150,
+      scolarite: 80,
+    },
+  },
+] as const;
+
+// Seuils droits sociaux 2025 (fourchettes simplifiées)
+export const SOCIAL_RIGHTS_THRESHOLDS = {
+  allocationsFamiliales: {
+    minChildren: 2,
+    tranche1_plafond: 74966,   // revenus < ce seuil = taux plein
+    tranche2_plafond: 99922,
+    montant_2enfants_plein: 141.99,
+    montant_3enfants_plein: 323.91,
+    montant_par_enfant_sup: 181.92,
+  },
+  primeActivite: {
+    plafond_solo_sans_enfant: 1885,    // revenus nets/mois
+    plafond_couple_1enfant: 2794,
+    montant_forfaitaire: 622.63,
+  },
+  rsa: {
+    personne_seule: 635.71,
+    couple: 953.56,
+    supplement_par_enfant: 254.28,
+  },
+} as const;
+
 // Error codes
 export const ERROR_CODES = {
   AUTH_001: "Votre session a expiré. Veuillez vous reconnecter.",
   AUTH_002: "Cet email est déjà utilisé par un autre compte.",
   AUTH_003: "Le lien magic link a expiré. Demandez-en un nouveau.",
-  HOUSEHOLD_001: "Nombre maximum de membres atteint pour votre plan.",
+  HOUSEHOLD_001: "Une erreur est survenue lors de l'ajout du membre.",
   HOUSEHOLD_002: "Vous devez avoir au moins un enfant pour utiliser ce module.",
   DOC_001: "Le fichier dépasse la taille maximale (10 Mo).",
   DOC_002: "Format de fichier non supporté. Formats acceptés : PDF, JPG, PNG.",
-  DOC_003: "Espace de stockage insuffisant. Passez au plan supérieur.",
+  DOC_003: "Espace de stockage insuffisant.",
   AI_001: "Le coach IA est momentanément indisponible. Réessayez dans quelques minutes.",
   AI_002: "Vous avez atteint votre limite mensuelle de consultations IA.",
   STRIPE_001: "Le paiement a échoué. Vérifiez vos informations bancaires.",
-  STRIPE_002: "Votre abonnement a expiré. Renouvelez pour continuer.",
 } as const;

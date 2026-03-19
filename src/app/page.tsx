@@ -10,19 +10,24 @@ import {
   Check,
   Baby,
   ClipboardList,
+  Sparkles,
+  Wrench,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/json-ld";
+import { LandingAnimations } from "@/components/landing/landing-animations";
 
 export const metadata: Metadata = {
   title: "Darons — Toute ta vie de daron. Une seule app.",
   description:
-    "L'app gratuite qui centralise toute la vie de famille : santé des enfants, budget du foyer, fiscalité, éducation. Vaccins, budget, impôts, papiers — c'est gratuit, c'est simple, c'est Darons.",
+    "L'app 100% gratuite pour les parents : santé, vaccins, budget, impôts, allocations CAF, démarches. 15 outils sans inscription. C'est Darons.",
   openGraph: {
     title: "Darons — Toute ta vie de daron. Une seule app.",
     description:
-      "Vaccins, budget, impôts, papiers — c'est gratuit, c'est simple, c'est Darons.",
+      "Vaccins, budget, impôts, papiers — 100% gratuit, sans piège. C'est Darons.",
     type: "website",
     url: "https://darons.app",
   },
@@ -33,14 +38,14 @@ const FEATURES = [
     icon: HeartPulse,
     title: "Santé & vaccins",
     description:
-      "Ton gamin a ses vaccins à jour ? On vérifie. Calendrier vaccinal, courbes de croissance, RDV médicaux.",
+      "Ton gamin a ses vaccins à jour ? On vérifie. Calendrier vaccinal, courbes de croissance OMS, 20 examens obligatoires.",
     color: "text-warm-teal bg-warm-teal/10",
   },
   {
     icon: GraduationCap,
     title: "Éducation & développement",
     description:
-      "Premiers mots, premiers pas — note tout. Timeline scolaire, activités, jalons de développement.",
+      "Premiers mots, premiers pas — note tout. Timeline scolaire, activités, jalons de développement OMS/HAS.",
     color: "text-warm-blue bg-warm-blue/10",
   },
   {
@@ -54,23 +59,43 @@ const FEATURES = [
     icon: Wallet,
     title: "Budget intelligent",
     description:
-      "Où passe ta thune ? On te montre. Suivi des dépenses par enfant, allocations CAF, coach budgétaire IA.",
+      "Où passe ta thune ? On te montre. Connexion bancaire automatique, catégorisation IA, coach budgétaire.",
     color: "text-warm-purple bg-warm-purple/10",
   },
   {
     icon: Baby,
     title: "Recherche de garde",
     description:
-      "Crèche ou nounou ? Compare les vrais coûts. Recherche géolocalisée avec simulateur de reste à charge.",
+      "Crèche ou nounou ? Compare les vrais coûts après CMG et crédit d'impôt. Le reste à charge, pas le prix catalogue.",
     color: "text-warm-orange bg-warm-orange/10",
   },
   {
     icon: ClipboardList,
     title: "Démarches & droits",
     description:
-      "Les papiers qui traînent ? On te rappelle. Checklist naissance → 3 ans, simulateur d'allocations.",
+      "Les papiers qui traînent ? On te rappelle avant que ce soit trop tard. Checklist naissance → 3 ans + alertes IA.",
     color: "text-warm-green bg-warm-green/10",
   },
+];
+
+const TOOLS_PREVIEW = [
+  { href: "/outils/simulateur-ir", label: "Simulateur impôts" },
+  { href: "/outils/simulateur-caf", label: "Allocations CAF" },
+  { href: "/outils/simulateur-garde", label: "Coût de garde" },
+  { href: "/outils/mes-droits", label: "Mes droits sociaux" },
+  { href: "/outils/courbe-croissance", label: "Courbes croissance" },
+  { href: "/outils/checklist-naissance", label: "Checklist naissance" },
+  { href: "/outils/numeros-urgence", label: "Urgences" },
+  { href: "/outils/conge-parental", label: "Congé parental" },
+];
+
+const COMPETITORS = [
+  { feature: "Suivi santé complet", darons: true, others: "Partiel (Mon Espace Santé)" },
+  { feature: "Budget intelligent + Open Banking", darons: true, others: "Payant (Bankin' 2,99€/mois)" },
+  { feature: "Simulation fiscale + crédits d'impôt", darons: true, others: "Aucun concurrent" },
+  { feature: "Alertes IA proactives", darons: true, others: "Aucun concurrent" },
+  { feature: "Allocations CAF + droits sociaux", darons: true, others: "Basique (caf.fr)" },
+  { feature: "Tout-en-un famille", darons: true, others: "Calendrier seul (FamilyWall 4,99€/mois)" },
 ];
 
 export default function LandingPage() {
@@ -85,7 +110,7 @@ export default function LandingPage() {
           applicationCategory: "LifestyleApplication",
           operatingSystem: "Web",
           description:
-            "L'app gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
+            "L'app 100% gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
           offers: {
             "@type": "Offer",
             price: "0",
@@ -99,18 +124,23 @@ export default function LandingPage() {
           },
         }}
       />
+
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm transition-all">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <Link href="/" className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-warm-orange text-white font-bold text-sm">
               D
             </div>
-            <span className="text-lg font-serif font-bold">
-              Darons
-            </span>
+            <span className="text-lg font-serif font-bold">Darons</span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
+            <Link
+              href="/outils"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Outils gratuits
+            </Link>
             <a
               href="#fonctionnalites"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -125,7 +155,7 @@ export default function LandingPage() {
               </Button>
             </Link>
             <Link href="/register">
-              <Button size="sm">C&apos;est gratuit, je m&apos;inscris</Button>
+              <Button size="sm">C&apos;est gratuit</Button>
             </Link>
           </div>
         </div>
@@ -133,27 +163,46 @@ export default function LandingPage() {
 
       {/* Hero */}
       <section className="relative overflow-hidden py-20 lg:py-32">
-        <div className="mx-auto max-w-6xl px-4 text-center">
-          <h1 className="mx-auto max-w-4xl text-4xl font-serif font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            Toute ta vie de daron.{" "}
-            <span className="text-primary">Une seule app.</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Vaccins, budget, impôts, papiers — c&apos;est gratuit, c&apos;est simple,
-            c&apos;est Darons.
-          </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        {/* Floating decorative shapes */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="animate-float absolute -top-10 right-[10%] h-64 w-64 rounded-full bg-warm-orange/5" />
+          <div className="animate-float absolute bottom-0 left-[5%] h-48 w-48 rounded-full bg-warm-teal/5" style={{ animationDelay: "2s" }} />
+          <div className="animate-float absolute top-1/2 right-[25%] h-32 w-32 rounded-full bg-warm-blue/5" style={{ animationDelay: "4s" }} />
+        </div>
+
+        <div className="relative mx-auto max-w-6xl px-4 text-center">
+          <LandingAnimations />
+
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
             <Link href="/register">
-              <Button size="lg" className="h-12 px-8 text-base">
+              <Button size="lg" className="h-12 px-8 text-base group">
                 C&apos;est gratuit, je m&apos;inscris
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
-            <a href="#fonctionnalites">
+            <Link href="/outils">
               <Button variant="outline" size="lg" className="h-12 px-8 text-base">
-                Découvrir les fonctionnalités
+                <Wrench className="mr-2 h-4 w-4" />
+                Essayer sans s&apos;inscrire
               </Button>
-            </a>
+            </Link>
+          </div>
+
+          {/* Tools strip */}
+          <div className="mt-12 animate-fade-in-up" style={{ animationDelay: "0.8s" }}>
+            <p className="text-sm text-muted-foreground mb-4">15 outils gratuits, sans inscription</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {TOOLS_PREVIEW.map((tool) => (
+                <Link key={tool.href} href={tool.href}>
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer hover:bg-warm-orange/10 hover:border-warm-orange transition-colors py-1.5 px-3"
+                  >
+                    {tool.label}
+                  </Badge>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -172,7 +221,7 @@ export default function LandingPage() {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature) => (
-              <Card key={feature.title} className="border-0 shadow-md">
+              <Card key={feature.title} className="card-playful border-0 shadow-md">
                 <CardHeader>
                   <div
                     className={`mb-2 flex h-12 w-12 items-center justify-center rounded-xl ${feature.color}`}
@@ -192,6 +241,74 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* AI Section */}
+      <section className="py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="text-center mb-12">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-warm-purple/10 mb-4">
+              <Sparkles className="h-7 w-7 text-warm-purple" />
+            </div>
+            <h2 className="text-3xl font-serif font-bold">
+              Une IA qui pense pour toi
+            </h2>
+            <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
+              Darons scanne tes données chaque semaine et te prévient avant que ce soit trop tard.
+              Gratuit, évidemment.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { text: "La CNI de Yasmine expire dans 47 jours", category: "Documents" },
+              { text: "Le vaccin Pneumocoque dose 3 de Matis est en retard", category: "Santé" },
+              { text: "Tu ne touches pas la prime d'activité (~180€/mois)", category: "Droits" },
+              { text: "Inscription en PS pour septembre 2028 → c'est maintenant", category: "Scolarité" },
+              { text: "Tes dépenses santé ont augmenté de 40% ce mois", category: "Budget" },
+              { text: "Déclaration IR dans 23 jours → lance ta simulation", category: "Fiscal" },
+            ].map((alert) => (
+              <Card key={alert.text} className="card-playful">
+                <CardContent className="py-4 flex items-start gap-3">
+                  <Badge variant="outline" className="shrink-0 text-xs mt-0.5">{alert.category}</Badge>
+                  <p className="text-sm">{alert.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gratuit vs concurrence */}
+      <section className="py-20 bg-card">
+        <div className="mx-auto max-w-4xl px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-serif font-bold lg:text-4xl">
+              100% gratuit, pour de vrai
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Pas de premium, pas de piège, pas de version bridée. Tout est gratuit, point.
+            </p>
+          </div>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="space-y-3">
+                {COMPETITORS.map((row) => (
+                  <div key={row.feature} className="flex items-center justify-between py-3 border-b last:border-0">
+                    <span className="text-sm font-medium flex-1">{row.feature}</span>
+                    <div className="flex items-center gap-6">
+                      <span className="flex items-center gap-1.5 text-sm text-warm-green font-semibold w-20 justify-center">
+                        <Check className="w-4 h-4" /> Gratuit
+                      </span>
+                      <span className="text-xs text-muted-foreground w-48 text-right">
+                        {row.others}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
       {/* Security */}
       <section className="py-20">
         <div className="mx-auto max-w-6xl px-4 text-center">
@@ -203,7 +320,7 @@ export default function LandingPage() {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
             Chiffrement de bout en bout, conformité RGPD, hébergement européen.
-            Tes données de santé ne sont jamais partagées. Tu gardes le contrôle total.
+            Tes données de santé ne sont jamais partagées.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
@@ -222,39 +339,28 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Gratuit */}
-      <section className="py-20 bg-card">
-        <div className="mx-auto max-w-3xl px-4 text-center">
-          <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-            Darons est gratuit.
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Pas de piège, pas de version bridée. Juste une app complète pour les parents.
-          </p>
-          <Link href="/register">
-            <Button size="lg" className="mt-8 h-12 px-8 text-base">
-              C&apos;est gratuit, je m&apos;inscris
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="py-20">
+      <section className="py-20 bg-card">
         <div className="mx-auto max-w-3xl px-4 text-center">
           <h2 className="text-3xl font-serif font-bold lg:text-4xl">
             Prêt à simplifier ta vie de parent ?
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Rejoins les darons qui centralisent tout dans une seule app.
+            Rejoins les darons qui centralisent tout dans une seule app. Ou commence par essayer un outil gratuit.
           </p>
-          <Link href="/register">
-            <Button size="lg" className="mt-8 h-12 px-8 text-base">
-              C&apos;est gratuit, je m&apos;inscris
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link href="/register">
+              <Button size="lg" className="h-12 px-8 text-base group">
+                C&apos;est gratuit, je m&apos;inscris
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+            <Link href="/outils">
+              <Button variant="outline" size="lg" className="h-12 px-8 text-base">
+                Essayer les outils
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -270,12 +376,17 @@ export default function LandingPage() {
                 <span className="font-serif font-bold">Darons</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                L&apos;app gratuite qui centralise toute la vie de famille.
+                L&apos;app 100% gratuite qui centralise toute la vie de famille.
               </p>
             </div>
             <div>
               <h4 className="mb-3 text-sm font-semibold">Produit</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <Link href="/outils" className="hover:text-foreground">
+                    Outils gratuits
+                  </Link>
+                </li>
                 <li>
                   <a href="#fonctionnalites" className="hover:text-foreground">
                     Fonctionnalités
@@ -297,10 +408,7 @@ export default function LandingPage() {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/politique-confidentialite"
-                    className="hover:text-foreground"
-                  >
+                  <Link href="/politique-confidentialite" className="hover:text-foreground">
                     Politique de confidentialité
                   </Link>
                 </li>

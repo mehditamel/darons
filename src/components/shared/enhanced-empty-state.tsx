@@ -26,25 +26,25 @@ interface EmptyStateConfig {
 const EMPTY_STATE_CONFIGS: Record<string, EmptyStateConfig> = {
   identite: {
     icon: IdCard,
-    title: "Aucun document enregistré",
+    title: "Aucun papier enregistré",
     description:
-      "Ajoutez les pièces d'identité de votre famille pour ne plus jamais oublier une date d'expiration.",
-    cta: "Ajouter un premier document",
+      "CNI, passeport, livret de famille... Ajoute-les ici et on te prévient avant qu'ils expirent. Fini la panique au guichet.",
+    cta: "Ajouter un document",
     ctaHref: "/identite",
   },
   vaccinations: {
     icon: Syringe,
-    title: "Carnet de vaccins vierge",
+    title: "Carnet de vaccins vide",
     description:
-      "Le calendrier vaccinal est prêt. Commencez par les vaccins déjà faits.",
+      "On a préparé le calendrier vaccinal. Dis-nous juste ce qui est déjà fait.",
     cta: "Enregistrer un vaccin",
     ctaHref: "/sante",
   },
   budget: {
     icon: Wallet,
-    title: "Votre budget vous attend",
+    title: "Ton budget t'attend",
     description:
-      "Connectez votre banque pour un suivi automatique, ou ajoutez vos dépenses manuellement.",
+      "Connecte ta banque pour voir où passe la thune, ou ajoute tes dépenses à la main. Zéro jugement.",
     cta: "Connecter ma banque",
     ctaHref: "/budget",
     ctaSecondary: "Saisie manuelle",
@@ -52,17 +52,17 @@ const EMPTY_STATE_CONFIGS: Record<string, EmptyStateConfig> = {
   },
   journal: {
     icon: PenLine,
-    title: "Le journal de votre famille",
+    title: "Le journal de ta tribu",
     description:
-      "Notez les premiers mots, les fous rires, les petites victoires. Vous serez contents de les relire.",
+      "Premiers mots, fous rires, galères mémorables. Note tout. Tu seras content de relire ça dans 10 ans.",
     cta: "Écrire une première note",
     ctaHref: "/developpement",
   },
   documents: {
     icon: FolderLock,
-    title: "Votre coffre-fort est vide",
+    title: "Ton coffre-fort est vide",
     description:
-      "Stockez vos documents importants en toute sécurité : ordonnances, certificats, factures.",
+      "Ordonnances, certificats, factures — tout au même endroit, en sécurité. Plus jamais à chercher ce papier introuvable.",
     cta: "Importer un document",
     ctaHref: "/documents",
   },
@@ -70,7 +70,7 @@ const EMPTY_STATE_CONFIGS: Record<string, EmptyStateConfig> = {
     icon: GraduationCap,
     title: "Parcours scolaire",
     description:
-      "Suivez le parcours éducatif de vos enfants : de la crèche au collège.",
+      "De la crèche au collège, on suit le parcours de tes enfants. Inscriptions, notes, contacts enseignants.",
     cta: "Ajouter une inscription",
     ctaHref: "/scolarite",
   },
@@ -78,15 +78,15 @@ const EMPTY_STATE_CONFIGS: Record<string, EmptyStateConfig> = {
     icon: Baby,
     title: "Recherche de garde",
     description:
-      "Trouvez le mode de garde idéal près de chez vous : crèche, assistante maternelle, MAM.",
+      "Crèche, assistante maternelle, MAM — on t'aide à trouver le bon mode de garde près de chez toi.",
     cta: "Rechercher",
     ctaHref: "/garde",
   },
   developpement: {
     icon: TrendingUp,
-    title: "Jalons de développement",
+    title: "Premiers pas, premiers mots",
     description:
-      "Suivez les progrès de votre enfant : motricité, langage, cognition, socialisation.",
+      "Suis les progrès de ton enfant : motricité, langage, cognition, socialisation. Chaque enfant a son rythme.",
     cta: "Commencer le suivi",
     ctaHref: "/developpement",
   },
@@ -103,13 +103,13 @@ export function EnhancedEmptyState({ module, childName }: EnhancedEmptyStateProp
 
   const Icon = config.icon;
   const description = childName
-    ? config.description.replace("votre enfant", childName)
+    ? config.description.replace("ton enfant", childName)
     : config.description;
 
   return (
     <Card>
       <CardContent className="flex flex-col items-center py-12 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted animate-bounce-gentle">
           <Icon className="h-8 w-8 text-muted-foreground" />
         </div>
         <h3 className="text-lg font-semibold">{config.title}</h3>
@@ -117,7 +117,7 @@ export function EnhancedEmptyState({ module, childName }: EnhancedEmptyStateProp
           {description}
         </p>
         <div className="mt-6 flex gap-2">
-          <Button asChild>
+          <Button asChild className="animate-pulse-glow">
             <Link href={config.ctaHref}>{config.cta}</Link>
           </Button>
           {config.ctaSecondary && config.ctaSecondaryHref && (

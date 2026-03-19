@@ -18,16 +18,33 @@ export default function MarketingLayout({
               Darons
             </span>
           </Link>
-          <Link href="/">
-            <Button variant="ghost" size="sm">
-              Retour à l&apos;accueil
-            </Button>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/outils" className="hidden sm:block">
+              <Button variant="ghost" size="sm">
+                Tous les outils
+              </Button>
+            </Link>
+            <Link href="/">
+              <Button variant="ghost" size="sm">
+                Accueil
+              </Button>
+            </Link>
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-4xl px-4 py-12">{children}</main>
-      <footer className="border-t py-8 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} Darons. Tous droits réservés.
+      <footer className="border-t py-8">
+        <div className="mx-auto max-w-4xl px-4">
+          <div className="flex flex-wrap gap-4 justify-center text-xs text-muted-foreground">
+            <Link href="/outils" className="hover:text-foreground">Outils gratuits</Link>
+            <Link href="/mentions-legales" className="hover:text-foreground">Mentions légales</Link>
+            <Link href="/cgu" className="hover:text-foreground">CGU</Link>
+            <Link href="/politique-confidentialite" className="hover:text-foreground">Confidentialité</Link>
+          </div>
+          <p className="text-center text-xs text-muted-foreground mt-4">
+            &copy; {new Date().getFullYear()} Darons. Tous droits réservés.
+          </p>
+        </div>
       </footer>
     </div>
   );
