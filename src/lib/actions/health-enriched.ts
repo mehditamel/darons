@@ -369,6 +369,9 @@ export async function getAllergies(
       diagnosedDate: a.diagnosed_date,
       active: a.active,
       notes: a.notes,
+      fhirResourceId: a.fhir_resource_id ?? null,
+      fhirLastUpdated: a.fhir_last_updated ?? null,
+      syncSource: a.sync_source ?? "local",
       createdAt: a.created_at,
     })),
   };

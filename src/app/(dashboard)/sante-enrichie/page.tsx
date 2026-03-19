@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { SanteEnrichieTabs } from "@/components/sante-enrichie/sante-enrichie-tabs";
+import { MESConnectionCard } from "@/components/sante/mes-connection-card";
 import { getFamilyMembers } from "@/lib/actions/family";
 import {
   getHealthExaminations,
@@ -51,6 +52,10 @@ export default async function SanteEnrichiePage() {
       <PageHeader
         title="Santé enrichie"
         description="Examens obligatoires, repérage TND, exposition écrans, journal quotidien, allergies et ordonnances"
+      />
+
+      <MESConnectionCard
+        childMembers={children.map((c) => ({ id: c.id, firstName: c.firstName }))}
       />
 
       <SanteEnrichieTabs

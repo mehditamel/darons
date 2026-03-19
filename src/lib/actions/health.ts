@@ -53,6 +53,9 @@ export async function getVaccinations(memberId: string): Promise<ActionResult<Va
       batchNumber: v.batch_number,
       notes: v.notes,
       status: v.status,
+      fhirResourceId: v.fhir_resource_id ?? null,
+      fhirLastUpdated: v.fhir_last_updated ?? null,
+      syncSource: v.sync_source ?? "local",
       createdAt: v.created_at,
     })),
   };
@@ -147,6 +150,9 @@ export async function getGrowthMeasurements(
       heightCm: m.height_cm ? Number(m.height_cm) : null,
       headCircumferenceCm: m.head_circumference_cm ? Number(m.head_circumference_cm) : null,
       notes: m.notes,
+      fhirResourceId: m.fhir_resource_id ?? null,
+      fhirLastUpdated: m.fhir_last_updated ?? null,
+      syncSource: m.sync_source ?? "local",
       createdAt: m.created_at,
     })),
   };
