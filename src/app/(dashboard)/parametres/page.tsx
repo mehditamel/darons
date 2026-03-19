@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { MemberList } from "@/components/famille/member-list";
 import { NotificationPreferences } from "@/components/parametres/notification-preferences";
+import { PushNotificationSettings } from "@/components/parametres/push-notification-settings";
 import { CalendarSyncCard } from "@/components/parametres/calendar-sync-card";
 import { ExportPdfButton } from "@/components/parametres/export-pdf-button";
 import { getFamilyMembers } from "@/lib/actions/family";
@@ -95,6 +96,9 @@ export default async function ParametresPage() {
           hasPush={hasPush}
           hasSms={hasSms}
         />
+
+        {/* Push notifications */}
+        <PushNotificationSettings hasPush={hasPush} />
 
         {/* Calendar sync */}
         <CalendarSyncCard

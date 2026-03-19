@@ -151,6 +151,17 @@ export async function dispatchNotification(
     });
   }
 
+  // Push notification
+  if (allowedChannels.includes("push" as never)) {
+    const pushResult = await sendPushNotification(
+      householdId,
+      payload.subject,
+      payload.htmlBody.replace(/<[^>]*>/g, "").substring(0, 200)
+    );
+    if (pushResult.success) channels.push("push");
+    else if (pushResult.error) errors.push(pushResult.error);
+  }
+
   // SMS (only for sms-enabled plans and critical notifications)
   if (
     allowedChannels.includes("sms" as never) &&
@@ -162,4 +173,47 @@ export async function dispatchNotification(
   }
 
   return { channels, errors };
+}
+
+// ── Push Notification via Web Push ──
+
+export async function sendPushNotification(
+  householdId: string,
+  title: string,
+  body: string,
+  url?: string
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = createClient();
+
+  // Get the household owner
+  const { data: household } = await supabase
+    .from("households")
+    .select("owner_id")
+    .eq("id", householdId)
+    .single();
+
+  if (!household) return { success: false, error: "Foyer introuvable" };
+
+  try {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const response = await fetch(`${appUrl}/api/notifications/push/send`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+      },
+      body: JSON.stringify({
+        userId: household.owner_id,
+        title,
+        body,
+        url: url || "/dashboard",
+      }),
+    });
+
+    if (!response.ok) return { success: false, error: "Erreur envoi push" };
+    return { success: true };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Erreur push notification";
+    return { success: false, error: message };
+  }
 }

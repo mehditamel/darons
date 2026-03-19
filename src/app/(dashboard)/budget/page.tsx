@@ -3,6 +3,8 @@ import { PageHeader } from "@/components/shared/page-header";
 import { BudgetTabs } from "@/components/budget/budget-tabs";
 import { AiCoachCard } from "@/components/budget/ai-coach-card";
 import { RoundupSettingsCard } from "@/components/budget/roundup-settings-card";
+import { BankConnections } from "@/components/budget/bank-connections";
+import { BankTransactionsList } from "@/components/budget/bank-transactions-list";
 import { getFamilyMembers } from "@/lib/actions/family";
 import {
   getBudgetEntries,
@@ -11,6 +13,7 @@ import {
   getBudgetSummary,
   getBudgetHistory,
 } from "@/lib/actions/budget";
+import { getBankConnections, getBankTransactions } from "@/lib/actions/banking";
 import { getRoundupSettings } from "@/lib/actions/roundup";
 import { PLAN_LIMITS } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
@@ -33,7 +36,7 @@ export default async function BudgetPage() {
   const hasAiCoach = PLAN_LIMITS[plan].hasAiCoach;
   const hasOpenBanking = PLAN_LIMITS[plan].hasOpenBanking;
 
-  const [membersResult, entriesResult, allocResult, goalsResult, summaryResult, historyResult, roundupResult] =
+  const [membersResult, entriesResult, allocResult, goalsResult, summaryResult, historyResult, roundupResult, connectionsResult, bankTxResult] =
     await Promise.all([
       getFamilyMembers(),
       getBudgetEntries(currentMonth),
@@ -42,6 +45,8 @@ export default async function BudgetPage() {
       getBudgetSummary(currentMonth),
       getBudgetHistory(6),
       getRoundupSettings(),
+      getBankConnections(),
+      hasOpenBanking ? getBankTransactions({ startDate: currentMonth }) : Promise.resolve({ success: true as const, data: [] }),
     ]);
 
   const members = membersResult.data ?? [];
@@ -49,6 +54,8 @@ export default async function BudgetPage() {
   const allocations = allocResult.data ?? [];
   const goals = goalsResult.data ?? [];
   const history = historyResult.data ?? [];
+  const bankConnections = connectionsResult.data ?? [];
+  const bankTransactions = bankTxResult.data ?? [];
 
   const summary = summaryResult.data ?? {
     month: currentMonth,
@@ -87,6 +94,19 @@ export default async function BudgetPage() {
         members={members}
         currentMonth={currentMonth}
       />
+
+      {/* Banking section */}
+      <BankConnections
+        connections={bankConnections}
+        hasOpenBanking={hasOpenBanking}
+      />
+
+      {hasOpenBanking && bankTransactions.length > 0 && (
+        <BankTransactionsList
+          transactions={bankTransactions}
+          members={members}
+        />
+      )}
 
       {hasOpenBanking && roundupResult.data && (
         <RoundupSettingsCard settings={roundupResult.data} goals={goals} />

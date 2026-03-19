@@ -263,6 +263,12 @@ export const SIDEBAR_NAVIGATION = [
       { label: "Parrainage", href: "/parrainage", icon: "Gift" },
     ],
   },
+  {
+    group: "Administration",
+    items: [
+      { label: "Admin SaaS", href: "/admin", icon: "BarChart3" },
+    ],
+  },
 ] as const;
 
 // Checklist démarches administratives (grossesse → 3 ans)

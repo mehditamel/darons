@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
+import { BottomNavigation } from "@/components/layout/bottom-navigation";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { OfflineBanner } from "@/components/pwa/offline-fallback";
@@ -63,12 +64,13 @@ export default async function DashboardLayout({
           userInitials={userInitials}
           alertCount={alertCount}
         />
-        <main className="p-4 lg:p-6">
+        <main className="p-4 pb-20 lg:p-6 lg:pb-6">
           <OfflineBanner />
           <InstallPrompt />
           {children}
         </main>
       </div>
+      <BottomNavigation />
     </div>
   );
 }

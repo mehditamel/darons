@@ -1,4 +1,4 @@
-const CACHE_NAME = "cockpit-parental-v2";
+const CACHE_NAME = "cockpit-parental-v3";
 const STATIC_ASSETS = [
   "/",
   "/dashboard",
@@ -7,12 +7,19 @@ const STATIC_ASSETS = [
   "/icons/icon-192x192.png",
   "/icons/icon-512x512.png",
 ];
+const DASHBOARD_PAGES = [
+  "/budget",
+  "/sante",
+  "/identite",
+  "/fiscal",
+  "/parametres",
+];
 
 // Install: cache static assets
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
+      return cache.addAll([...STATIC_ASSETS, ...DASHBOARD_PAGES]);
     })
   );
   self.skipWaiting();

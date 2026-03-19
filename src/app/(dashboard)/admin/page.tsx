@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ import { AdminMetricsChart } from "@/components/admin/admin-metrics-chart";
 import { AdminStatsGrid } from "@/components/admin/admin-stats-grid";
 import { getAdminDashboardSummary, getAdminMetrics, computeDailyMetrics, getAdminEngagementMetrics } from "@/lib/actions/admin";
 import { createClient } from "@/lib/supabase/server";
-import { BarChart3, RefreshCw } from "lucide-react";
+import { BarChart3, Users, DollarSign, GitBranch, Activity } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Admin — Tableau de bord SaaS",
@@ -57,6 +58,25 @@ export default async function AdminPage() {
         title="Tableau de bord Admin"
         description="Métriques SaaS — Cockpit Parental"
       />
+
+      {/* Navigation sub-pages */}
+      <div className="grid gap-3 sm:grid-cols-4">
+        {[
+          { label: "Utilisateurs", href: "/admin/users", icon: Users, color: "text-warm-blue" },
+          { label: "Revenus", href: "/admin/revenue", icon: DollarSign, color: "text-warm-teal" },
+          { label: "Cohortes", href: "/admin/cohorts", icon: GitBranch, color: "text-warm-purple" },
+          { label: "Système", href: "/admin/system", icon: Activity, color: "text-warm-orange" },
+        ].map((item) => (
+          <Link key={item.href} href={item.href}>
+            <Card className="transition-colors hover:bg-muted/50 cursor-pointer">
+              <CardContent className="flex items-center gap-3 pt-6">
+                <item.icon className={`h-5 w-5 ${item.color}`} />
+                <span className="text-sm font-medium">{item.label}</span>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
 
       {/* KPIs */}
       <AdminStatsGrid summary={summary} engagement={engagement} />

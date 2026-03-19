@@ -19,6 +19,7 @@ import {
   UsersRound,
   Split,
   Gift,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   UsersRound,
   Split,
   Gift,
+  BarChart3,
 };
 
 export function Sidebar() {

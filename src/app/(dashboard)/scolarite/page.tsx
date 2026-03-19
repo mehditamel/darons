@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { SchoolingTimeline } from "@/components/educatif/schooling-timeline";
+import { SchoolSearch } from "@/components/educatif/school-search";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getSchooling } from "@/lib/actions/educational";
 import type { Schooling } from "@/types/educational";
@@ -36,6 +37,8 @@ export default async function ScolaritePage() {
       >
         {children}
       </SchoolingTimeline>
+
+      <SchoolSearch />
     </div>
   );
 }
