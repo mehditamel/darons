@@ -8,6 +8,8 @@
  * Server-side only — never import this on the client.
  */
 
+import { withRetry } from "@/lib/utils/retry";
+
 const BRIDGE_API_URL = process.env.BRIDGE_API_URL || "https://api.bridgeapi.io";
 const BRIDGE_CLIENT_ID = process.env.BRIDGE_CLIENT_ID || "";
 const BRIDGE_CLIENT_SECRET = process.env.BRIDGE_CLIENT_SECRET || "";
@@ -100,20 +102,25 @@ async function bridgeRequest<T>(
     headers["Authorization"] = `Bearer ${accessToken}`;
   }
 
-  const response = await fetch(`${BRIDGE_API_URL}/v2${path}`, {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  return withRetry(
+    async () => {
+      const response = await fetch(`${BRIDGE_API_URL}/v2${path}`, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : undefined,
+      });
 
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(
-      `Bridge API error ${response.status}: ${errorBody}`
-    );
-  }
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(
+          `Bridge API error ${response.status}: ${errorBody}`
+        );
+      }
 
-  return response.json() as Promise<T>;
+      return response.json() as Promise<T>;
+    },
+    { maxRetries: 3, baseDelay: 1000, maxDelay: 10000 }
+  );
 }
 
 export const bridgeClient: BankingProvider = {

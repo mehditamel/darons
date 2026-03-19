@@ -34,7 +34,7 @@ export function DismissibleAlertCard({
   if (dismissed) return null;
 
   return (
-    <div className="relative group">
+    <div className="relative group" role="alert" aria-live="polite">
       <AlertCard
         title={title}
         message={message}

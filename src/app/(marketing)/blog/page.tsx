@@ -27,6 +27,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Identité": "bg-warm-green/10 text-warm-green",
 };
 
+export const revalidate = 3600; // ISR: revalidate every hour
+
 export default function BlogPage() {
   const articles = getAllArticles();
 

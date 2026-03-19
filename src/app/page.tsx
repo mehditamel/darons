@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   HeartPulse,
@@ -14,7 +15,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { JsonLd } from "@/components/seo/json-ld";
 import { PLAN_PRICING } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Cockpit Parental — Tableau de bord familial unifié",
+  description:
+    "Centralisez la gestion de votre foyer : santé, éducation, budget, fiscal. Suivi vaccins, simulation IR, allocations CAF, courbes de croissance — tout en un.",
+  openGraph: {
+    title: "Cockpit Parental — Toute la vie de famille. Un seul cockpit.",
+    description:
+      "Le tableau de bord familial unifié pour les parents français. Santé, éducation, budget, fiscal.",
+    type: "website",
+    url: "https://cockpitparental.fr",
+  },
+};
 
 const FEATURES = [
   {
@@ -119,6 +134,43 @@ const PLANS = [
 export default function LandingPage() {
   return (
     <div className="min-h-screen">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          name: "Cockpit Parental",
+          url: "https://cockpitparental.fr",
+          applicationCategory: "LifestyleApplication",
+          operatingSystem: "Web",
+          description:
+            "Tableau de bord familial unifié : santé, éducation, budget, fiscal.",
+          offers: [
+            {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "EUR",
+              name: "Gratuit",
+            },
+            {
+              "@type": "Offer",
+              price: "9.90",
+              priceCurrency: "EUR",
+              name: "Premium",
+            },
+            {
+              "@type": "Offer",
+              price: "19.90",
+              priceCurrency: "EUR",
+              name: "Family Pro",
+            },
+          ],
+          publisher: {
+            "@type": "Organization",
+            name: "Ma Vie Parentale",
+            url: "https://cockpitparental.fr",
+          },
+        }}
+      />
       {/* Header */}
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">

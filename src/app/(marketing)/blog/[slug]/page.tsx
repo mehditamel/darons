@@ -12,6 +12,8 @@ interface BlogPostPageProps {
   params: { slug: string };
 }
 
+export const revalidate = 3600; // ISR: revalidate every hour
+
 export async function generateStaticParams() {
   return getAllArticles().map((article) => ({ slug: article.slug }));
 }

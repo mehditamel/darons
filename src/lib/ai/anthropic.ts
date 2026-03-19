@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { withRetry } from "@/lib/utils/retry";
 
 let client: Anthropic | null = null;
 
@@ -20,19 +21,24 @@ export async function callClaude(
 ): Promise<string> {
   const anthropic = getClient();
 
-  const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: maxTokens,
-    system: systemPrompt,
-    messages: [{ role: "user", content: userMessage }],
-  });
+  return withRetry(
+    async () => {
+      const response = await anthropic.messages.create({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: maxTokens,
+        system: systemPrompt,
+        messages: [{ role: "user", content: userMessage }],
+      });
 
-  const textBlock = response.content.find((block) => block.type === "text");
-  if (!textBlock || textBlock.type !== "text") {
-    throw new Error("Aucune réponse textuelle de l'IA");
-  }
+      const textBlock = response.content.find((block) => block.type === "text");
+      if (!textBlock || textBlock.type !== "text") {
+        throw new Error("Aucune réponse textuelle de l'IA");
+      }
 
-  return textBlock.text;
+      return textBlock.text;
+    },
+    { maxRetries: 2, baseDelay: 2000, maxDelay: 10000 }
+  );
 }
 
 export function parseJsonResponse<T>(response: string): T {

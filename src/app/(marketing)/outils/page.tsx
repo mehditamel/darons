@@ -3,6 +3,9 @@ import Link from "next/link";
 import { Calculator, Baby, Syringe } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { JsonLd } from "@/components/seo/json-ld";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Outils gratuits pour parents",
@@ -45,6 +48,20 @@ const tools = [
 export default function OutilsPage() {
   return (
     <div className="space-y-8">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Outils gratuits pour parents",
+          description: "Simulateurs et outils gratuits pour les parents français.",
+          url: "https://cockpitparental.fr/outils",
+          isPartOf: {
+            "@type": "WebSite",
+            name: "Cockpit Parental",
+            url: "https://cockpitparental.fr",
+          },
+        }}
+      />
       <div className="text-center space-y-3">
         <h1 className="text-3xl font-serif font-bold">
           Outils gratuits pour les parents

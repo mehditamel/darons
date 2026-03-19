@@ -9,13 +9,17 @@ import { NotificationPreferences } from "@/components/parametres/notification-pr
 import { PushNotificationSettings } from "@/components/parametres/push-notification-settings";
 import { CalendarSyncCard } from "@/components/parametres/calendar-sync-card";
 import { ExportPdfButton } from "@/components/parametres/export-pdf-button";
+import { DataExportButton } from "@/components/parametres/data-export-button";
+import { DeleteAccountDialog } from "@/components/parametres/delete-account-dialog";
+import { ConsentManager } from "@/components/parametres/consent-manager";
 import { getFamilyMembers } from "@/lib/actions/family";
+import { getUserConsents, getDeletionStatus } from "@/lib/actions/rgpd";
 import { PLAN_LIMITS } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Paramètres",
-  description: "Configurez votre profil, gérez votre abonnement et les préférences de votre foyer",
+  title: "Paramètres — Cockpit Parental",
+  description: "Configurez votre profil, gérez votre abonnement, vos consentements RGPD et les préférences de votre foyer",
 };
 
 export default async function ParametresPage() {
@@ -27,8 +31,14 @@ export default async function ParametresPage() {
   const plan = (profile?.subscription_plan ?? "free") as keyof typeof PLAN_LIMITS;
   const planLimits = PLAN_LIMITS[plan];
 
-  const membersResult = await getFamilyMembers();
+  const [membersResult, consentsResult, deletionStatus] = await Promise.all([
+    getFamilyMembers(),
+    getUserConsents(),
+    getDeletionStatus(),
+  ]);
+
   const members = membersResult.data ?? [];
+  const consents = consentsResult.data ?? [];
 
   const channels = planLimits.alertChannels as readonly string[];
   const hasPush = channels.includes("push");
@@ -87,6 +97,9 @@ export default async function ParametresPage() {
             </Button>
           </CardContent>
         </Card>
+
+        {/* RGPD Consents */}
+        <ConsentManager consents={consents} />
 
         {/* Notifications */}
         <NotificationPreferences
@@ -164,9 +177,7 @@ export default async function ParametresPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm">
-                Exporter mes données (JSON)
-              </Button>
+              <DataExportButton />
               <ExportPdfButton hasAccess={planLimits.hasPdfExport} />
             </div>
             <Separator />
@@ -174,12 +185,16 @@ export default async function ParametresPage() {
               <p className="mb-2 text-sm font-medium text-destructive">
                 Zone dangereuse
               </p>
-              <Button variant="destructive" size="sm">
-                Supprimer mon compte
-              </Button>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Toutes vos données seront supprimées sous 30 jours.
-              </p>
+              <DeleteAccountDialog
+                userEmail={profile?.email ?? ""}
+                isPending={deletionStatus.pending}
+                scheduledAt={deletionStatus.scheduledAt}
+              />
+              {!deletionStatus.pending && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Toutes vos données seront supprimées sous 30 jours.
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>

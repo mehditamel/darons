@@ -22,12 +22,12 @@ export function StatCard({
   className,
 }: StatCardProps) {
   return (
-    <Card className={cn("transition-shadow duration-200 hover:shadow-md animate-fade-in-up", className)}>
+    <Card className={cn("transition-shadow duration-200 hover:shadow-md animate-fade-in-up", className)} role="status" aria-label={`${label} : ${value}`}>
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="mt-1 text-2xl font-bold">{value}</p>
+            <p className="mt-1 text-2xl font-bold" aria-hidden="true">{value}</p>
             {trend && (
               <p
                 className={cn(
@@ -45,7 +45,7 @@ export function StatCard({
               color
             )}
           >
-            <Icon className="h-6 w-6" />
+            <Icon className="h-6 w-6" aria-hidden="true" />
           </div>
         </div>
       </CardContent>

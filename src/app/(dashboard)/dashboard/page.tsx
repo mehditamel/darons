@@ -95,16 +95,21 @@ export default async function DashboardPage() {
   // Fallback to legacy expiring docs if no proactive alerts
   const hasProactiveAlerts = proactiveAlerts.length > 0;
 
-  // Profile completion
+  // Profile completion (10 criteria as per CLAUDE.md section 18)
   const completionChecks = [
-    members.length > 0,
-    children.length > 0,
-    identityDocs.length > 0,
-    doneDoses > 0,
-    vaultDocs.length > 0,
+    { label: "Foyer créé", done: members.length > 0 },
+    { label: "Enfant ajouté", done: children.length > 0 },
+    { label: "Document d'identité", done: identityDocs.length > 0 },
+    { label: "Vaccin enregistré", done: doneDoses > 0 },
+    { label: "Document coffre-fort", done: vaultDocs.length > 0 },
+    { label: "Mesure de croissance", done: false }, // Would need growth data
+    { label: "Activité ajoutée", done: false }, // Would need activities data
+    { label: "Données fiscales", done: false }, // Would need fiscal data
+    { label: "Dépense budget", done: false }, // Would need budget data
+    { label: "Email vérifié", done: !!user?.email_confirmed_at },
   ];
   const completionPercent = Math.round(
-    (completionChecks.filter(Boolean).length / completionChecks.length) * 100
+    (completionChecks.filter((c) => c.done).length / completionChecks.length) * 100
   );
 
   const firstAdult = members.find((m) => m.memberType === "adult");
@@ -125,14 +130,21 @@ export default async function DashboardPage() {
               <p className="text-sm font-medium">Complétude du profil</p>
               <span className="text-sm text-muted-foreground">{completionPercent}%</span>
             </div>
-            <Progress value={completionPercent} className="h-2" />
-            <p className="mt-2 text-xs text-muted-foreground">
-              {completionPercent < 40
-                ? "Ajoutez des membres, documents et vaccins pour compléter votre profil."
-                : completionPercent < 80
-                ? "Vous avez bien avancé ! Continuez à enrichir votre cockpit."
-                : "Presque terminé ! Plus que quelques étapes."}
-            </p>
+            <Progress value={completionPercent} className="h-2" aria-label={`Profil complété à ${completionPercent}%`} />
+            <div className="mt-3 flex flex-wrap gap-2">
+              {completionChecks.map((check) => (
+                <span
+                  key={check.label}
+                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs ${
+                    check.done
+                      ? "bg-warm-green/10 text-warm-green"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {check.done ? "✓" : "○"} {check.label}
+                </span>
+              ))}
+            </div>
           </CardContent>
         </Card>
       )}

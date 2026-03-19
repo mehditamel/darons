@@ -5,6 +5,7 @@ import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register"
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { OfflineBanner } from "@/components/pwa/offline-fallback";
 import { SessionTracker } from "@/components/analytics/session-tracker";
+import { CookieBanner } from "@/components/shared/cookie-banner";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function DashboardLayout({
@@ -57,6 +58,13 @@ export default async function DashboardLayout({
     <div className="min-h-screen bg-background">
       <ServiceWorkerRegister />
       <SessionTracker />
+      {/* Skip to content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:shadow-lg"
+      >
+        Aller au contenu principal
+      </a>
       <Sidebar />
       <div className="lg:pl-64">
         <Topbar
@@ -64,13 +72,14 @@ export default async function DashboardLayout({
           userInitials={userInitials}
           alertCount={alertCount}
         />
-        <main className="p-4 pb-20 lg:p-6 lg:pb-6">
+        <main id="main-content" className="p-4 pb-20 lg:p-6 lg:pb-6" role="main">
           <OfflineBanner />
           <InstallPrompt />
           {children}
         </main>
       </div>
       <BottomNavigation />
+      <CookieBanner />
     </div>
   );
 }
