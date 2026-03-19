@@ -48,7 +48,7 @@ export function AlertCard({
           <p className="text-xs text-muted-foreground">{message}</p>
           {dueDate && (
             <p className="text-xs text-muted-foreground">
-              \u00c9ch\u00e9ance : {dueDate}
+              Échéance : {dueDate}
             </p>
           )}
         </div>

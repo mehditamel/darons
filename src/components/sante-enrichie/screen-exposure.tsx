@@ -109,7 +109,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
           <CardContent className="py-8 text-center">
             <Monitor className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
             <p className="text-sm text-muted-foreground">
-              Le suivi de l&apos;exposition aux \u00e9crans commence \u00e0 partir de 3 mois.
+              Le suivi de l&apos;exposition aux écrans commence à partir de 3 mois.
             </p>
           </CardContent>
         </Card>
@@ -119,7 +119,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base">
-              \u00c9volution du temps d&apos;\u00e9cran (30 derniers jours)
+              Évolution du temps d&apos;écran (30 derniers jours)
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -134,8 +134,8 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
                 <Tooltip
                   formatter={(value: number, name: string) => {
                     const labels: Record<string, string> = {
-                      minutes: "Temps d'\u00e9cran",
-                      limit: "Limite recommand\u00e9e",
+                      minutes: "Temps d'écran",
+                      limit: "Limite recommandée",
                     };
                     return [`${value} min`, labels[name] ?? name];
                   }}
@@ -167,7 +167,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
           <CardContent className="py-8 text-center">
             <Monitor className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
             <p className="text-sm text-muted-foreground">
-              Aucune donn\u00e9e d&apos;exposition aux \u00e9crans. Renseignez le temps d&apos;\u00e9cran
+              Aucune donnée d&apos;exposition aux écrans. Renseignez le temps d&apos;écran
               dans le journal quotidien.
             </p>
           </CardContent>

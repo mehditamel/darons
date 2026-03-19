@@ -82,7 +82,7 @@ export function GardeTabs({ initialFavorites }: GardeTabsProps) {
     <Tabs defaultValue="recherche" className="space-y-4">
       <TabsList>
         <TabsTrigger value="recherche">Recherche</TabsTrigger>
-        <TabsTrigger value="simulateur">Simulateur co\u00fbt</TabsTrigger>
+        <TabsTrigger value="simulateur">Simulateur coût</TabsTrigger>
         <TabsTrigger value="favoris">
           Mes favoris
           {initialFavorites.length > 0 && (

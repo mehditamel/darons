@@ -32,11 +32,11 @@ export const TASK_CATEGORY_LABELS: Record<AdministrativeTaskCategory, string> = 
   grossesse: "Grossesse",
   naissance: "Naissance",
   garde: "Garde",
-  scolarite: "Scolarit\u00e9",
+  scolarite: "Scolarité",
   fiscal: "Fiscal",
   caf: "CAF",
-  sante: "Sant\u00e9",
-  identite: "Identit\u00e9",
+  sante: "Santé",
+  identite: "Identité",
   autre: "Autre",
 };
 
@@ -55,7 +55,7 @@ export const TASK_CATEGORY_COLORS: Record<AdministrativeTaskCategory, string> = 
 export const TASK_PRIORITY_LABELS: Record<AdministrativeTaskPriority, string> = {
   low: "Faible",
   normal: "Normal",
-  high: "\u00c9lev\u00e9e",
+  high: "Élevée",
   urgent: "Urgent",
 };
 

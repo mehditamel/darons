@@ -83,7 +83,7 @@ export const CAF_RATES_2025 = {
 export const VACCINATION_SCHEDULE = [
   {
     code: "DTPCa",
-    name: "Dipht\u00e9rie-T\u00e9tanos-Polio-Coqueluche",
+    name: "Diphtérie-Tétanos-Polio-Coqueluche",
     doses: [
       { doseNumber: 1, ageMonths: 2, label: "2 mois" },
       { doseNumber: 2, ageMonths: 4, label: "4 mois" },
@@ -101,7 +101,7 @@ export const VACCINATION_SCHEDULE = [
   },
   {
     code: "HepB",
-    name: "H\u00e9patite B",
+    name: "Hépatite B",
     doses: [
       { doseNumber: 1, ageMonths: 2, label: "2 mois" },
       { doseNumber: 2, ageMonths: 4, label: "4 mois" },
@@ -119,7 +119,7 @@ export const VACCINATION_SCHEDULE = [
   },
   {
     code: "MenC",
-    name: "M\u00e9ningocoque C",
+    name: "Méningocoque C",
     doses: [
       { doseNumber: 1, ageMonths: 5, label: "5 mois" },
       { doseNumber: 2, ageMonths: 12, label: "12 mois" },
@@ -127,7 +127,7 @@ export const VACCINATION_SCHEDULE = [
   },
   {
     code: "ROR",
-    name: "Rougeole-Oreillons-Rub\u00e9ole",
+    name: "Rougeole-Oreillons-Rubéole",
     doses: [
       { doseNumber: 1, ageMonths: 12, label: "12 mois" },
       { doseNumber: 2, ageMonths: 16, label: "16-18 mois" },
@@ -222,17 +222,17 @@ export const SIDEBAR_NAVIGATION = [
   {
     group: "Administratif",
     items: [
-      { label: "Identit\u00e9 & documents", href: "/identite", icon: "IdCard" },
-      { label: "Sant\u00e9 & vaccins", href: "/sante", icon: "HeartPulse" },
+      { label: "Identité & documents", href: "/identite", icon: "IdCard" },
+      { label: "Santé & vaccins", href: "/sante", icon: "HeartPulse" },
       { label: "Coffre-fort", href: "/documents", icon: "FolderLock" },
     ],
   },
   {
-    group: "\u00c9ducatif",
+    group: "Éducatif",
     items: [
-      { label: "Scolarit\u00e9", href: "/scolarite", icon: "GraduationCap" },
-      { label: "Activit\u00e9s", href: "/activites", icon: "Palette" },
-      { label: "D\u00e9veloppement", href: "/developpement", icon: "TrendingUp" },
+      { label: "Scolarité", href: "/scolarite", icon: "GraduationCap" },
+      { label: "Activités", href: "/activites", icon: "Palette" },
+      { label: "Développement", href: "/developpement", icon: "TrendingUp" },
     ],
   },
   {
@@ -246,20 +246,20 @@ export const SIDEBAR_NAVIGATION = [
     group: "Services",
     items: [
       { label: "Recherche de garde", href: "/garde", icon: "Baby" },
-      { label: "D\u00e9marches", href: "/demarches", icon: "ClipboardList" },
+      { label: "Démarches", href: "/demarches", icon: "ClipboardList" },
     ],
   },
   {
-    group: "Sant\u00e9 enrichie",
+    group: "Santé enrichie",
     items: [
-      { label: "Sant\u00e9 enrichie", href: "/sante-enrichie", icon: "Stethoscope" },
+      { label: "Santé enrichie", href: "/sante-enrichie", icon: "Stethoscope" },
     ],
   },
   {
     group: "Partage",
     items: [
       { label: "Multi-foyers", href: "/partage", icon: "UsersRound" },
-      { label: "D\u00e9penses partag\u00e9es", href: "/depenses-partagees", icon: "Split" },
+      { label: "Dépenses partagées", href: "/depenses-partagees", icon: "Split" },
       { label: "Parrainage", href: "/parrainage", icon: "Gift" },
     ],
   },
@@ -505,13 +505,13 @@ export type DemarcheTemplate = (typeof DEMARCHES_CHECKLIST_TEMPLATES)[number];
 
 // Emergency numbers (France)
 export const EMERGENCY_NUMBERS = [
-  { name: "SAMU", number: "15", description: "Urgences m\u00e9dicales" },
-  { name: "Urgences europ\u00e9ennes", number: "112", description: "Num\u00e9ro d'urgence europ\u00e9en" },
-  { name: "Num\u00e9ro d'urgence pour les sourds", number: "114", description: "Par SMS ou fax" },
-  { name: "Centre antipoison", number: "01 40 05 48 48", description: "H\u00f4pital Fernand-Widal, Paris (24h/24)" },
-  { name: "SOS M\u00e9decins", number: "3624", description: "M\u00e9decin de garde \u00e0 domicile" },
+  { name: "SAMU", number: "15", description: "Urgences médicales" },
+  { name: "Urgences européennes", number: "112", description: "Numéro d'urgence européen" },
+  { name: "Numéro d'urgence pour les sourds", number: "114", description: "Par SMS ou fax" },
+  { name: "Centre antipoison", number: "01 40 05 48 48", description: "Hôpital Fernand-Widal, Paris (24h/24)" },
+  { name: "SOS Médecins", number: "3624", description: "Médecin de garde à domicile" },
   { name: "Pompiers", number: "18", description: "Secours et incendies" },
-  { name: "Enfance en danger", number: "119", description: "Num\u00e9ro national (24h/24)" },
+  { name: "Enfance en danger", number: "119", description: "Numéro national (24h/24)" },
 ] as const;
 
 // TND screening grids by age range (simplified observation items)
@@ -521,13 +521,13 @@ export const TND_SCREENING_GRIDS = [
     minMonths: 3,
     maxMonths: 6,
     items: [
-      { category: "motricite", label: "Tient sa t\u00eate bien droite", key: "head_control" },
-      { category: "motricite", label: "Attrape un objet pr\u00e9sent\u00e9", key: "grasping" },
+      { category: "motricite", label: "Tient sa tête bien droite", key: "head_control" },
+      { category: "motricite", label: "Attrape un objet présenté", key: "grasping" },
       { category: "motricite", label: "Se retourne du dos au ventre", key: "rolling" },
       { category: "langage", label: "Gazouille, vocalise", key: "cooing" },
-      { category: "langage", label: "R\u00e9agit aux bruits", key: "sound_reaction" },
+      { category: "langage", label: "Réagit aux bruits", key: "sound_reaction" },
       { category: "attention", label: "Suit un objet du regard", key: "visual_tracking" },
-      { category: "attention", label: "S'int\u00e9resse \u00e0 son environnement", key: "environment_interest" },
+      { category: "attention", label: "S'intéresse à son environnement", key: "environment_interest" },
       { category: "social", label: "Sourire social", key: "social_smile" },
       { category: "social", label: "Contact visuel", key: "eye_contact" },
     ],
@@ -538,13 +538,13 @@ export const TND_SCREENING_GRIDS = [
     maxMonths: 12,
     items: [
       { category: "motricite", label: "S'assoit sans soutien", key: "sitting" },
-      { category: "motricite", label: "Transfert d'objet d'une main \u00e0 l'autre", key: "object_transfer" },
-      { category: "motricite", label: "Se d\u00e9place (\u00e0 quatre pattes ou rampe)", key: "crawling" },
+      { category: "motricite", label: "Transfert d'objet d'une main à l'autre", key: "object_transfer" },
+      { category: "motricite", label: "Se déplace (à quatre pattes ou rampe)", key: "crawling" },
       { category: "langage", label: "Babille (ba-ba, ma-ma)", key: "babbling" },
-      { category: "langage", label: "R\u00e9pond \u00e0 son pr\u00e9nom", key: "name_response" },
-      { category: "attention", label: "Permanence de l'objet (cherche un jouet cach\u00e9)", key: "object_permanence" },
+      { category: "langage", label: "Répond à son prénom", key: "name_response" },
+      { category: "attention", label: "Permanence de l'objet (cherche un jouet caché)", key: "object_permanence" },
       { category: "attention", label: "Explore les objets", key: "object_exploration" },
-      { category: "social", label: "Angoisse de s\u00e9paration", key: "separation_anxiety" },
+      { category: "social", label: "Angoisse de séparation", key: "separation_anxiety" },
       { category: "social", label: "Imite des gestes simples (coucou, bravo)", key: "gesture_imitation" },
     ],
   },
@@ -557,12 +557,12 @@ export const TND_SCREENING_GRIDS = [
       { category: "motricite", label: "Empile 2-3 cubes", key: "stacking" },
       { category: "motricite", label: "Gribouille avec un crayon", key: "scribbling" },
       { category: "langage", label: "Dit au moins 5 mots", key: "five_words" },
-      { category: "langage", label: "Montre du doigt pour d\u00e9signer", key: "pointing" },
+      { category: "langage", label: "Montre du doigt pour désigner", key: "pointing" },
       { category: "langage", label: "Comprend des consignes simples", key: "simple_instructions" },
-      { category: "attention", label: "Joue avec des jouets de mani\u00e8re adapt\u00e9e", key: "appropriate_play" },
-      { category: "attention", label: "Maintient l'attention sur une activit\u00e9 quelques minutes", key: "attention_span" },
-      { category: "social", label: "Joue \u00e0 c\u00f4t\u00e9 des autres enfants", key: "parallel_play" },
-      { category: "social", label: "Cherche le r\u00e9confort de l'adulte", key: "comfort_seeking" },
+      { category: "attention", label: "Joue avec des jouets de manière adaptée", key: "appropriate_play" },
+      { category: "attention", label: "Maintient l'attention sur une activité quelques minutes", key: "attention_span" },
+      { category: "social", label: "Joue à côté des autres enfants", key: "parallel_play" },
+      { category: "social", label: "Cherche le réconfort de l'adulte", key: "comfort_seeking" },
     ],
   },
   {
@@ -574,65 +574,65 @@ export const TND_SCREENING_GRIDS = [
       { category: "motricite", label: "Monte et descend les escaliers", key: "stairs" },
       { category: "motricite", label: "Saute sur place", key: "jumping" },
       { category: "langage", label: "Associe 2 mots (phrase simple)", key: "two_word_phrases" },
-      { category: "langage", label: "Utilise le \u00ab je \u00bb", key: "uses_i" },
+      { category: "langage", label: "Utilise le « je »", key: "uses_i" },
       { category: "langage", label: "Nomme des images", key: "names_pictures" },
       { category: "attention", label: "Tri par couleur ou forme", key: "sorting" },
       { category: "attention", label: "Suit une histoire courte", key: "story_following" },
       { category: "social", label: "Joue avec les autres enfants", key: "cooperative_play" },
-      { category: "social", label: "Exprime ses \u00e9motions", key: "emotion_expression" },
+      { category: "social", label: "Exprime ses émotions", key: "emotion_expression" },
       { category: "social", label: "Partage (avec encouragement)", key: "sharing" },
     ],
   },
 ] as const;
 
-// Screen exposure recommendations by age (carnet de sant\u00e9 2025)
+// Screen exposure recommendations by age (carnet de santé 2025)
 export const SCREEN_EXPOSURE_RECOMMENDATIONS = [
   {
     ageRange: "0-2 ans",
     minMonths: 0,
     maxMonths: 24,
-    recommendation: "Aucun \u00e9cran recommand\u00e9",
-    details: "Les \u00e9crans ne sont pas recommand\u00e9s avant 2 ans. Privil\u00e9giez les interactions directes, les jeux libres et la lecture.",
+    recommendation: "Aucun écran recommandé",
+    details: "Les écrans ne sont pas recommandés avant 2 ans. Privilégiez les interactions directes, les jeux libres et la lecture.",
     maxMinutesPerDay: 0,
   },
   {
     ageRange: "2-3 ans",
     minMonths: 24,
     maxMonths: 36,
-    recommendation: "Maximum 30 minutes par jour, supervis\u00e9",
-    details: "Si \u00e9cran, toujours accompagn\u00e9 d'un adulte. Contenu adapt\u00e9 \u00e0 l'\u00e2ge. Jamais pendant les repas ni avant le coucher.",
+    recommendation: "Maximum 30 minutes par jour, supervisé",
+    details: "Si écran, toujours accompagné d'un adulte. Contenu adapté à l'âge. Jamais pendant les repas ni avant le coucher.",
     maxMinutesPerDay: 30,
   },
   {
     ageRange: "3-6 ans",
     minMonths: 36,
     maxMonths: 72,
-    recommendation: "Maximum 1 heure par jour, supervis\u00e9",
-    details: "Contenu \u00e9ducatif privil\u00e9gi\u00e9. Pas d'\u00e9cran dans la chambre. Pas d'\u00e9cran 1 heure avant le coucher.",
+    recommendation: "Maximum 1 heure par jour, supervisé",
+    details: "Contenu éducatif privilégié. Pas d'écran dans la chambre. Pas d'écran 1 heure avant le coucher.",
     maxMinutesPerDay: 60,
   },
   {
     ageRange: "6+ ans",
     minMonths: 72,
     maxMonths: 216,
-    recommendation: "Temps limit\u00e9, r\u00e8gles familiales",
-    details: "D\u00e9finir des r\u00e8gles claires en famille. Pas d'\u00e9cran pendant les repas, les devoirs et avant le coucher.",
+    recommendation: "Temps limité, règles familiales",
+    details: "Définir des règles claires en famille. Pas d'écran pendant les repas, les devoirs et avant le coucher.",
     maxMinutesPerDay: 120,
   },
 ] as const;
 
 // Error codes
 export const ERROR_CODES = {
-  AUTH_001: "Votre session a expir\u00e9. Veuillez vous reconnecter.",
-  AUTH_002: "Cet email est d\u00e9j\u00e0 utilis\u00e9 par un autre compte.",
-  AUTH_003: "Le lien magic link a expir\u00e9. Demandez-en un nouveau.",
+  AUTH_001: "Votre session a expiré. Veuillez vous reconnecter.",
+  AUTH_002: "Cet email est déjà utilisé par un autre compte.",
+  AUTH_003: "Le lien magic link a expiré. Demandez-en un nouveau.",
   HOUSEHOLD_001: "Nombre maximum de membres atteint pour votre plan.",
   HOUSEHOLD_002: "Vous devez avoir au moins un enfant pour utiliser ce module.",
-  DOC_001: "Le fichier d\u00e9passe la taille maximale (10 Mo).",
-  DOC_002: "Format de fichier non support\u00e9. Formats accept\u00e9s : PDF, JPG, PNG.",
-  DOC_003: "Espace de stockage insuffisant. Passez au plan sup\u00e9rieur.",
-  AI_001: "Le coach IA est momentan\u00e9ment indisponible. R\u00e9essayez dans quelques minutes.",
+  DOC_001: "Le fichier dépasse la taille maximale (10 Mo).",
+  DOC_002: "Format de fichier non supporté. Formats acceptés : PDF, JPG, PNG.",
+  DOC_003: "Espace de stockage insuffisant. Passez au plan supérieur.",
+  AI_001: "Le coach IA est momentanément indisponible. Réessayez dans quelques minutes.",
   AI_002: "Vous avez atteint votre limite mensuelle de consultations IA.",
-  STRIPE_001: "Le paiement a \u00e9chou\u00e9. V\u00e9rifiez vos informations bancaires.",
-  STRIPE_002: "Votre abonnement a expir\u00e9. Renouvelez pour continuer.",
+  STRIPE_001: "Le paiement a échoué. Vérifiez vos informations bancaires.",
+  STRIPE_002: "Votre abonnement a expiré. Renouvelez pour continuer.",
 } as const;

@@ -60,8 +60,8 @@ export function DailyJournalList({ member, entries }: DailyJournalListProps) {
         <EmptyState
           icon={Baby}
           title="Journal quotidien vide"
-          description={`Suivez l'humeur, le sommeil, l'app\u00e9tit et les habitudes de ${member.firstName} au quotidien.`}
-          actionLabel="Ajouter une entr\u00e9e"
+          description={`Suivez l'humeur, le sommeil, l'appétit et les habitudes de ${member.firstName} au quotidien.`}
+          actionLabel="Ajouter une entrée"
           onAction={handleNew}
         />
         <DailyJournalForm
@@ -80,7 +80,7 @@ export function DailyJournalList({ member, entries }: DailyJournalListProps) {
       <div className="flex justify-end mb-4">
         <Button size="sm" onClick={handleNew}>
           <Plus className="mr-2 h-4 w-4" />
-          Nouvelle entr\u00e9e
+          Nouvelle entrée
         </Button>
       </div>
 
@@ -95,7 +95,7 @@ export function DailyJournalList({ member, entries }: DailyJournalListProps) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="text-xl">
-                    {entry.mood ? MOOD_ICONS[entry.mood] : "\u2014"}
+                    {entry.mood ? MOOD_ICONS[entry.mood] : "—"}
                   </span>
                   <div>
                     <p className="text-sm font-medium">

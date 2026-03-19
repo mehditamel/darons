@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 export default function MentionsLegalesPage() {
   return (
     <div className="prose prose-stone max-w-none">
-      <h1 className="font-serif">Mentions l\u00e9gales</h1>
+      <h1 className="font-serif">Mentions légales</h1>
       <p className="text-muted-foreground">
-        Derni\u00e8re mise \u00e0 jour : 17 mars 2026
+        Dernière mise à jour : 17 mars 2026
       </p>
 
-      <h2>1. \u00c9diteur du site</h2>
+      <h2>1. Éditeur du site</h2>
       <p>
         <strong>Ma Vie Parentale</strong>
         <br />
@@ -28,16 +28,16 @@ export default function MentionsLegalesPage() {
         Directeur de la publication : Mehdi TAMELGHAGHET
       </p>
 
-      <h2>2. H\u00e9bergement</h2>
+      <h2>2. Hébergement</h2>
       <p>
-        Le site mavieparentale.fr est h\u00e9berg\u00e9 par :
+        Le site mavieparentale.fr est hébergé par :
         <br />
         <strong>Vercel Inc.</strong>
         <br />
-        440 N Barranca Ave #4133, Covina, CA 91723, \u00c9tats-Unis
+        440 N Barranca Ave #4133, Covina, CA 91723, États-Unis
       </p>
       <p>
-        Les donn\u00e9es sont stock\u00e9es par :
+        Les données sont stockées par :
         <br />
         <strong>Supabase Inc.</strong>
         <br />
@@ -46,31 +46,31 @@ export default function MentionsLegalesPage() {
         Serveurs UE (AWS eu-west, Irlande)
       </p>
 
-      <h2>3. Propri\u00e9t\u00e9 intellectuelle</h2>
+      <h2>3. Propriété intellectuelle</h2>
       <p>
         L&apos;ensemble du contenu du site (textes, images, graphismes, logo,
-        ic\u00f4nes, logiciels) est la propri\u00e9t\u00e9 de Ma Vie Parentale ou de ses
-        partenaires. Toute reproduction, m\u00eame partielle, est interdite sans
-        autorisation pr\u00e9alable.
+        icônes, logiciels) est la propriété de Ma Vie Parentale ou de ses
+        partenaires. Toute reproduction, même partielle, est interdite sans
+        autorisation préalable.
       </p>
 
-      <h2>4. Donn\u00e9es personnelles</h2>
+      <h2>4. Données personnelles</h2>
       <p>
-        Conform\u00e9ment au R\u00e8glement G\u00e9n\u00e9ral sur la Protection des Donn\u00e9es (RGPD)
-        et \u00e0 la loi Informatique et Libert\u00e9s, vous disposez d&apos;un droit d&apos;acc\u00e8s,
-        de rectification et de suppression de vos donn\u00e9es personnelles. Pour
-        exercer ce droit, contactez-nous \u00e0 : contact@mavieparentale.fr
+        Conformément au Règlement Général sur la Protection des Données (RGPD)
+        et à la loi Informatique et Libertés, vous disposez d&apos;un droit d&apos;accès,
+        de rectification et de suppression de vos données personnelles. Pour
+        exercer ce droit, contactez-nous à : contact@mavieparentale.fr
       </p>
       <p>
-        Pour plus de d\u00e9tails, consultez notre{" "}
-        <a href="/politique-confidentialite">politique de confidentialit\u00e9</a>.
+        Pour plus de détails, consultez notre{" "}
+        <a href="/politique-confidentialite">politique de confidentialité</a>.
       </p>
 
       <h2>5. Cookies</h2>
       <p>
-        Le site utilise uniquement des cookies fonctionnels n\u00e9cessaires \u00e0 son
-        bon fonctionnement (authentification, pr\u00e9f\u00e9rences). Aucun cookie
-        publicitaire ou de suivi n&apos;est utilis\u00e9.
+        Le site utilise uniquement des cookies fonctionnels nécessaires à son
+        bon fonctionnement (authentification, préférences). Aucun cookie
+        publicitaire ou de suivi n&apos;est utilisé.
       </p>
     </div>
   );

@@ -61,11 +61,11 @@ export function GardeCostSimulatorForm() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calculator className="h-5 w-5" />
-            Simulateur de co\u00fbt de garde
+            Simulateur de coût de garde
           </CardTitle>
           <CardDescription>
-            Estimez votre reste \u00e0 charge apr\u00e8s CMG et cr\u00e9dit
-            d&apos;imp\u00f4t
+            Estimez votre reste à charge après CMG et crédit
+            d&apos;impôt
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -98,7 +98,7 @@ export function GardeCostSimulatorForm() {
 
               <div className="space-y-2">
                 <Label htmlFor="coutMensuelBrut">
-                  Co\u00fbt mensuel brut (\u20ac)
+                  Coût mensuel brut (€)
                 </Label>
                 <Input
                   id="coutMensuelBrut"
@@ -117,7 +117,7 @@ export function GardeCostSimulatorForm() {
 
               <div className="space-y-2">
                 <Label htmlFor="revenuAnnuel">
-                  Revenu annuel du foyer (\u20ac)
+                  Revenu annuel du foyer (€)
                 </Label>
                 <Input
                   id="revenuAnnuel"
@@ -136,7 +136,7 @@ export function GardeCostSimulatorForm() {
 
               <div className="space-y-2">
                 <Label htmlFor="nbEnfantsGardes">
-                  Nombre d&apos;enfants gard\u00e9s
+                  Nombre d&apos;enfants gardés
                 </Label>
                 <Input
                   id="nbEnfantsGardes"
@@ -150,7 +150,7 @@ export function GardeCostSimulatorForm() {
 
             <Button type="submit" className="w-full sm:w-auto">
               <Calculator className="mr-2 h-4 w-4" />
-              Calculer le reste \u00e0 charge
+              Calculer le reste à charge
             </Button>
           </form>
         </CardContent>
@@ -161,7 +161,7 @@ export function GardeCostSimulatorForm() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg">
               <TrendingDown className="h-5 w-5 text-green-600" />
-              R\u00e9sultat de la simulation
+              Résultat de la simulation
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -191,25 +191,25 @@ export function GardeCostSimulatorForm() {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}{" "}
-                    \u20ac/mois
+                    €/mois
                   </p>
                 </div>
               ))}
 
               <div className="rounded-lg bg-white p-4 text-center">
                 <p className="text-sm text-muted-foreground">
-                  \u00c9conomie totale
+                  Économie totale
                 </p>
                 <div className="flex items-center justify-center gap-3">
                   <span className="text-xl text-muted-foreground line-through">
-                    {result.coutBrut.toLocaleString("fr-FR")} \u20ac
+                    {result.coutBrut.toLocaleString("fr-FR")} €
                   </span>
                   <ArrowRight className="h-5 w-5 text-muted-foreground" />
                   <span className="text-2xl font-bold text-green-600">
                     {result.resteACharge.toLocaleString("fr-FR", {
                       minimumFractionDigits: 2,
                     })}{" "}
-                    \u20ac/mois
+                    €/mois
                   </span>
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">
@@ -217,8 +217,8 @@ export function GardeCostSimulatorForm() {
                   {(result.resteACharge * 12).toLocaleString("fr-FR", {
                     minimumFractionDigits: 2,
                   })}{" "}
-                  \u20ac/an au lieu de{" "}
-                  {(result.coutBrut * 12).toLocaleString("fr-FR")} \u20ac/an
+                  €/an au lieu de{" "}
+                  {(result.coutBrut * 12).toLocaleString("fr-FR")} €/an
                 </p>
               </div>
             </div>

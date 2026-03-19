@@ -134,7 +134,7 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
                 onCheckedChange={setUseCorrectedAge}
               />
               <Label htmlFor="corrected-age" className="text-xs cursor-pointer">
-                \u00c2ge corrig\u00e9 ({member.gestationalAgeWeeks} SA)
+                Âge corrigé ({member.gestationalAgeWeeks} SA)
               </Label>
             </div>
           )}
@@ -148,10 +148,10 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">
-            {config.label} — {member.firstName} ({member.gender === "M" ? "Gar\u00e7on" : "Fille"})
+            {config.label} — {member.firstName} ({member.gender === "M" ? "Garçon" : "Fille"})
             {useCorrectedAge && isPremature && (
               <span className="text-xs font-normal text-muted-foreground ml-2">
-                (\u00e2ge corrig\u00e9)
+                (âge corrigé)
               </span>
             )}
           </CardTitle>

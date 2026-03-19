@@ -147,14 +147,14 @@ export async function updateGestationalAge(
   gestationalAgeWeeks: number | null
 ): Promise<ActionResult> {
   const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifi\u00e9" };
+  if (!user) return { success: false, error: "Non authentifié" };
 
   const { error } = await supabase
     .from("family_members")
     .update({ gestational_age_weeks: gestationalAgeWeeks })
     .eq("id", memberId);
 
-  if (error) return { success: false, error: "Erreur lors de la mise \u00e0 jour" };
+  if (error) return { success: false, error: "Erreur lors de la mise à jour" };
 
   revalidatePath("/sante");
   revalidatePath("/sante-enrichie");

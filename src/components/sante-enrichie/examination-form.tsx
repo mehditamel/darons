@@ -78,8 +78,8 @@ export function ExaminationForm({
     }
 
     toast({
-      title: existing ? "Examen mis \u00e0 jour" : "Examen enregistr\u00e9",
-      description: `Examen n\u00b0${examNumber} (${examAgeLabel})`,
+      title: existing ? "Examen mis à jour" : "Examen enregistré",
+      description: `Examen n°${examNumber} (${examAgeLabel})`,
     });
     reset();
     onOpenChange(false);
@@ -90,7 +90,7 @@ export function ExaminationForm({
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            Examen n\u00b0{examNumber} — {examAgeLabel}
+            Examen n°{examNumber} — {examAgeLabel}
           </DialogTitle>
         </DialogHeader>
 
@@ -154,25 +154,25 @@ export function ExaminationForm({
           </div>
 
           <div>
-            <Label htmlFor="tndScreeningNotes">Notes rep\u00e9rage TND</Label>
+            <Label htmlFor="tndScreeningNotes">Notes repérage TND</Label>
             <Textarea
               id="tndScreeningNotes"
-              placeholder="Observations sur le d\u00e9veloppement (motricit\u00e9, langage, attention, social)..."
+              placeholder="Observations sur le développement (motricité, langage, attention, social)..."
               {...register("tndScreeningNotes")}
             />
           </div>
 
           <div>
-            <Label htmlFor="screenExposureNotes">Notes exposition \u00e9crans</Label>
+            <Label htmlFor="screenExposureNotes">Notes exposition écrans</Label>
             <Textarea
               id="screenExposureNotes"
-              placeholder="Temps d'\u00e9cran observ\u00e9, type de contenu..."
+              placeholder="Temps d'écran observé, type de contenu..."
               {...register("screenExposureNotes")}
             />
           </div>
 
           <div>
-            <Label htmlFor="notes">Notes g\u00e9n\u00e9rales</Label>
+            <Label htmlFor="notes">Notes générales</Label>
             <Textarea
               id="notes"
               placeholder="Autres observations..."
@@ -192,7 +192,7 @@ export function ExaminationForm({
               {isSubmitting
                 ? "Enregistrement..."
                 : existing
-                  ? "Mettre \u00e0 jour"
+                  ? "Mettre à jour"
                   : "Enregistrer"}
             </Button>
           </div>

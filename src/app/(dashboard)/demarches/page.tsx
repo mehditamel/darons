@@ -11,9 +11,9 @@ import {
 import { getFamilyMembers } from "@/lib/actions/family";
 
 export const metadata: Metadata = {
-  title: "D\u00e9marches & droits",
+  title: "Démarches & droits",
   description:
-    "Checklist des d\u00e9marches administratives et simulation de vos droits sociaux",
+    "Checklist des démarches administratives et simulation de vos droits sociaux",
 };
 
 export default async function DemarchesPage() {
@@ -41,8 +41,8 @@ export default async function DemarchesPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="D\u00e9marches & droits"
-        description="Checklist des d\u00e9marches administratives et simulation de vos droits sociaux"
+        title="Démarches & droits"
+        description="Checklist des démarches administratives et simulation de vos droits sociaux"
       />
 
       <Tabs defaultValue="checklist" className="space-y-4">

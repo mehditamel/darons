@@ -72,7 +72,7 @@ export function AllergyForm({
     }
 
     toast({
-      title: existing ? "Allergie mise \u00e0 jour" : "Allergie enregistr\u00e9e",
+      title: existing ? "Allergie mise à jour" : "Allergie enregistrée",
       description: data.allergen,
     });
     reset();
@@ -92,10 +92,10 @@ export function AllergyForm({
           <input type="hidden" {...register("memberId")} />
 
           <div>
-            <Label htmlFor="allergen">Allerg\u00e8ne</Label>
+            <Label htmlFor="allergen">Allergène</Label>
             <Input
               id="allergen"
-              placeholder="ex: Arachide, Lait de vache, P\u00e9nicilline..."
+              placeholder="ex: Arachide, Lait de vache, Pénicilline..."
               {...register("allergen")}
             />
             {errors.allergen && (
@@ -104,7 +104,7 @@ export function AllergyForm({
           </div>
 
           <div>
-            <Label htmlFor="severity">S\u00e9v\u00e9rit\u00e9</Label>
+            <Label htmlFor="severity">Sévérité</Label>
             <Select
               value={watch("severity")}
               onValueChange={(v: string) =>
@@ -115,18 +115,18 @@ export function AllergyForm({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="mild">L\u00e9g\u00e8re</SelectItem>
-                <SelectItem value="moderate">Mod\u00e9r\u00e9e</SelectItem>
-                <SelectItem value="severe">S\u00e9v\u00e8re</SelectItem>
+                <SelectItem value="mild">Légère</SelectItem>
+                <SelectItem value="moderate">Modérée</SelectItem>
+                <SelectItem value="severe">Sévère</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Label htmlFor="reaction">R\u00e9action</Label>
+            <Label htmlFor="reaction">Réaction</Label>
             <Input
               id="reaction"
-              placeholder="ex: Urticaire, \u0153d\u00e8me, difficult\u00e9s respiratoires..."
+              placeholder="ex: Urticaire, œdème, difficultés respiratoires..."
               {...register("reaction")}
             />
           </div>
@@ -144,7 +144,7 @@ export function AllergyForm({
             <Label htmlFor="notes">Notes</Label>
             <Textarea
               id="notes"
-              placeholder="Pr\u00e9cautions, traitements..."
+              placeholder="Précautions, traitements..."
               {...register("notes")}
             />
           </div>
@@ -161,7 +161,7 @@ export function AllergyForm({
               {isSubmitting
                 ? "Enregistrement..."
                 : existing
-                  ? "Mettre \u00e0 jour"
+                  ? "Mettre à jour"
                   : "Enregistrer"}
             </Button>
           </div>

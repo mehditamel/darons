@@ -55,7 +55,7 @@ export function LoginForm() {
       router.push("/dashboard");
       router.refresh();
     } catch {
-      setError("Une erreur est survenue. Veuillez r\u00e9essayer.");
+      setError("Une erreur est survenue. Veuillez réessayer.");
     } finally {
       setIsLoading(false);
     }
@@ -81,13 +81,13 @@ export function LoginForm() {
       });
 
       if (authError) {
-        setError("Impossible d'envoyer le lien. V\u00e9rifiez votre email.");
+        setError("Impossible d'envoyer le lien. Vérifiez votre email.");
         return;
       }
 
       setMagicLinkSent(true);
     } catch {
-      setError("Une erreur est survenue. Veuillez r\u00e9essayer.");
+      setError("Une erreur est survenue. Veuillez réessayer.");
     } finally {
       setIsLoading(false);
     }
@@ -100,9 +100,9 @@ export function LoginForm() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-teal/10">
             <Mail className="h-8 w-8 text-warm-teal" />
           </div>
-          <CardTitle>V\u00e9rifiez vos emails</CardTitle>
+          <CardTitle>Vérifiez vos emails</CardTitle>
           <CardDescription>
-            Un lien de connexion a \u00e9t\u00e9 envoy\u00e9 \u00e0 votre adresse email.
+            Un lien de connexion a été envoyé à votre adresse email.
             Cliquez sur le lien pour vous connecter.
           </CardDescription>
         </CardHeader>
@@ -120,7 +120,7 @@ export function LoginForm() {
       <CardHeader className="text-center">
         <CardTitle>Connexion</CardTitle>
         <CardDescription>
-          Connectez-vous \u00e0 votre espace familial
+          Connectez-vous à votre espace familial
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -156,7 +156,7 @@ export function LoginForm() {
                   href="/reset-password"
                   className="text-xs text-primary hover:underline"
                 >
-                  Mot de passe oubli\u00e9 ?
+                  Mot de passe oublié ?
                 </Link>
               </div>
               <div className="relative">
@@ -164,7 +164,7 @@ export function LoginForm() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
+                  placeholder="••••••••"
                   className="pl-10"
                   {...register("password")}
                 />
@@ -220,7 +220,7 @@ export function LoginForm() {
         <p className="text-sm text-muted-foreground">
           Pas encore de compte ?{" "}
           <Link href="/register" className="text-primary hover:underline">
-            Cr\u00e9er un compte
+            Créer un compte
           </Link>
         </p>
       </CardFooter>

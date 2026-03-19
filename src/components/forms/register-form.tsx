@@ -54,7 +54,7 @@ export function RegisterForm() {
 
       if (authError) {
         if (authError.message.includes("already registered")) {
-          setError("Cet email est d\u00e9j\u00e0 utilis\u00e9 par un autre compte.");
+          setError("Cet email est déjà utilisé par un autre compte.");
         } else {
           setError("Une erreur est survenue lors de l'inscription.");
         }
@@ -63,7 +63,7 @@ export function RegisterForm() {
 
       setSuccess(true);
     } catch {
-      setError("Une erreur est survenue. Veuillez r\u00e9essayer.");
+      setError("Une erreur est survenue. Veuillez réessayer.");
     } finally {
       setIsLoading(false);
     }
@@ -76,15 +76,15 @@ export function RegisterForm() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10">
             <CheckCircle2 className="h-8 w-8 text-warm-green" />
           </div>
-          <CardTitle>Inscription r\u00e9ussie !</CardTitle>
+          <CardTitle>Inscription réussie !</CardTitle>
           <CardDescription>
-            V\u00e9rifiez vos emails pour confirmer votre compte, puis connectez-vous
-            pour d\u00e9couvrir votre tableau de bord familial.
+            Vérifiez vos emails pour confirmer votre compte, puis connectez-vous
+            pour découvrir votre tableau de bord familial.
           </CardDescription>
         </CardHeader>
         <CardFooter className="justify-center">
           <Button onClick={() => router.push("/login")}>
-            Aller \u00e0 la connexion
+            Aller à la connexion
           </Button>
         </CardFooter>
       </Card>
@@ -94,7 +94,7 @@ export function RegisterForm() {
   return (
     <Card className="shadow-lg">
       <CardHeader className="text-center">
-        <CardTitle>Cr\u00e9er votre compte</CardTitle>
+        <CardTitle>Créer votre compte</CardTitle>
         <CardDescription>
           Rejoignez Ma Vie Parentale et simplifiez votre quotidien familial
         </CardDescription>
@@ -109,7 +109,7 @@ export function RegisterForm() {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="firstName">Pr\u00e9nom</Label>
+              <Label htmlFor="firstName">Prénom</Label>
               <div className="relative">
                 <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -164,7 +164,7 @@ export function RegisterForm() {
               <Input
                 id="password"
                 type="password"
-                placeholder="8 caract\u00e8res minimum"
+                placeholder="8 caractères minimum"
                 className="pl-10"
                 {...register("password")}
               />
@@ -183,7 +183,7 @@ export function RegisterForm() {
               <Input
                 id="confirmPassword"
                 type="password"
-                placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
+                placeholder="••••••••"
                 className="pl-10"
                 {...register("confirmPassword")}
               />
@@ -209,7 +209,7 @@ export function RegisterForm() {
                 className="text-primary hover:underline"
                 target="_blank"
               >
-                conditions g\u00e9n\u00e9rales d&apos;utilisation
+                conditions générales d&apos;utilisation
               </Link>{" "}
               et la{" "}
               <Link
@@ -217,7 +217,7 @@ export function RegisterForm() {
                 className="text-primary hover:underline"
                 target="_blank"
               >
-                politique de confidentialit\u00e9
+                politique de confidentialité
               </Link>
             </Label>
           </div>
@@ -229,13 +229,13 @@ export function RegisterForm() {
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Cr\u00e9er mon compte gratuitement
+            Créer mon compte gratuitement
           </Button>
         </form>
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
-          D\u00e9j\u00e0 un compte ?{" "}
+          Déjà un compte ?{" "}
           <Link href="/login" className="text-primary hover:underline">
             Se connecter
           </Link>

@@ -43,11 +43,11 @@ interface DailyJournalFormProps {
 }
 
 const MOODS: { value: Mood; label: string; icon: string }[] = [
-  { value: "great", label: "Super", icon: "\u2600\ufe0f" },
-  { value: "good", label: "Bien", icon: "\ud83c\udf24\ufe0f" },
-  { value: "neutral", label: "Neutre", icon: "\u2601\ufe0f" },
-  { value: "difficult", label: "Difficile", icon: "\ud83c\udf27\ufe0f" },
-  { value: "tough", label: "Dur", icon: "\u26c8\ufe0f" },
+  { value: "great", label: "Super", icon: "☀" },
+  { value: "good", label: "Bien", icon: "🌤" },
+  { value: "neutral", label: "Neutre", icon: "☁" },
+  { value: "difficult", label: "Difficile", icon: "🌧" },
+  { value: "tough", label: "Dur", icon: "⛈" },
 ];
 
 export function DailyJournalForm({
@@ -98,7 +98,7 @@ export function DailyJournalForm({
     }
 
     toast({
-      title: existing ? "Entr\u00e9e mise \u00e0 jour" : "Entr\u00e9e cr\u00e9\u00e9e",
+      title: existing ? "Entrée mise à jour" : "Entrée créée",
       description: `Journal du ${new Date(data.entryDate).toLocaleDateString("fr-FR")}`,
     });
     reset();
@@ -158,7 +158,7 @@ export function DailyJournalForm({
               />
             </div>
             <div>
-              <Label htmlFor="sleepQuality">Qualit\u00e9 du sommeil</Label>
+              <Label htmlFor="sleepQuality">Qualité du sommeil</Label>
               <Select
                 value={watch("sleepQuality") ?? ""}
                 onValueChange={(v: string) =>
@@ -166,14 +166,14 @@ export function DailyJournalForm({
                 }
               >
                 <SelectTrigger id="sleepQuality">
-                  <SelectValue placeholder="S\u00e9lectionner" />
+                  <SelectValue placeholder="Sélectionner" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="excellent">Excellent</SelectItem>
                   <SelectItem value="good">Bon</SelectItem>
                   <SelectItem value="average">Moyen</SelectItem>
                   <SelectItem value="poor">Mauvais</SelectItem>
-                  <SelectItem value="very_poor">Tr\u00e8s mauvais</SelectItem>
+                  <SelectItem value="very_poor">Très mauvais</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -181,7 +181,7 @@ export function DailyJournalForm({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label htmlFor="appetite">App\u00e9tit</Label>
+              <Label htmlFor="appetite">Appétit</Label>
               <Select
                 value={watch("appetite") ?? ""}
                 onValueChange={(v: string) =>
@@ -189,7 +189,7 @@ export function DailyJournalForm({
                 }
               >
                 <SelectTrigger id="appetite">
-                  <SelectValue placeholder="S\u00e9lectionner" />
+                  <SelectValue placeholder="Sélectionner" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="good">Bon</SelectItem>
@@ -209,7 +209,7 @@ export function DailyJournalForm({
                   }
                 >
                   <SelectTrigger id="stools">
-                    <SelectValue placeholder="S\u00e9lectionner" />
+                    <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="normal">Normal</SelectItem>
@@ -223,7 +223,7 @@ export function DailyJournalForm({
           </div>
 
           <div>
-            <Label htmlFor="screenTimeMinutes">Temps d&apos;\u00e9cran (minutes)</Label>
+            <Label htmlFor="screenTimeMinutes">Temps d&apos;écran (minutes)</Label>
             <Input
               id="screenTimeMinutes"
               type="number"
@@ -237,7 +237,7 @@ export function DailyJournalForm({
             <Label htmlFor="notes">Notes</Label>
             <Textarea
               id="notes"
-              placeholder="Observations de la journ\u00e9e..."
+              placeholder="Observations de la journée..."
               {...register("notes")}
             />
           </div>
@@ -254,7 +254,7 @@ export function DailyJournalForm({
               {isSubmitting
                 ? "Enregistrement..."
                 : existing
-                  ? "Mettre \u00e0 jour"
+                  ? "Mettre à jour"
                   : "Enregistrer"}
             </Button>
           </div>

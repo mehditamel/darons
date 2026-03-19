@@ -14,7 +14,7 @@ interface TndScreeningProps {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  motricite: "Motricit\u00e9",
+  motricite: "Motricité",
   langage: "Langage",
   attention: "Attention",
   social: "Interactions sociales",
@@ -49,10 +49,10 @@ export function TndScreening({ member, examinations }: TndScreeningProps) {
           <Info className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
           <p className="text-sm text-muted-foreground">
             {childAgeMonths < 3
-              ? `Le rep\u00e9rage TND commence \u00e0 partir de 3 mois. ${member.firstName} a ${childAgeMonths} mois.`
+              ? `Le repérage TND commence à partir de 3 mois. ${member.firstName} a ${childAgeMonths} mois.`
               : nextGrid
                 ? `Prochaine grille disponible : ${nextGrid.ageRange}`
-                : `Pas de grille de rep\u00e9rage adapt\u00e9e \u00e0 l'\u00e2ge actuel (${childAgeMonths} mois).`}
+                : `Pas de grille de repérage adaptée à l'âge actuel (${childAgeMonths} mois).`}
           </p>
         </CardContent>
       </Card>
@@ -67,11 +67,11 @@ export function TndScreening({ member, examinations }: TndScreeningProps) {
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">
             <AlertTriangle className="h-4 w-4 text-amber-500" />
-            Grille de rep\u00e9rage TND — {currentGrid.ageRange}
+            Grille de repérage TND — {currentGrid.ageRange}
           </CardTitle>
           <p className="text-xs text-muted-foreground">
-            Cochez les comp\u00e9tences observ\u00e9es chez {member.firstName} ({childAgeMonths} mois).
-            En cas de doute, parlez-en au p\u00e9diatre lors du prochain examen.
+            Cochez les compétences observées chez {member.firstName} ({childAgeMonths} mois).
+            En cas de doute, parlez-en au pédiatre lors du prochain examen.
           </p>
         </CardHeader>
         <CardContent>
@@ -101,12 +101,12 @@ export function TndScreening({ member, examinations }: TndScreeningProps) {
       {latestExamWithTnd && (
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Derni\u00e8res notes TND</CardTitle>
+            <CardTitle className="text-base">Dernières notes TND</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2 mb-2">
               <Badge variant="outline">
-                Examen n\u00b0{latestExamWithTnd.examNumber}
+                Examen n°{latestExamWithTnd.examNumber}
               </Badge>
               {latestExamWithTnd.completedDate && (
                 <span className="text-xs text-muted-foreground">
@@ -124,9 +124,9 @@ export function TndScreening({ member, examinations }: TndScreeningProps) {
       <Card className="border-blue-200 bg-blue-50/30">
         <CardContent className="py-3 px-4">
           <p className="text-xs text-blue-700">
-            <strong>Important :</strong> Cette grille est un outil d&apos;observation simplifi\u00e9,
-            pas un diagnostic. Si plusieurs items ne sont pas observ\u00e9s, consultez votre
-            p\u00e9diatre pour un bilan approfondi.
+            <strong>Important :</strong> Cette grille est un outil d&apos;observation simplifié,
+            pas un diagnostic. Si plusieurs items ne sont pas observés, consultez votre
+            pédiatre pour un bilan approfondi.
           </p>
         </CardContent>
       </Card>

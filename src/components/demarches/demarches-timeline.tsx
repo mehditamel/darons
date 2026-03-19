@@ -121,7 +121,7 @@ export function DemarchesTimeline({
             setFilterStatus(filterStatus === "todo" ? "all" : "todo")
           }
         >
-          {counts.todo} \u00e0 faire
+          {counts.todo} à faire
         </Badge>
         <Badge
           variant={filterStatus === "done" ? "default" : "outline"}
@@ -130,7 +130,7 @@ export function DemarchesTimeline({
             setFilterStatus(filterStatus === "done" ? "all" : "done")
           }
         >
-          {counts.done} compl\u00e9t\u00e9es
+          {counts.done} complétées
         </Badge>
         {counts.overdue > 0 && (
           <Badge
@@ -149,10 +149,10 @@ export function DemarchesTimeline({
       <div className="flex flex-wrap gap-2">
         <Select value={filterCategory} onValueChange={setFilterCategory}>
           <SelectTrigger className="h-8 w-[160px]">
-            <SelectValue placeholder="Cat\u00e9gorie" />
+            <SelectValue placeholder="Catégorie" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Toutes les cat\u00e9gories</SelectItem>
+            <SelectItem value="all">Toutes les catégories</SelectItem>
             {Object.entries(TASK_CATEGORY_LABELS).map(([value, label]) => (
               <SelectItem key={value} value={value}>
                 {label}
@@ -205,7 +205,7 @@ export function DemarchesTimeline({
 
         {filteredTasks.length === 0 && (
           <p className="py-8 text-center text-sm text-muted-foreground">
-            Aucune d\u00e9marche ne correspond aux filtres s\u00e9lectionn\u00e9s.
+            Aucune démarche ne correspond aux filtres sélectionnés.
           </p>
         )}
       </div>

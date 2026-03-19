@@ -78,10 +78,10 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Plus className="h-5 w-5" />
-          Ajouter une d\u00e9marche
+          Ajouter une démarche
         </CardTitle>
         <CardDescription>
-          Ajoutez une d\u00e9marche personnalis\u00e9e \u00e0 votre checklist
+          Ajoutez une démarche personnalisée à votre checklist
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -90,7 +90,7 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
             <Label htmlFor="title">Titre</Label>
             <Input
               id="title"
-              placeholder="Ex : Inscription p\u00e9riscolaire"
+              placeholder="Ex : Inscription périscolaire"
               {...register("title")}
             />
             {errors.title && (
@@ -104,7 +104,7 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
             <Label htmlFor="description">Description (optionnel)</Label>
             <Textarea
               id="description"
-              placeholder="D\u00e9tails de la d\u00e9marche..."
+              placeholder="Détails de la démarche..."
               rows={2}
               {...register("description")}
             />
@@ -112,7 +112,7 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label>Cat\u00e9gorie</Label>
+              <Label>Catégorie</Label>
               <Select
                 value={currentCategory}
                 onValueChange={(val) =>
@@ -139,7 +139,7 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label>Priorit\u00e9</Label>
+              <Label>Priorité</Label>
               <Select
                 value={currentPriority}
                 onValueChange={(val) =>
@@ -166,13 +166,13 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="dueDate">Date d&apos;\u00e9ch\u00e9ance</Label>
+              <Label htmlFor="dueDate">Date d&apos;échéance</Label>
               <Input id="dueDate" type="date" {...register("dueDate")} />
             </div>
 
             {childMembers.length > 0 && (
               <div className="space-y-2">
-                <Label>Enfant concern\u00e9</Label>
+                <Label>Enfant concerné</Label>
                 <Select
                   value={currentMember ?? "none"}
                   onValueChange={(val) =>
@@ -217,7 +217,7 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
             </Button>
             {submitted && (
               <p className="text-sm text-green-600">
-                D\u00e9marche ajout\u00e9e avec succ\u00e8s
+                Démarche ajoutée avec succès
               </p>
             )}
           </div>

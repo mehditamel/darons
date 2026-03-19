@@ -81,7 +81,7 @@ export interface HealthExamination {
 }
 
 export const MILESTONE_CATEGORY_LABELS: Record<MilestoneCategory, string> = {
-  motricite: "Motricit\u00e9",
+  motricite: "Motricité",
   langage: "Langage",
   cognition: "Cognition",
   social: "Social",
@@ -98,7 +98,7 @@ export const MOOD_LABELS: Record<Mood, string> = {
 
 export const VACCINATION_STATUS_LABELS: Record<VaccinationStatus, string> = {
   done: "Fait",
-  pending: "Planifi\u00e9",
+  pending: "Planifié",
   overdue: "En retard",
   skipped: "Non fait",
 };
@@ -161,7 +161,7 @@ export const SLEEP_QUALITY_LABELS: Record<SleepQuality, string> = {
   good: "Bon",
   average: "Moyen",
   poor: "Mauvais",
-  very_poor: "Tr\u00e8s mauvais",
+  very_poor: "Très mauvais",
 };
 
 export const APPETITE_LABELS: Record<Appetite, string> = {
@@ -178,21 +178,21 @@ export const STOOL_LABELS: Record<StoolType, string> = {
 };
 
 export const ALLERGY_SEVERITY_LABELS: Record<AllergySeverity, string> = {
-  mild: "L\u00e9g\u00e8re",
-  moderate: "Mod\u00e9r\u00e9e",
-  severe: "S\u00e9v\u00e8re",
+  mild: "Légère",
+  moderate: "Modérée",
+  severe: "Sévère",
 };
 
 export const EXAM_STATUS_LABELS: Record<ExamStatus, string> = {
-  upcoming: "\u00c0 venir",
-  completed: "R\u00e9alis\u00e9",
-  missed: "Manqu\u00e9",
+  upcoming: "À venir",
+  completed: "Réalisé",
+  missed: "Manqué",
 };
 
 export const MOOD_ICONS: Record<Mood, string> = {
-  great: "\u2600\ufe0f",
-  good: "\ud83c\udf24\ufe0f",
-  neutral: "\u2601\ufe0f",
-  difficult: "\ud83c\udf27\ufe0f",
-  tough: "\u26c8\ufe0f",
+  great: "☀",
+  good: "🌤",
+  neutral: "☁",
+  difficult: "🌧",
+  tough: "⛈",
 };

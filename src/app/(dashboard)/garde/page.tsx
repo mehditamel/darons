@@ -6,7 +6,7 @@ import { getChildcareFavorites } from "@/lib/actions/garde";
 export const metadata: Metadata = {
   title: "Recherche de garde",
   description:
-    "Trouvez le mode de garde id\u00e9al pr\u00e8s de chez vous et estimez le co\u00fbt",
+    "Trouvez le mode de garde idéal près de chez vous et estimez le coût",
 };
 
 export default async function GardePage() {
@@ -17,7 +17,7 @@ export default async function GardePage() {
     <div className="space-y-6">
       <PageHeader
         title="Recherche de garde"
-        description="Trouvez le mode de garde id\u00e9al pr\u00e8s de chez vous et estimez le co\u00fbt"
+        description="Trouvez le mode de garde idéal près de chez vous et estimez le coût"
       />
 
       <GardeTabs initialFavorites={favorites} />
