@@ -10,10 +10,10 @@ export default function AuthLayout({
       <div className="mb-8 text-center">
         <Link href="/" className="inline-block">
           <h1 className="text-3xl font-serif text-foreground">
-            Ma Vie Parentale
+            Darons
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Votre tableau de bord familial
+            L&apos;app des parents qui gèrent
           </p>
         </Link>
       </div>

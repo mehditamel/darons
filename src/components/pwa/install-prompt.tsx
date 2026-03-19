@@ -73,7 +73,7 @@ export function InstallPrompt() {
         <div className="flex items-center gap-3">
           <Download className="h-5 w-5 text-warm-teal shrink-0" />
           <div>
-            <p className="text-sm font-medium">Installer Cockpit Parental</p>
+            <p className="text-sm font-medium">Installer Darons</p>
             <p className="text-xs text-muted-foreground">
               Accédez rapidement depuis votre écran d&apos;accueil
             </p>

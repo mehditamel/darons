@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     title: article.title,
     description: article.description,
     openGraph: {
-      title: `${article.title} — Ma Vie Parentale`,
+      title: `${article.title} — Darons`,
       description: article.description,
       type: "article",
       publishedTime: article.date,

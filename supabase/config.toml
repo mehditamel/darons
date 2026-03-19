@@ -1,6 +1,6 @@
 [project]
-id = "mavieparentale"
-name = "Ma Vie Parentale"
+id = "darons"
+name = "Darons"
 
 [db]
 port = 54322
@@ -11,7 +11,7 @@ port = 54323
 
 [auth]
 site_url = "http://localhost:3000"
-additional_redirect_urls = ["https://mavieparentale.fr"]
+additional_redirect_urls = ["https://darons.app"]
 jwt_expiry = 3600
 
 [auth.email]

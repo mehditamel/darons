@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Simulateur impôt sur le revenu 2025, calculateur allocations CAF (PAJE, CMG, ARS), calendrier vaccinal interactif. Outils gratuits sans inscription.",
   openGraph: {
-    title: "Outils gratuits pour parents — Ma Vie Parentale",
+    title: "Outils gratuits pour parents — Darons",
     description:
       "Simulez vos impôts, calculez vos allocations CAF et planifiez les vaccins de votre enfant gratuitement.",
   },
@@ -54,11 +54,11 @@ export default function OutilsPage() {
           "@type": "CollectionPage",
           name: "Outils gratuits pour parents",
           description: "Simulateurs et outils gratuits pour les parents français.",
-          url: "https://cockpitparental.fr/outils",
+          url: "https://darons.app/outils",
           isPartOf: {
             "@type": "WebSite",
-            name: "Cockpit Parental",
-            url: "https://cockpitparental.fr",
+            name: "Darons",
+            url: "https://darons.app",
           },
         }}
       />
@@ -103,7 +103,7 @@ export default function OutilsPage() {
         </p>
         <Link href="/register">
           <Button size="lg">
-            Créer mon cockpit gratuitement
+            C&apos;est gratuit, je m&apos;inscris
           </Button>
         </Link>
       </div>

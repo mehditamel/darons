@@ -25,7 +25,7 @@ export async function sendEmail(
   try {
     const resend = getResend();
     await resend.emails.send({
-      from: "Cockpit Parental <noreply@cockpitparental.fr>",
+      from: "Darons <noreply@darons.app>",
       to,
       subject,
       html,

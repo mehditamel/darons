@@ -1,7 +1,7 @@
 {
-  "name": "Cockpit Parental",
-  "short_name": "Cockpit",
-  "description": "Tableau de bord familial unifié — santé, éducation, budget, fiscal",
+  "name": "Darons",
+  "short_name": "Darons",
+  "description": "Toute ta vie de daron. Une seule app. Santé, éducation, budget, fiscal.",
   "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#FDFAF6",

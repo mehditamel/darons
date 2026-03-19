@@ -17,7 +17,7 @@ export async function GET() {
     status: 200,
     headers: {
       "Content-Type": "application/json",
-      "Content-Disposition": `attachment; filename="cockpit-parental-export-${new Date().toISOString().slice(0, 10)}.json"`,
+      "Content-Disposition": `attachment; filename="darons-export-${new Date().toISOString().slice(0, 10)}.json"`,
     },
   });
 }

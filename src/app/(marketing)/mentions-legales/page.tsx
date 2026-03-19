@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
-  description: "Mentions légales de Ma Vie Parentale — éditeur, hébergeur, DPO, conditions d'accès au service.",
+  description: "Mentions légales de Darons — éditeur, hébergeur, DPO, conditions d'accès au service.",
   openGraph: {
-    title: "Mentions légales — Ma Vie Parentale",
-    description: "Informations légales de Ma Vie Parentale.",
+    title: "Mentions légales — Darons",
+    description: "Informations légales de Darons.",
   },
 };
 
@@ -14,23 +14,23 @@ export default function MentionsLegalesPage() {
     <div className="prose prose-stone max-w-none">
       <h1 className="font-serif">Mentions légales</h1>
       <p className="text-muted-foreground">
-        Dernière mise à jour : 17 mars 2026
+        Dernière mise à jour : 19 mars 2026
       </p>
 
       <h2>1. Éditeur du site</h2>
       <p>
-        <strong>Ma Vie Parentale</strong>
+        <strong>Darons</strong>
         <br />
         Adresse : Marseille, France
         <br />
-        Email : contact@mavieparentale.fr
+        Email : contact@darons.app
         <br />
         Directeur de la publication : Mehdi TAMELGHAGHET
       </p>
 
       <h2>2. Hébergement</h2>
       <p>
-        Le site mavieparentale.fr est hébergé par :
+        Le site darons.app est hébergé par :
         <br />
         <strong>Vercel Inc.</strong>
         <br />
@@ -49,7 +49,7 @@ export default function MentionsLegalesPage() {
       <h2>3. Propriété intellectuelle</h2>
       <p>
         L&apos;ensemble du contenu du site (textes, images, graphismes, logo,
-        icônes, logiciels) est la propriété de Ma Vie Parentale ou de ses
+        icônes, logiciels) est la propriété de Darons ou de ses
         partenaires. Toute reproduction, même partielle, est interdite sans
         autorisation préalable.
       </p>
@@ -59,7 +59,7 @@ export default function MentionsLegalesPage() {
         Conformément au Règlement Général sur la Protection des Données (RGPD)
         et à la loi Informatique et Libertés, vous disposez d&apos;un droit d&apos;accès,
         de rectification et de suppression de vos données personnelles. Pour
-        exercer ce droit, contactez-nous à : contact@mavieparentale.fr
+        exercer ce droit, contactez-nous à : contact@darons.app
       </p>
       <p>
         Pour plus de détails, consultez notre{" "}

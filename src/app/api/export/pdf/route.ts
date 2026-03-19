@@ -361,7 +361,7 @@ export async function GET() {
   </div>
 
   <div class="footer">
-    <p>Cockpit Parental — cockpitparental.fr</p>
+    <p>Darons — darons.app</p>
     <p>Document généré automatiquement. Les données sont à jour au ${now.toLocaleDateString("fr-FR")}.</p>
   </div>
 </body>

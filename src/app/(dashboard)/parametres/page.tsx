@@ -19,7 +19,7 @@ import { PLAN_LIMITS } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Paramètres — Cockpit Parental",
+  title: "Paramètres — Darons",
   description: "Configurez votre profil, gérez votre abonnement, vos consentements RGPD et les préférences de votre foyer",
 };
 

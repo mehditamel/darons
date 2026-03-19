@@ -6,7 +6,7 @@
 
 ## Contexte
 
-Cockpit Parental est un tableau de bord familial unifié (SaaS) combinant 4 piliers : administratif/santé, éducatif, fiscal et budgétaire. Le choix de la stack doit permettre un développement rapide, une bonne expérience utilisateur et une sécurité renforcée pour les données d'enfants (RGPD).
+Darons est une app gratuite pour les parents (SaaS) combinant 4 piliers : administratif/santé, éducatif, fiscal et budgétaire. Le choix de la stack doit permettre un développement rapide, une bonne expérience utilisateur et une sécurité renforcée pour les données d'enfants (RGPD).
 
 ## Décisions
 

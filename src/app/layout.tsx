@@ -9,11 +9,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Ma Vie Parentale — Tableau de bord familial",
-    template: "%s | Ma Vie Parentale",
+    default: "Darons — Toute ta vie de daron. Une seule app.",
+    template: "%s | Darons",
   },
   description:
-    "Centralisez la gestion administrative, éducative, fiscale et budgétaire de votre foyer. Suivi vaccins, budget familial, simulation IR, courbes de croissance.",
+    "L'app gratuite qui centralise toute la vie de famille : santé des enfants, budget du foyer, fiscalité, éducation — le tout avec une couche IA qui anticipe et simplifie.",
   keywords: [
     "gestion famille",
     "suivi vaccin bébé",
@@ -22,22 +22,24 @@ export const metadata: Metadata = {
     "carnet de santé numérique",
     "courbe de croissance",
     "allocations CAF",
+    "app parents",
+    "darons",
   ],
-  authors: [{ name: "Ma Vie Parentale" }],
+  authors: [{ name: "Darons" }],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Cockpit Parental",
+    title: "Darons",
   },
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://mavieparentale.fr",
-    siteName: "Ma Vie Parentale",
-    title: "Ma Vie Parentale — Tableau de bord familial",
+    url: "https://darons.app",
+    siteName: "Darons",
+    title: "Darons — Toute ta vie de daron. Une seule app.",
     description:
-      "Centralisez la gestion administrative, éducative, fiscale et budgétaire de votre foyer.",
+      "L'app gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
   },
 };
 

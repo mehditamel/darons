@@ -15,10 +15,10 @@ export function MobileNav() {
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center px-6 border-b border-white/10">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-warm-orange text-white font-bold text-sm">
-          MP
+          D
         </div>
         <span className="ml-2 text-lg font-serif text-white">
-          Ma Vie Parentale
+          Darons
         </span>
       </div>
 

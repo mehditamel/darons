@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     "Calculez gratuitement votre impôt sur le revenu 2025 (barème officiel). TMI, quotient familial, crédits d'impôt garde enfant, emploi à domicile, dons.",
   openGraph: {
-    title: "Simulateur impôt sur le revenu 2025 — Ma Vie Parentale",
+    title: "Simulateur impôt sur le revenu 2025 — Darons",
     description:
       "Calculez votre impôt, TMI et crédits d'impôt avec le barème 2025.",
   },

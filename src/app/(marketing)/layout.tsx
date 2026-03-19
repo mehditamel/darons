@@ -12,10 +12,10 @@ export default function MarketingLayout({
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4">
           <Link href="/" className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-warm-orange text-white font-bold text-sm">
-              MP
+              D
             </div>
             <span className="text-lg font-serif font-bold">
-              Ma Vie Parentale
+              Darons
             </span>
           </Link>
           <Link href="/">
@@ -27,7 +27,7 @@ export default function MarketingLayout({
       </header>
       <main className="mx-auto max-w-4xl px-4 py-12">{children}</main>
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} Ma Vie Parentale. Tous droits réservés.
+        &copy; {new Date().getFullYear()} Darons. Tous droits réservés.
       </footer>
     </div>
   );

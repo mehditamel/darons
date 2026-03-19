@@ -93,7 +93,7 @@ export function buildMedicalAppointmentEvent(
     description: [
       practitioner && `Praticien : ${practitioner}`,
       location && `Lieu : ${location}`,
-      "Créé par Cockpit Parental",
+      "Créé par Darons",
     ]
       .filter(Boolean)
       .join("\n"),
@@ -119,7 +119,7 @@ export function buildFiscalDeadlineEvent(
 
   return {
     summary: `[Fiscal] ${title}`,
-    description: "Rappel échéance fiscale — Cockpit Parental",
+    description: "Rappel échéance fiscale — Darons",
     start: { dateTime: date.toISOString(), timeZone: "Europe/Paris" },
     end: { dateTime: end.toISOString(), timeZone: "Europe/Paris" },
     reminders: {

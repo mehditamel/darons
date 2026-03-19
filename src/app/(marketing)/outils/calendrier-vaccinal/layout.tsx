@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     "Calendrier vaccinal interactif 2025. Les 9 vaccins obligatoires pour votre bébé avec dates personnalisées selon sa date de naissance. DTPCa, ROR, Hépatite B, Méningocoque C.",
   openGraph: {
-    title: "Calendrier vaccinal 2025 — Ma Vie Parentale",
+    title: "Calendrier vaccinal 2025 — Darons",
     description:
       "Visualisez les vaccins obligatoires avec les dates personnalisées pour votre enfant.",
   },

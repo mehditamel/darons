@@ -2,7 +2,7 @@
  * FHIR <-> Local data mappers
  *
  * Bidirectional mapping between FHIR R4 resources and
- * Cockpit Parental Supabase row types.
+ * Darons Supabase row types.
  */
 
 import type {

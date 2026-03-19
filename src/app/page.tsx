@@ -6,7 +6,6 @@ import {
   Calculator,
   Wallet,
   Shield,
-  Sparkles,
   ArrowRight,
   Check,
   Baby,
@@ -14,20 +13,18 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/json-ld";
-import { PLAN_PRICING } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Cockpit Parental — Tableau de bord familial unifié",
+  title: "Darons — Toute ta vie de daron. Une seule app.",
   description:
-    "Centralisez la gestion de votre foyer : santé, éducation, budget, fiscal. Suivi vaccins, simulation IR, allocations CAF, courbes de croissance — tout en un.",
+    "L'app gratuite qui centralise toute la vie de famille : santé des enfants, budget du foyer, fiscalité, éducation. Vaccins, budget, impôts, papiers — c'est gratuit, c'est simple, c'est Darons.",
   openGraph: {
-    title: "Cockpit Parental — Toute la vie de famille. Un seul cockpit.",
+    title: "Darons — Toute ta vie de daron. Une seule app.",
     description:
-      "Le tableau de bord familial unifié pour les parents français. Santé, éducation, budget, fiscal.",
+      "Vaccins, budget, impôts, papiers — c'est gratuit, c'est simple, c'est Darons.",
     type: "website",
-    url: "https://cockpitparental.fr",
+    url: "https://darons.app",
   },
 };
 
@@ -36,98 +33,43 @@ const FEATURES = [
     icon: HeartPulse,
     title: "Santé & vaccins",
     description:
-      "Calendrier vaccinal, courbes de croissance, rendez-vous médicaux. Ne manquez plus aucune dose.",
+      "Ton gamin a ses vaccins à jour ? On vérifie. Calendrier vaccinal, courbes de croissance, RDV médicaux.",
     color: "text-warm-teal bg-warm-teal/10",
   },
   {
     icon: GraduationCap,
     title: "Éducation & développement",
     description:
-      "Timeline scolaire, activités extra-scolaires, jalons de développement et journal parental.",
+      "Premiers mots, premiers pas — note tout. Timeline scolaire, activités, jalons de développement.",
     color: "text-warm-blue bg-warm-blue/10",
   },
   {
     icon: Calculator,
     title: "Foyer fiscal",
     description:
-      "Simulation IR, crédits d'impôt garde d'enfant, comparateur avant/après optimisation.",
+      "Tes impôts, on t'aide à payer moins. Simulation IR, crédits d'impôt, comparateur avant/après.",
     color: "text-warm-gold bg-warm-gold/10",
   },
   {
     icon: Wallet,
     title: "Budget intelligent",
     description:
-      "Suivi des dépenses par enfant, allocations CAF, reste à charge net et coach budgétaire IA.",
+      "Où passe ta thune ? On te montre. Suivi des dépenses par enfant, allocations CAF, coach budgétaire IA.",
     color: "text-warm-purple bg-warm-purple/10",
   },
   {
     icon: Baby,
     title: "Recherche de garde",
     description:
-      "Crèches, assistantes maternelles, MAM autour de chez vous avec simulateur de coût.",
+      "Crèche ou nounou ? Compare les vrais coûts. Recherche géolocalisée avec simulateur de reste à charge.",
     color: "text-warm-orange bg-warm-orange/10",
   },
   {
     icon: ClipboardList,
     title: "Démarches & droits",
     description:
-      "Checklist naissance → 3 ans, simulateur d'allocations, rappels d'échéances.",
+      "Les papiers qui traînent ? On te rappelle. Checklist naissance → 3 ans, simulateur d'allocations.",
     color: "text-warm-green bg-warm-green/10",
-  },
-];
-
-const PLANS = [
-  {
-    name: "Gratuit",
-    price: "0 €",
-    period: "",
-    description: "Pour découvrir le cockpit",
-    features: [
-      "1 adulte + 1 enfant",
-      "5 documents",
-      "Suivi vaccinations",
-      "Courbes de croissance",
-      "Budget manuel",
-      "Alertes email",
-    ],
-    cta: "Commencer gratuitement",
-    variant: "outline" as const,
-  },
-  {
-    name: "Premium",
-    price: "9,90 €",
-    period: "/mois",
-    description: "Pour les familles actives",
-    popular: true,
-    features: [
-      "Membres illimités",
-      "Documents illimités (10 Go)",
-      "Open Banking (sync bancaire)",
-      "Coach budgétaire IA",
-      "Résumé mensuel IA",
-      "Sync Google Calendar",
-      "Alertes email + push",
-    ],
-    cta: "Essayer Premium",
-    variant: "default" as const,
-  },
-  {
-    name: "Family Pro",
-    price: "19,90 €",
-    period: "/mois",
-    description: "Le cockpit complet",
-    features: [
-      "Tout Premium +",
-      "Stockage 50 Go",
-      "OCR ordonnances",
-      "Export PDF bilan annuel",
-      "Multi-foyers (grands-parents)",
-      "Sync tous calendriers",
-      "Alertes email + push + SMS",
-      "Support prioritaire",
-    ],
-    cta: "Choisir Family Pro",
-    variant: "outline" as const,
   },
 ];
 
@@ -138,36 +80,22 @@ export default function LandingPage() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebApplication",
-          name: "Cockpit Parental",
-          url: "https://cockpitparental.fr",
+          name: "Darons",
+          url: "https://darons.app",
           applicationCategory: "LifestyleApplication",
           operatingSystem: "Web",
           description:
-            "Tableau de bord familial unifié : santé, éducation, budget, fiscal.",
-          offers: [
-            {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "EUR",
-              name: "Gratuit",
-            },
-            {
-              "@type": "Offer",
-              price: "9.90",
-              priceCurrency: "EUR",
-              name: "Premium",
-            },
-            {
-              "@type": "Offer",
-              price: "19.90",
-              priceCurrency: "EUR",
-              name: "Family Pro",
-            },
-          ],
+            "L'app gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "EUR",
+            name: "Gratuit",
+          },
           publisher: {
             "@type": "Organization",
-            name: "Ma Vie Parentale",
-            url: "https://cockpitparental.fr",
+            name: "Darons",
+            url: "https://darons.app",
           },
         }}
       />
@@ -176,10 +104,10 @@ export default function LandingPage() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <Link href="/" className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-warm-orange text-white font-bold text-sm">
-              MP
+              D
             </div>
             <span className="text-lg font-serif font-bold">
-              Ma Vie Parentale
+              Darons
             </span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
@@ -189,12 +117,6 @@ export default function LandingPage() {
             >
               Fonctionnalités
             </a>
-            <a
-              href="#tarifs"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Tarifs
-            </a>
           </nav>
           <div className="flex items-center gap-3">
             <Link href="/login">
@@ -203,7 +125,7 @@ export default function LandingPage() {
               </Button>
             </Link>
             <Link href="/register">
-              <Button size="sm">S&apos;inscrire</Button>
+              <Button size="sm">C&apos;est gratuit, je m&apos;inscris</Button>
             </Link>
           </div>
         </div>
@@ -212,23 +134,18 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="relative overflow-hidden py-20 lg:py-32">
         <div className="mx-auto max-w-6xl px-4 text-center">
-          <Badge variant="secondary" className="mb-4">
-            <Sparkles className="mr-1 h-3 w-3" />
-            Nouveau &mdash; Coach budgétaire IA
-          </Badge>
           <h1 className="mx-auto max-w-4xl text-4xl font-serif font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            Toute la vie de famille.{" "}
-            <span className="text-primary">Un seul cockpit.</span>
+            Toute ta vie de daron.{" "}
+            <span className="text-primary">Une seule app.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Centralisez la gestion administrative, éducative, fiscale et
-            budgétaire de votre foyer. Suivi vaccins, budget familial,
-            simulation IR, courbes de croissance — tout en un seul endroit.
+            Vaccins, budget, impôts, papiers — c&apos;est gratuit, c&apos;est simple,
+            c&apos;est Darons.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/register">
               <Button size="lg" className="h-12 px-8 text-base">
-                Créer mon cockpit gratuitement
+                C&apos;est gratuit, je m&apos;inscris
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -238,9 +155,6 @@ export default function LandingPage() {
               </Button>
             </a>
           </div>
-          <p className="mt-4 text-xs text-muted-foreground">
-            Gratuit pour commencer. Aucune carte bancaire requise.
-          </p>
         </div>
       </section>
 
@@ -249,7 +163,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-              4 piliers pour gérer votre foyer
+              6 piliers pour gérer ta tribu
             </h2>
             <p className="mt-3 text-muted-foreground">
               Aucune solution intégrée n&apos;existe sur le marché français. Jusqu&apos;à
@@ -285,11 +199,11 @@ export default function LandingPage() {
             <Shield className="h-8 w-8 text-warm-green" />
           </div>
           <h2 className="text-3xl font-serif font-bold">
-            Vos données sont protégées
+            Tes données sont protégées
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
             Chiffrement de bout en bout, conformité RGPD, hébergement européen.
-            Vos données de santé ne sont jamais partagées. Vous gardez le contrôle total.
+            Tes données de santé ne sont jamais partagées. Tu gardes le contrôle total.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
@@ -308,60 +222,21 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="tarifs" className="py-20 bg-card">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-              Des tarifs simples et transparents
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Commencez gratuitement. Passez à Premium quand vous êtes prêt.
-            </p>
-          </div>
-          <div className="grid gap-6 lg:grid-cols-3">
-            {PLANS.map((plan) => (
-              <Card
-                key={plan.name}
-                className={
-                  plan.popular
-                    ? "border-primary shadow-lg relative"
-                    : "shadow-md"
-                }
-              >
-                {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <Badge>Le plus populaire</Badge>
-                  </div>
-                )}
-                <CardHeader className="text-center pb-2">
-                  <CardTitle className="text-lg">{plan.name}</CardTitle>
-                  <div className="mt-2">
-                    <span className="text-4xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground">{plan.period}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {plan.description}
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 mb-6">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-2 text-sm">
-                        <Check className="h-4 w-4 text-warm-green shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href="/register" className="block">
-                    <Button variant={plan.variant} className="w-full">
-                      {plan.cta}
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+      {/* Gratuit */}
+      <section className="py-20 bg-card">
+        <div className="mx-auto max-w-3xl px-4 text-center">
+          <h2 className="text-3xl font-serif font-bold lg:text-4xl">
+            Darons est gratuit.
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Pas de piège, pas de version bridée. Juste une app complète pour les parents.
+          </p>
+          <Link href="/register">
+            <Button size="lg" className="mt-8 h-12 px-8 text-base">
+              C&apos;est gratuit, je m&apos;inscris
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -369,15 +244,14 @@ export default function LandingPage() {
       <section className="py-20">
         <div className="mx-auto max-w-3xl px-4 text-center">
           <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-            Prêt à simplifier votre vie de famille ?
+            Prêt à simplifier ta vie de parent ?
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Rejoignez les familles qui centralisent tout dans un seul cockpit.
-            Gratuit pour démarrer.
+            Rejoins les darons qui centralisent tout dans une seule app.
           </p>
           <Link href="/register">
             <Button size="lg" className="mt-8 h-12 px-8 text-base">
-              Créer mon cockpit gratuitement
+              C&apos;est gratuit, je m&apos;inscris
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
@@ -391,12 +265,12 @@ export default function LandingPage() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-warm-orange text-white font-bold text-sm">
-                  MP
+                  D
                 </div>
-                <span className="font-serif font-bold">Ma Vie Parentale</span>
+                <span className="font-serif font-bold">Darons</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                Le tableau de bord familial unifié pour les parents français.
+                L&apos;app gratuite qui centralise toute la vie de famille.
               </p>
             </div>
             <div>
@@ -405,11 +279,6 @@ export default function LandingPage() {
                 <li>
                   <a href="#fonctionnalites" className="hover:text-foreground">
                     Fonctionnalités
-                  </a>
-                </li>
-                <li>
-                  <a href="#tarifs" className="hover:text-foreground">
-                    Tarifs
                   </a>
                 </li>
               </ul>
@@ -440,12 +309,12 @@ export default function LandingPage() {
             <div>
               <h4 className="mb-3 text-sm font-semibold">Contact</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>contact@mavieparentale.fr</li>
+                <li>contact@darons.app</li>
               </ul>
             </div>
           </div>
           <div className="mt-8 border-t pt-8 text-center text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Ma Vie Parentale. Tous droits réservés.
+            &copy; {new Date().getFullYear()} Darons. Tous droits réservés.
           </div>
         </div>
       </footer>

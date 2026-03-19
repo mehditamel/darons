@@ -1,4 +1,4 @@
-const CACHE_NAME = "cockpit-parental-v3";
+const CACHE_NAME = "darons-v1";
 const STATIC_ASSETS = [
   "/",
   "/dashboard",
@@ -123,7 +123,7 @@ self.addEventListener("push", (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification(data.title || "Cockpit Parental", options)
+    self.registration.showNotification(data.title || "Darons", options)
   );
 });
 

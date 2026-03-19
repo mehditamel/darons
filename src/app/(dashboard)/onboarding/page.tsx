@@ -27,8 +27,8 @@ import { householdSchema, type HouseholdFormData } from "@/lib/validators/family
 import { familyMemberSchema, type FamilyMemberFormData } from "@/lib/validators/family";
 
 const STEPS = [
-  { label: "Votre foyer", icon: Home },
-  { label: "Votre enfant", icon: Baby },
+  { label: "Ton foyer", icon: Home },
+  { label: "Ton enfant", icon: Baby },
   { label: "Terminé", icon: CheckCircle2 },
 ];
 
@@ -65,10 +65,10 @@ export default function OnboardingPage() {
     <div className="mx-auto max-w-lg py-8">
       <div className="mb-8 text-center">
         <h1 className="text-2xl font-serif font-bold">
-          Bienvenue sur Ma Vie Parentale
+          Bienvenue sur Darons
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Configurons votre espace familial en quelques étapes
+          Configurons ton espace familial en quelques étapes
         </p>
       </div>
 
@@ -88,9 +88,9 @@ export default function OnboardingPage() {
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-warm-orange/10">
               <Home className="h-7 w-7 text-warm-orange" />
             </div>
-            <CardTitle className="text-center">Créez votre foyer</CardTitle>
+            <CardTitle className="text-center">Crée ton foyer</CardTitle>
             <CardDescription className="text-center">
-              Donnez un nom à votre espace familial
+              Donne un nom à ton espace familial
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -130,10 +130,10 @@ export default function OnboardingPage() {
               <Baby className="h-7 w-7 text-warm-teal" />
             </div>
             <CardTitle className="text-center">
-              Ajoutez votre enfant
+              Ajoute ton enfant
             </CardTitle>
             <CardDescription className="text-center">
-              Commencez par ajouter un enfant pour personnaliser votre
+              Commence par ajouter un enfant pour personnaliser ton
               expérience
             </CardDescription>
           </CardHeader>
@@ -232,11 +232,11 @@ export default function OnboardingPage() {
               <CheckCircle2 className="h-8 w-8 text-warm-green" />
             </div>
             <CardTitle className="text-center">
-              Votre cockpit est prêt !
+              Ton espace est prêt !
             </CardTitle>
             <CardDescription className="text-center">
-              Vous pouvez maintenant commencer à utiliser Ma Vie Parentale.
-              Ajoutez des vaccins, des documents, ou explorez votre tableau de
+              Tu peux maintenant commencer à utiliser Darons.
+              Ajoute des vaccins, des documents, ou explore ton tableau de
               bord.
             </CardDescription>
           </CardHeader>

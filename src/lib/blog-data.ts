@@ -64,9 +64,9 @@ Les vaccins obligatoires sont administrés selon un calendrier précis, en 9 inj
 
 Pas de panique ! Il n'est jamais trop tard pour rattraper un retard vaccinal. Consultez votre pédiatre qui adaptera le calendrier. L'important est de compléter le schéma vaccinal, même avec du retard.
 
-### Suivi avec Ma Vie Parentale
+### Suivi avec Darons
 
-Notre outil [calendrier vaccinal interactif](/outils/calendrier-vaccinal) vous permet de visualiser les dates de vaccin personnalisées pour votre enfant. Créez un compte pour recevoir des rappels automatiques.`,
+Notre outil [calendrier vaccinal interactif](/outils/calendrier-vaccinal) te permet de visualiser les dates de vaccin personnalisées pour ton enfant. Crée un compte pour recevoir des rappels automatiques.`,
   },
   {
     slug: "credit-impot-garde-enfant-2025",
@@ -320,7 +320,7 @@ Utilisez notre [simulateur CAF gratuit](/outils/simulateur-caf) pour calculer pr
 
 ### Suivi automatisé
 
-Avec Ma Vie Parentale, suivez automatiquement vos allocations et recevez des alertes quand de nouveaux droits s'ouvrent pour votre famille. [Créez votre cockpit](/register).`,
+Avec Darons, suis automatiquement tes allocations et reçois des alertes quand de nouveaux droits s'ouvrent pour ta famille. [Crée ton compte](/register).`,
   },
   {
     slug: "passeport-bebe-comment-faire",
@@ -480,7 +480,7 @@ Le poste le plus variable :
 
 ### Suivez votre budget bébé
 
-Notre module [Budget familial](/budget) ventile automatiquement vos dépenses par enfant et par catégorie. Connectez votre banque pour un suivi en temps réel. [Créez votre cockpit gratuitement](/register).`,
+Notre module [Budget familial](/budget) ventile automatiquement vos dépenses par enfant et par catégorie. Connectez votre banque pour un suivi en temps réel. [Crée ton compte gratuitement](/register).`,
   },
 ];
 

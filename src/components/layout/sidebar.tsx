@@ -53,10 +53,10 @@ export function Sidebar() {
       <div className="flex h-16 items-center px-6 border-b border-white/10">
         <Link href="/dashboard" className="flex items-center space-x-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-warm-orange text-white font-bold text-sm">
-            MP
+            D
           </div>
           <span className="text-lg font-serif text-white">
-            Ma Vie Parentale
+            Darons
           </span>
         </Link>
       </div>

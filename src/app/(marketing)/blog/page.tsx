@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Guides pratiques pour les parents : vaccins obligatoires, crédit d'impôt garde enfant, comparatif modes de garde, allocations CAF. Conseils d'experts.",
   openGraph: {
-    title: "Blog Ma Vie Parentale — Guides pour les parents",
+    title: "Blog Darons — Guides pour les parents",
     description:
       "Guides pratiques pour les parents : vaccins, fiscal, budget, garde d'enfants.",
   },
@@ -36,7 +36,7 @@ export default function BlogPage() {
     <div className="space-y-8">
       <div className="text-center space-y-3">
         <h1 className="text-3xl font-serif font-bold">
-          Le blog Ma Vie Parentale
+          Le blog Darons
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
           Guides pratiques, conseils d&apos;experts et astuces pour simplifier

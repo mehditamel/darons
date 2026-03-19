@@ -33,7 +33,7 @@ export default async function ParrainagePage() {
     <div className="space-y-6">
       <PageHeader
         title="Programme de parrainage"
-        description="Invitez vos proches à rejoindre Cockpit Parental et gagnez des récompenses"
+        description="Invite tes proches à rejoindre Darons et gagne des récompenses"
       />
 
       {/* Reward explanation */}

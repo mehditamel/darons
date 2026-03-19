@@ -34,7 +34,7 @@ export function CookieBanner() {
         <div className="flex-1 space-y-2">
           <p className="text-sm font-medium">Cookies fonctionnels uniquement</p>
           <p className="text-xs text-muted-foreground">
-            Cockpit Parental utilise uniquement des cookies nécessaires au
+            Darons utilise uniquement des cookies nécessaires au
             fonctionnement du site (authentification, préférences). Aucun cookie
             publicitaire ou de tracking n&apos;est utilisé.
           </p>

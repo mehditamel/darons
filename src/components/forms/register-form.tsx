@@ -78,8 +78,8 @@ export function RegisterForm() {
           </div>
           <CardTitle>Inscription réussie !</CardTitle>
           <CardDescription>
-            Vérifiez vos emails pour confirmer votre compte, puis connectez-vous
-            pour découvrir votre tableau de bord familial.
+            Vérifie tes emails pour confirmer ton compte, puis connecte-toi
+            pour découvrir ton espace Darons.
           </CardDescription>
         </CardHeader>
         <CardFooter className="justify-center">
@@ -94,9 +94,9 @@ export function RegisterForm() {
   return (
     <Card className="shadow-lg">
       <CardHeader className="text-center">
-        <CardTitle>Créer votre compte</CardTitle>
+        <CardTitle>Crée ton compte</CardTitle>
         <CardDescription>
-          Rejoignez Ma Vie Parentale et simplifiez votre quotidien familial
+          Rejoins les darons qui gèrent
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -229,13 +229,13 @@ export function RegisterForm() {
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Créer mon compte gratuitement
+            C&apos;est parti, c&apos;est gratuit
           </Button>
         </form>
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
-          Déjà un compte ?{" "}
+          Déjà inscrit ?{" "}
           <Link href="/login" className="text-primary hover:underline">
             Se connecter
           </Link>

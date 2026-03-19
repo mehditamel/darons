@@ -108,7 +108,7 @@ async function handlePaymentFailed(invoice: Stripe.Invoice) {
     household_id: household.id,
     channel: "email",
     notification_type: "payment_failed",
-    subject: "Échec de paiement — Cockpit Parental",
+    subject: "Échec de paiement — Darons",
     delivered: false,
     metadata: {
       invoice_id: invoice.id,

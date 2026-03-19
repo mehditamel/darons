@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
-  description: "Politique de confidentialité de Ma Vie Parentale — traitement des données personnelles, RGPD, droits des utilisateurs, sous-traitants.",
+  description: "Politique de confidentialité de Darons — traitement des données personnelles, RGPD, droits des utilisateurs, sous-traitants.",
   openGraph: {
-    title: "Politique de confidentialité — Ma Vie Parentale",
-    description: "Protection des données personnelles et droits RGPD sur Ma Vie Parentale.",
+    title: "Politique de confidentialité — Darons",
+    description: "Protection des données personnelles et droits RGPD sur Darons.",
   },
 };
 
@@ -14,16 +14,16 @@ export default function PolitiqueConfidentialitePage() {
     <div className="prose prose-stone max-w-none">
       <h1 className="font-serif">Politique de confidentialité</h1>
       <p className="text-muted-foreground">
-        Dernière mise à jour : 17 mars 2026
+        Dernière mise à jour : 19 mars 2026
       </p>
 
       <h2>1. Responsable du traitement</h2>
       <p>
-        Ma Vie Parentale, représenté par Mehdi TAMELGHAGHET, est responsable
+        Darons, représenté par Mehdi TAMELGHAGHET, est responsable
         du traitement des données personnelles collectées via le service
-        mavieparentale.fr.
+        darons.app.
         <br />
-        Contact DPO : contact@mavieparentale.fr
+        Contact DPO : contact@darons.app
       </p>
 
       <h2>2. Données collectées</h2>
@@ -155,7 +155,7 @@ export default function PolitiqueConfidentialitePage() {
         </li>
       </ul>
       <p>
-        Pour exercer ces droits : contact@mavieparentale.fr
+        Pour exercer ces droits : contact@darons.app
         <br />
         Délai de réponse : 30 jours maximum.
       </p>
@@ -179,7 +179,7 @@ export default function PolitiqueConfidentialitePage() {
       <h2>10. Contact</h2>
       <p>
         Pour toute question relative à cette politique :<br />
-        Email : contact@mavieparentale.fr
+        Email : contact@darons.app
         <br />
         Vous pouvez également adresser une réclamation à la CNIL :
         www.cnil.fr

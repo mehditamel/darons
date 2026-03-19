@@ -27,8 +27,8 @@ export function ReferralCodeCard({ code }: ReferralCodeCardProps) {
   const handleShare = async () => {
     if (navigator.share) {
       await navigator.share({
-        title: "Rejoignez Cockpit Parental",
-        text: `Utilisez mon code de parrainage ${code} pour vous inscrire sur Cockpit Parental !`,
+        title: "Rejoins Darons",
+        text: `Utilise mon code de parrainage ${code} pour t'inscrire sur Darons !`,
         url: shareUrl,
       });
     } else {
@@ -40,9 +40,9 @@ export function ReferralCodeCard({ code }: ReferralCodeCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Votre code de parrainage</CardTitle>
+        <CardTitle>Ton code de parrainage</CardTitle>
         <CardDescription>
-          Partagez ce code avec vos proches
+          Partage ce code avec tes proches
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

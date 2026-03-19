@@ -56,7 +56,7 @@ export default async function AdminPage() {
     <div className="space-y-6">
       <PageHeader
         title="Tableau de bord Admin"
-        description="Métriques SaaS — Cockpit Parental"
+        description="Métriques SaaS — Darons"
       />
 
       {/* Navigation sub-pages */}

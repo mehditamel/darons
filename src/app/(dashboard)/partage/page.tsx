@@ -38,7 +38,7 @@ export default async function PartagePage() {
     <div className="space-y-6">
       <PageHeader
         title="Partage du foyer"
-        description="Invitez des proches à consulter ou collaborer sur votre cockpit familial"
+        description="Invite des proches à consulter ou collaborer sur ton espace familial"
       />
 
       {!hasMultiHousehold && (
