@@ -16,9 +16,9 @@ import type {
 } from "@/types/health";
 
 export const metadata: Metadata = {
-  title: "Sant\u00e9 enrichie",
+  title: "Santé enrichie",
   description:
-    "Examens obligatoires, rep\u00e9rage TND, journal quotidien, allergies et ordonnances",
+    "Examens obligatoires, repérage TND, journal quotidien, allergies et ordonnances",
 };
 
 export default async function SanteEnrichiePage() {
@@ -49,8 +49,8 @@ export default async function SanteEnrichiePage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Sant\u00e9 enrichie"
-        description="Examens obligatoires, rep\u00e9rage TND, exposition \u00e9crans, journal quotidien, allergies et ordonnances"
+        title="Santé enrichie"
+        description="Examens obligatoires, repérage TND, exposition écrans, journal quotidien, allergies et ordonnances"
       />
 
       <SanteEnrichieTabs

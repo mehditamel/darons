@@ -74,7 +74,7 @@ export interface UserConsent {
 }
 
 export const DOCUMENT_TYPE_LABELS: Record<DocumentType, string> = {
-  cni: "Carte nationale d'identit\u00e9",
+  cni: "Carte nationale d'identité",
   passeport: "Passeport",
   livret_famille: "Livret de famille",
   acte_naissance: "Acte de naissance",
@@ -89,6 +89,6 @@ export const MEMBER_TYPE_LABELS: Record<MemberType, string> = {
 
 export const DOCUMENT_STATUS_LABELS: Record<DocumentStatus, string> = {
   valid: "Valide",
-  expiring_soon: "\u00c0 renouveler",
-  expired: "Expir\u00e9",
+  expiring_soon: "À renouveler",
+  expired: "Expiré",
 };

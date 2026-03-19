@@ -49,24 +49,24 @@ export type MedicalAppointmentFormData = z.infer<typeof medicalAppointmentSchema
 export const healthExaminationSchema = z.object({
   memberId: z.string().uuid("Membre invalide"),
   examNumber: z.number().int().min(1).max(20),
-  examAgeLabel: z.string().min(1, "Le libell\u00e9 d'\u00e2ge est requis"),
+  examAgeLabel: z.string().min(1, "Le libellé d'âge est requis"),
   completedDate: z.string().min(1, "La date de l'examen est requise"),
-  practitioner: z.string().max(100, "100 caract\u00e8res maximum").optional(),
+  practitioner: z.string().max(100, "100 caractères maximum").optional(),
   weightKg: z
-    .union([z.number().positive("Le poids doit \u00eatre positif"), z.nan()])
+    .union([z.number().positive("Le poids doit être positif"), z.nan()])
     .optional()
     .transform((v) => (Number.isNaN(v) ? undefined : v)),
   heightCm: z
-    .union([z.number().positive("La taille doit \u00eatre positive"), z.nan()])
+    .union([z.number().positive("La taille doit être positive"), z.nan()])
     .optional()
     .transform((v) => (Number.isNaN(v) ? undefined : v)),
   headCircumferenceCm: z
-    .union([z.number().positive("Le p\u00e9rim\u00e8tre cr\u00e2nien doit \u00eatre positif"), z.nan()])
+    .union([z.number().positive("Le périmètre crânien doit être positif"), z.nan()])
     .optional()
     .transform((v) => (Number.isNaN(v) ? undefined : v)),
-  screenExposureNotes: z.string().max(1000, "1000 caract\u00e8res maximum").optional(),
-  tndScreeningNotes: z.string().max(1000, "1000 caract\u00e8res maximum").optional(),
-  notes: z.string().max(500, "500 caract\u00e8res maximum").optional(),
+  screenExposureNotes: z.string().max(1000, "1000 caractères maximum").optional(),
+  tndScreeningNotes: z.string().max(1000, "1000 caractères maximum").optional(),
+  notes: z.string().max(500, "500 caractères maximum").optional(),
 });
 
 export type HealthExaminationFormData = z.infer<typeof healthExaminationSchema>;
@@ -83,30 +83,30 @@ export const dailyHealthJournalSchema = z.object({
   appetite: z.enum(["good", "average", "poor"]).optional(),
   stools: z.enum(["normal", "liquid", "hard", "absent"]).optional(),
   screenTimeMinutes: z
-    .union([z.number().int().min(0, "Le temps d'\u00e9cran doit \u00eatre positif"), z.nan()])
+    .union([z.number().int().min(0, "Le temps d'écran doit être positif"), z.nan()])
     .optional()
     .transform((v) => (Number.isNaN(v) ? undefined : v)),
-  notes: z.string().max(500, "500 caract\u00e8res maximum").optional(),
+  notes: z.string().max(500, "500 caractères maximum").optional(),
 });
 
 export type DailyHealthJournalFormData = z.infer<typeof dailyHealthJournalSchema>;
 
 export const allergySchema = z.object({
   memberId: z.string().uuid("Membre invalide"),
-  allergen: z.string().min(1, "L'allerg\u00e8ne est requis").max(100, "100 caract\u00e8res maximum"),
+  allergen: z.string().min(1, "L'allergène est requis").max(100, "100 caractères maximum"),
   severity: z.enum(["mild", "moderate", "severe"]),
-  reaction: z.string().max(200, "200 caract\u00e8res maximum").optional(),
+  reaction: z.string().max(200, "200 caractères maximum").optional(),
   diagnosedDate: z.string().optional(),
-  notes: z.string().max(500, "500 caract\u00e8res maximum").optional(),
+  notes: z.string().max(500, "500 caractères maximum").optional(),
 });
 
 export type AllergyFormData = z.infer<typeof allergySchema>;
 
 export const prescriptionSchema = z.object({
   memberId: z.string().uuid("Membre invalide"),
-  practitioner: z.string().max(100, "100 caract\u00e8res maximum").optional(),
+  practitioner: z.string().max(100, "100 caractères maximum").optional(),
   prescriptionDate: z.string().optional(),
-  notes: z.string().max(500, "500 caract\u00e8res maximum").optional(),
+  notes: z.string().max(500, "500 caractères maximum").optional(),
 });
 
 export type PrescriptionFormData = z.infer<typeof prescriptionSchema>;

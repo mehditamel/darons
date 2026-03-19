@@ -41,7 +41,7 @@ export function PrescriptionsList({
         <EmptyState
           icon={FileText}
           title="Aucune ordonnance"
-          description={`Scannez ou photographiez les ordonnances de ${member.firstName} pour les num\u00e9riser.`}
+          description={`Scannez ou photographiez les ordonnances de ${member.firstName} pour les numériser.`}
           actionLabel="Ajouter une ordonnance"
           onAction={() => setUploadOpen(true)}
         />

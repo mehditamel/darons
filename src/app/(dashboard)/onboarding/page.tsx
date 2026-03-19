@@ -29,7 +29,7 @@ import { familyMemberSchema, type FamilyMemberFormData } from "@/lib/validators/
 const STEPS = [
   { label: "Votre foyer", icon: Home },
   { label: "Votre enfant", icon: Baby },
-  { label: "Termin\u00e9", icon: CheckCircle2 },
+  { label: "Terminé", icon: CheckCircle2 },
 ];
 
 export default function OnboardingPage() {
@@ -68,14 +68,14 @@ export default function OnboardingPage() {
           Bienvenue sur Ma Vie Parentale
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Configurons votre espace familial en quelques \u00e9tapes
+          Configurons votre espace familial en quelques étapes
         </p>
       </div>
 
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-muted-foreground">
-            \u00c9tape {step + 1} sur {STEPS.length}
+            Étape {step + 1} sur {STEPS.length}
           </span>
           <span className="text-sm font-medium">{STEPS[step].label}</span>
         </div>
@@ -88,9 +88,9 @@ export default function OnboardingPage() {
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-warm-orange/10">
               <Home className="h-7 w-7 text-warm-orange" />
             </div>
-            <CardTitle className="text-center">Cr\u00e9ez votre foyer</CardTitle>
+            <CardTitle className="text-center">Créez votre foyer</CardTitle>
             <CardDescription className="text-center">
-              Donnez un nom \u00e0 votre espace familial
+              Donnez un nom à votre espace familial
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -134,7 +134,7 @@ export default function OnboardingPage() {
             </CardTitle>
             <CardDescription className="text-center">
               Commencez par ajouter un enfant pour personnaliser votre
-              exp\u00e9rience
+              expérience
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -147,7 +147,7 @@ export default function OnboardingPage() {
             >
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">Pr\u00e9nom</Label>
+                  <Label htmlFor="firstName">Prénom</Label>
                   <Input
                     id="firstName"
                     placeholder="Matis"
@@ -191,10 +191,10 @@ export default function OnboardingPage() {
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="S\u00e9lectionner" />
+                    <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="M">Gar\u00e7on</SelectItem>
+                    <SelectItem value="M">Garçon</SelectItem>
                     <SelectItem value="F">Fille</SelectItem>
                   </SelectContent>
                 </Select>
@@ -232,10 +232,10 @@ export default function OnboardingPage() {
               <CheckCircle2 className="h-8 w-8 text-warm-green" />
             </div>
             <CardTitle className="text-center">
-              Votre cockpit est pr\u00eat !
+              Votre cockpit est prêt !
             </CardTitle>
             <CardDescription className="text-center">
-              Vous pouvez maintenant commencer \u00e0 utiliser Ma Vie Parentale.
+              Vous pouvez maintenant commencer à utiliser Ma Vie Parentale.
               Ajoutez des vaccins, des documents, ou explorez votre tableau de
               bord.
             </CardDescription>
@@ -245,7 +245,7 @@ export default function OnboardingPage() {
               className="w-full"
               onClick={() => router.push("/dashboard")}
             >
-              Acc\u00e9der \u00e0 mon tableau de bord
+              Accéder à mon tableau de bord
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </CardContent>

@@ -20,14 +20,14 @@ export default function MarketingLayout({
           </Link>
           <Link href="/">
             <Button variant="ghost" size="sm">
-              Retour \u00e0 l&apos;accueil
+              Retour à l&apos;accueil
             </Button>
           </Link>
         </div>
       </header>
       <main className="mx-auto max-w-4xl px-4 py-12">{children}</main>
       <footer className="border-t py-8 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} Ma Vie Parentale. Tous droits r\u00e9serv\u00e9s.
+        &copy; {new Date().getFullYear()} Ma Vie Parentale. Tous droits réservés.
       </footer>
     </div>
   );

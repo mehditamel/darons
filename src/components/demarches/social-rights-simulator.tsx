@@ -31,7 +31,7 @@ import {
 const socialRightsSchema = z.object({
   revenuAnnuel: z
     .number({ required_error: "Le revenu annuel est requis" })
-    .min(0, "Le revenu ne peut pas \u00eatre n\u00e9gatif"),
+    .min(0, "Le revenu ne peut pas être négatif"),
   situationFamiliale: z.enum(["couple", "isolee"]),
   nbEnfants: z.number().int().min(1).max(10).default(1),
   ageEnfant1: z.number().int().min(0).max(25).default(1),
@@ -101,7 +101,7 @@ export function SocialRightsSimulator() {
           </CardTitle>
           <CardDescription>
             Estimez vos droits aux allocations CAF : PAJE, allocations
-            familiales, CMG, allocation de rentr\u00e9e scolaire
+            familiales, CMG, allocation de rentrée scolaire
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -109,7 +109,7 @@ export function SocialRightsSimulator() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="revenuAnnuel">
-                  Revenu net cat\u00e9goriel annuel (\u20ac)
+                  Revenu net catégoriel annuel (€)
                 </Label>
                 <Input
                   id="revenuAnnuel"
@@ -143,14 +143,14 @@ export function SocialRightsSimulator() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="couple">Couple</SelectItem>
-                    <SelectItem value="isolee">Parent isol\u00e9</SelectItem>
+                    <SelectItem value="isolee">Parent isolé</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="nbEnfants">
-                  Nombre d&apos;enfants \u00e0 charge
+                  Nombre d&apos;enfants à charge
                 </Label>
                 <Input
                   id="nbEnfants"
@@ -163,7 +163,7 @@ export function SocialRightsSimulator() {
 
               <div className="space-y-2">
                 <Label htmlFor="ageEnfant1">
-                  \u00c2ge enfant 1 (ann\u00e9es)
+                  Âge enfant 1 (années)
                 </Label>
                 <Input
                   id="ageEnfant1"
@@ -177,7 +177,7 @@ export function SocialRightsSimulator() {
               {nbEnfants >= 2 && (
                 <div className="space-y-2">
                   <Label htmlFor="ageEnfant2">
-                    \u00c2ge enfant 2 (ann\u00e9es)
+                    Âge enfant 2 (années)
                   </Label>
                   <Input
                     id="ageEnfant2"
@@ -192,7 +192,7 @@ export function SocialRightsSimulator() {
               {nbEnfants >= 3 && (
                 <div className="space-y-2">
                   <Label htmlFor="ageEnfant3">
-                    \u00c2ge enfant 3 (ann\u00e9es)
+                    Âge enfant 3 (années)
                   </Label>
                   <Input
                     id="ageEnfant3"
@@ -222,13 +222,13 @@ export function SocialRightsSimulator() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="aucun">Aucun / Non concern\u00e9</SelectItem>
-                    <SelectItem value="creche">Cr\u00e8che</SelectItem>
+                    <SelectItem value="aucun">Aucun / Non concerné</SelectItem>
+                    <SelectItem value="creche">Crèche</SelectItem>
                     <SelectItem value="assistante_maternelle">
                       Assistante maternelle
                     </SelectItem>
                     <SelectItem value="garde_domicile">
-                      Garde \u00e0 domicile
+                      Garde à domicile
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -237,7 +237,7 @@ export function SocialRightsSimulator() {
               {currentModeGarde !== "aucun" && (
                 <div className="space-y-2">
                   <Label htmlFor="coutGardeMensuel">
-                    Co\u00fbt garde mensuel (\u20ac)
+                    Coût garde mensuel (€)
                   </Label>
                   <Input
                     id="coutGardeMensuel"
@@ -265,7 +265,7 @@ export function SocialRightsSimulator() {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">
-              R\u00e9sultat de la simulation
+              Résultat de la simulation
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -301,7 +301,7 @@ export function SocialRightsSimulator() {
                       {detail.montant.toLocaleString("fr-FR", {
                         minimumFractionDigits: 2,
                       })}{" "}
-                      \u20ac
+                      €
                     </p>
                     <p className="text-[10px] text-muted-foreground">
                       {detail.periodicite === "mensuel"
@@ -326,18 +326,18 @@ export function SocialRightsSimulator() {
                     {result.totalMensuel.toLocaleString("fr-FR", {
                       minimumFractionDigits: 2,
                     })}{" "}
-                    \u20ac/mois
+                    €/mois
                   </p>
                 </div>
                 <div className="mt-2 flex items-center justify-between">
                   <p className="text-sm text-muted-foreground">
-                    Total annuel estim\u00e9
+                    Total annuel estimé
                   </p>
                   <Badge variant="outline">
                     {result.totalAnnuel.toLocaleString("fr-FR", {
                       minimumFractionDigits: 2,
                     })}{" "}
-                    \u20ac/an
+                    €/an
                   </Badge>
                 </div>
               </div>

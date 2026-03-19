@@ -47,7 +47,7 @@ export default function ResetPasswordPage() {
       );
 
       if (authError) {
-        setError("Impossible d'envoyer le lien de r\u00e9initialisation.");
+        setError("Impossible d'envoyer le lien de réinitialisation.");
         return;
       }
 
@@ -66,17 +66,17 @@ export default function ResetPasswordPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-teal/10">
             <Mail className="h-8 w-8 text-warm-teal" />
           </div>
-          <CardTitle>Email envoy\u00e9</CardTitle>
+          <CardTitle>Email envoyé</CardTitle>
           <CardDescription>
             Si un compte existe avec cette adresse, vous recevrez un lien de
-            r\u00e9initialisation dans quelques instants.
+            réinitialisation dans quelques instants.
           </CardDescription>
         </CardHeader>
         <CardFooter className="justify-center">
           <Link href="/login">
             <Button variant="ghost">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Retour \u00e0 la connexion
+              Retour à la connexion
             </Button>
           </Link>
         </CardFooter>
@@ -87,9 +87,9 @@ export default function ResetPasswordPage() {
   return (
     <Card className="shadow-lg">
       <CardHeader className="text-center">
-        <CardTitle>Mot de passe oubli\u00e9</CardTitle>
+        <CardTitle>Mot de passe oublié</CardTitle>
         <CardDescription>
-          Saisissez votre email pour recevoir un lien de r\u00e9initialisation
+          Saisissez votre email pour recevoir un lien de réinitialisation
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -125,7 +125,7 @@ export default function ResetPasswordPage() {
         <Link href="/login">
           <Button variant="ghost" size="sm">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour \u00e0 la connexion
+            Retour à la connexion
           </Button>
         </Link>
       </CardFooter>

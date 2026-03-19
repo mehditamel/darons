@@ -49,7 +49,7 @@ export function SanteEnrichieTabs({
   if (!selectedChild) {
     return (
       <p className="text-sm text-muted-foreground">
-        Aucun enfant dans le foyer. Ajoutez un enfant dans les param\u00e8tres pour commencer le suivi sant\u00e9.
+        Aucun enfant dans le foyer. Ajoutez un enfant dans les paramètres pour commencer le suivi santé.
       </p>
     );
   }
@@ -68,8 +68,8 @@ export function SanteEnrichieTabs({
       <Tabs defaultValue="examens" className="space-y-4">
         <TabsList className="flex-wrap h-auto gap-1">
           <TabsTrigger value="examens">Examens</TabsTrigger>
-          <TabsTrigger value="tnd">Rep\u00e9rage TND</TabsTrigger>
-          <TabsTrigger value="ecrans">\u00c9crans</TabsTrigger>
+          <TabsTrigger value="tnd">Repérage TND</TabsTrigger>
+          <TabsTrigger value="ecrans">Écrans</TabsTrigger>
           <TabsTrigger value="journal">Journal</TabsTrigger>
           <TabsTrigger value="allergies">Allergies</TabsTrigger>
           <TabsTrigger value="ordonnances">Ordonnances</TabsTrigger>

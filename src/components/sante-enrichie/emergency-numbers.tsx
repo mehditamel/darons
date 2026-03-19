@@ -12,7 +12,7 @@ export function EmergencyNumbers() {
         <div className="flex items-center gap-2 mb-2">
           <Phone className="h-4 w-4 text-red-600" />
           <span className="text-sm font-semibold text-red-700">
-            Num\u00e9ros d&apos;urgence
+            Numéros d&apos;urgence
           </span>
         </div>
         <div className="flex flex-wrap gap-2">

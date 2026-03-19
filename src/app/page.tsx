@@ -19,44 +19,44 @@ import { PLAN_PRICING } from "@/lib/constants";
 const FEATURES = [
   {
     icon: HeartPulse,
-    title: "Sant\u00e9 & vaccins",
+    title: "Santé & vaccins",
     description:
-      "Calendrier vaccinal, courbes de croissance, rendez-vous m\u00e9dicaux. Ne manquez plus aucune dose.",
+      "Calendrier vaccinal, courbes de croissance, rendez-vous médicaux. Ne manquez plus aucune dose.",
     color: "text-warm-teal bg-warm-teal/10",
   },
   {
     icon: GraduationCap,
-    title: "\u00c9ducation & d\u00e9veloppement",
+    title: "Éducation & développement",
     description:
-      "Timeline scolaire, activit\u00e9s extra-scolaires, jalons de d\u00e9veloppement et journal parental.",
+      "Timeline scolaire, activités extra-scolaires, jalons de développement et journal parental.",
     color: "text-warm-blue bg-warm-blue/10",
   },
   {
     icon: Calculator,
     title: "Foyer fiscal",
     description:
-      "Simulation IR, cr\u00e9dits d'imp\u00f4t garde d'enfant, comparateur avant/apr\u00e8s optimisation.",
+      "Simulation IR, crédits d'impôt garde d'enfant, comparateur avant/après optimisation.",
     color: "text-warm-gold bg-warm-gold/10",
   },
   {
     icon: Wallet,
     title: "Budget intelligent",
     description:
-      "Suivi des d\u00e9penses par enfant, allocations CAF, reste \u00e0 charge net et coach budg\u00e9taire IA.",
+      "Suivi des dépenses par enfant, allocations CAF, reste à charge net et coach budgétaire IA.",
     color: "text-warm-purple bg-warm-purple/10",
   },
   {
     icon: Baby,
     title: "Recherche de garde",
     description:
-      "Cr\u00e8ches, assistantes maternelles, MAM autour de chez vous avec simulateur de co\u00fbt.",
+      "Crèches, assistantes maternelles, MAM autour de chez vous avec simulateur de coût.",
     color: "text-warm-orange bg-warm-orange/10",
   },
   {
     icon: ClipboardList,
-    title: "D\u00e9marches & droits",
+    title: "Démarches & droits",
     description:
-      "Checklist naissance \u2192 3 ans, simulateur d'allocations, rappels d'\u00e9ch\u00e9ances.",
+      "Checklist naissance → 3 ans, simulateur d'allocations, rappels d'échéances.",
     color: "text-warm-green bg-warm-green/10",
   },
 ];
@@ -64,9 +64,9 @@ const FEATURES = [
 const PLANS = [
   {
     name: "Gratuit",
-    price: "0 \u20ac",
+    price: "0 €",
     period: "",
-    description: "Pour d\u00e9couvrir le cockpit",
+    description: "Pour découvrir le cockpit",
     features: [
       "1 adulte + 1 enfant",
       "5 documents",
@@ -80,16 +80,16 @@ const PLANS = [
   },
   {
     name: "Premium",
-    price: "9,90 \u20ac",
+    price: "9,90 €",
     period: "/mois",
     description: "Pour les familles actives",
     popular: true,
     features: [
-      "Membres illimit\u00e9s",
-      "Documents illimit\u00e9s (10 Go)",
+      "Membres illimités",
+      "Documents illimités (10 Go)",
       "Open Banking (sync bancaire)",
-      "Coach budg\u00e9taire IA",
-      "R\u00e9sum\u00e9 mensuel IA",
+      "Coach budgétaire IA",
+      "Résumé mensuel IA",
       "Sync Google Calendar",
       "Alertes email + push",
     ],
@@ -98,7 +98,7 @@ const PLANS = [
   },
   {
     name: "Family Pro",
-    price: "19,90 \u20ac",
+    price: "19,90 €",
     period: "/mois",
     description: "Le cockpit complet",
     features: [
@@ -135,7 +135,7 @@ export default function LandingPage() {
               href="#fonctionnalites"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Fonctionnalit\u00e9s
+              Fonctionnalités
             </a>
             <a
               href="#tarifs"
@@ -162,27 +162,27 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl px-4 text-center">
           <Badge variant="secondary" className="mb-4">
             <Sparkles className="mr-1 h-3 w-3" />
-            Nouveau &mdash; Coach budg\u00e9taire IA
+            Nouveau &mdash; Coach budgétaire IA
           </Badge>
           <h1 className="mx-auto max-w-4xl text-4xl font-serif font-bold tracking-tight sm:text-5xl lg:text-6xl">
             Toute la vie de famille.{" "}
             <span className="text-primary">Un seul cockpit.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Centralisez la gestion administrative, \u00e9ducative, fiscale et
-            budg\u00e9taire de votre foyer. Suivi vaccins, budget familial,
-            simulation IR, courbes de croissance \u2014 tout en un seul endroit.
+            Centralisez la gestion administrative, éducative, fiscale et
+            budgétaire de votre foyer. Suivi vaccins, budget familial,
+            simulation IR, courbes de croissance — tout en un seul endroit.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/register">
               <Button size="lg" className="h-12 px-8 text-base">
-                Cr\u00e9er mon cockpit gratuitement
+                Créer mon cockpit gratuitement
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
             <a href="#fonctionnalites">
               <Button variant="outline" size="lg" className="h-12 px-8 text-base">
-                D\u00e9couvrir les fonctionnalit\u00e9s
+                Découvrir les fonctionnalités
               </Button>
             </a>
           </div>
@@ -197,10 +197,10 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-              4 piliers pour g\u00e9rer votre foyer
+              4 piliers pour gérer votre foyer
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Aucune solution int\u00e9gr\u00e9e n&apos;existe sur le march\u00e9 fran\u00e7ais. Jusqu&apos;\u00e0
+              Aucune solution intégrée n&apos;existe sur le marché français. Jusqu&apos;à
               aujourd&apos;hui.
             </p>
           </div>
@@ -233,11 +233,11 @@ export default function LandingPage() {
             <Shield className="h-8 w-8 text-warm-green" />
           </div>
           <h2 className="text-3xl font-serif font-bold">
-            Vos donn\u00e9es sont prot\u00e9g\u00e9es
+            Vos données sont protégées
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Chiffrement de bout en bout, conformit\u00e9 RGPD, h\u00e9bergement europ\u00e9en.
-            Vos donn\u00e9es de sant\u00e9 ne sont jamais partag\u00e9es. Vous gardez le contr\u00f4le total.
+            Chiffrement de bout en bout, conformité RGPD, hébergement européen.
+            Vos données de santé ne sont jamais partagées. Vous gardez le contrôle total.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
@@ -247,7 +247,7 @@ export default function LandingPage() {
               <Check className="h-4 w-4 text-warm-green" /> Conforme RGPD
             </span>
             <span className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-warm-green" /> H\u00e9bergement UE
+              <Check className="h-4 w-4 text-warm-green" /> Hébergement UE
             </span>
             <span className="flex items-center gap-2">
               <Check className="h-4 w-4 text-warm-green" /> Export & suppression
@@ -264,7 +264,7 @@ export default function LandingPage() {
               Des tarifs simples et transparents
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Commencez gratuitement. Passez \u00e0 Premium quand vous \u00eates pr\u00eat.
+              Commencez gratuitement. Passez à Premium quand vous êtes prêt.
             </p>
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
@@ -317,15 +317,15 @@ export default function LandingPage() {
       <section className="py-20">
         <div className="mx-auto max-w-3xl px-4 text-center">
           <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-            Pr\u00eat \u00e0 simplifier votre vie de famille ?
+            Prêt à simplifier votre vie de famille ?
           </h2>
           <p className="mt-4 text-muted-foreground">
             Rejoignez les familles qui centralisent tout dans un seul cockpit.
-            Gratuit pour d\u00e9marrer.
+            Gratuit pour démarrer.
           </p>
           <Link href="/register">
             <Button size="lg" className="mt-8 h-12 px-8 text-base">
-              Cr\u00e9er mon cockpit gratuitement
+              Créer mon cockpit gratuitement
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
@@ -344,7 +344,7 @@ export default function LandingPage() {
                 <span className="font-serif font-bold">Ma Vie Parentale</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                Le tableau de bord familial unifi\u00e9 pour les parents fran\u00e7ais.
+                Le tableau de bord familial unifié pour les parents français.
               </p>
             </div>
             <div>
@@ -352,7 +352,7 @@ export default function LandingPage() {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <a href="#fonctionnalites" className="hover:text-foreground">
-                    Fonctionnalit\u00e9s
+                    Fonctionnalités
                   </a>
                 </li>
                 <li>
@@ -363,11 +363,11 @@ export default function LandingPage() {
               </ul>
             </div>
             <div>
-              <h4 className="mb-3 text-sm font-semibold">L\u00e9gal</h4>
+              <h4 className="mb-3 text-sm font-semibold">Légal</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <Link href="/mentions-legales" className="hover:text-foreground">
-                    Mentions l\u00e9gales
+                    Mentions légales
                   </Link>
                 </li>
                 <li>
@@ -380,7 +380,7 @@ export default function LandingPage() {
                     href="/politique-confidentialite"
                     className="hover:text-foreground"
                   >
-                    Politique de confidentialit\u00e9
+                    Politique de confidentialité
                   </Link>
                 </li>
               </ul>
@@ -393,7 +393,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="mt-8 border-t pt-8 text-center text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Ma Vie Parentale. Tous droits r\u00e9serv\u00e9s.
+            &copy; {new Date().getFullYear()} Ma Vie Parentale. Tous droits réservés.
           </div>
         </div>
       </footer>

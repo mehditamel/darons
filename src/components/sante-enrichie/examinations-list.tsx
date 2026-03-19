@@ -85,11 +85,11 @@ export function ExaminationsList({ member, examinations }: ExaminationsListProps
                   )}
                   <div>
                     <p className="text-sm font-medium">
-                      Examen n\u00b0{ref.number} — {ref.ageLabel}
+                      Examen n°{ref.number} — {ref.ageLabel}
                     </p>
                     {exam?.completedDate && (
                       <p className="text-xs text-muted-foreground">
-                        R\u00e9alis\u00e9 le{" "}
+                        Réalisé le{" "}
                         {new Date(exam.completedDate).toLocaleDateString("fr-FR")}
                         {exam.practitioner && ` — ${exam.practitioner}`}
                       </p>
@@ -106,15 +106,15 @@ export function ExaminationsList({ member, examinations }: ExaminationsListProps
                 <div className="flex items-center gap-2">
                   {isCompleted ? (
                     <Badge variant="outline" className="bg-green-100 text-green-700 border-green-200">
-                      R\u00e9alis\u00e9
+                      Réalisé
                     </Badge>
                   ) : isDue ? (
                     <Badge variant="outline" className="bg-orange-100 text-orange-700 border-orange-200">
-                      \u00c0 faire
+                      À faire
                     </Badge>
                   ) : isFuture ? (
                     <Badge variant="outline" className="text-muted-foreground">
-                      \u00c0 venir
+                      À venir
                     </Badge>
                   ) : null}
                   <Button variant="ghost" size="sm">

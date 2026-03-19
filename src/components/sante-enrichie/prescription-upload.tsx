@@ -77,8 +77,8 @@ export function PrescriptionUpload({
       setMedications(result.medications ?? []);
 
       toast({
-        title: "OCR termin\u00e9",
-        description: `${result.medications?.length ?? 0} m\u00e9dicament(s) d\u00e9tect\u00e9(s)`,
+        title: "OCR terminé",
+        description: `${result.medications?.length ?? 0} médicament(s) détecté(s)`,
       });
     } catch {
       toast({
@@ -116,7 +116,7 @@ export function PrescriptionUpload({
     }
 
     toast({
-      title: "Ordonnance enregistr\u00e9e",
+      title: "Ordonnance enregistrée",
     });
     reset();
     setMedications([]);
@@ -151,13 +151,13 @@ export function PrescriptionUpload({
               {ocrLoading && <Loader2 className="h-4 w-4 animate-spin" />}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              Formats accept\u00e9s : JPG, PNG, PDF. L&apos;OCR extraira automatiquement les m\u00e9dicaments.
+              Formats acceptés : JPG, PNG, PDF. L&apos;OCR extraira automatiquement les médicaments.
             </p>
           </div>
 
           {medications.length > 0 && (
             <div>
-              <Label>M\u00e9dicaments d\u00e9tect\u00e9s</Label>
+              <Label>Médicaments détectés</Label>
               <div className="space-y-2 mt-1">
                 {medications.map((med: Medication, i: number) => (
                   <div
@@ -212,7 +212,7 @@ export function PrescriptionUpload({
             <Label htmlFor="notes">Notes</Label>
             <Textarea
               id="notes"
-              placeholder="Instructions particuli\u00e8res..."
+              placeholder="Instructions particulières..."
               {...register("notes")}
             />
           </div>

@@ -87,7 +87,7 @@ export function DemarchesTaskCard({ task, onToggle }: DemarchesTaskCardProps) {
             <div className="flex items-center gap-3 text-xs text-muted-foreground">
               {task.dueDate && (
                 <span>
-                  {task.completed ? "Fait le" : "\u00c9ch\u00e9ance"} :{" "}
+                  {task.completed ? "Fait le" : "Échéance"} :{" "}
                   {format(parseISO(task.dueDate), "d MMM yyyy", {
                     locale: fr,
                   })}

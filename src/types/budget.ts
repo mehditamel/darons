@@ -124,11 +124,11 @@ export const CAF_ALLOCATION_TYPES = [
 
 export const BUDGET_CATEGORY_LABELS: Record<BudgetCategory, string> = {
   alimentation: "Alimentation",
-  sante: "Sant\u00e9",
+  sante: "Santé",
   garde: "Garde",
-  vetements: "V\u00eatements",
+  vetements: "Vêtements",
   loisirs: "Loisirs",
-  scolarite: "Scolarit\u00e9",
+  scolarite: "Scolarité",
   transport: "Transport",
   logement: "Logement",
   assurance: "Assurance",
@@ -136,8 +136,8 @@ export const BUDGET_CATEGORY_LABELS: Record<BudgetCategory, string> = {
 };
 
 export const DOCUMENT_CATEGORY_LABELS: Record<DocumentCategory, string> = {
-  identite: "Identit\u00e9",
-  sante: "Sant\u00e9",
+  identite: "Identité",
+  sante: "Santé",
   fiscal: "Fiscal",
   scolaire: "Scolaire",
   caf: "CAF",

@@ -57,8 +57,8 @@ export function AllergiesList({ memberId, allergies }: AllergiesListProps) {
       <>
         <EmptyState
           icon={AlertTriangle}
-          title="Aucune allergie enregistr\u00e9e"
-          description="Enregistrez les allergies et intol\u00e9rances pour faciliter le suivi m\u00e9dical."
+          title="Aucune allergie enregistrée"
+          description="Enregistrez les allergies et intolérances pour faciliter le suivi médical."
           actionLabel="Ajouter une allergie"
           onAction={handleNew}
         />
@@ -92,7 +92,7 @@ export function AllergiesList({ memberId, allergies }: AllergiesListProps) {
                     <p className="text-sm font-medium">{allergy.allergen}</p>
                     {allergy.reaction && (
                       <p className="text-xs text-muted-foreground">
-                        R\u00e9action : {allergy.reaction}
+                        Réaction : {allergy.reaction}
                       </p>
                     )}
                     {allergy.notes && (
@@ -133,7 +133,7 @@ export function AllergiesList({ memberId, allergies }: AllergiesListProps) {
       {inactiveAllergies.length > 0 && (
         <div className="mt-4">
           <p className="text-sm text-muted-foreground mb-2">
-            Allergies r\u00e9solues / inactives
+            Allergies résolues / inactives
           </p>
           <div className="space-y-2 opacity-60">
             {inactiveAllergies.map((allergy) => (
