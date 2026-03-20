@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  try {
   const body = await request.json();
   const parsed = createCalendarEventSchema.safeParse(body);
   if (!parsed.success) {
@@ -110,6 +111,12 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ error: "Type non supporté" }, { status: 400 });
+  } catch {
+    return NextResponse.json(
+      { error: "Une erreur inattendue est survenue" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function GET(request: NextRequest) {
@@ -130,25 +137,32 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const accessToken = await getValidAccessToken(user.id);
-  if (!accessToken) {
+  try {
+    const accessToken = await getValidAccessToken(user.id);
+    if (!accessToken) {
+      return NextResponse.json(
+        { error: "Calendrier non connecté" },
+        { status: 400 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const timeMin = searchParams.get("timeMin") ?? undefined;
+    const timeMax = searchParams.get("timeMax") ?? undefined;
+
+    const result = await listGoogleCalendarEvents(accessToken, "primary", timeMin, timeMax);
+    if (!result.success) {
+      return NextResponse.json(
+        { error: "Impossible de récupérer les événements" },
+        { status: 502 }
+      );
+    }
+
+    return NextResponse.json({ events: result.events });
+  } catch {
     return NextResponse.json(
-      { error: "Calendrier non connecté" },
-      { status: 400 }
+      { error: "Une erreur inattendue est survenue" },
+      { status: 500 }
     );
   }
-
-  const { searchParams } = new URL(request.url);
-  const timeMin = searchParams.get("timeMin") ?? undefined;
-  const timeMax = searchParams.get("timeMax") ?? undefined;
-
-  const result = await listGoogleCalendarEvents(accessToken, "primary", timeMin, timeMax);
-  if (!result.success) {
-    return NextResponse.json(
-      { error: "Impossible de récupérer les événements" },
-      { status: 502 }
-    );
-  }
-
-  return NextResponse.json({ events: result.events });
 }

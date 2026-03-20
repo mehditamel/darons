@@ -1,7 +1,4 @@
 "use server";
-
-import { safeAction } from "@/lib/actions/safe-action";
-
 import { createClient } from "@/lib/supabase/server";
 
 // ── Types ──
@@ -13,8 +10,6 @@ export interface ConsentRecord {
   grantedAt: string;
   revokedAt: string | null;
 }
-
-
 // ── Get user consents ──
 
 export async function getUserConsents(): Promise<{

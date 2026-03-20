@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  try {
   const url = new URL("https://api-adresse.data.gouv.fr/search");
   url.searchParams.set("q", q);
   url.searchParams.set("limit", "5");
@@ -54,4 +55,10 @@ export async function GET(request: NextRequest) {
   );
 
   return NextResponse.json({ results });
+  } catch {
+    return NextResponse.json(
+      { error: "Une erreur inattendue est survenue" },
+      { status: 500 }
+    );
+  }
 }

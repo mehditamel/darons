@@ -4,6 +4,7 @@ import { callClaude, parseJsonResponse } from "@/lib/ai/anthropic";
 import { ACTIVITY_SUGGESTIONS_PROMPT } from "@/lib/ai/prompts";
 import { PLAN_LIMITS, AI_MONTHLY_LIMITS } from "@/lib/constants";
 import { rateLimit } from "@/lib/rate-limit";
+import { aiSuggestionsSchema } from "@/lib/validators/api-routes";
 import { differenceInMonths, format } from "date-fns";
 import type { ActivitySuggestion } from "@/types/ai";
 
@@ -25,10 +26,14 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { childId } = body as { childId: string };
-  if (!childId) {
-    return NextResponse.json({ error: "childId requis" }, { status: 400 });
+  const parsed = aiSuggestionsSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: parsed.error.errors[0]?.message ?? "Données invalides" },
+      { status: 400 }
+    );
   }
+  const { childId } = parsed.data;
 
   // Check plan
   const { data: profile } = await supabase

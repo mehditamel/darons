@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { rateLimit } from "@/lib/rate-limit";
 import crypto from "crypto";
 
 const BRIDGE_WEBHOOK_SECRET = process.env.BRIDGE_WEBHOOK_SECRET || "";
@@ -42,6 +43,12 @@ interface BridgeWebhookEvent {
 }
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit("webhook-bridge", 30, 60_000);
+  if (limited) {
+    return NextResponse.json({ error: "Rate limited" }, { status: 429 });
+  }
+
+  try {
   const body = await request.text();
   const signature = request.headers.get("bridge-signature") || "";
 
@@ -117,4 +124,10 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ received: true });
+  } catch {
+    return NextResponse.json(
+      { error: "Une erreur inattendue est survenue" },
+      { status: 500 }
+    );
+  }
 }

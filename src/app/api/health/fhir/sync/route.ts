@@ -2,8 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createMESClient, isMESConfigured } from "@/lib/integrations/mon-espace-sante";
 import { syncMemberHealth } from "@/lib/integrations/fhir-sync";
+import { fhirMemberSchema } from "@/lib/validators/api-routes";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit("fhir-sync", 5, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   if (!isMESConfigured()) {
     return NextResponse.json(
       { error: "L'intégration Mon Espace Santé n'est pas configurée." },
@@ -18,11 +28,14 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const memberId = body.memberId as string;
-
-  if (!memberId) {
-    return NextResponse.json({ error: "memberId requis" }, { status: 400 });
+  const parsed = fhirMemberSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: parsed.error.errors[0]?.message ?? "Données invalides" },
+      { status: 400 }
+    );
   }
+  const { memberId } = parsed.data;
 
   // Get connection info
   const { data: connection } = await supabase

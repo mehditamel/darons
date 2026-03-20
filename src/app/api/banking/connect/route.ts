@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { bridgeClient, isBridgeConfigured } from "@/lib/integrations/bridge";
 import { rateLimit } from "@/lib/rate-limit";
+import { bankingConnectSchema } from "@/lib/validators/api-routes";
 
 export async function POST(request: Request) {
   const limited = rateLimit("banking-connect", 5, 60_000);
@@ -29,8 +30,9 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
+    const parsed = bankingConnectSchema.safeParse(body);
     const callbackUrl =
-      body.callbackUrl ||
+      parsed.data?.callbackUrl ||
       `${process.env.NEXT_PUBLIC_APP_URL}/budget?bank_connected=true`;
 
     const accessToken = await bridgeClient.authenticate(

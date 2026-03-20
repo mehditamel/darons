@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { rateLimit } from "@/lib/rate-limit";
 import { z } from "zod";
 
 const phoneNumberSchema = z.object({
@@ -10,6 +11,14 @@ const phoneNumberSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit("profile-phone", 5, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const {
     data: { user },
@@ -19,6 +28,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
   }
 
+  try {
   const body = await request.json();
   const parsed = phoneNumberSchema.safeParse(body);
 
@@ -45,4 +55,10 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json(
+      { error: "Une erreur inattendue est survenue" },
+      { status: 500 }
+    );
+  }
 }
