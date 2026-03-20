@@ -13,6 +13,8 @@ import { ExportPdfButton } from "@/components/parametres/export-pdf-button";
 import { DataExportButton } from "@/components/parametres/data-export-button";
 import { DeleteAccountDialog } from "@/components/parametres/delete-account-dialog";
 import { ConsentManager } from "@/components/parametres/consent-manager";
+import { PhoneNumberSettings } from "@/components/parametres/phone-number-settings";
+import { UpgradeButton } from "@/components/parametres/upgrade-button";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getUserConsents, getDeletionStatus } from "@/lib/actions/rgpd";
 import { PLAN_LIMITS } from "@/lib/constants";
@@ -27,7 +29,7 @@ export default async function ParametresPage() {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const { data: profile } = user
-    ? await supabase.from("profiles").select("subscription_plan, email, first_name, last_name").eq("id", user.id).single()
+    ? await supabase.from("profiles").select("subscription_plan, email, first_name, last_name, calendar_tokens, phone_number").eq("id", user.id).single()
     : { data: null };
   const plan = (profile?.subscription_plan ?? "free") as keyof typeof PLAN_LIMITS;
   const planLimits = PLAN_LIMITS[plan];
@@ -121,10 +123,16 @@ export default async function ParametresPage() {
             .map((c) => ({ id: c.id, firstName: c.firstName }))}
         />
 
+        {/* Phone / SMS */}
+        <PhoneNumberSettings
+          currentPhoneNumber={profile?.phone_number ?? null}
+          hasSms={hasSms}
+        />
+
         {/* Calendar sync */}
         <CalendarSyncCard
           hasAccess={hasCalendarSync}
-          isConnected={false}
+          isConnected={!!profile?.calendar_tokens}
         />
 
         <Card>
@@ -171,7 +179,7 @@ export default async function ParametresPage() {
               </li>
             </ul>
             {plan === "free" && (
-              <Button>Passer à Premium — 9,90 €/mois</Button>
+              <UpgradeButton plan="premium" label="Passer à Premium — 9,90 €/mois" />
             )}
           </CardContent>
         </Card>

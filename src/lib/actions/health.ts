@@ -11,6 +11,7 @@ import {
   type MedicalAppointmentFormData,
 } from "@/lib/validators/health";
 import type { Vaccination, GrowthMeasurement, MedicalAppointment } from "@/types/health";
+import { syncMedicalAppointmentToCalendar } from "@/lib/integrations/google-calendar";
 
 type ActionResult<T = void> = {
   success: boolean;
@@ -307,6 +308,22 @@ export async function createMedicalAppointment(
   if (error) return { success: false, error: "Erreur lors de la création du RDV" };
 
   revalidatePath("/sante");
+
+  // Best-effort: sync to Google Calendar if connected
+  const { data: member } = await supabase
+    .from("family_members")
+    .select("first_name")
+    .eq("id", data.member_id)
+    .single();
+
+  syncMedicalAppointmentToCalendar(
+    user.id,
+    member?.first_name ?? "Enfant",
+    data.appointment_type,
+    data.appointment_date,
+    data.practitioner,
+    data.location
+  );
 
   return {
     success: true,

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isMockMode, MOCK_SCHOOLS } from "@/lib/integrations/api-gouv-mock";
 
 const ANNUAIRE_EDUCATION_URL =
   process.env.API_ANNUAIRE_EDUCATION_URL ||
@@ -43,6 +44,13 @@ export async function GET(request: NextRequest) {
     });
 
     if (!response.ok) {
+      if (isMockMode()) {
+        const filtered = MOCK_SCHOOLS.filter((s) =>
+          (!commune || s.city.toLowerCase().includes(commune.toLowerCase())) &&
+          (!codePostal || s.postalCode === codePostal)
+        );
+        return NextResponse.json({ schools: filtered, source: "mock" });
+      }
       return NextResponse.json(
         { schools: [], source: "annuaire-education", error: "API indisponible" },
         { status: 200 }
@@ -73,6 +81,13 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ schools, source: "annuaire-education" });
   } catch {
+    if (isMockMode()) {
+      const filtered = MOCK_SCHOOLS.filter((s) =>
+        (!commune || s.city.toLowerCase().includes(commune.toLowerCase())) &&
+        (!codePostal || s.postalCode === codePostal)
+      );
+      return NextResponse.json({ schools: filtered, source: "mock" });
+    }
     return NextResponse.json(
       { schools: [], source: "annuaire-education", error: "Erreur de connexion" },
       { status: 200 }

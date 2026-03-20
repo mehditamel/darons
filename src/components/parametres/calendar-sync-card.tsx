@@ -1,6 +1,7 @@
 "use client";
 
-import { Calendar, Lock, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { Calendar, Lock, ExternalLink, Loader2, Unlink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +12,9 @@ interface CalendarSyncCardProps {
 }
 
 export function CalendarSyncCard({ hasAccess, isConnected }: CalendarSyncCardProps) {
+  const [connected, setConnected] = useState(isConnected);
+  const [disconnecting, setDisconnecting] = useState(false);
+
   function handleConnect() {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin;
@@ -26,6 +30,22 @@ export function CalendarSyncCard({ hasAccess, isConnected }: CalendarSyncCardPro
     url.searchParams.set("prompt", "consent");
 
     window.location.href = url.toString();
+  }
+
+  async function handleDisconnect() {
+    setDisconnecting(true);
+    try {
+      const response = await fetch("/api/calendar/google/disconnect", {
+        method: "POST",
+      });
+      if (response.ok) {
+        setConnected(false);
+      }
+    } catch {
+      // Silent failure
+    } finally {
+      setDisconnecting(false);
+    }
   }
 
   if (!hasAccess) {
@@ -65,24 +85,41 @@ export function CalendarSyncCard({ hasAccess, isConnected }: CalendarSyncCardPro
             <div>
               <p className="text-sm font-medium">Google Calendar</p>
               <p className="text-xs text-muted-foreground">
-                {isConnected ? "Connecté" : "Non connecté"}
+                {connected ? "Connecté" : "Non connecté"}
               </p>
             </div>
           </div>
-          <Button
-            variant={isConnected ? "outline" : "default"}
-            size="sm"
-            onClick={handleConnect}
-          >
-            {isConnected ? (
-              <>
-                Reconnecter
-                <ExternalLink className="ml-1 h-3 w-3" />
-              </>
-            ) : (
-              "Connecter"
+          <div className="flex gap-2">
+            {connected && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleDisconnect}
+                disabled={disconnecting}
+              >
+                {disconnecting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Unlink className="h-4 w-4" />
+                )}
+                <span className="ml-1">Déconnecter</span>
+              </Button>
             )}
-          </Button>
+            <Button
+              variant={connected ? "outline" : "default"}
+              size="sm"
+              onClick={handleConnect}
+            >
+              {connected ? (
+                <>
+                  Reconnecter
+                  <ExternalLink className="ml-1 h-3 w-3" />
+                </>
+              ) : (
+                "Connecter"
+              )}
+            </Button>
+          </div>
         </div>
 
         <p className="text-xs text-muted-foreground">

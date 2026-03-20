@@ -167,9 +167,27 @@ export async function dispatchNotification(
     allowedChannels.includes("sms" as never) &&
     payload.smsBody
   ) {
-    // SMS requires a phone number — would need to be stored in profile
-    // Placeholder for now
-    channels.push("sms_skipped");
+    const supabaseSms = createClient();
+    const { data: profileData } = await supabaseSms
+      .from("profiles")
+      .select("phone_number")
+      .eq("email", userEmail)
+      .single();
+
+    if (profileData?.phone_number) {
+      const smsResult = await sendSms(profileData.phone_number, payload.smsBody);
+      if (smsResult.success) channels.push("sms");
+      else if (smsResult.error) errors.push(smsResult.error);
+
+      await supabaseSms.from("notification_log").insert({
+        household_id: householdId,
+        channel: "sms",
+        notification_type: payload.type,
+        subject: payload.subject,
+        delivered: smsResult.success,
+        metadata: payload.metadata ?? {},
+      });
+    }
   }
 
   return { channels, errors };

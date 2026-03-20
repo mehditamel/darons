@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { callClaude, parseJsonResponse } from "@/lib/ai/anthropic";
 import { ACTIVITY_SUGGESTIONS_PROMPT } from "@/lib/ai/prompts";
 import { PLAN_LIMITS, AI_MONTHLY_LIMITS } from "@/lib/constants";
+import { rateLimit } from "@/lib/rate-limit";
 import { differenceInMonths, format } from "date-fns";
 import type { ActivitySuggestion } from "@/types/ai";
 
@@ -13,6 +14,14 @@ export async function POST(request: NextRequest) {
   } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+  }
+
+  const limited = rateLimit(`ai-suggestions:${user.id}`, 10, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques secondes." },
+      { status: 429 }
+    );
   }
 
   const body = await request.json();

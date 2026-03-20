@@ -97,6 +97,49 @@ export const MOCK_SCHOOLS = [
   },
 ];
 
+export const MOCK_COMMUNES = [
+  {
+    nom: "Marseille",
+    code: "13055",
+    codesPostaux: ["13001", "13002", "13003", "13004", "13005", "13006", "13007", "13008"],
+    population: 873076,
+    latitude: 43.2965,
+    longitude: 5.3698,
+  },
+  {
+    nom: "Paris",
+    code: "75056",
+    codesPostaux: ["75001", "75002", "75003", "75004", "75005"],
+    population: 2165423,
+    latitude: 48.8566,
+    longitude: 2.3522,
+  },
+  {
+    nom: "Lyon",
+    code: "69123",
+    codesPostaux: ["69001", "69002", "69003", "69004", "69005"],
+    population: 522969,
+    latitude: 45.7640,
+    longitude: 4.8357,
+  },
+  {
+    nom: "Aix-en-Provence",
+    code: "13001",
+    codesPostaux: ["13090", "13100", "13290", "13540"],
+    population: 147122,
+    latitude: 43.5298,
+    longitude: 5.4474,
+  },
+  {
+    nom: "Toulouse",
+    code: "31555",
+    codesPostaux: ["31000", "31100", "31200", "31300", "31400", "31500"],
+    population: 493465,
+    latitude: 43.6047,
+    longitude: 1.4442,
+  },
+];
+
 export function isMockMode(): boolean {
   return process.env.NEXT_PUBLIC_USE_MOCK_GOV_API === "true";
 }
