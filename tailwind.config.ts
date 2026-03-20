@@ -46,11 +46,11 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         sidebar: {
-          DEFAULT: "#1B2838",
-          foreground: "#E2E8F0",
-          accent: "#243447",
-          "accent-foreground": "#FFFFFF",
-          muted: "#94A3B8",
+          DEFAULT: "hsl(var(--sidebar))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          muted: "hsl(var(--sidebar-muted))",
         },
         warm: {
           orange: "#E8734A",

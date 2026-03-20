@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isMockMode, MOCK_SCHOOLS } from "@/lib/integrations/api-gouv-mock";
+import { rateLimit } from "@/lib/rate-limit";
 
 const ANNUAIRE_EDUCATION_URL =
   process.env.API_ANNUAIRE_EDUCATION_URL ||
   "https://data.education.gouv.fr/api/records/1.0/search";
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimit("gov-schools", 20, 60_000);
+  if (limited) {
+    return NextResponse.json({ error: "Trop de requêtes" }, { status: 429 });
+  }
+
   const { searchParams } = new URL(request.url);
   const commune = searchParams.get("commune") || "";
   const type = searchParams.get("type"); // maternelle, elementaire, college, lycee

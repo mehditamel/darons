@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import webpush from "web-push";
+import { rateLimit } from "@/lib/rate-limit";
 
 function getSupabaseAdmin() {
   return createClient(
@@ -21,6 +22,14 @@ function initVapid() {
 }
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit("push-send", 10, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes" },
+      { status: 429 }
+    );
+  }
+
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });

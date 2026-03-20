@@ -123,6 +123,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <div role="img" aria-label="Évolution du temps d'écran quotidien">
             <ResponsiveContainer width="100%" height={250}>
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -158,6 +159,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
                 )}
               </LineChart>
             </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
       )}

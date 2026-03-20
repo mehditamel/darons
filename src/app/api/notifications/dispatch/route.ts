@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { dispatchNotification } from "@/lib/integrations/notifications";
+import { rateLimit } from "@/lib/rate-limit";
 import type { PlanName } from "@/lib/constants";
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit("notif-dispatch", 10, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const {
     data: { user },

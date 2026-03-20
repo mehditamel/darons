@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimit("gov-geocode", 30, 60_000);
+  if (limited) {
+    return NextResponse.json({ error: "Trop de requêtes" }, { status: 429 });
+  }
+
   const q = request.nextUrl.searchParams.get("q");
 
   if (!q || q.length < 2) {

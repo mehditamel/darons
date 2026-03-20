@@ -157,6 +157,7 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
           </CardTitle>
         </CardHeader>
         <CardContent>
+          <div role="img" aria-label="Courbe de croissance avec percentiles OMS">
           <ResponsiveContainer width="100%" height={350}>
             <LineChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -195,6 +196,7 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
               />
             </LineChart>
           </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
 

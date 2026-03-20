@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isMockMode, MOCK_COMMUNES } from "@/lib/integrations/api-gouv-mock";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimit("gov-communes", 30, 60_000);
+  if (limited) {
+    return NextResponse.json({ error: "Trop de requêtes" }, { status: 429 });
+  }
+
   const nom = request.nextUrl.searchParams.get("nom");
 
   if (!nom || nom.length < 2) {
