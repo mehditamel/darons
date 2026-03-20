@@ -61,6 +61,42 @@ export async function getVaccinations(memberId: string): Promise<ActionResult<Va
   };
 }
 
+export async function getVaccinationsByMembers(memberIds: string[]): Promise<ActionResult<Vaccination[]>> {
+  if (memberIds.length === 0) return { success: true, data: [] };
+
+  const { user, supabase } = await getAuthenticatedUser();
+  if (!user) return { success: false, error: "Non authentifié" };
+
+  const { data, error } = await supabase
+    .from("vaccinations")
+    .select("*")
+    .in("member_id", memberIds)
+    .order("administered_date", { ascending: true, nullsFirst: false });
+
+  if (error) return { success: false, error: "Erreur lors de la récupération des vaccins" };
+
+  return {
+    success: true,
+    data: (data ?? []).map((v) => ({
+      id: v.id,
+      memberId: v.member_id,
+      vaccineName: v.vaccine_name,
+      vaccineCode: v.vaccine_code,
+      doseNumber: v.dose_number,
+      administeredDate: v.administered_date,
+      nextDueDate: v.next_due_date,
+      practitioner: v.practitioner,
+      batchNumber: v.batch_number,
+      notes: v.notes,
+      status: v.status,
+      fhirResourceId: v.fhir_resource_id ?? null,
+      fhirLastUpdated: v.fhir_last_updated ?? null,
+      syncSource: v.sync_source ?? "local",
+      createdAt: v.created_at,
+    })),
+  };
+}
+
 export async function createVaccination(
   formData: VaccinationFormData
 ): Promise<ActionResult<Vaccination>> {

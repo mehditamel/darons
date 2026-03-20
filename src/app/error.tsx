@@ -13,7 +13,9 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("Global error:", error);
+    import("@/lib/monitoring").then(({ captureException }) => {
+      captureException(error, { boundary: "global", digest: error.digest });
+    });
   }, [error]);
 
   return (

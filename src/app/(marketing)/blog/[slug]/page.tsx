@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getArticleBySlug, getAllArticles } from "@/lib/blog-data";
+import { JsonLd } from "@/components/seo/json-ld";
 import { formatDate } from "@/lib/utils";
 
 interface BlogPostPageProps {
@@ -114,6 +115,29 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <article className="max-w-2xl mx-auto">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: article.title,
+          description: article.description,
+          datePublished: article.date,
+          author: {
+            "@type": "Organization",
+            name: "Darons",
+            url: "https://darons.app",
+          },
+          publisher: {
+            "@type": "Organization",
+            name: "Darons",
+            url: "https://darons.app",
+          },
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": `https://darons.app/blog/${article.slug}`,
+          },
+        }}
+      />
       <Link href="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
         <ArrowLeft className="w-4 h-4" /> Retour au blog
       </Link>

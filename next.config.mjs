@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    optimizePackageImports: ["lucide-react", "recharts", "date-fns"],
+  },
   images: {
     remotePatterns: [
       {
@@ -7,6 +10,22 @@ const nextConfig = {
         hostname: "*.supabase.co",
       },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "daron.app" }],
+        destination: "https://darons.app/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "darons.fr" }],
+        destination: "https://darons.app/:path*",
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [

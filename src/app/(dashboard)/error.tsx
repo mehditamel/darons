@@ -13,8 +13,9 @@ export default function DashboardError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log to error reporting service in production
-    console.error("Dashboard error:", error);
+    import("@/lib/monitoring").then(({ captureException }) => {
+      captureException(error, { boundary: "dashboard", digest: error.digest });
+    });
   }, [error]);
 
   return (

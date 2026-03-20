@@ -18,7 +18,7 @@ import { Progress } from "@/components/ui/progress";
 import { getGreeting, formatDate } from "@/lib/utils";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getIdentityDocuments, getExpiringDocuments } from "@/lib/actions/identity";
-import { getVaccinations } from "@/lib/actions/health";
+import { getVaccinationsByMembers } from "@/lib/actions/health";
 import { getDocuments } from "@/lib/actions/documents";
 import { getAlerts, generateProactiveAlerts } from "@/lib/actions/alerts";
 import { VACCINATION_SCHEDULE, PLAN_LIMITS } from "@/lib/constants";
@@ -64,19 +64,22 @@ export default async function DashboardPage() {
   const vaultDocs = vaultResult.data ?? [];
   const children = members.filter((m) => m.memberType === "child");
 
-  // Get vaccination stats for all children
+  // Get vaccination stats for all children (single batch query)
+  const childIds = children.map((c) => c.id);
+  const vaccResult = await getVaccinationsByMembers(childIds);
+  const allVaccinations = vaccResult.data ?? [];
+
   let totalDoses = 0;
   let doneDoses = 0;
   for (const child of children) {
-    const vaccResult = await getVaccinations(child.id);
-    const vaccinations = vaccResult.data ?? [];
+    const childVaccinations = allVaccinations.filter((v) => v.memberId === child.id);
     const childAgeMonths = differenceInMonths(new Date(), new Date(child.birthDate));
 
     for (const vaccine of VACCINATION_SCHEDULE) {
       for (const dose of vaccine.doses) {
         if (dose.ageMonths <= childAgeMonths + 3) {
           totalDoses++;
-          const existing = vaccinations.find(
+          const existing = childVaccinations.find(
             (v) => v.vaccineCode === vaccine.code && v.doseNumber === dose.doseNumber && v.status === "done"
           );
           if (existing) doneDoses++;
