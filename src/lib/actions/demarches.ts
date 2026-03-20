@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -134,6 +133,7 @@ export async function updateAdministrativeTask(
   id: string,
   formData: AdministrativeTaskFormData
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -164,6 +164,9 @@ export async function updateAdministrativeTask(
 
   revalidatePath("/demarches");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Toggle Task ──
@@ -171,6 +174,7 @@ export async function updateAdministrativeTask(
 export async function toggleAdministrativeTask(
   id: string
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -199,6 +203,9 @@ export async function toggleAdministrativeTask(
 
   revalidatePath("/demarches");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Delete Task ──
@@ -206,6 +213,7 @@ export async function toggleAdministrativeTask(
 export async function deleteAdministrativeTask(
   id: string
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -219,6 +227,9 @@ export async function deleteAdministrativeTask(
 
   revalidatePath("/demarches");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Generate Tasks from Templates ──

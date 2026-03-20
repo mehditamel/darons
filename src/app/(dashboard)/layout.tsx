@@ -1,6 +1,7 @@
 import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
 import { BottomNavigation } from "@/components/layout/bottom-navigation";
+import { CommandPalette } from "@/components/layout/command-palette";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { OfflineBanner } from "@/components/pwa/offline-fallback";
@@ -21,6 +22,7 @@ export default async function DashboardLayout({
   let userEmail = "";
   let userInitials = "?";
   let alertCount = 0;
+  const sidebarBadges: Record<string, number> = {};
 
   if (user) {
     userEmail = user.email ?? "";
@@ -44,13 +46,41 @@ export default async function DashboardLayout({
       .single();
 
     if (household) {
-      const { count } = await supabase
-        .from("proactive_alerts")
-        .select("id", { count: "exact", head: true })
-        .eq("household_id", household.id)
-        .eq("dismissed", false);
+      const [alertsRes, expiringRes] = await Promise.all([
+        supabase
+          .from("proactive_alerts")
+          .select("id, category", { count: "exact" })
+          .eq("household_id", household.id)
+          .eq("dismissed", false),
+        supabase
+          .from("identity_documents")
+          .select("id", { count: "exact", head: true })
+          .in("member_id", (
+            await supabase
+              .from("family_members")
+              .select("id")
+              .eq("household_id", household.id)
+          ).data?.map((m: { id: string }) => m.id) ?? [])
+          .or("status.eq.expired,status.eq.expiring_soon"),
+      ]);
 
-      alertCount = count ?? 0;
+      alertCount = alertsRes.count ?? 0;
+
+      // Count alerts by category for sidebar badges
+      const alerts = alertsRes.data ?? [];
+      for (const alert of alerts) {
+        const cat = alert.category as string;
+        if (cat === "sante") sidebarBadges["/sante"] = (sidebarBadges["/sante"] ?? 0) + 1;
+        else if (cat === "fiscal") sidebarBadges["/fiscal"] = (sidebarBadges["/fiscal"] ?? 0) + 1;
+        else if (cat === "identite") sidebarBadges["/identite"] = (sidebarBadges["/identite"] ?? 0) + 1;
+        else if (cat === "caf" || cat === "scolarite") sidebarBadges["/demarches"] = (sidebarBadges["/demarches"] ?? 0) + 1;
+      }
+
+      // Add expiring docs badge
+      const expiringCount = expiringRes.count ?? 0;
+      if (expiringCount > 0) {
+        sidebarBadges["/identite"] = (sidebarBadges["/identite"] ?? 0) + expiringCount;
+      }
     }
   }
 
@@ -65,7 +95,7 @@ export default async function DashboardLayout({
       >
         Aller au contenu principal
       </a>
-      <Sidebar />
+      <Sidebar badges={sidebarBadges} />
       <div className="lg:pl-64">
         <Topbar
           userEmail={userEmail}
@@ -79,6 +109,7 @@ export default async function DashboardLayout({
         </main>
       </div>
       <BottomNavigation />
+      <CommandPalette />
       <CookieBanner />
     </div>
   );

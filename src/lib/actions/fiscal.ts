@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { fiscalYearSaveSchema, type FiscalYearSaveData } from "@/lib/validators/fiscal";
@@ -120,6 +119,7 @@ export async function saveFiscalYear(input: FiscalYearSaveData): Promise<ActionR
 }
 
 export async function deleteFiscalYear(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -132,4 +132,7 @@ export async function deleteFiscalYear(id: string): Promise<ActionResult> {
 
   revalidatePath("/fiscal");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }

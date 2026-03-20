@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle, Clock, AlertTriangle, Plus } from "lucide-react";
 import { VACCINATION_SCHEDULE } from "@/lib/constants";
 import { VaccinationForm } from "@/components/sante/vaccination-form";
+import { ConfettiBurst, useConfetti } from "@/components/shared/confetti-burst";
 import type { Vaccination } from "@/types/health";
 import type { FamilyMember } from "@/types/family";
 import { differenceInMonths } from "date-fns";
@@ -39,6 +40,7 @@ const STATUS_STYLE: Record<DoseStatus, { bg: string; icon: typeof CheckCircle; l
 export function VaccinationCalendar({ member, vaccinations }: VaccinationCalendarProps) {
   const [formOpen, setFormOpen] = useState(false);
   const [prefill, setPrefill] = useState<{ vaccineCode: string; vaccineName: string; doseNumber: number } | undefined>();
+  const { isActive: confettiActive, trigger: triggerConfetti } = useConfetti();
 
   const childAgeMonths = differenceInMonths(new Date(), new Date(member.birthDate));
 
@@ -127,9 +129,19 @@ export function VaccinationCalendar({ member, vaccinations }: VaccinationCalenda
         ))}
       </div>
 
+      <div className="relative">
+        <ConfettiBurst active={confettiActive} />
+      </div>
+
       <VaccinationForm
         open={formOpen}
-        onOpenChange={setFormOpen}
+        onOpenChange={(open) => {
+          if (!open && formOpen) {
+            // Form was closed — trigger confetti (optimistic: assumes success)
+            triggerConfetti();
+          }
+          setFormOpen(open);
+        }}
         memberId={member.id}
         prefill={prefill}
       />

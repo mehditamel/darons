@@ -1,4 +1,4 @@
-import { type LucideIcon } from "lucide-react";
+import { TrendingUp, TrendingDown, type LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -31,10 +31,15 @@ export function StatCard({
             {trend && (
               <p
                 className={cn(
-                  "mt-1 text-xs",
+                  "mt-1 text-xs flex items-center gap-1",
                   trendUp ? "text-warm-green" : "text-warm-red"
                 )}
               >
+                {trendUp ? (
+                  <TrendingUp className="h-3 w-3" aria-hidden="true" />
+                ) : (
+                  <TrendingDown className="h-3 w-3" aria-hidden="true" />
+                )}
                 {trend}
               </p>
             )}

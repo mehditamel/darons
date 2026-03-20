@@ -6,6 +6,15 @@ import { ChildcareSearchForm } from "@/components/garde/childcare-search-form";
 import { ChildcareStructureList } from "@/components/garde/childcare-structure-list";
 import { GardeCostSimulatorForm } from "@/components/garde/garde-cost-simulator-form";
 import { ChildcareFavoritesList } from "@/components/garde/childcare-favorites-list";
+import dynamic from "next/dynamic";
+
+const ChildcareMap = dynamic(
+  () => import("@/components/garde/childcare-map").then((m) => m.ChildcareMap),
+  {
+    loading: () => <div className="h-[400px] animate-pulse rounded-lg bg-muted" />,
+    ssr: false,
+  }
+);
 import type { ChildcareStructure, ChildcareFavorite } from "@/types/garde";
 import type { ChildcareSearchFormData } from "@/lib/validators/garde";
 import {
@@ -80,8 +89,9 @@ export function GardeTabs({ initialFavorites }: GardeTabsProps) {
 
   return (
     <Tabs defaultValue="recherche" className="space-y-4">
-      <TabsList>
+      <TabsList className="flex-wrap h-auto gap-1">
         <TabsTrigger value="recherche">Recherche</TabsTrigger>
+        <TabsTrigger value="carte">Carte</TabsTrigger>
         <TabsTrigger value="simulateur">Simulateur coût</TabsTrigger>
         <TabsTrigger value="favoris">
           Mes favoris
@@ -100,6 +110,14 @@ export function GardeTabs({ initialFavorites }: GardeTabsProps) {
           favoriteIds={favoriteIds}
           onToggleFavorite={handleToggleFavorite}
           hasSearched={hasSearched}
+        />
+      </TabsContent>
+
+      <TabsContent value="carte">
+        <ChildcareMap
+          structures={structures}
+          favoriteIds={favoriteIds}
+          onToggleFavorite={handleToggleFavorite}
         />
       </TabsContent>
 

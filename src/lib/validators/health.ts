@@ -86,6 +86,10 @@ export const dailyHealthJournalSchema = z.object({
     .union([z.number().int().min(0, "Le temps d'écran doit être positif"), z.nan()])
     .optional()
     .transform((v) => (Number.isNaN(v) ? undefined : v)),
+  physicalActivityMinutes: z
+    .union([z.number().int().min(0, "Le temps d'activité doit être positif").max(720, "Maximum 12 heures"), z.nan()])
+    .optional()
+    .transform((v) => (Number.isNaN(v) ? undefined : v)),
   notes: z.string().max(500, "500 caractères maximum").optional(),
 });
 

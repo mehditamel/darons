@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -180,6 +179,7 @@ export async function updateChildcareFavorite(
   id: string,
   updates: { notes?: string | null; status?: ChildcareFavorite["status"] }
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -197,11 +197,15 @@ export async function updateChildcareFavorite(
 
   revalidatePath("/garde");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function removeChildcareFavorite(
   id: string
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -215,6 +219,9 @@ export async function removeChildcareFavorite(
 
   revalidatePath("/garde");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Seed demo data ──

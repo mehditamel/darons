@@ -1,7 +1,16 @@
 import { NextResponse } from "next/server";
 import { exportUserData } from "@/lib/actions/rgpd";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function GET() {
+  const limited = rateLimit("export-data", 5, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const result = await exportUserData();
 
   if (result.error || !result.data) {

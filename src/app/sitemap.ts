@@ -3,6 +3,26 @@ import { getAllArticles } from "@/lib/blog-data";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://darons.app";
 
+const TOOL_PAGES = [
+  "simulateur-ir",
+  "simulateur-caf",
+  "simulateur-garde",
+  "simulateur-budget",
+  "calendrier-vaccinal",
+  "courbe-croissance",
+  "mes-droits",
+  "checklist-naissance",
+  "numeros-urgence",
+  "conge-parental",
+  "combien-coute-enfant",
+  "ecrans-enfants",
+  "examens-sante",
+  "jalons-developpement",
+  "timeline-administrative",
+  "guide-demarches-naissance",
+  "guide-vaccins-obligatoires",
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const articles = getAllArticles();
 
@@ -11,6 +31,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(article.date),
     changeFrequency: "monthly" as const,
     priority: 0.7,
+  }));
+
+  const toolEntries = TOOL_PAGES.map((slug) => ({
+    url: `${BASE_URL}/outils/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "yearly" as const,
+    priority: 0.9,
   }));
 
   return [
@@ -33,24 +60,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    {
-      url: `${BASE_URL}/outils/simulateur-ir`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/outils/simulateur-caf`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/outils/calendrier-vaccinal`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.9,
-    },
+    ...toolEntries,
     {
       url: `${BASE_URL}/cgu`,
       lastModified: new Date(),

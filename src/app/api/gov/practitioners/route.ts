@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 const ANNUAIRE_SANTE_URL = process.env.API_ANNUAIRE_SANTE_URL || "https://gateway.api.esante.gouv.fr/fhir/v1";
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimit("gov-practitioners", 20, 60_000);
+  if (limited) {
+    return NextResponse.json({ error: "Trop de requêtes" }, { status: 429 });
+  }
+
   const { searchParams } = new URL(request.url);
   const specialty = searchParams.get("specialty") || "SM54"; // SM54 = Pédiatrie
   const latitude = searchParams.get("lat");

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { callClaude, parseJsonResponse } from "@/lib/ai/anthropic";
 import { PROACTIVE_ALERTS_PROMPT } from "@/lib/ai/prompts";
+import { rateLimit } from "@/lib/rate-limit";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
@@ -15,6 +16,14 @@ interface AiAlertItem {
 }
 
 export async function POST() {
+  const limited = rateLimit("ai-alerts", 5, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const {
     data: { user },

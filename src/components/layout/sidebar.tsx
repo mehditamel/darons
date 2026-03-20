@@ -45,7 +45,11 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   BarChart3,
 };
 
-export function Sidebar() {
+interface SidebarProps {
+  badges?: Record<string, number>;
+}
+
+export function Sidebar({ badges = {} }: SidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -88,7 +92,12 @@ export function Sidebar() {
                       )}
                     >
                       <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      {item.label}
+                      <span className="flex-1">{item.label}</span>
+                      {badges[item.href] != null && badges[item.href] > 0 && (
+                        <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-warm-orange text-[10px] font-medium text-white px-1">
+                          {badges[item.href] > 99 ? "99+" : badges[item.href]}
+                        </span>
+                      )}
                     </Link>
                   </li>
                 );

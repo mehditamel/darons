@@ -1,8 +1,17 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { rateLimit } from "@/lib/rate-limit";
 import { PLAN_LIMITS } from "@/lib/constants";
 
 export async function GET() {
+  const limited = rateLimit("export-pdf", 3, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const {
     data: { user },

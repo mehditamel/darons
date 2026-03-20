@@ -212,16 +212,16 @@ function ActivityCard({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
-              onClick={() => onEdit(activity)}
+
+                        aria-label="Modifier"
             >
               <Pencil className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-destructive"
-              onClick={() => onDelete(activity.id)}
+
+                        aria-label="Supprimer"
             >
               <Trash2 className="h-4 w-4" />
             </Button>

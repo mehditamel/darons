@@ -70,11 +70,11 @@ export function BudgetTabs({
     <div className="space-y-6">
       {/* Month navigator */}
       <div className="flex items-center justify-between">
-        <Button variant="outline" size="icon" onClick={() => navigateMonth("prev")}>
+        <Button variant="outline" size="icon" onClick={() => navigateMonth("prev")} aria-label="Mois précédent">
           <ChevronLeft className="h-4 w-4" />
         </Button>
         <h2 className="text-lg font-semibold capitalize">{monthLabel}</h2>
-        <Button variant="outline" size="icon" onClick={() => navigateMonth("next")}>
+        <Button variant="outline" size="icon" onClick={() => navigateMonth("next")} aria-label="Mois suivant">
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>

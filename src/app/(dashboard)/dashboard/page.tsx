@@ -6,6 +6,9 @@ import {
   ArrowRight,
   IdCard,
   Users,
+  Wallet,
+  Calculator,
+  CalendarClock,
 } from "lucide-react";
 import Link from "next/link";
 import { PageHeader } from "@/components/shared/page-header";
@@ -14,20 +17,22 @@ import { DismissibleAlertCard } from "@/components/shared/dismissible-alert-card
 import { MonthlySummaryCard } from "@/components/dashboard/monthly-summary-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { getGreeting, formatDate } from "@/lib/utils";
+import { getGreeting, formatDate, formatCurrency } from "@/lib/utils";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getIdentityDocuments, getExpiringDocuments } from "@/lib/actions/identity";
-import { getVaccinationsByMembers, getGrowthMeasurements } from "@/lib/actions/health";
+import { getVaccinationsByMembers, getGrowthMeasurements, getUpcomingAppointments } from "@/lib/actions/health";
 import { getDocuments } from "@/lib/actions/documents";
 import { getAlerts, generateProactiveAlerts } from "@/lib/actions/alerts";
 import { getActivities } from "@/lib/actions/educational";
-import { getBudgetEntries } from "@/lib/actions/budget";
+import { getBudgetEntries, getBudgetSummary, getCafAllocations } from "@/lib/actions/budget";
 import { getFiscalYears } from "@/lib/actions/fiscal";
 import { VACCINATION_SCHEDULE, PLAN_LIMITS } from "@/lib/constants";
 import { DOCUMENT_TYPE_LABELS } from "@/types/family";
 import { createClient } from "@/lib/supabase/server";
-import { differenceInMonths } from "date-fns";
+import { differenceInMonths, format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 export const metadata: Metadata = {
   title: "Tableau de bord",
@@ -91,18 +96,31 @@ export default async function DashboardPage() {
     }
   }
 
-  // Fetch additional data for profile completion checks
+  // Fetch additional data for profile completion checks + dashboard widgets
   const firstChild = children[0];
-  const [growthResult, activitiesResult, budgetResult, fiscalResult] = await Promise.all([
+  const now = new Date();
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
+
+  const [growthResult, activitiesResult, budgetResult, fiscalResult, summaryResult, allocResult, appointmentsResult] = await Promise.all([
     firstChild ? getGrowthMeasurements(firstChild.id) : Promise.resolve({ data: [] }),
     firstChild ? getActivities(firstChild.id) : Promise.resolve({ data: [] }),
     getBudgetEntries(),
     getFiscalYears(),
+    getBudgetSummary(currentMonth),
+    getCafAllocations(),
+    getUpcomingAppointments(3),
   ]);
   const hasGrowthData = (growthResult.data ?? []).length > 0;
   const hasActivities = (activitiesResult.data ?? []).length > 0;
   const hasBudgetData = (budgetResult.data ?? []).length > 0;
   const hasFiscalData = (fiscalResult.data ?? []).length > 0;
+
+  const budgetSummary = summaryResult.data;
+  const allocations = (allocResult.data ?? []).filter((a) => a.active);
+  const totalAllocations = allocations.reduce((s, a) => s + a.monthlyAmount, 0);
+  const upcomingAppointments = appointmentsResult.data ?? [];
+  const fiscalYears = fiscalResult.data ?? [];
+  const latestFiscal = fiscalYears.length > 0 ? fiscalYears[0] : null;
 
   // Generate proactive alerts (runs deterministic checks)
   await generateProactiveAlerts();
@@ -287,6 +305,141 @@ export default async function DashboardPage() {
                 </Link>
               </Button>
             ))}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Budget / Fiscal / Appointments widgets */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Budget snapshot */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Wallet className="h-4 w-4 text-warm-blue" />
+              Budget du mois
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {budgetSummary && budgetSummary.entryCount > 0 ? (
+              <>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Dépenses</span>
+                  <span className="font-medium">{formatCurrency(budgetSummary.totalExpenses)}</span>
+                </div>
+                {totalAllocations > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Allocations CAF</span>
+                    <span className="font-medium text-warm-green">+{formatCurrency(totalAllocations)}</span>
+                  </div>
+                )}
+                <div className="flex justify-between text-sm border-t pt-2">
+                  <span className="text-muted-foreground">Solde</span>
+                  <span className={`font-semibold ${
+                    (totalAllocations + (budgetSummary.totalIncome ?? 0) - budgetSummary.totalExpenses) >= 0
+                      ? "text-warm-green"
+                      : "text-warm-red"
+                  }`}>
+                    {formatCurrency(totalAllocations + (budgetSummary.totalIncome ?? 0) - budgetSummary.totalExpenses)}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground py-2">
+                Aucune dépense ce mois-ci.
+              </p>
+            )}
+            <Button variant="ghost" size="sm" className="w-full mt-1" asChild>
+              <Link href="/budget">
+                Voir le budget
+                <ArrowRight className="ml-1 h-3 w-3" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Fiscal snapshot */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Calculator className="h-4 w-4 text-warm-gold" />
+              Situation fiscale
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {latestFiscal ? (
+              <>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Année</span>
+                  <span className="font-medium">{latestFiscal.year}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Parts</span>
+                  <span className="font-medium">{latestFiscal.nbParts}</span>
+                </div>
+                {latestFiscal.tmi != null && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">TMI</span>
+                    <Badge variant="outline">{latestFiscal.tmi}%</Badge>
+                  </div>
+                )}
+                {latestFiscal.impotNet != null && (
+                  <div className="flex justify-between text-sm border-t pt-2">
+                    <span className="text-muted-foreground">Impôt net</span>
+                    <span className="font-semibold">{formatCurrency(latestFiscal.impotNet)}</span>
+                  </div>
+                )}
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground py-2">
+                Aucune donnée fiscale. Lance une simulation !
+              </p>
+            )}
+            <Button variant="ghost" size="sm" className="w-full mt-1" asChild>
+              <Link href="/fiscal">
+                Voir le fiscal
+                <ArrowRight className="ml-1 h-3 w-3" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Upcoming appointments */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <CalendarClock className="h-4 w-4 text-warm-teal" />
+              Prochains RDV
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {upcomingAppointments.length > 0 ? (
+              upcomingAppointments.map((appt) => {
+                const member = members.find((m) => m.id === appt.memberId);
+                return (
+                  <div key={appt.id} className="flex items-center justify-between rounded-lg border p-2">
+                    <div>
+                      <p className="text-sm font-medium">{appt.appointmentType}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {member?.firstName} — {format(new Date(appt.appointmentDate), "d MMM yyyy", { locale: fr })}
+                      </p>
+                    </div>
+                    {appt.practitioner && (
+                      <span className="text-xs text-muted-foreground">{appt.practitioner}</span>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <p className="text-sm text-muted-foreground py-2">
+                Aucun RDV à venir.
+              </p>
+            )}
+            <Button variant="ghost" size="sm" className="w-full mt-1" asChild>
+              <Link href="/sante">
+                Voir la santé
+                <ArrowRight className="ml-1 h-3 w-3" />
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Menu, Bell, LogOut, Settings, User } from "lucide-react";
+import { Menu, Bell, LogOut, Settings, User, Search } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -59,6 +59,20 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
       </Sheet>
 
       <div className="flex-1" />
+
+      <Button
+        variant="outline"
+        className="hidden sm:inline-flex relative h-9 w-auto px-3 text-sm text-muted-foreground gap-2"
+        onClick={() => {
+          document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }));
+        }}
+      >
+        <Search className="h-4 w-4" />
+        <span>Rechercher...</span>
+        <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+          <span className="text-xs">⌘</span>K
+        </kbd>
+      </Button>
 
       <ThemeToggle />
 

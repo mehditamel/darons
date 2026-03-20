@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createMESClient, isMESConfigured } from "@/lib/integrations/mon-espace-sante";
+import { fhirMemberSchema } from "@/lib/validators/api-routes";
+import { rateLimit } from "@/lib/rate-limit";
 import { randomBytes } from "crypto";
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit("fhir-connect", 5, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   if (!isMESConfigured()) {
     return NextResponse.json(
       { error: "L'intégration Mon Espace Santé n'est pas configurée." },
@@ -18,14 +28,14 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const memberId = body.memberId as string;
-
-  if (!memberId) {
+  const parsed = fhirMemberSchema.safeParse(body);
+  if (!parsed.success) {
     return NextResponse.json(
-      { error: "memberId requis" },
+      { error: parsed.error.errors[0]?.message ?? "Données invalides" },
       { status: 400 }
     );
   }
+  const { memberId } = parsed.data;
 
   // Verify the member belongs to the user's household
   const { data: member } = await supabase
@@ -55,11 +65,18 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Generate OAuth state for CSRF protection
-  const state = randomBytes(32).toString("hex");
+  try {
+    // Generate OAuth state for CSRF protection
+    const state = randomBytes(32).toString("hex");
 
-  const client = createMESClient();
-  const authUrl = client.buildAuthorizationUrl(state, memberId);
+    const client = createMESClient();
+    const authUrl = client.buildAuthorizationUrl(state, memberId);
 
-  return NextResponse.json({ authUrl, state });
+    return NextResponse.json({ authUrl, state });
+  } catch {
+    return NextResponse.json(
+      { error: "Une erreur inattendue est survenue" },
+      { status: 500 }
+    );
+  }
 }

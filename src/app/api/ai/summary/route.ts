@@ -3,11 +3,20 @@ import { createClient } from "@/lib/supabase/server";
 import { callClaude, parseJsonResponse } from "@/lib/ai/anthropic";
 import { MONTHLY_SUMMARY_PROMPT } from "@/lib/ai/prompts";
 import { PLAN_LIMITS, AI_MONTHLY_LIMITS } from "@/lib/constants";
+import { rateLimit } from "@/lib/rate-limit";
 import { format, subMonths } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { MonthlySummary } from "@/types/ai";
 
 export async function POST() {
+  const limited = rateLimit("ai-summary", 3, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const {
     data: { user },

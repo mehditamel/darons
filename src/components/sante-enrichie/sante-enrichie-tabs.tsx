@@ -14,6 +14,8 @@ const ScreenExposure = dynamic(() => import("@/components/sante-enrichie/screen-
 import { DailyJournalList } from "@/components/sante-enrichie/daily-journal-list";
 import { AllergiesList } from "@/components/sante-enrichie/allergies-list";
 import { PrescriptionsList } from "@/components/sante-enrichie/prescriptions-list";
+import { PediatricianQuestions } from "@/components/sante-enrichie/pediatrician-questions";
+import { AllergenCrossAlerts } from "@/components/sante-enrichie/allergen-cross-alerts";
 import { EmergencyNumbers } from "@/components/sante-enrichie/emergency-numbers";
 import type { FamilyMember } from "@/types/family";
 import type {
@@ -92,7 +94,12 @@ export function SanteEnrichieTabs({
         </TabsContent>
 
         <TabsContent value="allergies">
-          <AllergiesList memberId={selectedChild.id} allergies={allergies} />
+          <div className="space-y-4">
+            <AllergiesList memberId={selectedChild.id} allergies={allergies} />
+            {allergies.length > 0 && (
+              <AllergenCrossAlerts allergies={allergies} />
+            )}
+          </div>
         </TabsContent>
 
         <TabsContent value="ordonnances">
@@ -102,6 +109,8 @@ export function SanteEnrichieTabs({
           />
         </TabsContent>
       </Tabs>
+
+      <PediatricianQuestions childName={selectedChild.firstName} />
     </div>
   );
 }

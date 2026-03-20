@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -122,6 +121,7 @@ export async function sendInvitation(
 }
 
 export async function cancelInvitation(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -135,9 +135,13 @@ export async function cancelInvitation(id: string): Promise<ActionResult> {
 
   revalidatePath("/partage");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function acceptInvitation(token: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -174,6 +178,9 @@ export async function acceptInvitation(token: string): Promise<ActionResult> {
 
   revalidatePath("/dashboard");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Household Members ──
@@ -220,6 +227,7 @@ export async function getHouseholdMembers(): Promise<
 export async function removeHouseholdMember(
   memberId: string
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -245,12 +253,16 @@ export async function removeHouseholdMember(
 
   revalidatePath("/partage");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function updateMemberRole(
   memberId: string,
   role: "partner" | "viewer" | "nanny"
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -263,4 +275,7 @@ export async function updateMemberRole(
 
   revalidatePath("/partage");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }

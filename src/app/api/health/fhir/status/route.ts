@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { isMESConfigured } from "@/lib/integrations/mon-espace-sante";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimit("fhir-status", 10, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const memberId = searchParams.get("memberId");
 
@@ -16,6 +25,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
   }
 
+  try {
   const configured = isMESConfigured();
 
   // Get connection info
@@ -77,4 +87,10 @@ export async function GET(request: NextRequest) {
       completedAt: log.completed_at,
     })),
   });
+  } catch {
+    return NextResponse.json(
+      { error: "Une erreur inattendue est survenue" },
+      { status: 500 }
+    );
+  }
 }

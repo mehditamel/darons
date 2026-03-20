@@ -75,5 +75,20 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Redirect new users (without household) to onboarding
+  if (user && isProtectedRoute && request.nextUrl.pathname !== "/onboarding") {
+    const { data: household } = await supabase
+      .from("households")
+      .select("id")
+      .eq("owner_id", user.id)
+      .single();
+
+    if (!household) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/onboarding";
+      return NextResponse.redirect(url);
+    }
+  }
+
   return supabaseResponse;
 }

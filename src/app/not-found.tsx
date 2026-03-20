@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Home, ArrowLeft } from "lucide-react";
+import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BackButton } from "@/components/shared/back-button";
 
 export default function NotFound() {
   return (
@@ -20,12 +21,7 @@ export default function NotFound() {
               Accueil
             </Link>
           </Button>
-          <Button variant="ghost" asChild>
-            <Link href="javascript:history.back()">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Retour
-            </Link>
-          </Button>
+          <BackButton />
         </div>
       </div>
     </div>

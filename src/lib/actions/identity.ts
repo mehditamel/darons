@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { identityDocumentSchema, type IdentityDocumentFormData } from "@/lib/validators/family";
@@ -161,6 +160,7 @@ export async function updateIdentityDocument(
   id: string,
   formData: IdentityDocumentFormData
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -187,9 +187,13 @@ export async function updateIdentityDocument(
   revalidatePath("/dashboard");
 
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function deleteIdentityDocument(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -204,4 +208,7 @@ export async function deleteIdentityDocument(id: string): Promise<ActionResult> 
   revalidatePath("/dashboard");
 
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }

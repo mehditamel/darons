@@ -52,12 +52,19 @@
 <body>
   <div class="container">
     <div class="icon">📡</div>
-    <h1>Vous êtes hors ligne</h1>
+    <h1>Pas de connexion</h1>
     <p>
-      Impossible de se connecter au serveur. Vérifiez votre connexion internet
-      et réessayez.
+      On dirait que tu n'es pas connecté à Internet.
+      Vérifie ta connexion et réessaie. Tes données sont en sécurité, promis.
     </p>
     <button onclick="window.location.reload()">Réessayer</button>
+    <p id="status" style="margin-top:1rem;font-size:0.75rem;color:#9CA3AF;"></p>
   </div>
+  <script>
+    window.addEventListener('online', function() {
+      document.getElementById('status').textContent = 'Connexion rétablie !';
+      setTimeout(function() { window.location.reload(); }, 500);
+    });
+  </script>
 </body>
 </html>

@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/shared/page-header";
 import { BudgetTabs } from "@/components/budget/budget-tabs";
 import { AiCoachCard } from "@/components/budget/ai-coach-card";
 import { RoundupSettingsCard } from "@/components/budget/roundup-settings-card";
+import { BudgetForecastCard } from "@/components/budget/budget-forecast-card";
 import { BankConnections } from "@/components/budget/bank-connections";
 import { BankTransactionsList } from "@/components/budget/bank-transactions-list";
 import { getFamilyMembers } from "@/lib/actions/family";
@@ -84,6 +85,8 @@ export default async function BudgetPage() {
         title="Budget familial"
         description="Suivez vos dépenses, allocations CAF et reste à charge"
       />
+
+      <BudgetForecastCard currentSummary={summary} history={history} />
 
       <BudgetTabs
         entries={entries}

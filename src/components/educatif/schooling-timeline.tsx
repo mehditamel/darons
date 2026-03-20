@@ -178,16 +178,16 @@ export function SchoolingTimeline({
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8"
-                            onClick={() => handleEdit(entry)}
+
+                        aria-label="Modifier"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-destructive"
-                            onClick={() => setDeletingId(entry.id)}
+
+                        aria-label="Supprimer"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>

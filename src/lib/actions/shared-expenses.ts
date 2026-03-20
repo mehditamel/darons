@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -166,6 +165,7 @@ export async function createExpenseGroup(
 export async function deleteExpenseGroup(
   groupId: string
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -179,6 +179,9 @@ export async function deleteExpenseGroup(
 
   revalidatePath("/depenses-partagees");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Group Members ──
@@ -258,6 +261,7 @@ export async function addGroupMember(
 export async function removeGroupMember(
   memberId: string
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -270,6 +274,9 @@ export async function removeGroupMember(
 
   revalidatePath("/depenses-partagees");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Shared Expenses ──
@@ -395,6 +402,7 @@ export async function createSharedExpense(
 export async function deleteSharedExpense(
   expenseId: string
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -407,6 +415,9 @@ export async function deleteSharedExpense(
 
   revalidatePath("/depenses-partagees");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Settlements ──
@@ -415,6 +426,7 @@ export async function createSettlement(
   groupId: string,
   formData: SettlementFormData
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -437,6 +449,9 @@ export async function createSettlement(
 
   revalidatePath("/depenses-partagees");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function getGroupSettlements(

@@ -1,7 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { rateLimit } from "@/lib/rate-limit";
+import { pushSubscribeSchema } from "@/lib/validators/api-routes";
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit("push-subscribe", 10, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const {
     data: { user },
@@ -12,11 +22,14 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { endpoint, keys } = body;
-
-  if (!endpoint || !keys?.p256dh || !keys?.auth) {
-    return NextResponse.json({ error: "Données d'abonnement invalides" }, { status: 400 });
+  const parsed = pushSubscribeSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: parsed.error.errors[0]?.message ?? "Données d'abonnement invalides" },
+      { status: 400 }
+    );
   }
+  const { endpoint, keys } = parsed.data;
 
   const { error } = await supabase.from("push_subscriptions").upsert(
     {

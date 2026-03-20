@@ -40,6 +40,7 @@ export function BudgetCategoryChart({ byCategory }: BudgetCategoryChartProps) {
         <CardTitle className="text-base">Répartition par catégorie</CardTitle>
       </CardHeader>
       <CardContent>
+        <div role="img" aria-label="Répartition des dépenses par catégorie sous forme de camembert">
         <ResponsiveContainer width="100%" height={280}>
           <PieChart>
             <Pie
@@ -72,6 +73,7 @@ export function BudgetCategoryChart({ byCategory }: BudgetCategoryChartProps) {
             />
           </PieChart>
         </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

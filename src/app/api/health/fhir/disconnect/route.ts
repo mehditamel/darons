@@ -1,7 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { fhirDisconnectSchema } from "@/lib/validators/api-routes";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit("fhir-disconnect", 5, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
@@ -9,13 +19,16 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const memberId = body.memberId as string;
-  const deleteSyncedData = body.deleteSyncedData as boolean ?? false;
-
-  if (!memberId) {
-    return NextResponse.json({ error: "memberId requis" }, { status: 400 });
+  const parsed = fhirDisconnectSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: parsed.error.errors[0]?.message ?? "Données invalides" },
+      { status: 400 }
+    );
   }
+  const { memberId, deleteSyncedData } = parsed.data;
 
+  try {
   // Verify connection exists
   const { data: connection } = await supabase
     .from("mes_connections")
@@ -73,4 +86,10 @@ export async function POST(request: NextRequest) {
       ? "Connexion supprimée et données synchronisées effacées."
       : "Connexion supprimée. Les données synchronisées ont été conservées.",
   });
+  } catch {
+    return NextResponse.json(
+      { error: "Une erreur inattendue est survenue" },
+      { status: 500 }
+    );
+  }
 }

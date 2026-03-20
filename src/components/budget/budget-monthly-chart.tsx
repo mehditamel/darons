@@ -48,6 +48,7 @@ export function BudgetMonthlyChart({ history }: BudgetMonthlyChartProps) {
         <CardTitle className="text-base">Évolution mensuelle</CardTitle>
       </CardHeader>
       <CardContent>
+        <div role="img" aria-label="Graphique de l'évolution du budget mensuel : dépenses et revenus sur les derniers mois">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data} barGap={4}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -83,6 +84,7 @@ export function BudgetMonthlyChart({ history }: BudgetMonthlyChartProps) {
             <Bar dataKey="revenus" fill="#4CAF50" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

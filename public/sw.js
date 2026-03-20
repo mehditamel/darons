@@ -1,4 +1,4 @@
-const CACHE_NAME = "darons-v1";
+const CACHE_NAME = "darons-20260320";
 const STATIC_ASSETS = [
   "/",
   "/dashboard",

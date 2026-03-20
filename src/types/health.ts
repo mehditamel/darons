@@ -128,6 +128,7 @@ export interface DailyHealthJournal {
   appetite: Appetite | null;
   stools: StoolType | null;
   screenTimeMinutes: number | null;
+  physicalActivityMinutes: number | null;
   notes: string | null;
   createdAt: string;
 }

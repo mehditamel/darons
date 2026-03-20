@@ -339,6 +339,52 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Testimonials / Social proof */}
+      <section className="py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4">Ce qu&apos;ils en disent</Badge>
+            <h2 className="text-3xl font-serif font-bold lg:text-4xl">
+              Des parents comme toi
+            </h2>
+            <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
+              Ils utilisent Darons au quotidien. Voici pourquoi ils ne reviennent pas en arrière.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              {
+                name: "Sarah L.",
+                role: "Maman de 2 enfants (3 ans et 8 mois)",
+                quote: "J'avais les vaccins dans un carnet, les papiers dans un tiroir, et le budget dans ma tête. Maintenant tout est au même endroit. Et les alertes vaccins m'ont sauvé 2 fois.",
+              },
+              {
+                name: "Thomas D.",
+                role: "Papa de jumeaux (18 mois)",
+                quote: "Le simulateur d'impôts m'a fait découvrir 1 800 € de crédit d'impôt que je ne réclamais pas. En 30 secondes. L'app s'est rentabilisée avant même d'être payante.",
+              },
+              {
+                name: "Amira & Karim B.",
+                role: "Parents d'un bébé de 6 mois",
+                quote: "On cherchait une crèche depuis des semaines. Avec la carte de recherche de garde, on a trouvé une micro-crèche à 10 min du boulot qu'on ne connaissait pas.",
+              },
+            ].map((testimonial) => (
+              <Card key={testimonial.name} className="bg-card">
+                <CardContent className="p-6 space-y-4">
+                  <p className="text-sm leading-relaxed text-muted-foreground italic">
+                    &ldquo;{testimonial.quote}&rdquo;
+                  </p>
+                  <div>
+                    <p className="text-sm font-semibold">{testimonial.name}</p>
+                    <p className="text-xs text-muted-foreground">{testimonial.role}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20 bg-card">
         <div className="mx-auto max-w-3xl px-4 text-center">

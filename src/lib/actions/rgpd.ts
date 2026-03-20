@@ -1,5 +1,4 @@
 "use server";
-
 import { createClient } from "@/lib/supabase/server";
 
 // ── Types ──
@@ -11,8 +10,6 @@ export interface ConsentRecord {
   grantedAt: string;
   revokedAt: string | null;
 }
-
-
 // ── Get user consents ──
 
 export async function getUserConsents(): Promise<{
@@ -52,6 +49,7 @@ export async function updateUserConsent(
   consentType: string,
   granted: boolean
 ): Promise<{ success: boolean; error: string | null }> {
+  try {
   const supabase = createClient();
   const {
     data: { user },
@@ -87,6 +85,9 @@ export async function updateUserConsent(
   }
 
   return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Export all user data (RGPD droit d'accès / portabilité) ──
@@ -209,6 +210,7 @@ export async function exportUserData(): Promise<{
 export async function requestAccountDeletion(
   reason?: string
 ): Promise<{ success: boolean; error: string | null }> {
+  try {
   const supabase = createClient();
   const {
     data: { user },
@@ -241,6 +243,9 @@ export async function requestAccountDeletion(
   if (error) return { success: false, error: error.message };
 
   return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Cancel account deletion ──
@@ -249,6 +254,7 @@ export async function cancelAccountDeletion(): Promise<{
   success: boolean;
   error: string | null;
 }> {
+  try {
   const supabase = createClient();
   const {
     data: { user },
@@ -268,6 +274,9 @@ export async function cancelAccountDeletion(): Promise<{
   if (error) return { success: false, error: error.message };
 
   return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Check if deletion is pending ──

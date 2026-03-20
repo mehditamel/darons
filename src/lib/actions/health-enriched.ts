@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -141,6 +140,7 @@ export async function updateHealthExamination(
   id: string,
   formData: HealthExaminationFormData
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -172,9 +172,13 @@ export async function updateHealthExamination(
 
   revalidatePath("/sante-enrichie");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function deleteHealthExamination(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -184,6 +188,9 @@ export async function deleteHealthExamination(id: string): Promise<ActionResult>
 
   revalidatePath("/sante-enrichie");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // --- Daily Health Journal ---
@@ -225,6 +232,7 @@ export async function getDailyJournalEntries(
       appetite: e.appetite,
       stools: e.stools,
       screenTimeMinutes: e.screen_time_minutes,
+      physicalActivityMinutes: e.physical_activity_minutes ?? null,
       notes: e.notes,
       createdAt: e.created_at,
     })),
@@ -256,6 +264,7 @@ export async function createDailyJournalEntry(
       appetite: parsed.data.appetite ?? null,
       stools: parsed.data.stools ?? null,
       screen_time_minutes: parsed.data.screenTimeMinutes ?? null,
+      physical_activity_minutes: parsed.data.physicalActivityMinutes ?? null,
       notes: parsed.data.notes ?? null,
     })
     .select()
@@ -288,6 +297,7 @@ export async function createDailyJournalEntry(
       appetite: data.appetite,
       stools: data.stools,
       screenTimeMinutes: data.screen_time_minutes,
+      physicalActivityMinutes: data.physical_activity_minutes ?? null,
       notes: data.notes,
       createdAt: data.created_at,
     },
@@ -298,6 +308,7 @@ export async function updateDailyJournalEntry(
   id: string,
   formData: DailyHealthJournalFormData
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -318,6 +329,7 @@ export async function updateDailyJournalEntry(
       appetite: parsed.data.appetite ?? null,
       stools: parsed.data.stools ?? null,
       screen_time_minutes: parsed.data.screenTimeMinutes ?? null,
+      physical_activity_minutes: parsed.data.physicalActivityMinutes ?? null,
       notes: parsed.data.notes ?? null,
     })
     .eq("id", id);
@@ -327,9 +339,13 @@ export async function updateDailyJournalEntry(
 
   revalidatePath("/sante-enrichie");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function deleteDailyJournalEntry(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -339,6 +355,9 @@ export async function deleteDailyJournalEntry(id: string): Promise<ActionResult>
 
   revalidatePath("/sante-enrichie");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // --- Allergies ---
@@ -429,6 +448,7 @@ export async function updateAllergy(
   id: string,
   formData: AllergyFormData & { active?: boolean }
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -449,9 +469,13 @@ export async function updateAllergy(
 
   revalidatePath("/sante-enrichie");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function deleteAllergy(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -461,6 +485,9 @@ export async function deleteAllergy(id: string): Promise<ActionResult> {
 
   revalidatePath("/sante-enrichie");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // --- Prescriptions ---
@@ -554,6 +581,7 @@ export async function createPrescription(data: {
 }
 
 export async function deletePrescription(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -566,4 +594,7 @@ export async function deletePrescription(id: string): Promise<ActionResult> {
 
   revalidatePath("/sante-enrichie");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }

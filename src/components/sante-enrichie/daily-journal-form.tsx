@@ -77,6 +77,7 @@ export function DailyJournalForm({
       appetite: existing?.appetite ?? undefined,
       stools: existing?.stools ?? undefined,
       screenTimeMinutes: existing?.screenTimeMinutes ?? undefined,
+      physicalActivityMinutes: existing?.physicalActivityMinutes ?? undefined,
       notes: existing?.notes ?? "",
     },
   });
@@ -222,15 +223,31 @@ export function DailyJournalForm({
             )}
           </div>
 
-          <div>
-            <Label htmlFor="screenTimeMinutes">Temps d&apos;écran (minutes)</Label>
-            <Input
-              id="screenTimeMinutes"
-              type="number"
-              min="0"
-              placeholder="0"
-              {...register("screenTimeMinutes", { valueAsNumber: true })}
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label htmlFor="screenTimeMinutes">Écran (minutes)</Label>
+              <Input
+                id="screenTimeMinutes"
+                type="number"
+                min="0"
+                placeholder="0"
+                {...register("screenTimeMinutes", { valueAsNumber: true })}
+              />
+            </div>
+
+            {!isInfant && (
+              <div>
+                <Label htmlFor="physicalActivityMinutes">Activité physique (min)</Label>
+                <Input
+                  id="physicalActivityMinutes"
+                  type="number"
+                  min="0"
+                  max="720"
+                  placeholder="30"
+                  {...register("physicalActivityMinutes", { valueAsNumber: true })}
+                />
+              </div>
+            )}
           </div>
 
           <div>

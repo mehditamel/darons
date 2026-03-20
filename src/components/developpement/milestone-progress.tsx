@@ -206,6 +206,7 @@ export function MilestoneProgress({
                         size="icon"
                         className="h-8 w-8"
                         onClick={() => handleEdit(milestone)}
+                        aria-label="Modifier ce jalon"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -214,6 +215,7 @@ export function MilestoneProgress({
                         size="icon"
                         className="h-8 w-8 text-destructive"
                         onClick={() => setDeletingId(milestone.id)}
+                        aria-label="Supprimer ce jalon"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
