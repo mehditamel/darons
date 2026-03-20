@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { ActivityList } from "@/components/educatif/activity-list";
+import { WeeklyPlanning } from "@/components/educatif/weekly-planning";
 import { AiSuggestionsCard } from "@/components/educatif/ai-suggestions-card";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getActivities } from "@/lib/actions/educational";
@@ -40,6 +41,11 @@ export default async function ActivitesPage() {
       <PageHeader
         title="Activités & loisirs"
         description="Gérez les activités extra-scolaires et le planning hebdomadaire"
+      />
+
+      <WeeklyPlanning
+        activitiesByMember={activitiesByMember}
+        childMembers={children}
       />
 
       <ActivityList

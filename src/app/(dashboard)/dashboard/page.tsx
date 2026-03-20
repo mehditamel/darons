@@ -18,9 +18,12 @@ import { Progress } from "@/components/ui/progress";
 import { getGreeting, formatDate } from "@/lib/utils";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getIdentityDocuments, getExpiringDocuments } from "@/lib/actions/identity";
-import { getVaccinationsByMembers } from "@/lib/actions/health";
+import { getVaccinationsByMembers, getGrowthMeasurements } from "@/lib/actions/health";
 import { getDocuments } from "@/lib/actions/documents";
 import { getAlerts, generateProactiveAlerts } from "@/lib/actions/alerts";
+import { getActivities } from "@/lib/actions/educational";
+import { getBudgetEntries } from "@/lib/actions/budget";
+import { getFiscalYears } from "@/lib/actions/fiscal";
 import { VACCINATION_SCHEDULE, PLAN_LIMITS } from "@/lib/constants";
 import { DOCUMENT_TYPE_LABELS } from "@/types/family";
 import { createClient } from "@/lib/supabase/server";
@@ -88,6 +91,19 @@ export default async function DashboardPage() {
     }
   }
 
+  // Fetch additional data for profile completion checks
+  const firstChild = children[0];
+  const [growthResult, activitiesResult, budgetResult, fiscalResult] = await Promise.all([
+    firstChild ? getGrowthMeasurements(firstChild.id) : Promise.resolve({ data: [] }),
+    firstChild ? getActivities(firstChild.id) : Promise.resolve({ data: [] }),
+    getBudgetEntries(),
+    getFiscalYears(),
+  ]);
+  const hasGrowthData = (growthResult.data ?? []).length > 0;
+  const hasActivities = (activitiesResult.data ?? []).length > 0;
+  const hasBudgetData = (budgetResult.data ?? []).length > 0;
+  const hasFiscalData = (fiscalResult.data ?? []).length > 0;
+
   // Generate proactive alerts (runs deterministic checks)
   await generateProactiveAlerts();
 
@@ -105,10 +121,10 @@ export default async function DashboardPage() {
     { label: "Document d'identité", done: identityDocs.length > 0 },
     { label: "Vaccin enregistré", done: doneDoses > 0 },
     { label: "Document coffre-fort", done: vaultDocs.length > 0 },
-    { label: "Mesure de croissance", done: false }, // Would need growth data
-    { label: "Activité ajoutée", done: false }, // Would need activities data
-    { label: "Données fiscales", done: false }, // Would need fiscal data
-    { label: "Dépense budget", done: false }, // Would need budget data
+    { label: "Mesure de croissance", done: hasGrowthData },
+    { label: "Activité ajoutée", done: hasActivities },
+    { label: "Données fiscales", done: hasFiscalData },
+    { label: "Dépense budget", done: hasBudgetData },
     { label: "Email vérifié", done: !!user?.email_confirmed_at },
   ];
   const completionPercent = Math.round(
