@@ -43,3 +43,16 @@ export const identityDocumentSchema = z.object({
 });
 
 export type IdentityDocumentFormData = z.infer<typeof identityDocumentSchema>;
+
+export const profileSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, "Le prénom est requis")
+    .max(50, "50 caractères maximum"),
+  lastName: z
+    .string()
+    .min(1, "Le nom est requis")
+    .max(50, "50 caractères maximum"),
+});
+
+export type ProfileFormData = z.infer<typeof profileSchema>;

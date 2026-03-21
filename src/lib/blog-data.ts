@@ -14,7 +14,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     title: "Calendrier vaccinal 2025 : les 9 vaccins obligatoires pour votre bébé",
     description:
       "Tout savoir sur les vaccins obligatoires en France en 2025 : DTPCa, ROR, Hépatite B, Méningocoque C. Calendrier complet, rappels et conseils pratiques.",
-    date: "2025-12-15",
+    date: "2026-01-10",
     readingTime: "7 min",
     category: "Santé",
     content: `## Les vaccins obligatoires en France
@@ -73,7 +73,7 @@ Notre outil [calendrier vaccinal interactif](/outils/calendrier-vaccinal) te per
     title: "Crédit d'impôt garde d'enfant : guide complet 2025",
     description:
       "Comment bénéficier du crédit d'impôt pour frais de garde d'enfant en 2025. Montants, plafonds, conditions et calcul détaillé.",
-    date: "2025-11-20",
+    date: "2026-01-05",
     readingTime: "5 min",
     category: "Fiscal",
     content: `## Le crédit d'impôt garde d'enfant en 2025
@@ -119,7 +119,7 @@ Utilisez notre [simulateur d'impôt gratuit](/outils/simulateur-ir) pour calcule
     title: "Crèche ou assistante maternelle : comparatif coût réel après aides",
     description:
       "Comparaison détaillée du coût réel entre crèche et assistante maternelle après CMG et crédit d'impôt. Quel mode de garde choisir ?",
-    date: "2025-10-05",
+    date: "2026-01-20",
     readingTime: "6 min",
     category: "Garde",
     content: `## Crèche vs assistante maternelle : le vrai coût
@@ -481,6 +481,569 @@ Le poste le plus variable :
 ### Suivez votre budget bébé
 
 Notre module [Budget familial](/budget) ventile automatiquement vos dépenses par enfant et par catégorie. Connectez votre banque pour un suivi en temps réel. [Crée ton compte gratuitement](/register).`,
+  },
+  {
+    slug: "quotient-familial-comment-ca-marche",
+    title: "Quotient familial : comment ça marche et comment l'optimiser",
+    description:
+      "Comprendre le quotient familial, le calcul des parts fiscales, et les stratégies pour optimiser votre imposition en famille.",
+    date: "2026-03-05",
+    readingTime: "6 min",
+    category: "Fiscal",
+    content: `## Le quotient familial expliqué simplement
+
+Le quotient familial (QF) est le mécanisme qui adapte votre impôt sur le revenu à la taille de votre famille. Plus vous avez d'enfants, plus votre impôt baisse. Voici comment ça marche concrètement.
+
+### Comment sont calculées les parts ?
+
+Le système fiscal français attribue des **parts** à chaque foyer :
+
+| Situation | Nombre de parts |
+|-----------|----------------|
+| Célibataire | 1 |
+| Couple marié/pacsé | 2 |
+| + 1er enfant | +0,5 |
+| + 2e enfant | +0,5 |
+| + 3e enfant et suivants | +1 chacun |
+
+**Exemple :** Un couple avec 1 enfant = **2,5 parts**. Avec 3 enfants = **4 parts**.
+
+### Le calcul de l'impôt avec le QF
+
+1. On divise le revenu net imposable par le nombre de parts
+2. On applique le barème progressif à ce résultat
+3. On multiplie l'impôt obtenu par le nombre de parts
+
+**Exemple concret :** Couple, 2,5 parts, 60 000 € de revenu net imposable.
+- Revenu par part : 60 000 / 2,5 = 24 000 €
+- Impôt par part : 0 % sur les 11 294 premiers € + 11 % sur le reste = **1 397 €**
+- Impôt total : 1 397 × 2,5 = **3 493 €**
+
+Sans l'enfant (2 parts) : 60 000 / 2 = 30 000 € par part → impôt total = **5 170 €**
+
+**Économie grâce au QF : 1 677 €/an**
+
+### Le plafonnement du quotient familial
+
+Attention : l'avantage fiscal par demi-part est **plafonné** à **1 759 €** (barème 2025). Au-delà, l'avantage est limité. Ce plafond concerne surtout les revenus élevés.
+
+### Comment optimiser ?
+
+1. **Déclarez tous vos enfants à charge** — même les enfants majeurs étudiants (< 25 ans) peuvent être rattachés
+2. **Choisissez le bon régime** — imposition commune vs séparée, faites la simulation
+3. **Cumulez avec les crédits d'impôt** — garde d'enfant, emploi à domicile, dons
+4. **Anticipez les changements** — naissance, divorce, enfant qui quitte le foyer
+
+### Simulez votre impôt
+
+Notre [simulateur d'impôt gratuit](/outils/simulateur-ir) calcule automatiquement votre quotient familial et vos économies. Essaie-le en 30 secondes.`,
+  },
+  {
+    slug: "5-credits-impot-parents-oublient",
+    title: "5 crédits d'impôt que les parents oublient systématiquement",
+    description:
+      "Garde d'enfant, emploi à domicile, dons, frais de scolarité... 5 avantages fiscaux méconnus qui peuvent vous faire économiser des milliers d'euros.",
+    date: "2026-03-10",
+    readingTime: "5 min",
+    category: "Fiscal",
+    content: `## Ces crédits d'impôt que tu laisses filer
+
+Chaque année, des milliers de parents passent à côté d'avantages fiscaux auxquels ils ont droit. Voici les 5 plus fréquemment oubliés.
+
+### 1. Crédit d'impôt garde d'enfant (max 1 750 €)
+
+Si ton enfant a **moins de 6 ans** et est gardé en crèche, chez une assistante maternelle ou une garde à domicile :
+- **50 %** des dépenses (après déduction du CMG)
+- Plafond : **3 500 € de dépenses** → crédit max **1 750 €/enfant**
+- Case : **7GA** (1er enfant), **7GB** (2e enfant)
+
+### 2. Crédit emploi à domicile (max 6 000 à 7 500 €)
+
+Tu emploies quelqu'un à domicile (ménage, garde, soutien scolaire, jardinage) ?
+- **50 %** des dépenses
+- Plafond : **12 000 €** + **1 500 €/enfant** (max 15 000 €)
+- S'applique même si tu n'es pas imposable (c'est un **crédit**, pas une réduction)
+
+### 3. Réduction pour dons (66 % ou 75 %)
+
+Tu fais des dons à des associations ?
+- Associations d'intérêt général : **66 %** du don (plafond 20 % du revenu)
+- Associations d'aide aux personnes (Restos du Cœur, etc.) : **75 %** (plafond 1 000 €)
+- Un don de 100 € aux Restos ne te coûte que **25 €** après réduction
+
+### 4. Réduction frais de scolarité
+
+Souvent oublié car les montants semblent faibles, mais ils s'accumulent :
+- **Collège** : 61 €/enfant
+- **Lycée** : 153 €/enfant
+- **Études supérieures** : 183 €/enfant
+- Pour 2 enfants au lycée : **306 €/an** de réduction
+
+### 5. Crédit d'impôt pour cotisations syndicales
+
+Si tu es syndiqué :
+- **66 %** de la cotisation annuelle
+- Plafond : 1 % du revenu brut
+- Une cotisation de 200 € ne te coûte que **68 €**
+
+### Le total peut être impressionnant
+
+En cumulant ces 5 avantages pour un foyer type (2 enfants, garde, emploi à domicile, dons) :
+- Garde : **3 500 €**
+- Emploi domicile : **3 000 €**
+- Dons : **500 €**
+- Scolarité : **306 €**
+- **Total économies : ~3 800 €/an**
+
+### Simule ton impôt
+
+Notre [simulateur fiscal gratuit](/outils/simulateur-ir) intègre tous ces crédits et réductions. Lance ta simulation pour voir combien tu peux économiser.`,
+  },
+  {
+    slug: "conge-paternite-2026-guide-complet",
+    title: "Congé paternité 2026 : durée, indemnités et démarches complètes",
+    description:
+      "Tout savoir sur le congé paternité en 2026 : 25 jours calendaires, indemnités journalières, démarches employeur et CPAM, droits du père.",
+    date: "2026-02-20",
+    readingTime: "5 min",
+    category: "Démarches",
+    content: `## Le congé paternité : tes droits en tant que daron
+
+Depuis juillet 2021, le congé paternité est passé à **25 jours calendaires** (32 pour des naissances multiples). Voici tout ce que tu dois savoir.
+
+### Durée du congé
+
+| Composante | Durée | Obligatoire ? |
+|------------|-------|---------------|
+| Congé de naissance | 3 jours ouvrables | Oui |
+| Congé paternité | 25 jours calendaires | 4 jours obligatoires + 21 facultatifs |
+
+**Total : 28 jours** dont **7 jours obligatoires** immédiatement après la naissance.
+
+### Les indemnités
+
+Pendant le congé paternité, tu perçois des **indemnités journalières** versées par la Sécurité sociale :
+- Montant : **entre 10,79 € et 100,36 €/jour** selon ton salaire
+- Calcul : moyenne des 3 derniers salaires bruts, plafonnée
+- Certaines conventions collectives prévoient le **maintien de salaire** intégral
+
+### Les démarches, étape par étape
+
+**1 mois avant la naissance :**
+- Préviens ton employeur par courrier recommandé ou remise en main propre
+- Précise les dates de début et de fin du congé
+
+**À la naissance :**
+- Prends les 3 jours de congé de naissance (à utiliser dans les 15 jours)
+- Enchaîne avec les 4 jours obligatoires de congé paternité
+
+**Dans les 6 mois suivant la naissance :**
+- Les 21 jours restants sont à prendre dans les **6 mois** suivant la naissance
+- Tu peux les fractionner en **2 périodes minimum de 5 jours**
+
+**Documents à fournir :**
+- Copie de l'acte de naissance ou du livret de famille
+- Attestation sur l'honneur (lien de filiation avec l'enfant)
+
+### Cas particuliers
+
+- **Indépendants / auto-entrepreneurs** : mêmes droits, indemnités versées par la CPAM
+- **Naissance multiple** (jumeaux+) : 32 jours au lieu de 25
+- **Hospitalisation de l'enfant** : possibilité de report du congé
+
+### Ton employeur ne peut pas refuser
+
+Le congé paternité est un **droit**. Ton employeur ne peut ni le refuser, ni te licencier pendant cette période. Toute discrimination liée au congé paternité est illégale.
+
+### Organise-toi avec Darons
+
+Notre [checklist naissance](/outils/checklist-naissance) inclut automatiquement les étapes du congé paternité avec des rappels. [Crée ton compte](/register) pour ne rien oublier.`,
+  },
+  {
+    slug: "20-examens-sante-obligatoires-bebe",
+    title: "Les 20 examens de santé obligatoires de 0 à 16 ans",
+    description:
+      "De la naissance à 16 ans, votre enfant doit passer 20 examens médicaux obligatoires. Calendrier complet, ce qui est vérifié, et comment ne rien oublier.",
+    date: "2026-01-15",
+    readingTime: "8 min",
+    category: "Santé",
+    content: `## 20 examens obligatoires : le calendrier complet
+
+Depuis le nouveau carnet de santé 2025, **20 examens médicaux** sont obligatoires entre la naissance et 16 ans. Chacun donne lieu à un certificat médical. Voici le détail.
+
+### Les 14 premiers examens (0-3 ans)
+
+C'est la période la plus dense en examens :
+
+| Examen | Âge | Ce qui est vérifié |
+|--------|-----|-------------------|
+| 1 | 8 jours | Score Apgar, réflexes, dépistage néonatal |
+| 2 | 1 mois | Poids, taille, fontanelles, audition |
+| 3 | 2 mois | Vaccins (DTPCa, Hib, HepB, Pneumo), développement moteur |
+| 4 | 3 mois | Croissance, vision, tonus |
+| 5 | 4 mois | 2e dose vaccins, motricité, alimentation |
+| 6 | 5 mois | Méningocoque C, interaction sociale |
+| 7 | 6 mois | Diversification alimentaire, position assise |
+| 8 | 9 mois | Audition, vision, préhension fine, babillage |
+| 9 | 12 mois | ROR + Méningo C, marche, premiers mots |
+| 10 | 13 mois | Suivi post-vaccinal, développement |
+| 11 | 16-18 mois | ROR 2e dose, langage, autonomie |
+| 12 | 2 ans | Langage (50+ mots), comportement, propreté |
+| 13 | 2 ans ½ | Repérage troubles neurodéveloppement (TND) |
+| 14 | 3 ans | Vision, audition, langage construit, entrée en maternelle |
+
+### Les 6 examens suivants (4-16 ans)
+
+| Examen | Âge | Ce qui est vérifié |
+|--------|-----|-------------------|
+| 15 | 4 ans | Vision, audition, motricité fine, socialisation |
+| 16 | 5 ans | Bilan pré-CP, latéralité, repérage DYS |
+| 17 | 6 ans | Entrée CP, vue, audition, poids (courbe IMC) |
+| 18 | 8-9 ans | Suivi croissance, repérage difficultés scolaires |
+| 19 | 11-13 ans | Puberté, scoliose, santé mentale, rappel vaccins |
+| 20 | 15-16 ans | Consultation ado, prévention, vaccins HPV |
+
+### Nouveautés du carnet de santé 2025
+
+Le nouveau carnet introduit :
+- **Repérage des écrans** dès 3 mois (questions systématiques)
+- **Grille TND** (Troubles Neurodéveloppementaux) à 2 ans ½
+- **Suivi activité physique** dès 2 ans
+- **Score Apgar** détaillé (1, 5 et 10 minutes)
+
+### Que se passe-t-il si on rate un examen ?
+
+Ces examens sont **obligatoires** et remboursés à 100 % par la Sécurité sociale. En cas d'oubli :
+- Aucune sanction légale, mais c'est la santé de ton enfant qui est en jeu
+- Le médecin peut rattraper un examen manqué lors de la consultation suivante
+
+### Suivi automatisé avec Darons
+
+Notre outil [examens de santé](/outils/examens-sante) génère automatiquement le calendrier des 20 examens selon la date de naissance de ton enfant, avec des rappels. [Crée ton compte gratuitement](/register).`,
+  },
+  {
+    slug: "allergies-alimentaires-bebe-guide",
+    title: "Allergies alimentaires chez le bébé : symptômes, diagnostic et diversification",
+    description:
+      "Comment repérer une allergie alimentaire chez le nourrisson, les allergènes courants, la diversification en toute sécurité, et quand consulter.",
+    date: "2026-02-05",
+    readingTime: "7 min",
+    category: "Santé",
+    content: `## Allergies alimentaires du bébé : pas de panique, mais reste vigilant
+
+Les allergies alimentaires touchent environ **6 à 8 % des enfants** de moins de 3 ans en France. La bonne nouvelle : la majorité d'entre elles disparaissent avant l'âge de 6 ans.
+
+### Les allergènes les plus fréquents
+
+Par ordre de fréquence chez le nourrisson :
+
+1. **Lait de vache** (APLV) — la plus fréquente (2-3 % des bébés)
+2. **Œuf** — souvent le blanc d'œuf
+3. **Arachide** — en augmentation ces dernières années
+4. **Fruits à coque** (noix, noisette, cajou)
+5. **Blé / gluten**
+6. **Poisson et crustacés**
+7. **Soja**
+
+### Les symptômes à surveiller
+
+**Réactions immédiates** (dans les 2 heures) :
+- Urticaire (plaques rouges qui grattent)
+- Gonflement des lèvres ou du visage
+- Vomissements
+- Difficultés respiratoires (urgence !)
+
+**Réactions retardées** (heures à jours) :
+- Eczéma qui s'aggrave
+- Diarrhées chroniques
+- Reflux persistant
+- Coliques sévères
+- Stagnation de la courbe de poids
+
+### Quand et comment diversifier ?
+
+Les recommandations ont **changé** : on ne retarde plus l'introduction des allergènes. Au contraire :
+
+- **Dès 4-6 mois** : commencer la diversification
+- **Introduire tôt les allergènes** : arachide, œuf, poisson dès 4-6 mois
+- **Un nouvel aliment à la fois**, pendant 3 jours, pour identifier les réactions
+- **Petites quantités** au début, augmenter progressivement
+- **Ne JAMAIS donner** de miel avant 1 an (risque de botulisme, pas une allergie)
+
+### Que faire en cas de réaction ?
+
+**Réaction légère** (quelques boutons, léger gonflement) :
+- Arrêter l'aliment en question
+- Consulter le pédiatre dans les 48h
+- Noter l'aliment, la quantité, et les symptômes
+
+**Réaction sévère** (difficultés respiratoires, gonflement du visage, malaise) :
+- **Appeler le 15 (SAMU) immédiatement**
+- Allonger l'enfant (ou position semi-assise si difficultés respiratoires)
+- Ne rien donner à manger ni à boire
+
+### Le diagnostic
+
+Le médecin peut prescrire :
+- **Prick tests** cutanés (résultats en 20 min)
+- **Dosage IgE** spécifiques (prise de sang)
+- **Test de provocation orale** (TPO) — en milieu hospitalier, sous surveillance
+
+### Vivre avec une allergie alimentaire
+
+- **Informer la crèche/nounou** par écrit avec le PAI (Projet d'Accueil Individualisé)
+- **Lire les étiquettes** systématiquement (les 14 allergènes majeurs sont obligatoirement mentionnés)
+- **Avoir un kit d'urgence** si prescrit (antihistaminique + stylo auto-injecteur d'adrénaline)
+
+### Suivi avec Darons
+
+Notre module Santé enrichie permet de suivre les allergies de ton enfant avec des alertes croisées sur les compositions alimentaires. [Crée ton compte](/register) pour un suivi personnalisé.`,
+  },
+  {
+    slug: "inscription-creche-guide-complet",
+    title: "Inscription en crèche : le guide complet pour décrocher une place",
+    description:
+      "Quand s'inscrire, les critères d'attribution, les types de crèches, et nos astuces pour maximiser vos chances d'obtenir une place en crèche.",
+    date: "2026-01-25",
+    readingTime: "6 min",
+    category: "Garde",
+    content: `## Inscription en crèche : la stratégie gagnante
+
+Obtenir une place en crèche relève parfois du parcours du combattant. En Île-de-France, le taux de couverture est de **seulement 17 %**. Voici comment maximiser tes chances.
+
+### Quand s'inscrire ?
+
+**Le plus tôt possible :**
+- Dès le **6e mois de grossesse** pour les crèches municipales
+- Dès la **déclaration de grossesse** pour certaines communes (Paris, Lyon, Marseille)
+- Les commissions d'attribution ont lieu en **mars** (rentrée septembre) et **octobre** (rentrée janvier)
+
+### Les types de crèches
+
+| Type | Capacité | Géré par | Coût |
+|------|----------|----------|------|
+| Crèche municipale | 20-60 places | Mairie | PSU (selon revenus) |
+| Crèche associative | 15-40 places | Association | PSU |
+| Micro-crèche | 10-12 places | Privé | Forfait ou PSU |
+| Crèche d'entreprise | Variable | Employeur | Variable |
+| MAM (Maison d'Assistantes Maternelles) | 4-16 places | Indépendantes | Tarif libre |
+
+### Les critères d'attribution
+
+Chaque commune a ses propres critères, mais les plus courants :
+1. **Résidence dans la commune** (prioritaire)
+2. **Revenus du foyer** (les plus modestes sont prioritaires)
+3. **Activité professionnelle** des deux parents
+4. **Famille monoparentale** (points bonus)
+5. **Fratrie déjà dans la crèche** (points bonus)
+6. **Handicap** de l'enfant ou d'un parent (prioritaire)
+
+### Astuces pour maximiser tes chances
+
+1. **Inscris-toi dans plusieurs crèches** — municipales ET privées, ne mise pas tout sur une seule
+2. **Rédige une lettre de motivation** — oui, ça se fait. Explique ta situation, tes contraintes horaires
+3. **Relance régulièrement** — un appel poli à la mairie tous les 2 mois montre ta motivation
+4. **Cible la commission de mars** — les places de septembre sont les plus nombreuses
+5. **Explore les micro-crèches** — moins connues, souvent avec des places disponibles
+6. **Regarde les crèches d'entreprise** — demande à ton employeur s'il a un partenariat
+
+### Le coût réel
+
+Avec le barème PSU (Prestation de Service Unique), le tarif dépend de tes revenus :
+
+**Exemple :** Couple, 40 000 €/an de revenus, 1 enfant
+- Tarif horaire : ~1,20 €
+- Coût mensuel (200h) : ~240 €/mois
+- Après crédit d'impôt : ~120 €/mois net
+
+### Plan B : l'assistante maternelle
+
+Si tu n'obtiens pas de place en crèche, l'assistante maternelle est une excellente alternative. Utilise notre [simulateur de coût de garde](/outils/simulateur-garde) pour comparer les options.
+
+### Trouve ta crèche avec Darons
+
+Notre module [Recherche de garde](/garde) affiche les crèches autour de chez toi avec leurs disponibilités. [Crée ton compte](/register) pour commencer ta recherche.`,
+  },
+  {
+    slug: "jalons-developpement-0-3-ans",
+    title: "Jalons de développement de 0 à 3 ans : quand s'inquiéter ?",
+    description:
+      "Les étapes clés du développement de votre bébé mois par mois : motricité, langage, cognition, social. Quand consulter si vous avez des doutes.",
+    date: "2026-03-15",
+    readingTime: "7 min",
+    category: "Développement",
+    content: `## Le développement de ton bébé mois par mois
+
+Chaque enfant évolue à son rythme. Ces jalons sont des **repères moyens**, pas des obligations. Un retard de quelques semaines est normal. Mais certains signaux méritent une consultation.
+
+### 0-3 mois : les débuts
+
+**Motricité :**
+- Tient sa tête quelques secondes (2 mois)
+- Tourne la tête vers un son
+- Bouge bras et jambes symétriquement
+
+**Langage & communication :**
+- Pleure pour exprimer ses besoins
+- Réagit aux voix (surtout celle de maman)
+- Premiers gazouillis (2-3 mois)
+
+**Social :**
+- Sourire réflexe (naissance), puis **sourire social** (6-8 semaines)
+- Fixe le regard, suit des yeux un objet
+
+### 4-6 mois : l'éveil
+
+**Motricité :**
+- Tient sa tête bien droite (4 mois)
+- Attrape un objet (4-5 mois)
+- Se retourne (ventre → dos, puis dos → ventre)
+- Début position assise avec appui (6 mois)
+
+**Langage :**
+- **Babillage** : "bababa", "mamama" (6 mois)
+- Rit aux éclats
+- Réagit à son prénom
+
+### 7-12 mois : l'exploration
+
+**Motricité :**
+- S'assoit seul sans appui (7-8 mois)
+- Rampe ou se déplace à 4 pattes (8-10 mois)
+- Se met debout en s'accrochant (9-10 mois)
+- **Premiers pas** (10-15 mois — grande variabilité !)
+
+**Langage :**
+- Premiers mots intentionnels : "mama", "papa" (10-12 mois)
+- Comprend "non" et des consignes simples
+- Pointe du doigt pour montrer (12 mois) — jalon important !
+
+**Cognition :**
+- **Permanence de l'objet** : comprend qu'un objet caché existe toujours (8 mois)
+- Cherche un jouet caché sous un tissu
+
+**Social :**
+- **Anxiété de séparation** (8-10 mois) — normal !
+- Fait "bravo", "au revoir" de la main
+
+### 13-24 mois : l'autonomie
+
+**Motricité :**
+- Marche seul (12-18 mois)
+- Monte les escaliers à 4 pattes (15 mois)
+- Court (18-20 mois)
+- Empile 2-3 cubes (15 mois), puis 6+ (24 mois)
+
+**Langage :**
+- 10-50 mots à 18 mois
+- **50+ mots et premières phrases** à 24 mois ("encore lait", "papa parti")
+- Comprend des consignes à 2 étapes ("prends le livre et donne-le à maman")
+
+**Social :**
+- Jeu parallèle (joue à côté des autres, pas avec)
+- Imite les adultes (balayer, téléphoner)
+- Dit "non" (beaucoup)
+
+### 25-36 mois : le langage explose
+
+**Motricité :**
+- Saute sur place (2 ans)
+- Pédale sur un tricycle (2,5-3 ans)
+- S'habille partiellement seul
+
+**Langage :**
+- Phrases de 3-4 mots (2,5 ans)
+- Se fait comprendre par des inconnus (3 ans)
+- Utilise "je", "tu", "il"
+- Pose des questions "pourquoi ?" (prépare-toi)
+
+### Quand consulter ?
+
+Consulte ton pédiatre si à :
+- **4 mois** : ne tient pas sa tête, pas de sourire social
+- **9 mois** : ne s'assoit pas, ne babille pas, pas de réaction au prénom
+- **12 mois** : ne pointe pas du doigt, pas de mot
+- **18 mois** : ne marche pas, moins de 10 mots, pas d'imitation
+- **24 mois** : moins de 50 mots, pas de phrases de 2 mots
+- **3 ans** : langage incompréhensible, pas de jeu imaginaire
+
+> **Important** : un retard ne signifie pas un trouble. Mais un dépistage précoce permet une prise en charge rapide et efficace.
+
+### Suis les jalons avec Darons
+
+Notre outil [jalons de développement](/outils/jalons-developpement) te permet de cocher les étapes atteintes et d'identifier les points de vigilance. [Crée ton compte](/register).`,
+  },
+  {
+    slug: "cout-enfant-0-18-ans-france",
+    title: "Combien coûte un enfant de 0 à 18 ans en France ? Le vrai budget",
+    description:
+      "De la naissance à la majorité, un enfant coûte en moyenne 180 000 €. Détail année par année, poste par poste, et comment optimiser.",
+    date: "2026-03-01",
+    readingTime: "6 min",
+    category: "Budget",
+    content: `## Le coût réel d'un enfant : entre 150 000 et 200 000 €
+
+Selon les études de l'UNAF et de l'INSEE, élever un enfant de la naissance à 18 ans coûte entre **150 000 et 200 000 €**. Soit environ **700 à 950 €/mois en moyenne**. Mais ce chiffre varie énormément selon les années.
+
+### Le coût par tranche d'âge
+
+| Tranche d'âge | Coût moyen/an | Principaux postes |
+|---------------|---------------|-------------------|
+| **0-3 ans** | 8 000 - 12 000 € | Garde (60 %), alimentation, couches, santé |
+| **3-6 ans** | 5 000 - 7 000 € | Activités, vêtements, cantine |
+| **6-11 ans** | 5 000 - 7 000 € | Scolarité, activités extra, loisirs |
+| **11-14 ans** | 6 000 - 8 000 € | Collège, vêtements (croissance), numérique |
+| **15-18 ans** | 7 000 - 10 000 € | Lycée, permis, smartphone, sorties |
+
+### Détail par poste de dépense
+
+**Alimentation (20-25 %)**
+- Lait infantile : 80-120 €/mois la 1ère année (si non-allaité)
+- Diversification : petits pots ou fait-maison (30-100 €/mois)
+- À partir de 3 ans : ~150-200 €/mois d'alimentation supplémentaire
+
+**Garde (25-30 % les 3 premières années)**
+- Crèche municipale : 100-500 €/mois selon revenus (après aides)
+- Assistante maternelle : 200-600 €/mois net (après CMG + crédit impôt)
+- Garde à domicile : 500-1 200 €/mois net
+- Après 3 ans, ce poste chute drastiquement (école gratuite !)
+
+**Vêtements (10 %)**
+- Les 2 premières années : changement de taille tous les 3 mois
+- Budget moyen : 50-100 €/mois (neuf) ou 20-40 € (occasion)
+
+**Santé (5 %)**
+- Consultations pédiatre, urgences, médicaments
+- Orthodontie (à partir de 8-10 ans) : 600-2 000 €/semestre
+- Lunettes : 100-300 € (remboursées partiellement)
+
+**Activités & loisirs (10-15 %)**
+- Sport, musique, art : 30-100 €/mois
+- Vacances famille : 500-3 000 €/an
+- Jouets, livres : 30-50 €/mois
+
+**Logement (15-20 %)**
+- Surcoût chambre supplémentaire : 100-400 €/mois selon la ville
+- Équipement (lit, poussette, siège auto) : 1 000-3 000 € la 1ère année
+
+### Comment réduire la facture
+
+1. **Maximise les aides CAF** — PAJE, CMG, allocations familiales, prime rentrée ([simule tes droits](/outils/simulateur-caf))
+2. **Utilise les crédits d'impôt** — garde, emploi domicile ([simule ton impôt](/outils/simulateur-ir))
+3. **Achète d'occasion** — vêtements, jouets, matériel de puériculture (Vinted, Le Bon Coin, bourses aux vêtements)
+4. **Fais du batch cooking** — cuisiner en lot pour bébé revient 3x moins cher que les petits pots
+5. **Compare les modes de garde** — la crèche municipale est souvent la moins chère ([compare ici](/outils/simulateur-garde))
+
+### Premier enfant vs suivants
+
+Le 2e enfant coûte en moyenne **30 % de moins** que le premier :
+- Réutilisation du matériel, des vêtements
+- Allocations familiales (à partir du 2e enfant)
+- Expérience parentale (moins d'achats impulsifs)
+
+### Suis ton budget avec Darons
+
+Notre [simulateur de budget familial](/outils/simulateur-budget) te montre exactement où va ton argent mois par mois. Connecte ta banque ou saisis tes dépenses manuellement. [C'est gratuit](/register).`,
   },
 ];
 

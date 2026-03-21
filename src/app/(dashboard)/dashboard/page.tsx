@@ -15,6 +15,9 @@ import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
 import { DismissibleAlertCard } from "@/components/shared/dismissible-alert-card";
 import { MonthlySummaryCard } from "@/components/dashboard/monthly-summary-card";
+import { FamilyOverviewCard } from "@/components/dashboard/family-overview-card";
+import { WeeklyActivitiesCard } from "@/components/dashboard/weekly-activities-card";
+import { MilestonesProgressCard } from "@/components/dashboard/milestones-progress-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,7 +28,7 @@ import { getIdentityDocuments, getExpiringDocuments } from "@/lib/actions/identi
 import { getVaccinationsByMembers, getGrowthMeasurements, getUpcomingAppointments } from "@/lib/actions/health";
 import { getDocuments } from "@/lib/actions/documents";
 import { getAlerts, generateProactiveAlerts } from "@/lib/actions/alerts";
-import { getActivities } from "@/lib/actions/educational";
+import { getActivities, getMilestones } from "@/lib/actions/educational";
 import { getBudgetEntries, getBudgetSummary, getCafAllocations } from "@/lib/actions/budget";
 import { getFiscalYears } from "@/lib/actions/fiscal";
 import { VACCINATION_SCHEDULE, PLAN_LIMITS } from "@/lib/constants";
@@ -101,9 +104,10 @@ export default async function DashboardPage() {
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
 
-  const [growthResult, activitiesResult, budgetResult, fiscalResult, summaryResult, allocResult, appointmentsResult] = await Promise.all([
+  const [growthResult, activitiesResult, milestonesResult, budgetResult, fiscalResult, summaryResult, allocResult, appointmentsResult] = await Promise.all([
     firstChild ? getGrowthMeasurements(firstChild.id) : Promise.resolve({ data: [] }),
     firstChild ? getActivities(firstChild.id) : Promise.resolve({ data: [] }),
+    firstChild ? getMilestones(firstChild.id) : Promise.resolve({ data: [] }),
     getBudgetEntries(),
     getFiscalYears(),
     getBudgetSummary(currentMonth),
@@ -112,6 +116,8 @@ export default async function DashboardPage() {
   ]);
   const hasGrowthData = (growthResult.data ?? []).length > 0;
   const hasActivities = (activitiesResult.data ?? []).length > 0;
+  const allActivities = activitiesResult.data ?? [];
+  const allMilestones = milestonesResult.data ?? [];
   const hasBudgetData = (budgetResult.data ?? []).length > 0;
   const hasFiscalData = (fiscalResult.data ?? []).length > 0;
 
@@ -213,6 +219,9 @@ export default async function DashboardPage() {
           color="bg-warm-purple/10 text-warm-purple"
         />
       </div>
+
+      {/* Family overview */}
+      <FamilyOverviewCard members={members} />
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Alerts */}
@@ -443,6 +452,21 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Activities + Milestones */}
+      {firstChild && (
+        <div className="grid gap-6 lg:grid-cols-2">
+          <WeeklyActivitiesCard
+            activities={allActivities}
+            childName={firstChild.firstName}
+          />
+          <MilestonesProgressCard
+            milestones={allMilestones}
+            childName={firstChild.firstName}
+            birthDate={firstChild.birthDate}
+          />
+        </div>
+      )}
 
       {/* Monthly AI Summary */}
       <MonthlySummaryCard hasAccess={hasAiSummary} />

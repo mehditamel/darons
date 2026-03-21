@@ -1,7 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { familyMemberSchema, householdSchema, type FamilyMemberFormData, type HouseholdFormData } from "@/lib/validators/family";
+import { familyMemberSchema, householdSchema, profileSchema, type FamilyMemberFormData, type HouseholdFormData, type ProfileFormData } from "@/lib/validators/family";
 import { validateUUID } from "@/lib/validators/common";
 import type { ActionResult } from "@/lib/actions/safe-action";
 import type { FamilyMember, Household } from "@/types/family";
@@ -273,6 +273,38 @@ export async function deleteFamilyMember(id: string): Promise<ActionResult> {
   revalidatePath("/sante");
 
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
+}
+
+export async function updateProfile(
+  formData: ProfileFormData
+): Promise<ActionResult> {
+  try {
+    const { user, supabase } = await getAuthenticatedUser();
+    if (!user) return { success: false, error: "Non authentifié" };
+
+    const parsed = profileSchema.safeParse(formData);
+    if (!parsed.success) {
+      return { success: false, error: parsed.error.errors[0]?.message ?? "Données invalides" };
+    }
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({
+        first_name: parsed.data.firstName,
+        last_name: parsed.data.lastName,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", user.id);
+
+    if (error) return { success: false, error: "Erreur lors de la mise à jour du profil" };
+
+    revalidatePath("/parametres");
+    revalidatePath("/dashboard");
+
+    return { success: true };
   } catch {
     return { success: false, error: "Une erreur inattendue est survenue" };
   }

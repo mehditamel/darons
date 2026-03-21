@@ -25,6 +25,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Budget": "bg-warm-blue/10 text-warm-blue",
   "Démarches": "bg-warm-purple/10 text-warm-purple",
   "Identité": "bg-warm-green/10 text-warm-green",
+  "Développement": "bg-warm-purple/10 text-warm-purple",
 };
 
 export const revalidate = 3600; // ISR: revalidate every hour

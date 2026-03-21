@@ -14,6 +14,7 @@ import { DataExportButton } from "@/components/parametres/data-export-button";
 import { DeleteAccountDialog } from "@/components/parametres/delete-account-dialog";
 import { ConsentManager } from "@/components/parametres/consent-manager";
 import { PhoneNumberSettings } from "@/components/parametres/phone-number-settings";
+import { EditProfileForm } from "@/components/parametres/edit-profile-form";
 import { UpgradeButton } from "@/components/parametres/upgrade-button";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getUserConsents, getDeletionStatus } from "@/lib/actions/rgpd";
@@ -76,28 +77,13 @@ export default async function ParametresPage() {
               Informations de votre compte utilisateur
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-2 sm:grid-cols-2">
-              <div>
-                <p className="text-sm text-muted-foreground">Prénom</p>
-                <p className="font-medium">{profile?.first_name ?? "—"}</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Nom</p>
-                <p className="font-medium">{profile?.last_name ?? "—"}</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Email</p>
-                <p className="font-medium">{profile?.email ?? "—"}</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Rôle</p>
-                <p className="font-medium">Propriétaire</p>
-              </div>
-            </div>
-            <Button variant="outline" size="sm">
-              Modifier mes informations
-            </Button>
+          <CardContent>
+            <EditProfileForm
+              firstName={profile?.first_name ?? ""}
+              lastName={profile?.last_name ?? ""}
+              email={profile?.email ?? ""}
+              role="Propriétaire"
+            />
           </CardContent>
         </Card>
 
