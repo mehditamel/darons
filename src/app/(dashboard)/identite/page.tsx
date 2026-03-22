@@ -31,37 +31,42 @@ export default async function IdentitePage() {
   const expiredCount = documents.filter((d) => d.status === "expired").length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 page-enter">
       <PageHeader
         title="Identité & documents"
-        description="Gérez les pièces d'identité de votre famille et recevez des alertes d'expiration"
+        description="Tes papiers d'identité en un coup d'oeil"
+        icon={<IdCard className="h-5 w-5" />}
       />
 
       {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         <StatCard
-          label="Total documents"
+          label="Total"
           value={String(documents.length)}
           icon={IdCard}
           color="bg-warm-blue/10 text-warm-blue"
+          gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Valides"
           value={String(validCount)}
           icon={CheckCircle}
-          color="bg-green-100 text-green-600"
+          color="bg-warm-green/10 text-warm-green"
+          gradientClass="card-gradient-green"
         />
         <StatCard
           label="À renouveler"
           value={String(expiringSoonCount)}
           icon={AlertTriangle}
-          color="bg-yellow-100 text-yellow-600"
+          color="bg-warm-orange/10 text-warm-orange"
+          gradientClass="card-gradient-orange"
         />
         <StatCard
           label="Expirés"
           value={String(expiredCount)}
           icon={XCircle}
-          color="bg-red-100 text-red-600"
+          color="bg-warm-red/10 text-warm-red"
+          gradientClass="card-gradient-red"
         />
       </div>
 

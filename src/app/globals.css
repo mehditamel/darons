@@ -252,6 +252,14 @@
     @apply rounded-2xl border-0 bg-gradient-to-br from-warm-gold/5 to-warm-gold/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
   }
 
+  .card-gradient-red {
+    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-red/5 to-warm-red/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+  }
+
+  .card-gradient-green {
+    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-green/5 to-warm-green/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+  }
+
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-warm-orange to-warm-teal;
   }

@@ -9,6 +9,7 @@ import {
   Save,
   ChevronDown,
   ChevronUp,
+  CheckCircle2,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -53,37 +54,41 @@ export function SimulationResults({ result, input }: SimulationResultsProps) {
   };
 
   const tmiColor = result.tmi <= 11
-    ? "bg-green-100 text-green-800"
+    ? "bg-warm-green/10 text-warm-green"
     : result.tmi <= 30
-      ? "bg-amber-100 text-amber-800"
-      : "bg-red-100 text-red-800";
+      ? "bg-warm-orange/10 text-warm-orange"
+      : "bg-warm-red/10 text-warm-red";
 
   return (
-    <div className="space-y-4">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="space-y-4 animate-fade-in-up">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Impôt net"
           value={formatCurrency(result.impotNet)}
           icon={Calculator}
-          color="bg-accent-gold/10 text-accent-gold"
+          color="bg-warm-gold/10 text-warm-gold"
+          gradientClass="card-gradient-gold"
         />
         <StatCard
           label="TMI"
           value={`${result.tmi}%`}
           icon={TrendingDown}
-          color="bg-accent-warm/10 text-accent-warm"
+          color="bg-warm-orange/10 text-warm-orange"
+          gradientClass="card-gradient-orange"
         />
         <StatCard
           label="Taux effectif"
           value={`${result.tauxEffectif}%`}
           icon={Percent}
-          color="bg-accent-blue/10 text-accent-blue"
+          color="bg-warm-blue/10 text-warm-blue"
+          gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Quotient familial"
           value={formatCurrency(result.quotientFamilial)}
           icon={DivideSquare}
-          color="bg-accent-teal/10 text-accent-teal"
+          color="bg-warm-teal/10 text-warm-teal"
+          gradientClass="card-gradient-teal"
         />
       </div>
 
@@ -121,18 +126,22 @@ export function SimulationResults({ result, input }: SimulationResultsProps) {
                 positive
               />
             )}
-            <div className="border-t pt-2">
-              <FlowRow
-                label="Impôt net à payer"
-                value={formatCurrency(result.impotNet)}
-                bold
-              />
+            <div className="border-t pt-3">
+              <div className="flex items-center justify-between">
+                <span className="font-semibold">Impôt net à payer</span>
+                <span className="font-bold text-xl text-gradient animate-count-up">
+                  {formatCurrency(result.impotNet)}
+                </span>
+              </div>
             </div>
           </div>
 
           {showDetail && result.creditsImpot.total > 0 && (
-            <div className="rounded-lg bg-muted/50 p-4 space-y-2">
-              <p className="text-sm font-medium">Détail des crédits d&apos;impôt</p>
+            <div className="rounded-xl bg-warm-green/5 border border-warm-green/10 p-4 space-y-2 animate-fade-in-up">
+              <p className="text-sm font-semibold flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-warm-green" />
+                Détail des crédits d&apos;impôt
+              </p>
               {result.creditsImpot.gardeEnfant > 0 && (
                 <FlowRow
                   label="Garde d'enfant"
@@ -174,9 +183,18 @@ export function SimulationResults({ result, input }: SimulationResultsProps) {
       </Card>
 
       <div className="flex items-center gap-3">
-        <Button onClick={handleSave} disabled={saving || saved} variant="outline">
-          <Save className="mr-2 h-4 w-4" />
-          {saved ? "Sauvegardé" : saving ? "Sauvegarde..." : "Sauvegarder cette simulation"}
+        <Button onClick={handleSave} disabled={saving || saved} variant={saved ? "outline" : "default"}>
+          {saved ? (
+            <>
+              <CheckCircle2 className="mr-2 h-4 w-4 text-warm-green" />
+              Sauvegardé
+            </>
+          ) : (
+            <>
+              <Save className="mr-2 h-4 w-4" />
+              {saving ? "Sauvegarde..." : "Sauvegarder cette simulation"}
+            </>
+          )}
         </Button>
         {saveError && <p className="text-sm text-destructive" role="alert">{saveError}</p>}
       </div>
@@ -205,7 +223,7 @@ function FlowRow({
       <span
         className={
           positive
-            ? "text-green-600 font-medium"
+            ? "text-warm-green font-medium"
             : bold
               ? "font-bold text-lg"
               : muted

@@ -22,7 +22,7 @@ export function ChildcareStructureCard({
   onToggleFavorite,
 }: ChildcareStructureCardProps) {
   return (
-    <Card>
+    <Card className="card-playful">
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
@@ -112,15 +112,16 @@ export function ChildcareStructureCard({
             <Button
               variant="ghost"
               size="icon"
+              className="transition-transform hover:scale-110"
               onClick={() => onToggleFavorite(structure.id)}
               aria-label={
                 isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"
               }
             >
               <Heart
-                className={`h-5 w-5 ${
+                className={`h-5 w-5 transition-all duration-200 ${
                   isFavorite
-                    ? "fill-red-500 text-red-500"
+                    ? "fill-red-500 text-red-500 scale-110"
                     : "text-muted-foreground"
                 }`}
               />

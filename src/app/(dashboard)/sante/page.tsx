@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HeartPulse } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { SanteTabs } from "@/components/sante/sante-tabs";
 import { PractitionerSearch } from "@/components/sante/practitioner-search";
@@ -35,10 +36,11 @@ export default async function SantePage() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 page-enter">
       <PageHeader
         title="Santé & vaccinations"
-        description="Suivez les vaccins, rendez-vous médicaux et courbes de croissance"
+        description="Les vaccins, la croissance, les RDV — tout est là"
+        icon={<HeartPulse className="h-5 w-5" />}
       />
 
       <MESConnectionCard

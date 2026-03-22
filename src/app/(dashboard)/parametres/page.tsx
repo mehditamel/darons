@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Settings, Users, User, Sparkles, Shield } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -50,19 +51,23 @@ export default async function ParametresPage() {
   const hasCalendarSync = planLimits.hasCalendarSync;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 page-enter">
       <PageHeader
         title="Paramètres"
-        description="Gérez votre compte, votre foyer et votre abonnement"
+        description="Ton compte, ton foyer, tes préférences"
+        icon={<Settings className="h-5 w-5" />}
       />
 
       <div className="grid gap-6">
         {/* Family members section */}
-        <Card>
+        <Card className="border-l-4 border-l-warm-teal">
           <CardHeader>
-            <CardTitle>Mon foyer</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-4 w-4 text-warm-teal" />
+              Mon foyer
+            </CardTitle>
             <CardDescription>
-              Gérez les membres de votre famille
+              Les membres de ta famille
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -70,11 +75,14 @@ export default async function ParametresPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-l-4 border-l-warm-blue">
           <CardHeader>
-            <CardTitle>Mon compte</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <User className="h-4 w-4 text-warm-blue" />
+              Mon compte
+            </CardTitle>
             <CardDescription>
-              Informations de votre compte utilisateur
+              Tes informations personnelles
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -121,12 +129,15 @@ export default async function ParametresPage() {
           isConnected={!!profile?.calendar_tokens}
         />
 
-        <Card>
+        <Card className="border-l-4 border-l-warm-gold">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Abonnement</CardTitle>
-                <CardDescription>Votre plan actuel et ses limites</CardDescription>
+                <CardTitle className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-warm-gold" />
+                  Abonnement
+                </CardTitle>
+                <CardDescription>Ton plan actuel et ses limites</CardDescription>
               </div>
               <Badge>{plan === "free" ? "Gratuit" : plan === "premium" ? "Premium" : "Family Pro"}</Badge>
             </div>
@@ -170,11 +181,14 @@ export default async function ParametresPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-l-4 border-l-warm-green">
           <CardHeader>
-            <CardTitle>Données & confidentialité</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="h-4 w-4 text-warm-green" />
+              Données & confidentialité
+            </CardTitle>
             <CardDescription>
-              RGPD : gérez vos données personnelles
+              RGPD : tes données, tes choix
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

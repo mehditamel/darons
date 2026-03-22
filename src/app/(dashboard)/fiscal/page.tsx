@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Calculator } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { FiscalTabs } from "@/components/fiscal/fiscal-tabs";
 import { getFamilyMembers } from "@/lib/actions/family";
@@ -29,10 +30,11 @@ export default async function FiscalPage() {
   const savedFiscalYears = fiscalResult.data ?? [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 page-enter">
       <PageHeader
         title="Foyer fiscal"
-        description="Simulation IR, crédits d'impôt et échéancier fiscal"
+        description="Tes impôts, on t'aide à payer moins"
+        icon={<Calculator className="h-5 w-5" />}
       />
 
       <FiscalTabs
