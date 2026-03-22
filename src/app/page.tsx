@@ -45,6 +45,7 @@ const FEATURES = [
     color: "text-warm-teal",
     bgColor: "bg-warm-teal/10",
     gradient: "from-warm-teal/10 to-warm-teal/5",
+    href: "/sante",
   },
   {
     icon: GraduationCap,
@@ -54,6 +55,7 @@ const FEATURES = [
     color: "text-warm-blue",
     bgColor: "bg-warm-blue/10",
     gradient: "from-warm-blue/10 to-warm-blue/5",
+    href: "/scolarite",
   },
   {
     icon: Calculator,
@@ -63,6 +65,7 @@ const FEATURES = [
     color: "text-warm-gold",
     bgColor: "bg-warm-gold/10",
     gradient: "from-warm-gold/10 to-warm-gold/5",
+    href: "/fiscal",
   },
   {
     icon: Wallet,
@@ -72,6 +75,7 @@ const FEATURES = [
     color: "text-warm-purple",
     bgColor: "bg-warm-purple/10",
     gradient: "from-warm-purple/10 to-warm-purple/5",
+    href: "/budget",
   },
   {
     icon: Baby,
@@ -81,6 +85,7 @@ const FEATURES = [
     color: "text-warm-orange",
     bgColor: "bg-warm-orange/10",
     gradient: "from-warm-orange/10 to-warm-orange/5",
+    href: "/garde",
   },
   {
     icon: ClipboardList,
@@ -90,6 +95,7 @@ const FEATURES = [
     color: "text-warm-green",
     bgColor: "bg-warm-green/10",
     gradient: "from-warm-green/10 to-warm-green/5",
+    href: "/demarches",
   },
 ];
 
@@ -268,22 +274,27 @@ export default function LandingPage() {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature, index) => (
-              <Card key={index} className="card-playful border-0 shadow-md group overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                <CardHeader className="relative">
-                  <div
-                    className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bgColor} ${feature.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}
-                  >
-                    <feature.icon className="h-6 w-6" />
-                  </div>
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="relative">
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
+              <Link key={index} href={feature.href}>
+                <Card className="card-playful border-0 shadow-md group overflow-hidden h-full">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <CardHeader className="relative">
+                    <div
+                      className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bgColor} ${feature.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}
+                    >
+                      <feature.icon className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      {feature.title}
+                      <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="relative">
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
@@ -306,19 +317,22 @@ export default function LandingPage() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { text: "La CNI de Yasmine expire dans 47 jours", category: "Documents", color: "border-l-warm-orange" },
-              { text: "Le vaccin Pneumocoque dose 3 de Matis est en retard", category: "Santé", color: "border-l-warm-red" },
-              { text: "Tu ne touches pas la prime d'activité (~180€/mois)", category: "Droits", color: "border-l-warm-green" },
-              { text: "Inscription en PS pour septembre 2028 → c'est maintenant", category: "Scolarité", color: "border-l-warm-blue" },
-              { text: "Tes dépenses santé ont augmenté de 40% ce mois", category: "Budget", color: "border-l-warm-purple" },
-              { text: "Déclaration IR dans 23 jours → lance ta simulation", category: "Fiscal", color: "border-l-warm-gold" },
+              { text: "La CNI de Yasmine expire dans 47 jours", category: "Documents", color: "border-l-warm-orange", href: "/identite" },
+              { text: "Le vaccin Pneumocoque dose 3 de Matis est en retard", category: "Santé", color: "border-l-warm-red", href: "/sante" },
+              { text: "Tu ne touches pas la prime d'activité (~180€/mois)", category: "Droits", color: "border-l-warm-green", href: "/outils/mes-droits" },
+              { text: "Inscription en PS pour septembre 2028 → c'est maintenant", category: "Scolarité", color: "border-l-warm-blue", href: "/scolarite" },
+              { text: "Tes dépenses santé ont augmenté de 40% ce mois", category: "Budget", color: "border-l-warm-purple", href: "/budget" },
+              { text: "Déclaration IR dans 23 jours → lance ta simulation", category: "Fiscal", color: "border-l-warm-gold", href: "/outils/simulateur-ir" },
             ].map((alert, index) => (
-              <Card key={index} className={`card-playful border-l-4 ${alert.color}`}>
-                <CardContent className="py-4 flex items-start gap-3">
-                  <Badge variant="outline" className="shrink-0 text-[10px] mt-0.5">{alert.category}</Badge>
-                  <p className="text-sm leading-relaxed">{alert.text}</p>
-                </CardContent>
-              </Card>
+              <Link key={index} href={alert.href}>
+                <Card className={`card-playful border-l-4 ${alert.color} group h-full`}>
+                  <CardContent className="py-4 flex items-start gap-3">
+                    <Badge variant="outline" className="shrink-0 text-[10px] mt-0.5">{alert.category}</Badge>
+                    <p className="text-sm leading-relaxed flex-1">{alert.text}</p>
+                    <ArrowRight className="h-4 w-4 shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
@@ -475,7 +489,7 @@ export default function LandingPage() {
             Prêt à simplifier ta vie de parent ?
           </h2>
           <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-            Rejoins les darons qui centralisent tout dans une seule app.
+            Rejoins les darons et daronnes qui centralisent tout dans une seule app.
             Ou commence par essayer un outil gratuit.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -553,7 +567,11 @@ export default function LandingPage() {
             <div>
               <h4 className="mb-3 text-sm font-semibold">Contact</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>contact@darons.app</li>
+                <li>
+                  <a href="mailto:contact@darons.app" className="hover:text-foreground transition-colors">
+                    contact@darons.app
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
