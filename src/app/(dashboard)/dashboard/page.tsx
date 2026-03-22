@@ -9,6 +9,11 @@ import {
   Wallet,
   Calculator,
   CalendarClock,
+  Sparkles,
+  TrendingUp,
+  Baby,
+  ClipboardList,
+  FolderLock,
 } from "lucide-react";
 import Link from "next/link";
 import { PageHeader } from "@/components/shared/page-header";
@@ -51,6 +56,13 @@ const ALERT_CATEGORY_LABELS: Record<string, string> = {
   budget: "Budget",
 };
 
+const GREETING_MESSAGES = [
+  "On gère ta tribu comme des pros",
+  "Voici ce qui se passe chez toi",
+  "Ton foyer en un coup d'oeil",
+  "La famille, c'est du boulot. On t'aide",
+];
+
 export default async function DashboardPage() {
   const greeting = getGreeting();
 
@@ -75,7 +87,6 @@ export default async function DashboardPage() {
   const vaultDocs = vaultResult.data ?? [];
   const children = members.filter((m) => m.memberType === "child");
 
-  // Get vaccination stats for all children (single batch query)
   const childIds = children.map((c) => c.id);
   const vaccResult = await getVaccinationsByMembers(childIds);
   const allVaccinations = vaccResult.data ?? [];
@@ -99,7 +110,6 @@ export default async function DashboardPage() {
     }
   }
 
-  // Fetch additional data for profile completion checks + dashboard widgets
   const firstChild = children[0];
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
@@ -128,17 +138,12 @@ export default async function DashboardPage() {
   const fiscalYears = fiscalResult.data ?? [];
   const latestFiscal = fiscalYears.length > 0 ? fiscalYears[0] : null;
 
-  // Generate proactive alerts (runs deterministic checks)
   await generateProactiveAlerts();
 
-  // Get alerts (combines proactive + document expiration alerts)
   const alertsResult = await getAlerts();
   const proactiveAlerts = alertsResult.data ?? [];
-
-  // Fallback to legacy expiring docs if no proactive alerts
   const hasProactiveAlerts = proactiveAlerts.length > 0;
 
-  // Profile completion (10 criteria as per CLAUDE.md section 18)
   const completionChecks = [
     { label: "Foyer créé", done: members.length > 0 },
     { label: "Enfant ajouté", done: children.length > 0 },
@@ -157,31 +162,45 @@ export default async function DashboardPage() {
 
   const firstAdult = members.find((m) => m.memberType === "adult");
   const displayName = firstAdult?.firstName ?? "Utilisateur";
+  const greetingMessage = GREETING_MESSAGES[now.getDay() % GREETING_MESSAGES.length];
+
+  const vaccPercent = totalDoses > 0 ? Math.round((doneDoses / totalDoses) * 100) : 0;
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title={`${greeting}, ${displayName}`}
-        description="Voici un résumé de votre foyer familial"
-      />
+    <div className="space-y-6 page-enter">
+      {/* Greeting */}
+      <div className="flex flex-col gap-1">
+        <PageHeader
+          title={`${greeting}, ${displayName}`}
+          description={greetingMessage}
+        />
+        <p className="text-xs text-muted-foreground">
+          {format(now, "EEEE d MMMM yyyy", { locale: fr })}
+        </p>
+      </div>
 
       {/* Profile completion */}
       {completionPercent < 100 && (
-        <Card>
+        <Card className="border-dashed border-warm-orange/30 bg-warm-orange/5">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-medium">Complétude du profil</p>
-              <span className="text-sm text-muted-foreground">{completionPercent}%</span>
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-warm-orange" />
+                <p className="text-sm font-semibold">Ton profil est à {completionPercent}%</p>
+              </div>
+              <Badge variant="outline" className="text-xs">
+                {completionChecks.filter((c) => !c.done).length} étape{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""} restante{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""}
+              </Badge>
             </div>
-            <Progress value={completionPercent} className="h-2" aria-label={`Profil complété à ${completionPercent}%`} />
-            <div className="mt-3 flex flex-wrap gap-2">
+            <Progress value={completionPercent} className="h-2 mb-3" aria-label={`Profil complété à ${completionPercent}%`} />
+            <div className="flex flex-wrap gap-1.5">
               {completionChecks.map((check) => (
                 <span
                   key={check.label}
-                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs ${
+                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
                     check.done
                       ? "bg-warm-green/10 text-warm-green"
-                      : "bg-muted text-muted-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
                   }`}
                 >
                   {check.done ? "✓" : "○"} {check.label}
@@ -192,44 +211,63 @@ export default async function DashboardPage() {
         </Card>
       )}
 
-      {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Stats row */}
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         <StatCard
-          label="Membres du foyer"
-          value={String(members.length)}
+          label="Famille"
+          value={`${members.length} membre${members.length > 1 ? "s" : ""}`}
           icon={Users}
           color="bg-warm-teal/10 text-warm-teal"
+          gradientClass="card-gradient-teal"
         />
         <StatCard
-          label="Vaccins à jour"
-          value={totalDoses > 0 ? `${doneDoses}/${totalDoses}` : "—"}
+          label="Vaccins"
+          value={totalDoses > 0 ? `${vaccPercent}%` : "—"}
           icon={Syringe}
           color="bg-warm-orange/10 text-warm-orange"
+          trend={totalDoses > 0 ? `${doneDoses}/${totalDoses} doses` : undefined}
+          trendUp={vaccPercent >= 80}
+          gradientClass="card-gradient-orange"
         />
         <StatCard
-          label="Documents identité"
+          label="Identité"
           value={String(identityDocs.length)}
           icon={IdCard}
           color="bg-warm-blue/10 text-warm-blue"
+          trend={expiring.length > 0 ? `${expiring.length} expire${expiring.length > 1 ? "nt" : ""} bientôt` : undefined}
+          trendUp={false}
+          gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Coffre-fort"
           value={`${vaultDocs.length} doc${vaultDocs.length > 1 ? "s" : ""}`}
-          icon={FileText}
+          icon={FolderLock}
           color="bg-warm-purple/10 text-warm-purple"
+          gradientClass="card-gradient-purple"
         />
       </div>
 
       {/* Family overview */}
       <FamilyOverviewCard members={members} />
 
+      {/* Alerts + Quick Actions */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Alerts */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Alertes</CardTitle>
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-warm-orange" />
+                Alertes IA
+              </CardTitle>
+              {(hasProactiveAlerts || expiring.length > 0) && (
+                <Badge variant="destructive" className="text-[10px] px-1.5">
+                  {hasProactiveAlerts ? proactiveAlerts.length : expiring.length}
+                </Badge>
+              )}
+            </div>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-2">
             {hasProactiveAlerts ? (
               proactiveAlerts.slice(0, 5).map((alert) => (
                 <DismissibleAlertCard
@@ -260,60 +298,79 @@ export default async function DashboardPage() {
                 />
               ))
             ) : (
-              <p className="text-sm text-muted-foreground py-4 text-center">
-                Aucune alerte en cours. Tout est en ordre !
-              </p>
+              <div className="flex flex-col items-center py-6 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-warm-green/10 mb-3">
+                  <Sparkles className="h-5 w-5 text-warm-green" />
+                </div>
+                <p className="text-sm font-medium">Tout roule !</p>
+                <p className="text-xs text-muted-foreground mt-1">Aucune alerte en cours. On veille au grain.</p>
+              </div>
             )}
           </CardContent>
         </Card>
 
-        {/* Quick actions */}
+        {/* Quick actions - redesigned as grid */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Actions rapides</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Actions rapides</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            {[
-              {
-                label: "Enregistrer un vaccin",
-                href: "/sante",
-                icon: HeartPulse,
-                color: "text-warm-teal",
-              },
-              {
-                label: "Importer un document",
-                href: "/documents",
-                icon: FileText,
-                color: "text-warm-blue",
-              },
-              {
-                label: "Ajouter une pièce d'identité",
-                href: "/identite",
-                icon: IdCard,
-                color: "text-warm-orange",
-              },
-              {
-                label: "Gérer les membres",
-                href: "/parametres",
-                icon: Users,
-                color: "text-warm-purple",
-              },
-            ].map((action) => (
-              <Button
-                key={action.href}
-                variant="ghost"
-                className="w-full justify-between h-auto py-3"
-                asChild
-              >
-                <Link href={action.href}>
-                  <div className="flex items-center gap-3">
-                    <action.icon className={`h-5 w-5 ${action.color}`} />
-                    <span>{action.label}</span>
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground" />
+          <CardContent>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                {
+                  label: "Vaccin",
+                  description: "Enregistrer une dose",
+                  href: "/sante",
+                  icon: HeartPulse,
+                  color: "bg-warm-teal/10 text-warm-teal hover:bg-warm-teal/20",
+                },
+                {
+                  label: "Document",
+                  description: "Importer un fichier",
+                  href: "/documents",
+                  icon: FileText,
+                  color: "bg-warm-blue/10 text-warm-blue hover:bg-warm-blue/20",
+                },
+                {
+                  label: "Identité",
+                  description: "Ajouter un papier",
+                  href: "/identite",
+                  icon: IdCard,
+                  color: "bg-warm-orange/10 text-warm-orange hover:bg-warm-orange/20",
+                },
+                {
+                  label: "Impôts",
+                  description: "Simuler mon IR",
+                  href: "/fiscal",
+                  icon: Calculator,
+                  color: "bg-warm-gold/10 text-warm-gold hover:bg-warm-gold/20",
+                },
+                {
+                  label: "Budget",
+                  description: "Ajouter une dépense",
+                  href: "/budget",
+                  icon: Wallet,
+                  color: "bg-warm-purple/10 text-warm-purple hover:bg-warm-purple/20",
+                },
+                {
+                  label: "Garde",
+                  description: "Chercher une crèche",
+                  href: "/garde",
+                  icon: Baby,
+                  color: "bg-warm-green/10 text-warm-green hover:bg-warm-green/20",
+                },
+              ].map((action) => (
+                <Link
+                  key={action.href}
+                  href={action.href}
+                  className={`flex flex-col items-center gap-1.5 rounded-xl p-3 transition-all duration-200 ${action.color} group`}
+                >
+                  <action.icon className="h-5 w-5 transition-transform group-hover:scale-110" />
+                  <span className="text-xs font-semibold">{action.label}</span>
+                  <span className="text-[10px] opacity-70">{action.description}</span>
                 </Link>
-              </Button>
-            ))}
+              ))}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -321,7 +378,7 @@ export default async function DashboardPage() {
       {/* Budget / Fiscal / Appointments widgets */}
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Budget snapshot */}
-        <Card>
+        <Card className="card-gradient-blue">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
               <Wallet className="h-4 w-4 text-warm-blue" />
@@ -333,17 +390,17 @@ export default async function DashboardPage() {
               <>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Dépenses</span>
-                  <span className="font-medium">{formatCurrency(budgetSummary.totalExpenses)}</span>
+                  <span className="font-semibold">{formatCurrency(budgetSummary.totalExpenses)}</span>
                 </div>
                 {totalAllocations > 0 && (
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Allocations CAF</span>
-                    <span className="font-medium text-warm-green">+{formatCurrency(totalAllocations)}</span>
+                    <span className="font-semibold text-warm-green">+{formatCurrency(totalAllocations)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm border-t pt-2">
                   <span className="text-muted-foreground">Solde</span>
-                  <span className={`font-semibold ${
+                  <span className={`font-bold text-lg ${
                     (totalAllocations + (budgetSummary.totalIncome ?? 0) - budgetSummary.totalExpenses) >= 0
                       ? "text-warm-green"
                       : "text-warm-red"
@@ -353,11 +410,12 @@ export default async function DashboardPage() {
                 </div>
               </>
             ) : (
-              <p className="text-sm text-muted-foreground py-2">
-                Aucune dépense ce mois-ci.
-              </p>
+              <div className="py-3 text-center">
+                <p className="text-sm text-muted-foreground">Aucune dépense ce mois-ci.</p>
+                <p className="text-xs text-muted-foreground mt-1">Connecte ta banque ou ajoute tes dépenses</p>
+              </div>
             )}
-            <Button variant="ghost" size="sm" className="w-full mt-1" asChild>
+            <Button variant="ghost" size="sm" className="w-full mt-1 text-warm-blue hover:text-warm-blue" asChild>
               <Link href="/budget">
                 Voir le budget
                 <ArrowRight className="ml-1 h-3 w-3" />
@@ -367,7 +425,7 @@ export default async function DashboardPage() {
         </Card>
 
         {/* Fiscal snapshot */}
-        <Card>
+        <Card className="card-gradient-gold">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
               <Calculator className="h-4 w-4 text-warm-gold" />
@@ -388,22 +446,23 @@ export default async function DashboardPage() {
                 {latestFiscal.tmi != null && (
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">TMI</span>
-                    <Badge variant="outline">{latestFiscal.tmi}%</Badge>
+                    <Badge variant="outline" className="font-semibold">{latestFiscal.tmi}%</Badge>
                   </div>
                 )}
                 {latestFiscal.impotNet != null && (
                   <div className="flex justify-between text-sm border-t pt-2">
                     <span className="text-muted-foreground">Impôt net</span>
-                    <span className="font-semibold">{formatCurrency(latestFiscal.impotNet)}</span>
+                    <span className="font-bold text-lg">{formatCurrency(latestFiscal.impotNet)}</span>
                   </div>
                 )}
               </>
             ) : (
-              <p className="text-sm text-muted-foreground py-2">
-                Aucune donnée fiscale. Lance une simulation !
-              </p>
+              <div className="py-3 text-center">
+                <p className="text-sm text-muted-foreground">Aucune donnée fiscale.</p>
+                <p className="text-xs text-muted-foreground mt-1">Lance ta première simulation</p>
+              </div>
             )}
-            <Button variant="ghost" size="sm" className="w-full mt-1" asChild>
+            <Button variant="ghost" size="sm" className="w-full mt-1 text-warm-gold hover:text-warm-gold" asChild>
               <Link href="/fiscal">
                 Voir le fiscal
                 <ArrowRight className="ml-1 h-3 w-3" />
@@ -425,23 +484,23 @@ export default async function DashboardPage() {
               upcomingAppointments.map((appt) => {
                 const member = members.find((m) => m.id === appt.memberId);
                 return (
-                  <div key={appt.id} className="flex items-center justify-between rounded-lg border p-2">
-                    <div>
-                      <p className="text-sm font-medium">{appt.appointmentType}</p>
+                  <div key={appt.id} className="flex items-center gap-3 rounded-xl bg-muted/50 p-2.5 transition-colors hover:bg-muted">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-warm-teal/10 text-warm-teal shrink-0">
+                      <CalendarClock className="h-4 w-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{appt.appointmentType}</p>
                       <p className="text-xs text-muted-foreground">
                         {member?.firstName} — {format(new Date(appt.appointmentDate), "d MMM yyyy", { locale: fr })}
                       </p>
                     </div>
-                    {appt.practitioner && (
-                      <span className="text-xs text-muted-foreground">{appt.practitioner}</span>
-                    )}
                   </div>
                 );
               })
             ) : (
-              <p className="text-sm text-muted-foreground py-2">
-                Aucun RDV à venir.
-              </p>
+              <div className="py-3 text-center">
+                <p className="text-sm text-muted-foreground">Aucun RDV à venir.</p>
+              </div>
             )}
             <Button variant="ghost" size="sm" className="w-full mt-1" asChild>
               <Link href="/sante">

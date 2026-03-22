@@ -7,6 +7,7 @@ import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { OfflineBanner } from "@/components/pwa/offline-fallback";
 import { SessionTracker } from "@/components/analytics/session-tracker";
 import { CookieBanner } from "@/components/shared/cookie-banner";
+import { ScrollToTop } from "@/components/shared/scroll-to-top";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function DashboardLayout({
@@ -99,7 +100,7 @@ export default async function DashboardLayout({
       >
         Aller au contenu principal
       </a>
-      <Sidebar badges={sidebarBadges} />
+      <Sidebar badges={sidebarBadges} userInitials={userInitials} userEmail={userEmail} />
       <div className="lg:pl-64">
         <Topbar
           userEmail={userEmail}
@@ -115,6 +116,7 @@ export default async function DashboardLayout({
       <BottomNavigation />
       <CommandPalette />
       <CookieBanner />
+      <ScrollToTop />
     </div>
   );
 }

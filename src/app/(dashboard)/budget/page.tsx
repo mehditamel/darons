@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Wallet } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { BudgetTabs } from "@/components/budget/budget-tabs";
 import { AiCoachCard } from "@/components/budget/ai-coach-card";
@@ -80,10 +81,11 @@ export default async function BudgetPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 page-enter">
       <PageHeader
         title="Budget familial"
-        description="Suivez vos dépenses, allocations CAF et reste à charge"
+        description="Où passe ta thune ? On te montre"
+        icon={<Wallet className="h-5 w-5" />}
       />
 
       <BudgetForecastCard currentSummary={summary} history={history} />

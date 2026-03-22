@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, ArrowRight } from "lucide-react";
+import { CalendarDays, ArrowRight, Palette } from "lucide-react";
 import type { Activity } from "@/types/educational";
 import { ACTIVITY_CATEGORY_LABELS, type ActivityCategory } from "@/types/educational";
 
@@ -25,7 +25,7 @@ export function WeeklyActivitiesCard({ activities, childName }: WeeklyActivities
       <CardContent className="space-y-2">
         {activeActivities.length > 0 ? (
           activeActivities.slice(0, 4).map((activity) => (
-            <div key={activity.id} className="flex items-center justify-between rounded-lg border p-2">
+            <div key={activity.id} className="flex items-center justify-between rounded-xl bg-muted/50 p-2.5 transition-colors hover:bg-muted">
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium truncate">{activity.name}</p>
                 {activity.schedule && (
@@ -40,9 +40,15 @@ export function WeeklyActivitiesCard({ activities, childName }: WeeklyActivities
             </div>
           ))
         ) : (
-          <p className="text-sm text-muted-foreground py-2">
-            Aucune activité pour {childName}.
-          </p>
+          <div className="flex flex-col items-center py-6 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-warm-purple/10 mb-3">
+              <Palette className="h-5 w-5 text-warm-purple" />
+            </div>
+            <p className="text-sm font-medium">Pas encore d&apos;activité</p>
+            <p className="text-xs text-muted-foreground mt-1 max-w-[200px]">
+              Sport, musique, éveil — ajoute les activités de {childName}
+            </p>
+          </div>
         )}
         <Button variant="ghost" size="sm" className="w-full mt-1" asChild>
           <Link href="/activites">

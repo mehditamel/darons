@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Menu, Bell, LogOut, Settings, User, Search } from "lucide-react";
+import { Bell, LogOut, Settings, User, Search, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -13,14 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { MobileNav } from "./mobile-nav";
 import { createClient } from "@/lib/supabase/client";
 
 interface TopbarProps {
@@ -42,60 +34,66 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-card px-4 lg:px-6" role="banner">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="lg:hidden">
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-64 bg-sidebar p-0">
-          <SheetHeader className="sr-only">
-            <SheetTitle>Navigation</SheetTitle>
-          </SheetHeader>
-          <MobileNav />
-        </SheetContent>
-      </Sheet>
+    <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b bg-background/80 backdrop-blur-md px-4 lg:px-6" role="banner">
+      {/* Spacer for mobile (hamburger removed - using bottom nav "Plus") */}
+      <div className="lg:hidden w-1" />
 
+      {/* Page context area - flexible space */}
       <div className="flex-1" />
 
+      {/* Search trigger */}
       <Button
-        variant="outline"
-        className="hidden sm:inline-flex relative h-9 w-auto px-3 text-sm text-muted-foreground gap-2"
+        variant="ghost"
+        size="sm"
+        className="hidden sm:inline-flex relative h-8 w-auto px-3 text-xs text-muted-foreground gap-2 rounded-full bg-muted/50 hover:bg-muted"
         onClick={() => {
           document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }));
         }}
       >
-        <Search className="h-4 w-4" />
+        <Search className="h-3.5 w-3.5" />
         <span>Rechercher...</span>
-        <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-          <span className="text-xs">⌘</span>K
+        <kbd className="pointer-events-none hidden h-5 select-none items-center gap-0.5 rounded border bg-background px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+          <span className="text-xs">&#x2318;</span>K
         </kbd>
+      </Button>
+
+      {/* Mobile search */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="sm:hidden h-8 w-8"
+        onClick={() => {
+          document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }));
+        }}
+        aria-label="Rechercher"
+      >
+        <Search className="h-4 w-4" />
       </Button>
 
       <ThemeToggle />
 
+      {/* Notifications */}
       <Button
         variant="ghost"
         size="icon"
-        className="relative"
+        className="relative h-8 w-8"
         aria-label={`Notifications${alertCount > 0 ? ` (${alertCount} en attente)` : ""}`}
         onClick={() => router.push("/dashboard")}
       >
-        <Bell className="h-5 w-5" />
+        <Bell className="h-4 w-4" />
         {alertCount > 0 && (
-          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-warm-orange text-[10px] text-white">
+          <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-warm-orange text-[9px] font-bold text-white px-1 animate-pulse-glow">
             {alertCount > 9 ? "9+" : alertCount}
           </span>
         )}
       </Button>
 
+      {/* User menu */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-9 w-9 rounded-full" aria-label="Menu utilisateur">
-            <Avatar className="h-9 w-9">
-              <AvatarFallback className="bg-warm-teal text-white text-sm">
+          <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0" aria-label="Menu utilisateur">
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="bg-gradient-to-br from-warm-teal to-warm-teal/80 text-white text-xs font-semibold">
                 {initials}
               </AvatarFallback>
             </Avatar>
@@ -106,7 +104,7 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium">Mon compte</p>
               {email && (
-                <p className="text-xs text-muted-foreground">{email}</p>
+                <p className="text-xs text-muted-foreground truncate">{email}</p>
               )}
             </div>
           </DropdownMenuLabel>
@@ -120,7 +118,7 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
             Paramètres
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleSignOut}>
+          <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
             <LogOut className="mr-2 h-4 w-4" />
             Déconnexion
           </DropdownMenuItem>

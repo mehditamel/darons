@@ -23,6 +23,7 @@ export function DismissibleAlertCard({
   priority,
   category,
   dueDate,
+  actionUrl,
 }: DismissibleAlertCardProps) {
   const [dismissed, setDismissed] = useState(false);
 
@@ -34,18 +35,19 @@ export function DismissibleAlertCard({
   if (dismissed) return null;
 
   return (
-    <div className="relative group" role="alert" aria-live="polite">
+    <div className="relative group animate-fade-in-up" role="alert" aria-live="polite">
       <AlertCard
         title={title}
         message={message}
         priority={priority}
         category={category}
         dueDate={dueDate}
+        actionUrl={actionUrl}
       />
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-1 top-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute right-1 top-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"
         onClick={handleDismiss}
       >
         <X className="h-3 w-3" />

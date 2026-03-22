@@ -9,6 +9,7 @@ interface StatCardProps {
   trend?: string;
   trendUp?: boolean;
   color?: string;
+  gradientClass?: string;
   className?: string;
 }
 
@@ -19,19 +20,28 @@ export function StatCard({
   trend,
   trendUp,
   color = "bg-primary/10 text-primary",
+  gradientClass,
   className,
 }: StatCardProps) {
   return (
-    <Card className={cn("transition-shadow duration-200 hover:shadow-md animate-fade-in-up", className)} role="status" aria-label={`${label} : ${value}`}>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="mt-1 text-2xl font-bold" aria-hidden="true">{value}</p>
+    <Card
+      className={cn(
+        "transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 animate-fade-in-up overflow-hidden",
+        gradientClass,
+        className
+      )}
+      role="status"
+      aria-label={`${label} : ${value}`}
+    >
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between">
+          <div className="space-y-1">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</p>
+            <p className="text-2xl font-bold animate-count-up" aria-hidden="true">{value}</p>
             {trend && (
               <p
                 className={cn(
-                  "mt-1 text-xs flex items-center gap-1",
+                  "text-xs flex items-center gap-1 font-medium",
                   trendUp ? "text-warm-green" : "text-warm-red"
                 )}
               >
@@ -46,11 +56,11 @@ export function StatCard({
           </div>
           <div
             className={cn(
-              "flex h-12 w-12 items-center justify-center rounded-xl",
+              "flex h-11 w-11 items-center justify-center rounded-xl transition-transform hover:scale-110",
               color
             )}
           >
-            <Icon className="h-6 w-6" aria-hidden="true" />
+            <Icon className="h-5 w-5" aria-hidden="true" />
           </div>
         </div>
       </CardContent>
