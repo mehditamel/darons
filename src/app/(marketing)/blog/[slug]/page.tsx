@@ -5,7 +5,7 @@ import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { getArticleBySlug, getAllArticles } from "@/lib/blog-data";
+import { getArticleBySlug, getAllArticles, getAdjacentArticles, getRelatedArticles } from "@/lib/blog-data";
 import { JsonLd } from "@/components/seo/json-ld";
 import { formatDate } from "@/lib/utils";
 
@@ -39,13 +39,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const article = getArticleBySlug(params.slug);
   if (!article) notFound();
 
-  const allArticles = getAllArticles();
-  const currentIndex = allArticles.findIndex((a) => a.slug === article.slug);
-  const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
-  const nextArticle = currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
-  const relatedArticles = allArticles
-    .filter((a) => a.category === article.category && a.slug !== article.slug)
-    .slice(0, 3);
+  const { previous: prevArticle, next: nextArticle } = getAdjacentArticles(article.slug);
+  const relatedArticles = getRelatedArticles(article.slug, 3);
 
   // Simple markdown-like rendering (paragraphs, headers, bold, lists, links, tables)
   const sections = article.content.split("\n\n").map((block, i) => {

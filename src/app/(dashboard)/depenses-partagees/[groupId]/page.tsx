@@ -8,14 +8,16 @@ import { ExpenseList } from "@/components/depenses-partagees/expense-list";
 import { BalanceOverview } from "@/components/depenses-partagees/balance-overview";
 import { AddExpenseDialog } from "@/components/depenses-partagees/add-expense-dialog";
 import { AddMemberDialog } from "@/components/depenses-partagees/add-member-dialog";
+import { SettlementHistory } from "@/components/depenses-partagees/settlement-history";
 import {
   getExpenseGroup,
   getGroupMembers,
   getGroupExpenses,
   getGroupBalances,
   getSettlementSuggestions,
+  getGroupSettlements,
 } from "@/lib/actions/shared-expenses";
-import { ArrowLeft, Receipt, Users, Scale } from "lucide-react";
+import { ArrowLeft, Receipt, Users, Scale, History } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -27,13 +29,14 @@ interface Props {
 }
 
 export default async function GroupDetailPage({ params }: Props) {
-  const [groupResult, membersResult, expensesResult, balancesResult, suggestionsResult] =
+  const [groupResult, membersResult, expensesResult, balancesResult, suggestionsResult, settlementsResult] =
     await Promise.all([
       getExpenseGroup(params.groupId),
       getGroupMembers(params.groupId),
       getGroupExpenses(params.groupId),
       getGroupBalances(params.groupId),
       getSettlementSuggestions(params.groupId),
+      getGroupSettlements(params.groupId),
     ]);
 
   if (!groupResult.success || !groupResult.data) notFound();
@@ -43,6 +46,7 @@ export default async function GroupDetailPage({ params }: Props) {
   const expenses = expensesResult.data ?? [];
   const balances = balancesResult.data ?? [];
   const suggestions = suggestionsResult.data ?? [];
+  const settlements = settlementsResult.data ?? [];
 
   const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
 
@@ -170,6 +174,24 @@ export default async function GroupDetailPage({ params }: Props) {
           </CardContent>
         </Card>
       </div>
+
+      {/* Settlement history */}
+      {settlements.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <History className="h-4 w-4 text-warm-green" />
+              Historique des remboursements
+            </CardTitle>
+            <CardDescription>
+              {settlements.length} remboursement{settlements.length > 1 ? "s" : ""} effectue{settlements.length > 1 ? "s" : ""}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SettlementHistory settlements={settlements} members={members} />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
