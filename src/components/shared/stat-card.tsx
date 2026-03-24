@@ -1,5 +1,8 @@
+"use client";
+
 import { TrendingUp, TrendingDown, type LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { AnimatedCounter } from "@/components/shared/animated-counter";
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
@@ -11,6 +14,9 @@ interface StatCardProps {
   color?: string;
   gradientClass?: string;
   className?: string;
+  numericValue?: number;
+  valuePrefix?: string;
+  valueSuffix?: string;
 }
 
 export function StatCard({
@@ -22,6 +28,9 @@ export function StatCard({
   color = "bg-primary/10 text-primary",
   gradientClass,
   className,
+  numericValue,
+  valuePrefix = "",
+  valueSuffix = "",
 }: StatCardProps) {
   return (
     <Card
@@ -37,7 +46,18 @@ export function StatCard({
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</p>
-            <p className="text-2xl font-bold animate-count-up" aria-hidden="true">{value}</p>
+            <p className="text-2xl font-bold" aria-hidden="true">
+              {numericValue !== undefined ? (
+                <AnimatedCounter
+                  value={numericValue}
+                  prefix={valuePrefix}
+                  suffix={valueSuffix}
+                  duration={1}
+                />
+              ) : (
+                value
+              )}
+            </p>
             {trend && (
               <p
                 className={cn(

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, ArrowLeft, ArrowRight, List } from "lucide-react";
+import { Calendar, ArrowLeft, ArrowRight, List, PenLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,6 +9,7 @@ import { getArticleBySlug, getAllArticles, getAdjacentArticles, getRelatedArticl
 import { JsonLd } from "@/components/seo/json-ld";
 import { ShareButtons } from "@/components/blog/share-buttons";
 import { ReadingProgress } from "@/components/blog/reading-progress";
+import { CopyableHeading } from "@/components/blog/copyable-heading";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { formatDate } from "@/lib/utils";
 
@@ -94,19 +95,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
     if (trimmed.startsWith("### ")) {
       const text = trimmed.slice(4);
-      return (
-        <h3 key={i} id={slugify(text)} className="text-lg font-serif font-bold mt-6 mb-2 scroll-mt-20">
-          {text}
-        </h3>
-      );
+      return <CopyableHeading key={i} id={slugify(text)} level={3}>{text}</CopyableHeading>;
     }
     if (trimmed.startsWith("## ")) {
       const text = trimmed.slice(3);
-      return (
-        <h2 key={i} id={slugify(text)} className="text-xl font-serif font-bold mt-8 mb-3 scroll-mt-20">
-          {text}
-        </h2>
-      );
+      return <CopyableHeading key={i} id={slugify(text)} level={2}>{text}</CopyableHeading>;
     }
     if (trimmed.startsWith("| ")) {
       const rows = trimmed.split("\n").filter((r) => !r.match(/^\|[\s-|]+\|$/));
@@ -270,6 +263,23 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           </Card>
         );
       })()}
+
+      {/* Author card */}
+      <div className="mt-10 flex items-start gap-4 rounded-xl border p-4 bg-muted/20">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm-orange/10 text-warm-orange">
+          <PenLine className="h-5 w-5" />
+        </div>
+        <div>
+          <p className="text-sm font-semibold">L&apos;equipe Darons</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Des parents comme toi, qui construisent l&apos;app qu&apos;ils auraient voulu avoir.
+            Sante, budget, impots, papiers — on simplifie tout.
+          </p>
+          <Link href="/blog" className="text-xs text-warm-orange hover:underline mt-1 inline-block">
+            Voir tous nos articles
+          </Link>
+        </div>
+      </div>
 
       {/* Related articles */}
       {relatedArticles.length > 0 && (

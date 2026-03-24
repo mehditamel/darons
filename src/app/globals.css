@@ -297,6 +297,22 @@
     @apply absolute -top-0.5 left-1/2 -translate-x-1/2 h-1 w-8 rounded-full bg-warm-orange;
   }
 
+  /* Target highlight when clicking anchor links */
+  @keyframes target-highlight {
+    from {
+      background-color: hsl(16 76% 60% / 0.12);
+    }
+    to {
+      background-color: transparent;
+    }
+  }
+  .scroll-mt-20:target {
+    animation: target-highlight 2s ease-out;
+    border-radius: 4px;
+    padding-left: 8px;
+    margin-left: -8px;
+  }
+
   /* Scrollbar styling */
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
