@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAllArticles } from "@/lib/blog-data";
 import { CategoryFilter } from "@/components/blog/category-filter";
@@ -50,9 +50,21 @@ export default function BlogPage() {
   return (
     <div className="space-y-8">
       <div className="text-center space-y-3">
-        <h1 className="text-3xl font-serif font-bold">
-          Le blog Darons
-        </h1>
+        <div className="flex items-center justify-center gap-3">
+          <h1 className="text-3xl font-serif font-bold">
+            Le blog Darons
+          </h1>
+          <a
+            href="/rss.xml"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-warm-orange transition-colors"
+            title="Flux RSS"
+            aria-label="S'abonner au flux RSS"
+          >
+            <Rss className="h-5 w-5" />
+          </a>
+        </div>
         <p className="text-muted-foreground max-w-xl mx-auto">
           Guides pratiques, conseils d&apos;experts et astuces pour simplifier
           votre quotidien de parent.

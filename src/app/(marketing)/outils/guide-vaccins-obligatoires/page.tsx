@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Syringe, ShieldCheck, AlertTriangle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
@@ -123,6 +124,12 @@ const FAQ = [
 export default function GuideVaccinsObligatoiresPage() {
   return (
     <div className="space-y-8">
+      <Breadcrumbs
+        items={[
+          { label: "Outils", href: "/outils" },
+          { label: "Guide vaccins obligatoires" },
+        ]}
+      />
       <div className="text-center space-y-4">
         <h1 className="text-3xl font-serif font-bold sm:text-4xl">
           Vaccins obligatoires 2025

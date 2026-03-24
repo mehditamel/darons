@@ -4,6 +4,7 @@ import { ArrowRight, ClipboardCheck, Baby, FileText, Landmark, Heart } from "luc
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Guide complet des démarches après une naissance — Darons",
@@ -129,6 +130,12 @@ const PRIORITY_LABELS = {
 export default function GuideDemarchesNaissancePage() {
   return (
     <div className="space-y-8">
+      <Breadcrumbs
+        items={[
+          { label: "Outils", href: "/outils" },
+          { label: "Guide démarches naissance" },
+        ]}
+      />
       <div className="text-center space-y-4">
         <h1 className="text-3xl font-serif font-bold sm:text-4xl">
           Les démarches après une naissance

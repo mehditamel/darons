@@ -9,6 +9,7 @@ import { getArticleBySlug, getAllArticles, getAdjacentArticles, getRelatedArticl
 import { JsonLd } from "@/components/seo/json-ld";
 import { ShareButtons } from "@/components/blog/share-buttons";
 import { ReadingProgress } from "@/components/blog/reading-progress";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { formatDate } from "@/lib/utils";
 
 interface BlogPostPageProps {
@@ -152,9 +153,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           },
         }}
       />
-      <Link href="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
-        <ArrowLeft className="w-4 h-4" /> Retour au blog
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: "Blog", href: "/blog" },
+          { label: article.category, href: `/blog?category=${encodeURIComponent(article.category)}` },
+          { label: article.title },
+        ]}
+      />
 
       <header className="mb-8">
         <div className="flex items-center gap-2 mb-3">

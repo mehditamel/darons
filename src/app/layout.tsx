@@ -64,10 +64,16 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap"
+          as="style"
+        />
+        <link
           href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <link rel="alternate" type="application/rss+xml" title="Blog Darons" href="/rss.xml" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>

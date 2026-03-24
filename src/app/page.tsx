@@ -199,7 +199,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden py-20 lg:py-32">
+      <section data-testid="hero" className="relative overflow-hidden py-20 lg:py-32">
         {/* Floating decorative shapes */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="animate-float absolute -top-10 right-[10%] h-72 w-72 rounded-full bg-gradient-to-br from-warm-orange/8 to-warm-orange/3" />
@@ -252,7 +252,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats bar */}
-      <section className="border-y bg-card">
+      <section data-testid="stats" className="border-y bg-card">
         <div className="mx-auto max-w-6xl px-4 py-8">
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             {[
@@ -271,7 +271,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section id="fonctionnalites" className="py-24">
+      <section id="fonctionnalites" data-testid="features" className="py-24">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-16">
             <Badge variant="outline" className="mb-4">Fonctionnalités</Badge>
@@ -311,7 +311,7 @@ export default function LandingPage() {
       </section>
 
       {/* AI Section */}
-      <section className="py-24 bg-gradient-to-b from-background to-card">
+      <section data-testid="ai-alerts" className="py-24 bg-gradient-to-b from-background to-card">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-warm-purple/20 to-warm-blue/20 mb-6 shadow-lg shadow-warm-purple/10">
@@ -349,7 +349,7 @@ export default function LandingPage() {
       </section>
 
       {/* Gratuit vs concurrence */}
-      <section className="py-24">
+      <section data-testid="competitors" className="py-24">
         <div className="mx-auto max-w-4xl px-4">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4 border-warm-green/30 text-warm-green">Comparatif</Badge>
@@ -392,7 +392,7 @@ export default function LandingPage() {
       </section>
 
       {/* Security */}
-      <section id="securite" className="py-24 bg-card">
+      <section id="securite" data-testid="security" className="py-24 bg-card">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10 mb-6">
@@ -428,7 +428,7 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24">
+      <section data-testid="testimonials" className="py-24">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4">Ce qu&apos;ils en disent</Badge>
@@ -487,7 +487,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 relative overflow-hidden">
+      <section data-testid="cta" className="py-24 relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-warm-orange/5 via-transparent to-warm-teal/5" />
         </div>

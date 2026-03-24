@@ -30,6 +30,12 @@ export default function MarketingLayout({
 
   return (
     <div className="min-h-screen">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:shadow-lg"
+      >
+        Aller au contenu principal
+      </a>
       <header className="border-b bg-background">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4">
           <Link href="/" className="flex items-center space-x-2">
@@ -106,7 +112,7 @@ export default function MarketingLayout({
           </Sheet>
         </div>
       </header>
-      <main className="mx-auto max-w-4xl px-4 py-12">{children}</main>
+      <main id="main-content" className="mx-auto max-w-4xl px-4 py-12">{children}</main>
       <Footer variant="compact" />
     </div>
   );
