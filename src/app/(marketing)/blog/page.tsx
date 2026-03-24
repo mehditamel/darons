@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Calendar, ArrowRight } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAllArticles } from "@/lib/blog-data";
-import { formatDate } from "@/lib/utils";
+import { CategoryFilter } from "@/components/blog/category-filter";
+import { BlogArticleGrid } from "@/components/blog/blog-article-grid";
+import { NewsletterSignup } from "@/components/blog/newsletter-signup";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Blog — Conseils parents, fiscalité, santé enfant",
@@ -28,56 +29,63 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Développement": "bg-warm-purple/10 text-warm-purple",
 };
 
-export const revalidate = 3600; // ISR: revalidate every hour
+export const revalidate = 3600;
 
 export default function BlogPage() {
   const articles = getAllArticles();
 
+  const categoryCounts = articles.reduce<Record<string, number>>((acc, a) => {
+    acc[a.category] = (acc[a.category] || 0) + 1;
+    return acc;
+  }, {});
+
+  const categories = Object.entries(categoryCounts)
+    .sort(([, a], [, b]) => b - a)
+    .map(([name, count]) => ({
+      name,
+      count,
+      color: CATEGORY_COLORS[name] ?? "bg-muted text-muted-foreground",
+    }));
+
   return (
     <div className="space-y-8">
       <div className="text-center space-y-3">
-        <h1 className="text-3xl font-serif font-bold">
-          Le blog Darons
-        </h1>
+        <div className="flex items-center justify-center gap-3">
+          <h1 className="text-3xl font-serif font-bold">
+            Le blog Darons
+          </h1>
+          <a
+            href="/rss.xml"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-warm-orange transition-colors"
+            title="Flux RSS"
+            aria-label="S'abonner au flux RSS"
+          >
+            <Rss className="h-5 w-5" />
+          </a>
+        </div>
         <p className="text-muted-foreground max-w-xl mx-auto">
           Guides pratiques, conseils d&apos;experts et astuces pour simplifier
           votre quotidien de parent.
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article) => (
-          <Link key={article.slug} href={`/blog/${article.slug}`}>
-            <Card className="h-full transition-shadow hover:shadow-lg cursor-pointer">
-              <CardHeader>
-                <div className="flex items-center gap-2 mb-2">
-                  <Badge
-                    variant="secondary"
-                    className={CATEGORY_COLORS[article.category] ?? ""}
-                  >
-                    {article.category}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">
-                    {article.readingTime}
-                  </span>
-                </div>
-                <CardTitle className="text-lg leading-tight">
-                  {article.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground line-clamp-3">
-                  {article.description}
-                </p>
-                <div className="flex items-center gap-2 mt-4 text-xs text-muted-foreground">
-                  <Calendar className="w-3 h-3" />
-                  {formatDate(article.date, "d MMMM yyyy")}
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
+      <Suspense fallback={null}>
+        <CategoryFilter
+          categories={categories}
+          totalCount={articles.length}
+        />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <BlogArticleGrid
+          articles={articles}
+          categoryColors={CATEGORY_COLORS}
+        />
+      </Suspense>
+
+      <NewsletterSignup />
 
       <div className="text-center pt-8 border-t">
         <p className="text-muted-foreground mb-4">

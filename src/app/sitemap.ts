@@ -62,6 +62,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...toolEntries,
     {
+      url: `${BASE_URL}/login`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/register`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/reset-password`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
       url: `${BASE_URL}/cgu`,
       lastModified: new Date(),
       changeFrequency: "yearly",

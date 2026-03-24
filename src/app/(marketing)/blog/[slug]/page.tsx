@@ -1,13 +1,38 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
+import { Calendar, ArrowLeft, ArrowRight, List, PenLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getArticleBySlug, getAllArticles, getAdjacentArticles, getRelatedArticles } from "@/lib/blog-data";
 import { JsonLd } from "@/components/seo/json-ld";
+import { ShareButtons } from "@/components/blog/share-buttons";
+import { ReadingProgress } from "@/components/blog/reading-progress";
+import { CopyableHeading } from "@/components/blog/copyable-heading";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { formatDate } from "@/lib/utils";
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+const CATEGORY_TOOL_MAP: Record<string, { href: string; label: string }> = {
+  "Santé": { href: "/outils/calendrier-vaccinal", label: "Calendrier vaccinal interactif" },
+  "Sante": { href: "/outils/calendrier-vaccinal", label: "Calendrier vaccinal interactif" },
+  "Fiscal": { href: "/outils/simulateur-ir", label: "Simuler ton impot" },
+  "Garde": { href: "/outils/simulateur-garde", label: "Calculer le cout de garde" },
+  "Budget": { href: "/outils/simulateur-budget", label: "Ton budget familial" },
+  "Démarches": { href: "/outils/checklist-naissance", label: "Checklist demarches naissance" },
+  "Demarches": { href: "/outils/checklist-naissance", label: "Checklist demarches naissance" },
+  "Identité": { href: "/outils/checklist-naissance", label: "Checklist documents" },
+  "Développement": { href: "/outils/jalons-developpement", label: "Jalons de developpement" },
+};
 
 interface BlogPostPageProps {
   params: { slug: string };
@@ -23,6 +48,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const article = getArticleBySlug(params.slug);
   if (!article) return { title: "Article introuvable" };
 
+  const ogImageUrl = `https://darons.app/api/og?title=${encodeURIComponent(article.title)}&category=${encodeURIComponent(article.category)}`;
+
   return {
     title: article.title,
     description: article.description,
@@ -31,6 +58,23 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       description: article.description,
       type: "article",
       publishedTime: article.date,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${article.title} — Darons`,
+      description: article.description,
+      images: [ogImageUrl],
+    },
+    alternates: {
+      canonical: `https://darons.app/blog/${params.slug}`,
     },
   };
 }
@@ -42,23 +86,31 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { previous: prevArticle, next: nextArticle } = getAdjacentArticles(article.slug);
   const relatedArticles = getRelatedArticles(article.slug, 3);
 
+  // Collect headings for table of contents
+  const headings: { level: number; text: string; id: string }[] = [];
+  const blocks = article.content.split("\n\n");
+  for (const block of blocks) {
+    const trimmed = block.trim();
+    if (trimmed.startsWith("### ")) {
+      const text = trimmed.slice(4);
+      headings.push({ level: 3, text, id: slugify(text) });
+    } else if (trimmed.startsWith("## ")) {
+      const text = trimmed.slice(3);
+      headings.push({ level: 2, text, id: slugify(text) });
+    }
+  }
+
   // Simple markdown-like rendering (paragraphs, headers, bold, lists, links, tables)
-  const sections = article.content.split("\n\n").map((block, i) => {
+  const sections = blocks.map((block, i) => {
     const trimmed = block.trim();
 
     if (trimmed.startsWith("### ")) {
-      return (
-        <h3 key={i} className="text-lg font-serif font-bold mt-6 mb-2">
-          {trimmed.slice(4)}
-        </h3>
-      );
+      const text = trimmed.slice(4);
+      return <CopyableHeading key={i} id={slugify(text)} level={3}>{text}</CopyableHeading>;
     }
     if (trimmed.startsWith("## ")) {
-      return (
-        <h2 key={i} className="text-xl font-serif font-bold mt-8 mb-3">
-          {trimmed.slice(3)}
-        </h2>
-      );
+      const text = trimmed.slice(3);
+      return <CopyableHeading key={i} id={slugify(text)} level={2}>{text}</CopyableHeading>;
     }
     if (trimmed.startsWith("| ")) {
       const rows = trimmed.split("\n").filter((r) => !r.match(/^\|[\s-|]+\|$/));
@@ -118,6 +170,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <article className="max-w-2xl mx-auto">
+      <ReadingProgress />
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -141,9 +194,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           },
         }}
       />
-      <Link href="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
-        <ArrowLeft className="w-4 h-4" /> Retour au blog
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: "Blog", href: "/blog" },
+          { label: article.category, href: `/blog?category=${encodeURIComponent(article.category)}` },
+          { label: article.title },
+        ]}
+      />
 
       <header className="mb-8">
         <div className="flex items-center gap-2 mb-3">
@@ -153,31 +210,87 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         <h1 className="text-3xl font-serif font-bold leading-tight mb-4">
           {article.title}
         </h1>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Calendar className="w-4 h-4" />
-          {formatDate(article.date, "d MMMM yyyy")}
+        <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
+            {formatDate(article.date, "d MMMM yyyy")}
+          </div>
+          <ShareButtons
+            url={`https://darons.app/blog/${article.slug}`}
+            title={article.title}
+          />
         </div>
       </header>
 
+      {/* Table of contents for articles with 3+ headings */}
+      {headings.length >= 3 && (
+        <nav className="mb-8 rounded-xl border bg-muted/30 p-4" aria-label="Sommaire de l'article">
+          <div className="flex items-center gap-2 mb-3 text-sm font-semibold">
+            <List className="w-4 h-4" />
+            Sommaire
+          </div>
+          <ol className="space-y-1 text-sm">
+            {headings.map((h) => (
+              <li key={h.id} className={h.level === 3 ? "pl-4" : ""}>
+                <a
+                  href={`#${h.id}`}
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {h.text}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+
       <div className="prose-like">{sections}</div>
 
-      <Card className="mt-12 bg-warm-orange/5 border-warm-orange/20">
-        <CardContent className="pt-6 text-center space-y-3">
-          <p className="font-medium">
-            Gerez la sante, le budget et la fiscalite de votre famille
+      {/* Contextual CTA based on article category */}
+      {(() => {
+        const tool = CATEGORY_TOOL_MAP[article.category];
+        return (
+          <Card className="mt-12 bg-warm-orange/5 border-warm-orange/20">
+            <CardContent className="pt-6 text-center space-y-3">
+              <p className="font-medium">
+                {tool
+                  ? `Cet article t'a ete utile ? Essaie notre outil gratuit`
+                  : `Gerez la sante, le budget et la fiscalite de votre famille`
+                }
+              </p>
+              <div className="flex gap-3 justify-center flex-wrap">
+                <Link href={tool?.href ?? "/outils"}>
+                  <Button variant="outline">
+                    {tool?.label ?? "Outils gratuits"}
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button>
+                    Creer mon compte <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })()}
+
+      {/* Author card */}
+      <div className="mt-10 flex items-start gap-4 rounded-xl border p-4 bg-muted/20">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm-orange/10 text-warm-orange">
+          <PenLine className="h-5 w-5" />
+        </div>
+        <div>
+          <p className="text-sm font-semibold">L&apos;equipe Darons</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Des parents comme toi, qui construisent l&apos;app qu&apos;ils auraient voulu avoir.
+            Sante, budget, impots, papiers — on simplifie tout.
           </p>
-          <div className="flex gap-3 justify-center">
-            <Link href="/outils">
-              <Button variant="outline">Outils gratuits</Button>
-            </Link>
-            <Link href="/register">
-              <Button>
-                Creer mon compte <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+          <Link href="/blog" className="text-xs text-warm-orange hover:underline mt-1 inline-block">
+            Voir tous nos articles
+          </Link>
+        </div>
+      </div>
 
       {/* Related articles */}
       {relatedArticles.length > 0 && (

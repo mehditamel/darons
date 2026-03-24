@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
 import { BottomNavigation } from "@/components/layout/bottom-navigation";
@@ -8,7 +9,15 @@ import { OfflineBanner } from "@/components/pwa/offline-fallback";
 import { SessionTracker } from "@/components/analytics/session-tracker";
 import { CookieBanner } from "@/components/shared/cookie-banner";
 import { ScrollToTop } from "@/components/shared/scroll-to-top";
+import { RouteProgress } from "@/components/shared/route-progress";
 import { createClient } from "@/lib/supabase/server";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function DashboardLayout({
   children,
@@ -91,6 +100,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-background">
+      <RouteProgress />
       <ServiceWorkerRegister />
       <SessionTracker />
       {/* Skip to content link for accessibility */}

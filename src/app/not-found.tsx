@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { Home } from "lucide-react";
+import { Home, Wrench, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { BackButton } from "@/components/shared/back-button";
 
 export default function NotFound() {
   return (
@@ -9,19 +8,33 @@ export default function NotFound() {
       <div className="max-w-md w-full text-center space-y-6">
         <p className="text-8xl font-bold text-muted-foreground/20">404</p>
         <div>
-          <h1 className="text-2xl font-bold">Page introuvable</h1>
-          <p className="mt-2 text-muted-foreground">
-            La page que vous cherchez n&apos;existe pas ou a été déplacée.
+          <h1 className="text-2xl font-serif font-bold">
+            Oups, cette page a fait une fugue
+          </h1>
+          <p className="mt-3 text-muted-foreground">
+            Pas de panique, même les meilleurs parents perdent des trucs.
+            Voici où tu peux aller :
           </p>
         </div>
-        <div className="flex justify-center gap-3">
+        <div className="flex flex-col sm:flex-row justify-center gap-3">
           <Button asChild>
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
               Accueil
             </Link>
           </Button>
-          <BackButton />
+          <Button variant="outline" asChild>
+            <Link href="/outils">
+              <Wrench className="mr-2 h-4 w-4" />
+              Outils gratuits
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/blog">
+              <BookOpen className="mr-2 h-4 w-4" />
+              Blog
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

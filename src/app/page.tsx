@@ -22,6 +22,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingAnimations } from "@/components/landing/landing-animations";
+import { Footer } from "@/components/layout/footer";
+import { FaqSection } from "@/components/landing/faq-section";
+import { PricingSection } from "@/components/landing/pricing-section";
+import { NewsletterSignup } from "@/components/blog/newsletter-signup";
 
 export const metadata: Metadata = {
   title: "Darons — Toute ta vie de daron. Une seule app.",
@@ -195,7 +199,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden py-20 lg:py-32">
+      <section data-testid="hero" className="relative overflow-hidden py-20 lg:py-32">
         {/* Floating decorative shapes */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="animate-float absolute -top-10 right-[10%] h-72 w-72 rounded-full bg-gradient-to-br from-warm-orange/8 to-warm-orange/3" />
@@ -248,7 +252,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats bar */}
-      <section className="border-y bg-card">
+      <section data-testid="stats" className="border-y bg-card">
         <div className="mx-auto max-w-6xl px-4 py-8">
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             {[
@@ -267,7 +271,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section id="fonctionnalites" className="py-24">
+      <section id="fonctionnalites" data-testid="features" className="py-24">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-16">
             <Badge variant="outline" className="mb-4">Fonctionnalités</Badge>
@@ -307,7 +311,7 @@ export default function LandingPage() {
       </section>
 
       {/* AI Section */}
-      <section className="py-24 bg-gradient-to-b from-background to-card">
+      <section data-testid="ai-alerts" className="py-24 bg-gradient-to-b from-background to-card">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-warm-purple/20 to-warm-blue/20 mb-6 shadow-lg shadow-warm-purple/10">
@@ -345,7 +349,7 @@ export default function LandingPage() {
       </section>
 
       {/* Gratuit vs concurrence */}
-      <section className="py-24">
+      <section data-testid="competitors" className="py-24">
         <div className="mx-auto max-w-4xl px-4">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4 border-warm-green/30 text-warm-green">Comparatif</Badge>
@@ -388,7 +392,7 @@ export default function LandingPage() {
       </section>
 
       {/* Security */}
-      <section id="securite" className="py-24 bg-card">
+      <section id="securite" data-testid="security" className="py-24 bg-card">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10 mb-6">
@@ -424,7 +428,7 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24">
+      <section data-testid="testimonials" className="py-24">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4">Ce qu&apos;ils en disent</Badge>
@@ -483,7 +487,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 relative overflow-hidden">
+      <section data-testid="cta" className="py-24 relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-warm-orange/5 via-transparent to-warm-teal/5" />
         </div>
@@ -514,88 +518,17 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t bg-card py-12">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <div className="flex items-center space-x-2.5 mb-4">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white font-bold text-sm shadow-lg shadow-warm-orange/20">
-                  D
-                </div>
-                <span className="font-serif font-bold text-lg">Darons</span>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                L&apos;app 100% gratuite qui centralise toute la vie de famille.
-                Faite par des parents, pour des parents.
-              </p>
-            </div>
-            <div>
-              <h4 className="mb-3 text-sm font-semibold">Produit</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link href="/outils" className="hover:text-foreground transition-colors">
-                    Outils gratuits
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="hover:text-foreground transition-colors">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <a href="#fonctionnalites" className="hover:text-foreground transition-colors">
-                    Fonctionnalités
-                  </a>
-                </li>
-                <li>
-                  <a href="#securite" className="hover:text-foreground transition-colors">
-                    Sécurité
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-3 text-sm font-semibold">Légal</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link href="/mentions-legales" className="hover:text-foreground transition-colors">
-                    Mentions légales
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/cgu" className="hover:text-foreground transition-colors">
-                    CGU
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/politique-confidentialite" className="hover:text-foreground transition-colors">
-                    Politique de confidentialité
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-3 text-sm font-semibold">Contact</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <a href="mailto:contact@darons.app" className="hover:text-foreground transition-colors">
-                    contact@darons.app
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-10 border-t pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} Darons. Tous droits réservés.
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Fait avec amour à Marseille
-            </p>
-          </div>
+      <PricingSection />
+
+      <FaqSection />
+
+      <section className="px-4 pb-16">
+        <div className="mx-auto max-w-2xl">
+          <NewsletterSignup />
         </div>
-      </footer>
+      </section>
+
+      <Footer />
     </div>
   );
 }

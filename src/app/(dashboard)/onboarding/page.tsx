@@ -435,6 +435,17 @@ export default function OnboardingPage() {
         </Card>
       )}
 
+      {/* Skip link */}
+      {step < 4 && (
+        <button
+          type="button"
+          onClick={() => router.push("/dashboard")}
+          className="mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          Passer pour l&apos;instant →
+        </button>
+      )}
+
       {/* Step 4: Done + quick win */}
       {step === 4 && (
         <Card className="animate-fade-in-up">

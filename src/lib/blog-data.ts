@@ -8,6 +8,13 @@ export interface BlogArticle {
   content: string;
 }
 
+function calculateReadTime(content: string): string {
+  const wordsPerMinute = 200;
+  const wordCount = content.split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+  return `${minutes} min`;
+}
+
 export const BLOG_ARTICLES: BlogArticle[] = [
   {
     slug: "calendrier-vaccinal-2025",
@@ -1331,16 +1338,242 @@ Notre [simulateur d'impot](/outils/simulateur-ir) calcule le credit emploi a dom
 
 **Voir aussi :** [Credit d'impot garde d'enfant](/blog/credit-impot-garde-enfant-2025) | [5 credits d'impot que les parents oublient](/blog/5-credits-impot-parents-oublient) | [Quotient familial](/blog/quotient-familial-comment-ca-marche)`,
   },
+  {
+    slug: "conge-paternite-2025-guide-complet",
+    title: "Congé paternité 2025 : durée, démarches et indemnités",
+    description:
+      "Tout savoir sur le congé paternité en 2025 : 25 jours minimum, démarches employeur et CPAM, montant des indemnités journalières et conseils pratiques.",
+    date: "2026-02-15",
+    readingTime: "6 min",
+    category: "Démarches",
+    content: `## Le congé paternité en 2025
+
+Depuis juillet 2021, le **congé paternité est passé à 25 jours calendaires** (32 jours en cas de naissances multiples). C'est un droit, pas une option — et ton employeur ne peut pas le refuser.
+
+### Durée détaillée
+
+| Composante | Durée | Obligatoire ? |
+|---|---|---|
+| Congé de naissance | 3 jours ouvrables | Oui |
+| Congé paternité — période 1 | 4 jours calendaires | Oui (pris immédiatement après le congé de naissance) |
+| Congé paternité — période 2 | 21 jours calendaires | Facultatif (fractionnable, dans les 6 mois) |
+| **Total** | **25 jours minimum** | 7 jours obligatoires |
+
+**Naissances multiples** : la période 2 passe à 28 jours au lieu de 21, soit **32 jours au total**.
+
+### Les démarches pas à pas
+
+1. **Informer ton employeur** au moins 1 mois avant la date prévue d'accouchement (par courrier ou email avec accusé de réception)
+2. **Préciser les dates** souhaitées pour chaque période de congé
+3. **À la naissance** : envoyer le certificat de naissance ou l'acte de naissance à ton employeur et à la CPAM
+4. **Indemnisation** : ta CPAM verse les indemnités journalières directement — pas de démarche supplémentaire si la subrogation est en place chez ton employeur
+
+### Montant des indemnités journalières
+
+Les indemnités journalières sont calculées sur la base de ton **salaire journalier de base** :
+
+- **Plafond** : 100,36 €/jour (au 1er janvier 2025)
+- **Calcul** : 1/30,42 de ton salaire brut mensuel des 3 derniers mois, plafonné
+- **Pour un salaire brut de 3 500 €/mois** : environ 89 €/jour net, soit ~2 225 € pour 25 jours
+- **Pas de délai de carence** pour la période obligatoire de 4 jours
+
+### Ce que ton employeur doit savoir
+
+- Il **ne peut pas refuser** ton congé paternité
+- Il **ne peut pas te licencier** pendant le congé (protection contre le licenciement)
+- La **subrogation** (l'employeur te verse ton salaire et se fait rembourser par la CPAM) n'est pas obligatoire mais courante dans les grandes entreprises
+- Certaines conventions collectives prévoient le **maintien intégral du salaire**
+
+### Les erreurs à éviter
+
+- **Ne pas prévenir à temps** : 1 mois de préavis minimum, sinon ton employeur peut décaler les dates
+- **Oublier d'envoyer l'acte de naissance** à la CPAM : pas d'acte = pas d'indemnités
+- **Laisser passer le délai** : les 21 jours facultatifs doivent être pris dans les 6 mois suivant la naissance
+- **Confondre jours calendaires et jours ouvrés** : les week-ends comptent dans les 25 jours
+
+### Congé paternité et autres congés
+
+Tu peux cumuler le congé paternité avec :
+- Le **congé parental d'éducation** (à temps plein ou partiel, jusqu'aux 3 ans de l'enfant)
+- Des **jours de congés payés** (avant ou après le congé paternité)
+- Des **RTT** si ta convention le prévoit
+
+Notre [checklist naissance](/outils/checklist-naissance) t'aide à ne rien oublier dans les démarches. Et notre [simulateur de droits sociaux](/outils/mes-droits) te dit à quelles aides tu as droit.
+
+**Voir aussi :** [Les 15 démarches après une naissance](/blog/checklist-naissance-demarches) | [Congé parental : simulateur](/outils/conge-parental)`,
+  },
+  {
+    slug: "allocation-rentree-scolaire-2025",
+    title: "Allocation de rentrée scolaire 2025 : montants, conditions et dates",
+    description:
+      "Guide complet sur l'allocation de rentrée scolaire (ARS) 2025 : montants par âge, plafonds de ressources, dates de versement et démarches CAF.",
+    date: "2026-02-28",
+    readingTime: "5 min",
+    category: "Budget",
+    content: `## L'allocation de rentrée scolaire (ARS) en 2025
+
+Chaque année en août, la CAF verse l'**allocation de rentrée scolaire** (ARS) aux familles modestes pour aider à financer les fournitures scolaires, les vêtements et le matériel. Voici tout ce qu'il faut savoir pour 2025.
+
+### Montants de l'ARS 2025
+
+| Âge de l'enfant | Montant |
+|---|---|
+| 6 à 10 ans (primaire) | 416,40 € |
+| 11 à 14 ans (collège) | 439,38 € |
+| 15 à 18 ans (lycée) | 454,60 € |
+
+Ces montants sont versés **par enfant** — si tu as 3 enfants scolarisés, tu touches 3 allocations.
+
+### Conditions pour en bénéficier
+
+**Ton enfant doit :**
+- Avoir entre **6 et 18 ans** au 16 septembre 2025
+- Être **inscrit dans un établissement scolaire** (public ou privé) ou en apprentissage avec un salaire inférieur à 1 082,87 €/mois
+- Pour les enfants de 6 ans en maternelle (GS vers CP), la rentrée de septembre fait foi
+
+**Tes ressources doivent être inférieures à :**
+
+| Nombre d'enfants | Plafond de ressources 2023 |
+|---|---|
+| 1 enfant | 27 141 € |
+| 2 enfants | 33 404 € |
+| 3 enfants | 39 667 € |
+| Par enfant supplémentaire | + 6 263 € |
+
+Ce sont les revenus **nets catégoriels** de l'année N-2 (revenus 2023 pour la rentrée 2025).
+
+### Dates clés
+
+- **Mi-août 2025** : versement automatique par la CAF pour les enfants de 6 à 15 ans
+- **Pas de démarche** si tu es déjà allocataire et que tes enfants sont dans la tranche d'âge
+- **Pour les 16-18 ans** : tu dois **déclarer sur ton espace CAF** que ton enfant est toujours scolarisé ou en apprentissage (à partir de juillet)
+
+### Comment est versé l'ARS ?
+
+- **Versement unique** mi-août, directement sur ton compte bancaire
+- Si tu es à la **MSA** (régime agricole), les conditions et montants sont identiques
+- **Pas de demande à faire** pour les enfants de 6-15 ans si tu es déjà allocataire CAF — c'est automatique
+
+### ARS et séparation des parents
+
+En cas de **garde alternée**, l'ARS est partagée entre les deux parents :
+- Chaque parent touche **50% du montant**
+- Il faut le déclarer à la CAF lors de la déclaration de situation
+
+### Astuces pour optimiser la rentrée
+
+1. **Anticipe les achats** : les fournitures sont moins chères en juillet qu'en septembre
+2. **Réutilise** : cartable, trousse, calculatrice — tout ne doit pas être neuf chaque année
+3. **Compare les prix** : grandes surfaces vs papeteries spécialisées vs en ligne
+4. **Bourse des collèges/lycées** : en plus de l'ARS, tu peux avoir droit à une bourse (démarche séparée sur le portail Scolarité-Services)
+
+Notre [simulateur CAF](/outils/simulateur-caf) calcule automatiquement ton droit à l'ARS et toutes les autres allocations. [Teste-le gratuitement](/outils/simulateur-caf).
+
+**Voir aussi :** [Simulateur allocations CAF](/outils/simulateur-caf) | [Combien coûte un enfant ?](/outils/combien-coute-enfant) | [Budget familial : le guide](/blog/budget-familial-guide-complet)`,
+  },
+  {
+    slug: "premiere-declaration-impots-enfant",
+    title: "Première déclaration d'impôts avec un enfant : guide complet",
+    description:
+      "Comment déclarer un enfant aux impôts pour la première fois : rattachement fiscal, demi-part supplémentaire, crédits d'impôt et erreurs à éviter.",
+    date: "2026-03-10",
+    readingTime: "7 min",
+    category: "Fiscal",
+    content: `## Ta première déclaration d'impôts avec un enfant
+
+L'arrivée d'un enfant change ta situation fiscale. Bonne nouvelle : ça va (presque) toujours dans le bon sens. Voici comment optimiser ta première déclaration.
+
+### Ce qui change avec un enfant
+
+**Dès la naissance, tu bénéficies de :**
+- **+0,5 part fiscale** pour le 1er et le 2e enfant
+- **+1 part entière** à partir du 3e enfant
+- Accès au **crédit d'impôt frais de garde** (enfant < 6 ans)
+- Éventuel **crédit emploi à domicile** (baby-sitting, aide ménagère)
+
+### Le quotient familial : comment ça marche
+
+Le quotient familial divise ton revenu imposable par le nombre de parts pour calculer l'impôt :
+
+| Situation | Nombre de parts |
+|---|---|
+| Célibataire sans enfant | 1 |
+| Couple marié/pacsé sans enfant | 2 |
+| Couple + 1 enfant | 2,5 |
+| Couple + 2 enfants | 3 |
+| Couple + 3 enfants | 4 |
+| Parent isolé + 1 enfant | 2 |
+
+**Exemple concret :** Un couple avec 60 000 € de revenu imposable et 1 enfant :
+- Sans enfant (2 parts) : revenu par part = 30 000 € → impôt ~3 170 €
+- Avec 1 enfant (2,5 parts) : revenu par part = 24 000 € → impôt ~2 200 €
+- **Économie : environ 970 €/an**
+
+### Le plafonnement du quotient familial
+
+Attention : l'avantage fiscal lié aux demi-parts supplémentaires est **plafonné à 1 759 € par demi-part** en 2025. Si tes revenus sont très élevés, l'économie réelle sera limitée à ce plafond.
+
+### Crédit d'impôt frais de garde (enfant < 6 ans)
+
+Si tu fais garder ton enfant de moins de 6 ans (au 1er janvier de l'année d'imposition) :
+
+- **Crèche, halte-garderie, assistante maternelle agréée, micro-crèche**
+- **50% des dépenses**, plafond de 3 500 € par enfant
+- **Crédit maximum : 1 750 € par enfant**
+- À déclarer en case **7GA** (1er enfant), **7GB** (2e enfant), etc.
+
+**Important :** ne déclare que les sommes **restant à ta charge** après déduction du CMG (Complément Mode de Garde de la CAF).
+
+### Les erreurs classiques à éviter
+
+1. **Oublier de rattacher l'enfant** : sur ta déclaration en ligne, va dans "Personnes à charge" et ajoute ton enfant (nom, prénom, date de naissance)
+2. **Déclarer l'année entière** : si ton enfant est né en cours d'année, tu bénéficies quand même de la demi-part pour l'année complète
+3. **Double-compter la garde** : ne déclare pas les frais déjà remboursés par la CAF (CMG)
+4. **Oublier le crédit emploi à domicile** : si tu paies une baby-sitter à domicile via CESU, c'est un autre crédit d'impôt (case 7DB)
+5. **Ne pas vérifier les cases pré-remplies** : les montants déclarés par la crèche ou l'assmat sont parfois pré-remplis, mais vérifie qu'ils correspondent
+
+### Checklist de ta déclaration
+
+- [ ] Rattacher l'enfant dans "Personnes à charge"
+- [ ] Vérifier le nombre de parts (2,5 pour un couple + 1 enfant)
+- [ ] Déclarer les frais de garde en case 7GA/7GB (net après CMG)
+- [ ] Déclarer l'emploi à domicile en case 7DB si applicable
+- [ ] Vérifier les dons et autres réductions/crédits habituels
+- [ ] Simuler avant de valider pour vérifier le montant
+
+### Calendrier fiscal 2025
+
+- **Avril 2025** : ouverture de la déclaration en ligne
+- **Mai-Juin 2025** : date limite selon ton département (zone 1, 2 ou 3)
+- **Juillet-Août 2025** : réception de l'avis d'imposition
+- **Septembre 2025** : ajustement du prélèvement à la source selon le nouvel avis
+
+### Simulation rapide
+
+Notre [simulateur d'impôt](/outils/simulateur-ir) te permet de calculer exactement combien tu vas économiser avec ton enfant. Il prend en compte :
+- Le quotient familial et le plafonnement
+- La décote si applicable
+- Les crédits d'impôt (garde, emploi à domicile, dons)
+
+[Simule ton impôt gratuitement →](/outils/simulateur-ir)
+
+**Voir aussi :** [Crédit d'impôt garde d'enfant](/blog/credit-impot-garde-enfant-2025) | [Quotient familial](/blog/quotient-familial-comment-ca-marche) | [5 crédits d'impôt que les parents oublient](/blog/5-credits-impot-parents-oublient)`,
+  },
 ];
 
+function withReadTime(article: BlogArticle): BlogArticle {
+  return { ...article, readingTime: calculateReadTime(article.content) };
+}
+
 export function getArticleBySlug(slug: string): BlogArticle | undefined {
-  return BLOG_ARTICLES.find((a) => a.slug === slug);
+  const article = BLOG_ARTICLES.find((a) => a.slug === slug);
+  return article ? withReadTime(article) : undefined;
 }
 
 export function getAllArticles(): BlogArticle[] {
-  return [...BLOG_ARTICLES].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  return [...BLOG_ARTICLES]
+    .map(withReadTime)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export function getAdjacentArticles(slug: string): {

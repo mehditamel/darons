@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   LayoutDashboard,
@@ -70,10 +70,21 @@ export function CommandPalette() {
         e.preventDefault();
         setOpen((prev) => !prev);
       }
+      // "?" opens palette when no input/textarea is focused
+      if (
+        e.key === "?" &&
+        !open &&
+        !(e.target instanceof HTMLInputElement) &&
+        !(e.target instanceof HTMLTextAreaElement) &&
+        !((e.target as HTMLElement).isContentEditable)
+      ) {
+        e.preventDefault();
+        setOpen(true);
+      }
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [open]);
 
   const handleSelect = useCallback(
     (href: string) => {
@@ -112,6 +123,27 @@ export function CommandPalette() {
               {item.label}
             </CommandItem>
           ))}
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="Raccourcis clavier">
+          <CommandItem value="raccourci recherche cmd k" disabled>
+            <kbd className="mr-2 rounded border bg-muted px-1.5 py-0.5 text-xs font-mono">
+              ⌘K
+            </kbd>
+            Recherche rapide
+          </CommandItem>
+          <CommandItem value="raccourci aide interrogation" disabled>
+            <kbd className="mr-2 rounded border bg-muted px-1.5 py-0.5 text-xs font-mono">
+              ?
+            </kbd>
+            Ouvrir cette aide
+          </CommandItem>
+          <CommandItem value="raccourci fermer echap escape" disabled>
+            <kbd className="mr-2 rounded border bg-muted px-1.5 py-0.5 text-xs font-mono">
+              Esc
+            </kbd>
+            Fermer
+          </CommandItem>
         </CommandGroup>
       </CommandList>
     </CommandDialog>

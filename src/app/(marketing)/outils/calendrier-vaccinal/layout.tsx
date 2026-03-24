@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     description:
       "Visualisez les vaccins obligatoires avec les dates personnalisees pour votre enfant.",
   },
+  alternates: {
+    canonical: "https://darons.app/outils/calendrier-vaccinal",
+  },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

@@ -297,6 +297,22 @@
     @apply absolute -top-0.5 left-1/2 -translate-x-1/2 h-1 w-8 rounded-full bg-warm-orange;
   }
 
+  /* Target highlight when clicking anchor links */
+  @keyframes target-highlight {
+    from {
+      background-color: hsl(16 76% 60% / 0.12);
+    }
+    to {
+      background-color: transparent;
+    }
+  }
+  .scroll-mt-20:target {
+    animation: target-highlight 2s ease-out;
+    border-radius: 4px;
+    padding-left: 8px;
+    margin-left: -8px;
+  }
+
   /* Scrollbar styling */
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
@@ -309,5 +325,81 @@
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-muted-foreground/40;
+  }
+}
+
+/* Print stylesheet */
+@media print {
+  /* Hide non-essential UI elements */
+  nav,
+  header[role="banner"],
+  aside,
+  footer,
+  .bottom-nav,
+  .no-print,
+  button,
+  [data-testid="reading-progress"],
+  [data-testid="share-buttons"],
+  [data-testid="command-palette"],
+  [data-testid="theme-toggle"] {
+    display: none !important;
+  }
+
+  /* Force clean background and text */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Remove decorative shadows and borders */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Cards print flat */
+  .card-playful,
+  .card-gradient-teal,
+  .card-gradient-orange,
+  .card-gradient-blue,
+  .card-gradient-purple,
+  .card-gradient-gold,
+  .card-gradient-red,
+  .card-gradient-green,
+  .glass-card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    transform: none !important;
+  }
+
+  /* Main content takes full width */
+  main {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Links show URL */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Page breaks */
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  table, figure, img {
+    page-break-inside: avoid;
+  }
+
+  /* Charts and graphs: ensure visibility */
+  svg {
+    max-width: 100% !important;
   }
 }

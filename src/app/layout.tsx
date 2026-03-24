@@ -40,6 +40,21 @@ export const metadata: Metadata = {
     title: "Darons — Toute ta vie de daron. Une seule app.",
     description:
       "L'app gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
+    images: [
+      {
+        url: "https://darons.app/api/og?title=Toute%20ta%20vie%20de%20daron.%20Une%20seule%20app.",
+        width: 1200,
+        height: 630,
+        alt: "Darons — Toute ta vie de daron. Une seule app.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Darons — Toute ta vie de daron. Une seule app.",
+    description:
+      "L'app gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
+    images: ["https://darons.app/api/og?title=Toute%20ta%20vie%20de%20daron.%20Une%20seule%20app."],
   },
 };
 
@@ -58,10 +73,18 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap"
+          as="style"
+        />
+        <link
           href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="72x72" href="/icons/icon-72x72.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
+        <link rel="alternate" type="application/rss+xml" title="Blog Darons" href="/rss.xml" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
