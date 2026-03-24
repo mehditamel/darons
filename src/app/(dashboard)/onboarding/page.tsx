@@ -33,6 +33,7 @@ import { householdSchema, type HouseholdFormData } from "@/lib/validators/family
 import { familyMemberSchema, type FamilyMemberFormData } from "@/lib/validators/family";
 import { createHousehold, createFamilyMember } from "@/lib/actions/family";
 import { useToast } from "@/hooks/use-toast";
+import { ConfettiEffect } from "@/components/shared/confetti-effect";
 
 const STEPS = [
   { label: "Ton foyer", icon: Home },
@@ -186,7 +187,7 @@ export default function OnboardingPage() {
 
       {/* Step 0: Create household */}
       {step === 0 && (
-        <Card>
+        <Card className="animate-fade-in-up">
           <CardHeader>
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-warm-orange/10">
               <Home className="h-7 w-7 text-warm-orange" />
@@ -228,7 +229,7 @@ export default function OnboardingPage() {
 
       {/* Step 1: Add first child */}
       {step === 1 && (
-        <Card>
+        <Card className="animate-fade-in-up">
           <CardHeader>
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-warm-teal/10">
               <Baby className="h-7 w-7 text-warm-teal" />
@@ -326,7 +327,7 @@ export default function OnboardingPage() {
 
       {/* Step 2: Invite partner (optional) */}
       {step === 2 && (
-        <Card>
+        <Card className="animate-fade-in-up">
           <CardHeader>
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-warm-purple/10">
               <Users className="h-7 w-7 text-warm-purple" />
@@ -375,7 +376,7 @@ export default function OnboardingPage() {
 
       {/* Step 3: Module picker */}
       {step === 3 && (
-        <Card>
+        <Card className="animate-fade-in-up">
           <CardHeader>
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-warm-blue/10">
               <LayoutGrid className="h-7 w-7 text-warm-blue" />
@@ -436,21 +437,39 @@ export default function OnboardingPage() {
 
       {/* Step 4: Done + quick win */}
       {step === 4 && (
-        <Card>
+        <Card className="animate-fade-in-up">
+          <ConfettiEffect trigger={step === 4} />
           <CardHeader>
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10 animate-scale-in">
               <CheckCircle2 className="h-8 w-8 text-warm-green" />
             </div>
-            <CardTitle className="text-center">
-              Ton espace est prêt !
+            <CardTitle className="text-center text-xl">
+              {childName
+                ? `L'espace de ${childName} est pret !`
+                : "Ton espace est pret !"}
             </CardTitle>
             <CardDescription className="text-center">
               {selectedModules.size > 0 ? (
-                <>On a activé tes modules prioritaires. Commence par un premier quick win :</>
+                <>On a active tes modules prioritaires. Commence par un premier quick win :</>
               ) : (
                 <>Tu peux maintenant explorer tous les modules. Par quoi tu commences ?</>
               )}
             </CardDescription>
+
+            {/* Selected modules visual */}
+            {selectedModules.size > 0 && (
+              <div className="flex flex-wrap justify-center gap-2 mt-4">
+                {MODULE_OPTIONS.filter((m) => selectedModules.has(m.id)).map((m) => (
+                  <span
+                    key={m.id}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-primary/10 ${m.color}`}
+                  >
+                    <m.icon className="h-3 w-3" />
+                    {m.label}
+                  </span>
+                ))}
+              </div>
+            )}
           </CardHeader>
           <CardContent className="space-y-3">
             {selectedModules.size > 0 ? (

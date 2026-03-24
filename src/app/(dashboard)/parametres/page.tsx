@@ -50,6 +50,13 @@ export default async function ParametresPage() {
   const hasSms = channels.includes("sms");
   const hasCalendarSync = planLimits.hasCalendarSync;
 
+  // Read notification preferences from user consents
+  const getConsentValue = (type: string) =>
+    consents.find((c) => c.consentType === type)?.granted ?? true;
+  const emailEnabled = getConsentValue("email_notifications");
+  const pushEnabled = getConsentValue("push_notifications");
+  const smsEnabled = getConsentValue("sms_notifications");
+
   return (
     <div className="space-y-6 page-enter">
       <PageHeader
@@ -100,9 +107,9 @@ export default async function ParametresPage() {
 
         {/* Notifications */}
         <NotificationPreferences
-          emailEnabled={true}
-          pushEnabled={false}
-          smsEnabled={false}
+          emailEnabled={emailEnabled}
+          pushEnabled={pushEnabled}
+          smsEnabled={smsEnabled}
           hasPush={hasPush}
           hasSms={hasSms}
         />

@@ -111,6 +111,7 @@ const config: Config = {
         "bounce-gentle": "bounce-gentle 2s ease-in-out infinite",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         float: "float 6s ease-in-out infinite",
+        "confetti-fall": "confetti-fall 3s ease-out forwards",
       },
       transitionTimingFunction: {
         spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",

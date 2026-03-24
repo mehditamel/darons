@@ -1,4 +1,4 @@
-const CACHE_NAME = "darons-20260320";
+const CACHE_NAME = "darons-20260323";
 const STATIC_ASSETS = [
   "/",
   "/dashboard",
@@ -13,6 +13,12 @@ const DASHBOARD_PAGES = [
   "/identite",
   "/fiscal",
   "/parametres",
+  "/alertes",
+  "/documents",
+  "/activites",
+  "/developpement",
+  "/garde",
+  "/demarches",
 ];
 
 // Install: cache static assets
@@ -39,16 +45,61 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Fetch: network-first for pages, stale-while-revalidate for static assets
+// Fetch: stale-while-revalidate for dashboard pages, network-first for rest
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip non-GET requests
-  if (request.method !== "GET") return;
+  // Skip non-GET requests — but store them in the offline queue if offline
+  if (request.method !== "GET") {
+    if (!navigator.onLine && request.method === "POST") {
+      // Queue POST requests for later (handled by offline-queue.ts on client)
+      event.respondWith(
+        new Response(JSON.stringify({ queued: true }), {
+          status: 202,
+          headers: { "Content-Type": "application/json" },
+        })
+      );
+    }
+    return;
+  }
 
-  // Skip API calls and Next.js internals
-  if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/_next/")) {
+  // Skip Next.js internals
+  if (url.pathname.startsWith("/_next/")) {
+    return;
+  }
+
+  // Skip API calls — let them go to network (or fail)
+  if (url.pathname.startsWith("/api/")) {
+    return;
+  }
+
+  // Stale-while-revalidate for dashboard pages
+  const isDashboardPage = DASHBOARD_PAGES.some((p) => url.pathname === p || url.pathname.startsWith(p + "/"));
+  if (isDashboardPage || url.pathname === "/dashboard") {
+    event.respondWith(
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(request).then((cached) => {
+          const fetchPromise = fetch(request)
+            .then((response) => {
+              if (response.ok) {
+                cache.put(request, response.clone());
+              }
+              return response;
+            })
+            .catch(() => {
+              if (cached) return cached;
+              if (request.mode === "navigate") {
+                return caches.match("/offline.html");
+              }
+              return new Response("Hors ligne", { status: 503, headers: { "Content-Type": "text/plain" } });
+            });
+
+          // Return cached version immediately, update in background
+          return cached || fetchPromise;
+        });
+      })
+    );
     return;
   }
 
@@ -77,7 +128,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Network-first strategy with offline fallback for pages
+  // Network-first strategy with offline fallback for everything else
   event.respondWith(
     fetch(request)
       .then((response) => {
@@ -92,7 +143,6 @@ self.addEventListener("fetch", (event) => {
       .catch(() => {
         return caches.match(request).then((cached) => {
           if (cached) return cached;
-          // Return offline page for navigation requests
           if (request.mode === "navigate") {
             return caches.match("/offline.html");
           }
@@ -145,3 +195,19 @@ self.addEventListener("notificationclick", (event) => {
     })
   );
 });
+
+// Background sync — replay queued mutations when back online
+self.addEventListener("sync", (event) => {
+  if (event.tag === "darons-offline-sync") {
+    event.waitUntil(replayOfflineQueue());
+  }
+});
+
+async function replayOfflineQueue() {
+  // The actual replay logic is in the client-side offline-queue.ts
+  // This just triggers client-side sync via message
+  const clients = await self.clients.matchAll({ type: "window" });
+  for (const client of clients) {
+    client.postMessage({ type: "SYNC_OFFLINE_QUEUE" });
+  }
+}

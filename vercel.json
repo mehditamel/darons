@@ -2,5 +2,15 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "buildCommand": "next build",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "crons": [
+    {
+      "path": "/api/notifications/vaccine-reminder",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/notifications/monthly-recap",
+      "schedule": "0 8 1 * *"
+    }
+  ]
 }

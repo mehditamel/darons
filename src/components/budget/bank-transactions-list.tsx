@@ -12,9 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDownLeft, ArrowUpRight, Search, Sparkles, CreditCard } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, Search, Sparkles, CreditCard, Users } from "lucide-react";
 import type { BankTransaction } from "@/lib/actions/banking";
-import { updateTransactionCategory, aiCategorizeUncategorized } from "@/lib/actions/banking";
+import { updateTransactionCategory, aiCategorizeUncategorized, assignTransactionToMember } from "@/lib/actions/banking";
 import { BUDGET_CATEGORY_LABELS, type BudgetCategory } from "@/types/budget";
 import type { FamilyMember } from "@/types/family";
 
@@ -40,6 +40,10 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
 
   async function handleCategoryChange(txId: string, category: string) {
     await updateTransactionCategory(txId, category);
+  }
+
+  async function handleMemberChange(txId: string, memberId: string) {
+    await assignTransactionToMember(txId, memberId === "none" ? null : memberId);
   }
 
   function getEffectiveCategory(tx: BankTransaction): string | null {
@@ -158,12 +162,33 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
+                  {members.length > 0 && (
+                    <Select
+                      value={tx.memberId ?? "none"}
+                      onValueChange={(val) => handleMemberChange(tx.id, val)}
+                    >
+                      <SelectTrigger className="h-7 w-24 text-xs">
+                        <SelectValue placeholder="Membre" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none" className="text-xs">
+                          Foyer
+                        </SelectItem>
+                        {members.map((m) => (
+                          <SelectItem key={m.id} value={m.id} className="text-xs">
+                            {m.firstName}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+
                   <Select
                     value={category ?? ""}
                     onValueChange={(val) => handleCategoryChange(tx.id, val)}
                   >
                     <SelectTrigger className="h-7 w-28 text-xs">
-                      <SelectValue placeholder="Catégorie" />
+                      <SelectValue placeholder="Categorie" />
                     </SelectTrigger>
                     <SelectContent>
                       {Object.entries(BUDGET_CATEGORY_LABELS).map(([key, label]) => (

@@ -24,6 +24,11 @@ export default function MarketingLayout({
                 Tous les outils
               </Button>
             </Link>
+            <Link href="/blog" className="hidden sm:block">
+              <Button variant="ghost" size="sm">
+                Blog
+              </Button>
+            </Link>
             <Link href="/">
               <Button variant="ghost" size="sm">
                 Accueil
@@ -37,6 +42,7 @@ export default function MarketingLayout({
         <div className="mx-auto max-w-4xl px-4">
           <div className="flex flex-wrap gap-4 justify-center text-xs text-muted-foreground">
             <Link href="/outils" className="hover:text-foreground">Outils gratuits</Link>
+            <Link href="/blog" className="hover:text-foreground">Blog</Link>
             <Link href="/mentions-legales" className="hover:text-foreground">Mentions légales</Link>
             <Link href="/cgu" className="hover:text-foreground">CGU</Link>
             <Link href="/politique-confidentialite" className="hover:text-foreground">Confidentialité</Link>

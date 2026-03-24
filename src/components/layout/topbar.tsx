@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { createClient } from "@/lib/supabase/client";
+import { ConnectivityIndicator } from "./connectivity-indicator";
 
 interface TopbarProps {
   userEmail?: string;
@@ -40,6 +41,9 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
 
       {/* Page context area - flexible space */}
       <div className="flex-1" />
+
+      {/* Connectivity indicator */}
+      <ConnectivityIndicator />
 
       {/* Search trigger */}
       <Button
@@ -78,7 +82,7 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
         size="icon"
         className="relative h-8 w-8"
         aria-label={`Notifications${alertCount > 0 ? ` (${alertCount} en attente)` : ""}`}
-        onClick={() => router.push("/dashboard")}
+        onClick={() => router.push("/alertes")}
       >
         <Bell className="h-4 w-4" />
         {alertCount > 0 && (

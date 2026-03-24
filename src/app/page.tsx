@@ -162,6 +162,12 @@ export default function LandingPage() {
             >
               Outils gratuits
             </Link>
+            <Link
+              href="/blog"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Blog
+            </Link>
             <a
               href="#fonctionnalites"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -530,6 +536,11 @@ export default function LandingPage() {
                 <li>
                   <Link href="/outils" className="hover:text-foreground transition-colors">
                     Outils gratuits
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog" className="hover:text-foreground transition-colors">
+                    Blog
                   </Link>
                 </li>
                 <li>

@@ -3,10 +3,12 @@
 import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal, LocateFixed, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -24,14 +26,18 @@ import type { ChildcareStructureType } from "@/types/garde";
 
 interface ChildcareSearchFormProps {
   onSearch: (data: ChildcareSearchFormData) => void;
+  onGeolocate?: (lat: number, lng: number) => void;
   isLoading?: boolean;
 }
 
 export function ChildcareSearchForm({
   onSearch,
+  onGeolocate,
   isLoading,
 }: ChildcareSearchFormProps) {
   const [showFilters, setShowFilters] = useState(false);
+  const [geoLoading, setGeoLoading] = useState(false);
+  const [geoError, setGeoError] = useState<string | null>(null);
 
   const {
     register,
@@ -48,6 +54,7 @@ export function ChildcareSearchForm({
   });
 
   const currentStructureType = watch("structureType");
+  const currentRayon = watch("rayonKm");
 
   const onSubmit = useCallback(
     (data: ChildcareSearchFormData) => {
@@ -55,6 +62,33 @@ export function ChildcareSearchForm({
     },
     [onSearch]
   );
+
+  const handleGeolocate = useCallback(() => {
+    if (!navigator.geolocation) {
+      setGeoError("La geolocalisation n'est pas supportee par votre navigateur.");
+      return;
+    }
+
+    setGeoLoading(true);
+    setGeoError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setGeoLoading(false);
+        setValue("query", `${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
+        onGeolocate?.(position.coords.latitude, position.coords.longitude);
+      },
+      (err) => {
+        setGeoLoading(false);
+        if (err.code === err.PERMISSION_DENIED) {
+          setGeoError("Acces a la position refuse. Autorise la geolocalisation dans les parametres du navigateur.");
+        } else {
+          setGeoError("Impossible de recuperer ta position. Saisis une adresse manuellement.");
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }, [setValue, onGeolocate]);
 
   return (
     <Card>
@@ -76,6 +110,21 @@ export function ChildcareSearchForm({
                 </p>
               )}
             </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={handleGeolocate}
+              disabled={geoLoading}
+              title="Me localiser"
+              aria-label="Utiliser ma position"
+            >
+              {geoLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <LocateFixed className="h-4 w-4" />
+              )}
+            </Button>
             <Button type="submit" disabled={isLoading}>
               <Search className="mr-2 h-4 w-4" />
               Rechercher
@@ -90,6 +139,10 @@ export function ChildcareSearchForm({
               <SlidersHorizontal className="h-4 w-4" />
             </Button>
           </div>
+
+          {geoError && (
+            <p className="text-xs text-destructive">{geoError}</p>
+          )}
 
           {showFilters && (
             <div className="grid gap-4 sm:grid-cols-2">
@@ -121,6 +174,27 @@ export function ChildcareSearchForm({
                     )}
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label>Rayon de recherche</Label>
+                  <Badge variant="outline" className="text-xs">
+                    {currentRayon} km
+                  </Badge>
+                </div>
+                <Slider
+                  value={[currentRayon]}
+                  onValueChange={([val]) => setValue("rayonKm", val)}
+                  min={1}
+                  max={50}
+                  step={1}
+                  aria-label="Rayon de recherche en kilometres"
+                />
+                <div className="flex justify-between text-[10px] text-muted-foreground">
+                  <span>1 km</span>
+                  <span>50 km</span>
+                </div>
               </div>
             </div>
           )}

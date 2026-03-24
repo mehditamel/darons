@@ -20,6 +20,7 @@ import {
   Split,
   Gift,
   BarChart3,
+  Bell,
   ChevronDown,
   Sparkles,
   type LucideIcon,
@@ -46,6 +47,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   Split,
   Gift,
   BarChart3,
+  Bell,
 };
 
 interface SidebarProps {

@@ -66,7 +66,17 @@ Pas de panique ! Il n'est jamais trop tard pour rattraper un retard vaccinal. Co
 
 ### Suivi avec Darons
 
-Notre outil [calendrier vaccinal interactif](/outils/calendrier-vaccinal) te permet de visualiser les dates de vaccin personnalisées pour ton enfant. Crée un compte pour recevoir des rappels automatiques.`,
+Notre outil [calendrier vaccinal interactif](/outils/calendrier-vaccinal) te permet de visualiser les dates de vaccin personnalisées pour ton enfant. Crée un compte pour recevoir des rappels automatiques.
+
+### FAQ — Questions fréquentes
+
+**Mon bébé est prématuré, le calendrier change-t-il ?**
+Non, les vaccins suivent l'âge civil (date de naissance), pas l'âge corrigé. Un bébé né à 35 SA recevra ses premiers vaccins à 2 mois comme les autres.
+
+**Peut-on faire plusieurs vaccins le même jour ?**
+Oui, les vaccins combinés (hexavalent par exemple) permettent de protéger contre plusieurs maladies en une seule injection. C'est sûr et recommandé.
+
+**Voir aussi :** [Les 20 examens de santé obligatoires](/blog/20-examens-sante-obligatoires-bebe) | [Checklist démarches après naissance](/blog/checklist-naissance-demarches) | [Coût d'un enfant de 0 à 18 ans](/blog/cout-enfant-0-18-ans-france)`,
   },
   {
     slug: "credit-impot-garde-enfant-2025",
@@ -112,7 +122,9 @@ Inscrivez vos frais de garde dans la case **7GA** (1er enfant) ou **7GB** (2e en
 
 ### Simulez votre impôt
 
-Utilisez notre [simulateur d'impôt gratuit](/outils/simulateur-ir) pour calculer l'impact du crédit d'impôt garde d'enfant sur votre impôt.`,
+Utilisez notre [simulateur d'impôt gratuit](/outils/simulateur-ir) pour calculer l'impact du crédit d'impôt garde d'enfant sur votre impôt.
+
+**Voir aussi :** [Crèche ou assistante maternelle : le vrai coût](/blog/creche-ou-assistante-maternelle-comparatif) | [5 crédits d'impôt que les parents oublient](/blog/5-credits-impot-parents-oublient) | [Quotient familial : comment ça marche](/blog/quotient-familial-comment-ca-marche)`,
   },
   {
     slug: "creche-ou-assistante-maternelle-comparatif",
@@ -1045,6 +1057,280 @@ Le 2e enfant coûte en moyenne **30 % de moins** que le premier :
 
 Notre [simulateur de budget familial](/outils/simulateur-budget) te montre exactement où va ton argent mois par mois. Connecte ta banque ou saisis tes dépenses manuellement. [C'est gratuit](/register).`,
   },
+  {
+    slug: "ecrans-enfants-recommandations-2025",
+    title: "Ecrans et enfants : les recommandations officielles 2025",
+    description:
+      "Combien de temps d'ecran par age ? Les recommandations du carnet de sante 2025, les signes d'alerte et les alternatives concretes.",
+    date: "2026-03-15",
+    readingTime: "6 min",
+    category: "Sante",
+    content: `## Ce que dit le carnet de sante 2025
+
+Le nouveau carnet de sante (edition 2025) integre pour la premiere fois un **questionnaire sur l'exposition aux ecrans** des la visite des 3 mois. Les recommandations sont claires :
+
+### Par tranche d'age
+
+| Age | Recommandation |
+|-----|---------------|
+| **0-2 ans** | Aucun ecran. Zero. Meme en fond sonore. |
+| **2-3 ans** | Maximum 30 min/jour, accompagne par un adulte |
+| **3-6 ans** | Maximum 1h/jour, contenu adapte et accompagne |
+| **6-9 ans** | Maximum 1h30/jour, jamais pendant les repas ni avant le coucher |
+| **9-12 ans** | Maximum 2h/jour, pas de smartphone personnel |
+
+### Pourquoi c'est important
+
+L'exposition precoce aux ecrans est associee a :
+- **Retards de langage** : les enfants exposes plus de 2h/jour ont 3x plus de risques de retard
+- **Troubles du sommeil** : la lumiere bleue perturbe la melatonine
+- **Difficultes d'attention** : le zapping permanent reduit la capacite de concentration
+- **Sedentarite** : moins de motricite, risque de surpoids
+
+### Les signes d'alerte
+
+Consultez votre pediatre si votre enfant :
+- Ne reagit pas quand on l'appelle (hors ecran)
+- S'isole ou fait des crises quand on coupe l'ecran
+- Prefere systematiquement l'ecran aux interactions humaines
+- A du mal a s'endormir sans ecran
+
+### Alternatives concretes par age
+
+**0-2 ans :** jeux d'eveil, lectures a voix haute, sorties au parc, musique, pate a modeler
+**2-4 ans :** dessin, puzzles, jeux de construction, jardinage, cuisine (avec surveillance)
+**4-6 ans :** sport, velo, jeux de societe, activites manuelles, instruments de musique
+
+### Suivi avec Darons
+
+Notre module [sante enrichie](/sante-enrichie) inclut le questionnaire ecrans du carnet 2025 et suit l'exposition de ton enfant dans le temps. [Cree ton compte](/register) pour un suivi personnalise.
+
+**Voir aussi :** [Les 20 examens de sante obligatoires](/blog/20-examens-sante-obligatoires-bebe) | [Jalons de developpement 0-3 ans](/blog/jalons-developpement-0-3-ans)`,
+  },
+  {
+    slug: "allocation-rentree-scolaire-2026",
+    title: "Allocation de rentree scolaire 2026 : montants, conditions et dates",
+    description:
+      "Tout sur l'ARS 2026 : montants par age, plafonds de revenus, dates de versement et demarches. Verifiez si vous y avez droit.",
+    date: "2026-03-10",
+    readingTime: "5 min",
+    category: "Budget",
+    content: `## L'allocation de rentree scolaire (ARS)
+
+L'ARS est versee **chaque annee en aout** aux familles modestes pour aider a financer les fournitures scolaires. Elle concerne les enfants de 6 a 18 ans.
+
+### Montants 2026 (prevision)
+
+| Age de l'enfant | Montant |
+|----------------|---------|
+| **6-10 ans** | ~416 EUR |
+| **11-14 ans** | ~440 EUR |
+| **15-18 ans** | ~454 EUR |
+
+*Montants indicatifs bases sur les baremes 2025 + revalorisation estimee.*
+
+### Conditions de revenus
+
+L'ARS est soumise a un **plafond de ressources** (revenus N-2) :
+
+| Nombre d'enfants | Plafond de revenus |
+|------------------|-------------------|
+| 1 enfant | ~26 000 EUR |
+| 2 enfants | ~32 000 EUR |
+| 3 enfants | ~38 000 EUR |
+| Par enfant supplementaire | +6 000 EUR |
+
+### Dates cles
+
+1. **Mi-aout** : versement automatique si votre enfant a entre 6 et 15 ans et que la CAF a vos revenus
+2. **16-18 ans** : vous devez envoyer un justificatif de scolarite a la CAF
+3. **Pas de demande a faire** si vous etes deja allocataire et que vos revenus sont connus
+
+### Ce que l'ARS couvre
+
+- Cartable, trousse, cahiers, stylos
+- Vetements (chaussures, blouse)
+- Activites periscolaires (facultatif)
+- Assurance scolaire
+
+### Simulez vos droits
+
+Notre [simulateur d'allocations CAF](/outils/simulateur-caf) calcule instantanement vos droits a l'ARS et aux autres prestations. [Essayez-le gratuitement](/outils/simulateur-caf).
+
+**Voir aussi :** [Simulateur allocations CAF 2025](/blog/simulateur-allocations-caf-2025) | [Budget bebe premiere annee](/blog/budget-bebe-premiere-annee) | [Cout d'un enfant de 0 a 18 ans](/blog/cout-enfant-0-18-ans-france)`,
+  },
+  {
+    slug: "prime-naissance-paje-guide-complet",
+    title: "Prime de naissance PAJE : qui y a droit et comment la demander",
+    description:
+      "Guide complet sur la prime de naissance de la PAJE : conditions, montant, demarches et delais. Ne passez pas a cote de 1 019 euros.",
+    date: "2026-03-05",
+    readingTime: "5 min",
+    category: "Demarches",
+    content: `## La prime de naissance PAJE
+
+La prime de naissance fait partie de la **PAJE (Prestation d'Accueil du Jeune Enfant)**. C'est un versement unique de **1 019,40 EUR** pour chaque enfant.
+
+### Conditions
+
+- Declarer votre grossesse a la CAF et a la CPAM **avant la fin du 3e mois**
+- Revenus du foyer inferieurs au plafond (environ 34 000 EUR pour un couple avec 1 enfant)
+- Etre beneficiaire de la Securite sociale
+
+### Quand est-elle versee ?
+
+La prime est versee **au 7e mois de grossesse** (ou au 2e mois apres adoption).
+
+### Comment la demander ?
+
+1. **Declarez votre grossesse** dans les 14 premieres semaines aupres de la CAF et de la CPAM
+2. **Envoyez le formulaire** de declaration de grossesse (remis par votre medecin ou sage-femme)
+3. **La CAF calcule automatiquement** vos droits a partir de vos revenus declares
+4. **Le versement est automatique** — pas de demande supplementaire si tout est en ordre
+
+### A ne pas confondre
+
+| Prestation | Montant | Frequence |
+|-----------|---------|-----------|
+| **Prime de naissance** | 1 019 EUR | Unique (7e mois) |
+| **Allocation de base** | 184 EUR/mois | Mensuel (naissance a 3 ans) |
+| **CMG** | Variable | Mensuel (si mode de garde) |
+
+### Les pieges a eviter
+
+- **Declaration tardive** : si vous declarez apres 14 semaines, vous risquez un retard de versement
+- **Depassement de revenus** : verifiez le plafond avant de compter sur la prime
+- **Enfant mort-ne** : la prime est quand meme versee si la grossesse a depasse 22 semaines
+
+### Simulez vos droits
+
+Notre [simulateur CAF](/outils/simulateur-caf) calcule la PAJE complete : prime de naissance + allocation de base + CMG.
+
+**Voir aussi :** [Checklist demarches naissance](/blog/checklist-naissance-demarches) | [Conge paternite 2026](/blog/conge-paternite-2026-guide-complet)`,
+  },
+  {
+    slug: "conge-maternite-2026-guide",
+    title: "Conge maternite 2026 : duree, indemnites et demarches",
+    description:
+      "Guide complet du conge maternite : duree selon le nombre d'enfants, calcul des indemnites journalieres, demarches employeur et CPAM.",
+    date: "2026-02-28",
+    readingTime: "7 min",
+    category: "Demarches",
+    content: `## Le conge maternite en France
+
+Le conge maternite est un **droit pour toute salariee enceinte**. Il comprend un conge prenatal (avant l'accouchement) et postnatal (apres).
+
+### Duree du conge
+
+| Situation | Prenatal | Postnatal | Total |
+|----------|---------|----------|-------|
+| **1er ou 2e enfant** | 6 semaines | 10 semaines | **16 semaines** |
+| **3e enfant ou plus** | 8 semaines | 18 semaines | **26 semaines** |
+| **Jumeaux** | 12 semaines | 22 semaines | **34 semaines** |
+| **Triples ou plus** | 24 semaines | 22 semaines | **46 semaines** |
+
+### Report possible
+
+Vous pouvez **reporter 3 semaines** du conge prenatal vers le postnatal (sur avis medical). Le conge prenatal minimum est donc de 3 semaines pour un 1er enfant.
+
+### Indemnites journalieres
+
+L'Assurance Maladie verse des **indemnites journalieres (IJ)** :
+- **Calcul** : moyenne des 3 derniers salaires bruts (plafond mensuel ~3 666 EUR en 2026)
+- **Montant net** : environ 89% du salaire net pour les salaires en dessous du plafond
+- **Pas de delai de carence** : les IJ sont versees des le 1er jour du conge
+
+### Demarches a suivre
+
+1. **Avant le 3e mois** : declarer la grossesse a la CPAM et a la CAF
+2. **Au 6e mois** : informer l'employeur par courrier recommande (date prevue d'accouchement, dates de conge)
+3. **Dernier jour travaille** : remettre a l'employeur le certificat de la CPAM
+4. **Apres l'accouchement** : envoyer l'acte de naissance a la CPAM dans les 48h
+
+### Cas particuliers
+
+- **Grossesse pathologique** : +2 semaines de conge prenatal sur prescription
+- **Naissance prematuree** : le conge prenatal non pris est ajoute au postnatal
+- **Hospitalisation du nouveau-ne** : le conge postnatal peut etre prolonge
+
+### Protection de l'emploi
+
+Pendant le conge maternite et les 10 semaines suivant le retour :
+- **Interdiction de licenciement** (sauf faute grave non liee a la grossesse)
+- **Retour au meme poste** ou poste equivalent
+- **Maintien des droits** a l'anciennete
+
+### Planifie avec Darons
+
+Notre [checklist demarches](/outils/checklist-naissance) integre automatiquement les etapes du conge maternite avec des rappels. [Cree ton compte](/register) pour ne rien oublier.
+
+**Voir aussi :** [Conge paternite 2026](/blog/conge-paternite-2026-guide-complet) | [Prime de naissance PAJE](/blog/prime-naissance-paje-guide-complet) | [Checklist demarches naissance](/blog/checklist-naissance-demarches)`,
+  },
+  {
+    slug: "emploi-domicile-credit-impot-parents",
+    title: "Credit d'impot emploi a domicile : le guide pour les parents",
+    description:
+      "Garde d'enfant, soutien scolaire, menage : tout sur le credit d'impot emploi a domicile. Plafonds, calcul et declaration.",
+    date: "2026-02-20",
+    readingTime: "5 min",
+    category: "Fiscal",
+    content: `## Le credit d'impot emploi a domicile
+
+Si vous employez quelqu'un a domicile (garde, menage, soutien scolaire...), vous beneficiez d'un **credit d'impot de 50%** des depenses engagees.
+
+### Services eligibles pour les parents
+
+- **Garde d'enfant a domicile** (hors heures scolaires)
+- **Soutien scolaire** et cours particuliers
+- **Aide menagere** (menage, repassage, cuisine)
+- **Baby-sitting** a domicile
+- **Assistance informatique** (aide aux devoirs en ligne)
+- **Jardinage** (plafond specifique de 5 000 EUR/an)
+
+### Montants et plafonds
+
+| Element | Montant |
+|---------|---------|
+| **Taux du credit** | 50% des depenses |
+| **Plafond annuel de base** | 12 000 EUR |
+| **Majoration par enfant** | +1 500 EUR |
+| **Plafond maximal** | 15 000 EUR (couple + 2 enfants) |
+| **Credit max (couple + 2 enfants)** | 7 500 EUR |
+
+### Exemple concret
+
+Famille avec 2 enfants, qui emploie :
+- Une nounou 3 soirs/semaine : 8 000 EUR/an
+- Une aide menagere 2h/semaine : 4 000 EUR/an
+- **Total** : 12 000 EUR
+- **Plafond** : 12 000 + 1 500 x 2 = 15 000 EUR (OK, en dessous)
+- **Credit d'impot** : 50% x 12 000 = **6 000 EUR**
+
+### Cumul avec le credit garde d'enfant
+
+**Attention** : le credit "emploi a domicile" et le credit "garde d'enfant < 6 ans" (case 7GA) ne se cumulent **pas** pour les memes depenses. Vous devez choisir le plus avantageux.
+
+En general :
+- **Creche/assistante maternelle** → credit garde (case 7GA, plafond 3 500 EUR)
+- **Garde a domicile** → credit emploi a domicile (case 7DB, plafond 12 000 EUR+)
+
+### CESU : la solution simple
+
+Le **CESU (Cheque Emploi Service Universel)** simplifie les demarches :
+- Declaration automatique a l'URSSAF
+- Calcul des cotisations sociales
+- Attestation fiscale automatique
+
+### Declaration
+
+Inscrivez vos depenses dans la case **7DB** de votre declaration de revenus. L'attestation annuelle de l'URSSAF ou du prestataire fait foi.
+
+### Simulez votre economie
+
+Notre [simulateur d'impot](/outils/simulateur-ir) calcule le credit emploi a domicile en plus du credit garde enfant. [Testez-le gratuitement](/outils/simulateur-ir).
+
+**Voir aussi :** [Credit d'impot garde d'enfant](/blog/credit-impot-garde-enfant-2025) | [5 credits d'impot que les parents oublient](/blog/5-credits-impot-parents-oublient) | [Quotient familial](/blog/quotient-familial-comment-ca-marche)`,
+  },
 ];
 
 export function getArticleBySlug(slug: string): BlogArticle | undefined {
@@ -1055,4 +1341,24 @@ export function getAllArticles(): BlogArticle[] {
   return [...BLOG_ARTICLES].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
+}
+
+export function getAdjacentArticles(slug: string): {
+  previous: BlogArticle | null;
+  next: BlogArticle | null;
+} {
+  const sorted = getAllArticles();
+  const index = sorted.findIndex((a) => a.slug === slug);
+  return {
+    previous: index < sorted.length - 1 ? sorted[index + 1] : null,
+    next: index > 0 ? sorted[index - 1] : null,
+  };
+}
+
+export function getRelatedArticles(slug: string, maxCount: number = 3): BlogArticle[] {
+  const article = getArticleBySlug(slug);
+  if (!article) return [];
+  return getAllArticles()
+    .filter((a) => a.category === article.category && a.slug !== slug)
+    .slice(0, maxCount);
 }

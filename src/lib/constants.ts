@@ -193,6 +193,7 @@ export const SIDEBAR_NAVIGATION = [
     group: "Vue d'ensemble",
     items: [
       { label: "Tableau de bord", href: "/dashboard", icon: "LayoutDashboard" },
+      { label: "Alertes", href: "/alertes", icon: "Bell" },
     ],
   },
   {

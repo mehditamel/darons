@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { Bell, Mail, Smartphone, Lock } from "lucide-react";
+import { useState, useTransition } from "react";
+import { Bell, Mail, Smartphone, Lock, Loader2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { updateUserConsent } from "@/lib/actions/rgpd";
+import { useToast } from "@/hooks/use-toast";
 
 interface NotificationPreferencesProps {
   emailEnabled: boolean;
@@ -25,6 +27,33 @@ export function NotificationPreferences({
   const [email, setEmail] = useState(initialEmail);
   const [push, setPush] = useState(initialPush);
   const [sms, setSms] = useState(initialSms);
+  const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
+
+  function handleToggle(
+    consentType: string,
+    newValue: boolean,
+    setter: (v: boolean) => void,
+  ) {
+    setter(newValue);
+    startTransition(async () => {
+      const result = await updateUserConsent(consentType, newValue);
+      if (result.success) {
+        toast({
+          title: "Preference sauvegardee",
+          description: newValue ? "Notifications activees" : "Notifications desactivees",
+        });
+      } else {
+        // Revert on error
+        setter(!newValue);
+        toast({
+          title: "Erreur",
+          description: result.error ?? "Impossible de sauvegarder la preference",
+          variant: "destructive",
+        });
+      }
+    });
+  }
 
   return (
     <Card>
@@ -32,6 +61,7 @@ export function NotificationPreferences({
         <CardTitle className="flex items-center gap-2">
           <Bell className="h-5 w-5" />
           Notifications
+          {isPending && <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />}
         </CardTitle>
         <CardDescription>
           Choisissez comment recevoir vos alertes et rappels
@@ -46,7 +76,7 @@ export function NotificationPreferences({
           <Switch
             id="email-notif"
             checked={email}
-            onCheckedChange={setEmail}
+            onCheckedChange={(v) => handleToggle("email_notifications", v, setEmail)}
           />
         </div>
 
@@ -64,7 +94,7 @@ export function NotificationPreferences({
           <Switch
             id="push-notif"
             checked={push}
-            onCheckedChange={setPush}
+            onCheckedChange={(v) => handleToggle("push_notifications", v, setPush)}
             disabled={!hasPush}
           />
         </div>
@@ -83,13 +113,13 @@ export function NotificationPreferences({
           <Switch
             id="sms-notif"
             checked={sms}
-            onCheckedChange={setSms}
+            onCheckedChange={(v) => handleToggle("sms_notifications", v, setSms)}
             disabled={!hasSms}
           />
         </div>
 
         <p className="text-xs text-muted-foreground pt-2">
-          Les alertes critiques (vaccin en retard, document expiré) sont toujours envoyées par email.
+          Les alertes critiques (vaccin en retard, document expire) sont toujours envoyees par email.
         </p>
       </CardContent>
     </Card>

@@ -257,6 +257,109 @@ export async function generateProactiveAlerts(): Promise<ActionResult<number>> {
   return { success: true, data: alerts.length };
 }
 
+// ── Get dismissed alerts (history) ──
+
+export async function getAlertHistory(): Promise<ActionResult<ProactiveAlert[]>> {
+  const { user, supabase } = await getAuthenticatedUser();
+  if (!user) return { success: false, error: "Non authentifié" };
+
+  const householdId = await getUserHouseholdId(supabase, user.id);
+  if (!householdId) return { success: false, error: "Foyer introuvable" };
+
+  const { data, error } = await supabase
+    .from("proactive_alerts")
+    .select("*")
+    .eq("household_id", householdId)
+    .eq("dismissed", true)
+    .order("created_at", { ascending: false })
+    .limit(20);
+
+  if (error) return { success: false, error: "Erreur lors de la récupération de l'historique" };
+
+  return { success: true, data: (data ?? []).map(mapAlert) };
+}
+
+// ── Dispatch high-priority alert notifications ──
+
+export async function dispatchAlertNotifications(): Promise<ActionResult<number>> {
+  const { user, supabase } = await getAuthenticatedUser();
+  if (!user) return { success: false, error: "Non authentifié" };
+
+  const householdId = await getUserHouseholdId(supabase, user.id);
+  if (!householdId) return { success: false, error: "Foyer introuvable" };
+
+  // Get profile for plan info
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("subscription_plan, email")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile) return { success: false, error: "Profil introuvable" };
+
+  // Get high-priority alerts not yet notified
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+  const { data: recentNotifications } = await supabase
+    .from("notification_log")
+    .select("notification_type, subject")
+    .eq("household_id", householdId)
+    .gte("sent_at", sevenDaysAgo.toISOString());
+
+  const recentSubjects = new Set(
+    (recentNotifications ?? []).map((n) => n.subject)
+  );
+
+  const { data: highAlerts } = await supabase
+    .from("proactive_alerts")
+    .select("*")
+    .eq("household_id", householdId)
+    .eq("dismissed", false)
+    .eq("priority", "high")
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  const alertsToNotify = (highAlerts ?? []).filter(
+    (a) => !recentSubjects.has(a.title)
+  );
+
+  if (alertsToNotify.length === 0) {
+    return { success: true, data: 0 };
+  }
+
+  // Lazy import to avoid circular deps
+  const { dispatchNotification } = await import("@/lib/integrations/notifications");
+  const { PLAN_LIMITS } = await import("@/lib/constants");
+  const plan = (profile.subscription_plan ?? "free") as keyof typeof PLAN_LIMITS;
+
+  let dispatched = 0;
+
+  for (const alert of alertsToNotify) {
+    const alertHtml = `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #E8534A;">Alerte Darons</h2>
+        <h3>${alert.title}</h3>
+        <p>${alert.message}</p>
+        ${alert.due_date ? `<p style="color: #666;">Échéance : ${alert.due_date}</p>` : ""}
+        <p><a href="https://darons.app${alert.action_url || "/dashboard"}" style="color: #E8734A; font-weight: bold;">Voir dans Darons</a></p>
+      </div>
+    `;
+
+    await dispatchNotification(householdId, profile.email ?? user.email!, plan, {
+      type: "proactive_alert",
+      subject: alert.title,
+      htmlBody: alertHtml,
+      smsBody: `Darons: ${alert.title} — ${alert.message}`.substring(0, 160),
+      metadata: { alertId: alert.id, category: alert.category, priority: alert.priority },
+    });
+
+    dispatched++;
+  }
+
+  return { success: true, data: dispatched };
+}
+
 // ── AI usage tracking ──
 
 export async function getAiUsage(): Promise<ActionResult<{ used: number; limit: number }>> {
