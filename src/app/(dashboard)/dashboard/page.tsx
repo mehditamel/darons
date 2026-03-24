@@ -331,6 +331,33 @@ export default async function DashboardPage() {
         </p>
       </div>
 
+      {/* Empty state: no children */}
+      {children.length === 0 && (
+        <Card className="border-2 border-dashed border-warm-teal/30 bg-warm-teal/5">
+          <CardContent className="p-8 text-center space-y-4">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-warm-teal/10">
+              <Baby className="h-7 w-7 text-warm-teal" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold">Ajoute ton premier enfant</h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                Pour profiter du suivi vaccinal, des courbes de croissance et des alertes personnalisées, commence par ajouter ton moutard.
+              </p>
+            </div>
+            <div className="flex justify-center gap-3">
+              <Button asChild>
+                <Link href="/onboarding">
+                  Commencer <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href="/parametres">Gérer le foyer</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Household weather */}
       <HouseholdWeather
         health={{ label: "Sante", status: healthStatus, detail: healthDetail }}

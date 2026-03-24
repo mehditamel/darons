@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { getAllArticles } from "@/lib/blog-data";
 import { CategoryFilter } from "@/components/blog/category-filter";
 import { BlogArticleGrid } from "@/components/blog/blog-article-grid";
+import { NewsletterSignup } from "@/components/blog/newsletter-signup";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -71,6 +72,8 @@ export default function BlogPage() {
           categoryColors={CATEGORY_COLORS}
         />
       </Suspense>
+
+      <NewsletterSignup />
 
       <div className="text-center pt-8 border-t">
         <p className="text-muted-foreground mb-4">

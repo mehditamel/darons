@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getArticleBySlug, getAllArticles, getAdjacentArticles, getRelatedArticles } from "@/lib/blog-data";
 import { JsonLd } from "@/components/seo/json-ld";
+import { ShareButtons } from "@/components/blog/share-buttons";
 import { formatDate } from "@/lib/utils";
 
 interface BlogPostPageProps {
@@ -161,9 +162,15 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         <h1 className="text-3xl font-serif font-bold leading-tight mb-4">
           {article.title}
         </h1>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Calendar className="w-4 h-4" />
-          {formatDate(article.date, "d MMMM yyyy")}
+        <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
+            {formatDate(article.date, "d MMMM yyyy")}
+          </div>
+          <ShareButtons
+            url={`https://darons.app/blog/${article.slug}`}
+            title={article.title}
+          />
         </div>
       </header>
 
