@@ -170,7 +170,7 @@ export default async function GroupDetailPage({ params }: Props) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ExpenseList expenses={expenses} />
+            <ExpenseList expenses={expenses} allowDelete />
           </CardContent>
         </Card>
       </div>
