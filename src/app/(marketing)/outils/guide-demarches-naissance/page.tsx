@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     description:
       "La checklist complète des parents qui veulent rien oublier après la naissance.",
   },
+  alternates: {
+    canonical: "https://darons.app/outils/guide-demarches-naissance",
+  },
 };
 
 const STEPS = [

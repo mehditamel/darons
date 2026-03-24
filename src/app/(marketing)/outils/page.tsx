@@ -22,6 +22,9 @@ export const metadata: Metadata = {
     description:
       "15 outils gratuits pour les parents : impôts, allocations, santé, budget, droits sociaux. Sans inscription.",
   },
+  alternates: {
+    canonical: "https://darons.app/outils",
+  },
 };
 
 interface ToolCard {

@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     description:
       "Le calendrier vaccinal français expliqué simplement pour les parents.",
   },
+  alternates: {
+    canonical: "https://darons.app/outils/guide-vaccins-obligatoires",
+  },
 };
 
 const VACCINES = [

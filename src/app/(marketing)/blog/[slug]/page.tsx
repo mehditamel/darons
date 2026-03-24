@@ -32,6 +32,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       type: "article",
       publishedTime: article.date,
     },
+    twitter: {
+      card: "summary_large_image",
+      title: `${article.title} — Darons`,
+      description: article.description,
+    },
+    alternates: {
+      canonical: `https://darons.app/blog/${params.slug}`,
+    },
   };
 }
 

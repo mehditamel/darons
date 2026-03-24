@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     description:
       "Calculez votre impôt, TMI et crédits d'impôt avec le barème 2025.",
   },
+  alternates: {
+    canonical: "https://darons.app/outils/simulateur-ir",
+  },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

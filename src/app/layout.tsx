@@ -41,6 +41,12 @@ export const metadata: Metadata = {
     description:
       "L'app gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Darons — Toute ta vie de daron. Une seule app.",
+    description:
+      "L'app gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
+  },
 };
 
 export default function RootLayout({
