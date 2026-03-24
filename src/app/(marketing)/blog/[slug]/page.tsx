@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getArticleBySlug, getAllArticles, getAdjacentArticles, getRelatedArticles } from "@/lib/blog-data";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ShareButtons } from "@/components/blog/share-buttons";
+import { ReadingProgress } from "@/components/blog/reading-progress";
 import { formatDate } from "@/lib/utils";
 
 interface BlogPostPageProps {
@@ -127,6 +128,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <article className="max-w-2xl mx-auto">
+      <ReadingProgress />
       <JsonLd
         data={{
           "@context": "https://schema.org",

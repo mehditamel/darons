@@ -8,6 +8,13 @@ export interface BlogArticle {
   content: string;
 }
 
+function calculateReadTime(content: string): string {
+  const wordsPerMinute = 200;
+  const wordCount = content.split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+  return `${minutes} min`;
+}
+
 export const BLOG_ARTICLES: BlogArticle[] = [
   {
     slug: "calendrier-vaccinal-2025",
@@ -1554,14 +1561,19 @@ Notre [simulateur d'impôt](/outils/simulateur-ir) te permet de calculer exactem
   },
 ];
 
+function withReadTime(article: BlogArticle): BlogArticle {
+  return { ...article, readingTime: calculateReadTime(article.content) };
+}
+
 export function getArticleBySlug(slug: string): BlogArticle | undefined {
-  return BLOG_ARTICLES.find((a) => a.slug === slug);
+  const article = BLOG_ARTICLES.find((a) => a.slug === slug);
+  return article ? withReadTime(article) : undefined;
 }
 
 export function getAllArticles(): BlogArticle[] {
-  return [...BLOG_ARTICLES].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  return [...BLOG_ARTICLES]
+    .map(withReadTime)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export function getAdjacentArticles(slug: string): {

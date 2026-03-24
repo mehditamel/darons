@@ -24,6 +24,8 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { LandingAnimations } from "@/components/landing/landing-animations";
 import { Footer } from "@/components/layout/footer";
 import { FaqSection } from "@/components/landing/faq-section";
+import { PricingSection } from "@/components/landing/pricing-section";
+import { NewsletterSignup } from "@/components/blog/newsletter-signup";
 
 export const metadata: Metadata = {
   title: "Darons — Toute ta vie de daron. Une seule app.",
@@ -516,7 +518,15 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <PricingSection />
+
       <FaqSection />
+
+      <section className="px-4 pb-16">
+        <div className="mx-auto max-w-2xl">
+          <NewsletterSignup />
+        </div>
+      </section>
 
       <Footer />
     </div>
