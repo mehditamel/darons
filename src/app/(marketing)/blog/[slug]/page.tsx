@@ -11,6 +11,7 @@ import { ShareButtons } from "@/components/blog/share-buttons";
 import { ReadingProgress } from "@/components/blog/reading-progress";
 import { CopyableHeading } from "@/components/blog/copyable-heading";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
+import { NewsletterSignup } from "@/components/blog/newsletter-signup";
 import { formatDate } from "@/lib/utils";
 
 function slugify(text: string): string {
@@ -290,6 +291,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             Voir tous nos articles
           </Link>
         </div>
+      </div>
+
+      {/* Newsletter CTA */}
+      <div className="mt-10">
+        <NewsletterSignup />
       </div>
 
       {/* Related articles */}

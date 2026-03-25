@@ -441,7 +441,7 @@ export default function LandingPage() {
               Ils utilisent Darons au quotidien. Voici pourquoi ils ne reviennent pas en arrière.
             </p>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 name: "Sarah L.",
@@ -459,6 +459,18 @@ export default function LandingPage() {
                 name: "Amira & Karim B.",
                 role: "Parents d'un bébé de 6 mois",
                 quote: "On cherchait une crèche depuis des semaines. Avec la carte de recherche de garde, on a trouvé une micro-crèche à 10 min du boulot qu'on ne connaissait pas.",
+                stars: 5,
+              },
+              {
+                name: "Julie M.",
+                role: "Maman solo d'une fille de 4 ans",
+                quote: "J'ai économisé 1 200 € sur mes impôts grâce à la simulation. Je ne savais même pas que j'avais droit au crédit d'impôt emploi à domicile. Merci Darons !",
+                stars: 5,
+              },
+              {
+                name: "Romain & Sophie P.",
+                role: "Parents de 3 enfants (7, 4 et 1 an)",
+                quote: "On sait enfin où passe notre argent chaque mois. Le budget par enfant et les alertes CAF, c'est exactement ce qu'il nous fallait. Et c'est gratuit, sérieux ?",
                 stars: 5,
               },
             ].map((testimonial, index) => (
@@ -484,6 +496,14 @@ export default function LandingPage() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/register">
+              <Button size="lg" variant="outline" className="group">
+                Rejoins les parents qui galèrent moins
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
