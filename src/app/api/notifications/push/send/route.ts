@@ -20,7 +20,7 @@ function getSupabaseAdmin() {
 }
 
 function initVapid() {
-  const publicKey = process.env.VAPID_PUBLIC_KEY || "";
+  const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || "";
   const privateKey = process.env.VAPID_PRIVATE_KEY || "";
   const email = process.env.VAPID_EMAIL || "mailto:mehdi@tamel.fr";
   if (publicKey && privateKey) {
