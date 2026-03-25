@@ -1,6 +1,6 @@
 "use server";
 import type { ActionResult } from "@/lib/actions/safe-action";
-import { createClient } from "@/lib/supabase/server";
+import { getAuthenticatedUser } from "@/lib/actions/safe-action";
 
 // ── Types ──
 
@@ -17,10 +17,7 @@ export async function getUserConsents(): Promise<{
   data: ConsentRecord[] | null;
   error: string | null;
 }> {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user, supabase } = await getAuthenticatedUser();
 
   if (!user) return { data: null, error: "Non authentifié" };
 
@@ -51,10 +48,7 @@ export async function updateUserConsent(
   granted: boolean
 ): Promise<{ success: boolean; error: string | null }> {
   try {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user, supabase } = await getAuthenticatedUser();
 
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -97,10 +91,7 @@ export async function exportUserData(): Promise<{
   data: Record<string, unknown> | null;
   error: string | null;
 }> {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user, supabase } = await getAuthenticatedUser();
 
   if (!user) return { data: null, error: "Non authentifié" };
 
@@ -212,10 +203,7 @@ export async function requestAccountDeletion(
   reason?: string
 ): Promise<{ success: boolean; error: string | null }> {
   try {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user, supabase } = await getAuthenticatedUser();
 
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -256,10 +244,7 @@ export async function cancelAccountDeletion(): Promise<{
   error: string | null;
 }> {
   try {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user, supabase } = await getAuthenticatedUser();
 
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -286,10 +271,7 @@ export async function getDeletionStatus(): Promise<{
   pending: boolean;
   scheduledAt: string | null;
 }> {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user, supabase } = await getAuthenticatedUser();
 
   if (!user) return { pending: false, scheduledAt: null };
 

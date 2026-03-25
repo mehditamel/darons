@@ -28,12 +28,12 @@ export const metadata: Metadata = {
 
 type MilestoneCategory = "motricite" | "langage" | "cognition" | "social" | "autonomie";
 
-const CATEGORY_CONFIG: Record<MilestoneCategory, { label: string; icon: typeof Footprints; color: string; gradient: string }> = {
-  motricite: { label: "Motricité", icon: Footprints, color: "bg-warm-teal/10 text-warm-teal", gradient: "card-gradient-teal" },
-  langage: { label: "Langage", icon: MessageCircle, color: "bg-warm-blue/10 text-warm-blue", gradient: "card-gradient-blue" },
-  cognition: { label: "Cognition", icon: Brain, color: "bg-warm-purple/10 text-warm-purple", gradient: "card-gradient-purple" },
-  social: { label: "Social", icon: Users2, color: "bg-warm-orange/10 text-warm-orange", gradient: "card-gradient-orange" },
-  autonomie: { label: "Autonomie", icon: Hand, color: "bg-warm-green/10 text-warm-green", gradient: "card-gradient-green" },
+const CATEGORY_CONFIG: Record<MilestoneCategory, { label: string; icon: React.ReactNode; color: string; gradient: string }> = {
+  motricite: { label: "Motricité", icon: <Footprints className="h-5 w-5" aria-hidden="true" />, color: "bg-warm-teal/10 text-warm-teal", gradient: "card-gradient-teal" },
+  langage: { label: "Langage", icon: <MessageCircle className="h-5 w-5" aria-hidden="true" />, color: "bg-warm-blue/10 text-warm-blue", gradient: "card-gradient-blue" },
+  cognition: { label: "Cognition", icon: <Brain className="h-5 w-5" aria-hidden="true" />, color: "bg-warm-purple/10 text-warm-purple", gradient: "card-gradient-purple" },
+  social: { label: "Social", icon: <Users2 className="h-5 w-5" aria-hidden="true" />, color: "bg-warm-orange/10 text-warm-orange", gradient: "card-gradient-orange" },
+  autonomie: { label: "Autonomie", icon: <Hand className="h-5 w-5" aria-hidden="true" />, color: "bg-warm-green/10 text-warm-green", gradient: "card-gradient-green" },
 };
 
 function getMilestoneStats(

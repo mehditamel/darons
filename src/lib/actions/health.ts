@@ -1,7 +1,6 @@
 "use server";
-import type { ActionResult } from "@/lib/actions/safe-action";
+import { type ActionResult, getAuthenticatedUser } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import {
   vaccinationSchema,
   growthMeasurementSchema,
@@ -13,14 +12,6 @@ import {
 import type { Vaccination, GrowthMeasurement, MedicalAppointment } from "@/types/health";
 import { syncMedicalAppointmentToCalendar } from "@/lib/integrations/google-calendar";
 import { validateUUID } from "@/lib/validators/common";
-
-
-async function getAuthenticatedUser() {
-  const supabase = createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
-  if (error || !user) return { user: null, supabase };
-  return { user, supabase };
-}
 
 // --- Vaccinations ---
 

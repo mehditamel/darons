@@ -75,14 +75,14 @@ export default async function ActivitesPage() {
         <StatCard
           label="Activités en cours"
           value={String(totalCount)}
-          icon={Sparkles}
+          icon={<Sparkles className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-purple/10 text-warm-purple"
           gradientClass="card-gradient-purple"
         />
         <StatCard
           label="Coût mensuel"
           value={totalMonthlyCost > 0 ? formatCurrency(totalMonthlyCost) : "0 €"}
-          icon={Euro}
+          icon={<Euro className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-gold/10 text-warm-gold"
           gradientClass="card-gradient-gold"
           numericValue={totalMonthlyCost}
@@ -91,7 +91,7 @@ export default async function ActivitesPage() {
         <StatCard
           label="Jours occupés / sem."
           value={`${scheduleDays.size}`}
-          icon={Clock}
+          icon={<Clock className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-teal/10 text-warm-teal"
           gradientClass="card-gradient-teal"
           trend={scheduleDays.size > 0 ? `${Array.from(scheduleDays).slice(0, 3).join(", ")}` : undefined}

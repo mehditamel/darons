@@ -1,36 +1,12 @@
 "use server";
-import type { ActionResult } from "@/lib/actions/safe-action";
+import { type ActionResult, getAuthenticatedUser, getUserHouseholdId } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import {
   invitationSchema,
   type InvitationFormData,
 } from "@/lib/validators/sharing";
 import type { HouseholdInvitation, HouseholdMember } from "@/types/sharing";
 import { validateUUID } from "@/lib/validators/common";
-
-
-async function getAuthenticatedUser() {
-  const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-  if (error || !user) return { user: null, supabase };
-  return { user, supabase };
-}
-
-async function getUserHouseholdId(
-  supabase: ReturnType<typeof createClient>,
-  userId: string
-): Promise<string | null> {
-  const { data } = await supabase
-    .from("households")
-    .select("id")
-    .eq("owner_id", userId)
-    .single();
-  return data?.id ?? null;
-}
 
 // ── Invitations ──
 

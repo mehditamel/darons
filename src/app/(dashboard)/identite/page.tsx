@@ -43,28 +43,28 @@ export default async function IdentitePage() {
         <StatCard
           label="Total"
           value={String(documents.length)}
-          icon={IdCard}
+          icon={<IdCard className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Valides"
           value={String(validCount)}
-          icon={CheckCircle}
+          icon={<CheckCircle className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-green/10 text-warm-green"
           gradientClass="card-gradient-green"
         />
         <StatCard
           label="À renouveler"
           value={String(expiringSoonCount)}
-          icon={AlertTriangle}
+          icon={<AlertTriangle className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-orange/10 text-warm-orange"
           gradientClass="card-gradient-orange"
         />
         <StatCard
           label="Expirés"
           value={String(expiredCount)}
-          icon={XCircle}
+          icon={<XCircle className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-red/10 text-warm-red"
           gradientClass="card-gradient-red"
         />

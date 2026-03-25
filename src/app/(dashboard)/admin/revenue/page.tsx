@@ -50,28 +50,28 @@ export default async function AdminRevenuePage() {
         <StatCard
           label="MRR"
           value={formatCurrency(revenue.mrr)}
-          icon={DollarSign}
+          icon={<DollarSign className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-green/10 text-warm-green"
           gradientClass="card-gradient-green"
         />
         <StatCard
           label="ARR"
           value={formatCurrency(revenue.arr)}
-          icon={TrendingUp}
+          icon={<TrendingUp className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="ARPU"
           value={formatCurrency(revenue.arpu)}
-          icon={CreditCard}
+          icon={<CreditCard className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-gold/10 text-warm-gold"
           gradientClass="card-gradient-gold"
         />
         <StatCard
           label="Abonnés payants"
           value={String(revenue.totalPaying)}
-          icon={Users}
+          icon={<Users className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-purple/10 text-warm-purple"
           gradientClass="card-gradient-purple"
           trend={revenue.premiumUsers > 0 ? `${revenue.premiumUsers} Premium + ${revenue.familyProUsers} Pro` : undefined}

@@ -1,23 +1,11 @@
 "use server";
-import type { ActionResult } from "@/lib/actions/safe-action";
+import { type ActionResult, getAuthenticatedUser } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import {
   referralSchema,
   type ReferralFormData,
 } from "@/lib/validators/sharing";
 import type { Referral } from "@/types/sharing";
-
-
-async function getAuthenticatedUser() {
-  const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-  if (error || !user) return { user: null, supabase };
-  return { user, supabase };
-}
 
 interface ReferralRow {
   id: string;

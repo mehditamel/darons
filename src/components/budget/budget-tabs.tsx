@@ -89,25 +89,25 @@ export function BudgetTabs({
         <StatCard
           label="Dépenses du mois"
           value={formatCurrency(summary.totalExpenses)}
-          icon={Receipt}
+          icon={<Receipt className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-red/10 text-warm-red"
         />
         <StatCard
           label="Allocations CAF"
           value={formatCurrency(summary.totalAllocations)}
-          icon={HandCoins}
+          icon={<HandCoins className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-green/10 text-warm-green"
         />
         <StatCard
           label="Reste à vivre"
           value={formatCurrency(restAVivre)}
-          icon={BarChart3}
+          icon={<BarChart3 className="h-5 w-5" aria-hidden="true" />}
           color={restAVivre >= 0 ? "bg-warm-teal/10 text-warm-teal" : "bg-warm-red/10 text-warm-red"}
         />
         <StatCard
           label="Entrées budget"
           value={`${summary.entryCount}`}
-          icon={Target}
+          icon={<Target className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
         />
       </div>

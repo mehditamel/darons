@@ -1,8 +1,7 @@
 "use server";
-import type { ActionResult } from "@/lib/actions/safe-action";
+import { type ActionResult, getAuthenticatedUser, type SupabaseClient } from "@/lib/actions/safe-action";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import type { AdminMetricsDaily } from "@/types/sharing";
 import type { AdminUser } from "@/components/admin/user-management-table";
 import type { RevenueData } from "@/components/admin/revenue-charts";
@@ -10,18 +9,8 @@ import type { CohortData } from "@/components/admin/cohort-heatmap";
 import type { SystemHealthData } from "@/components/admin/system-status";
 
 
-async function getAuthenticatedUser() {
-  const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-  if (error || !user) return { user: null, supabase };
-  return { user, supabase };
-}
-
 async function isAdmin(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   userId: string
 ): Promise<boolean> {
   const { data } = await supabase

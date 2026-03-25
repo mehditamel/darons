@@ -1,7 +1,6 @@
 "use server";
-import type { ActionResult } from "@/lib/actions/safe-action";
+import { type ActionResult, getAuthenticatedUser, getUserHouseholdId } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { documentUploadSchema, type DocumentUploadFormData } from "@/lib/validators/documents";
 import type { Document } from "@/types/budget";
 import { validateUUID } from "@/lib/validators/common";
@@ -10,22 +9,6 @@ import { validateUUID } from "@/lib/validators/common";
 export interface DocumentWithMember extends Document {
   memberFirstName?: string;
   memberLastName?: string;
-}
-
-async function getAuthenticatedUser() {
-  const supabase = createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
-  if (error || !user) return { user: null, supabase };
-  return { user, supabase };
-}
-
-async function getUserHouseholdId(supabase: ReturnType<typeof createClient>, userId: string) {
-  const { data } = await supabase
-    .from("households")
-    .select("id")
-    .eq("owner_id", userId)
-    .single();
-  return data?.id ?? null;
 }
 
 export async function getDocuments(filters?: {

@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp, TrendingDown, type LucideIcon } from "lucide-react";
+import { TrendingUp, TrendingDown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { AnimatedCounter } from "@/components/shared/animated-counter";
 import { cn } from "@/lib/utils";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 interface StatCardProps {
   label: string;
   value: string;
-  icon: LucideIcon;
+  icon: React.ReactNode;
   trend?: string;
   trendUp?: boolean;
   color?: string;
@@ -22,7 +22,7 @@ interface StatCardProps {
 export function StatCard({
   label,
   value,
-  icon: Icon,
+  icon,
   trend,
   trendUp,
   color = "bg-primary/10 text-primary",
@@ -80,7 +80,7 @@ export function StatCard({
               color
             )}
           >
-            <Icon className="h-5 w-5" aria-hidden="true" />
+            {icon}
           </div>
         </div>
       </CardContent>

@@ -137,7 +137,7 @@ export default async function ScolaritePage() {
         <StatCard
           label="Niveau actuel"
           value={currentLevel ? currentLevel.label : tooYoung ? "Pas encore" : "—"}
-          icon={GraduationCap}
+          icon={<GraduationCap className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
           trend={currentLevel ? currentLevel.type : undefined}
@@ -145,7 +145,7 @@ export default async function ScolaritePage() {
         <StatCard
           label="Prochaine rentrée"
           value={`${nextRentree.daysUntil}j`}
-          icon={CalendarDays}
+          icon={<CalendarDays className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-orange/10 text-warm-orange"
           gradientClass="card-gradient-orange"
           trend={`septembre ${nextRentree.date.getFullYear()}`}
@@ -153,7 +153,7 @@ export default async function ScolaritePage() {
         <StatCard
           label="Établissement"
           value={latestSchooling?.establishment ?? "Non renseigné"}
-          icon={School}
+          icon={<School className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-purple/10 text-warm-purple"
           gradientClass="card-gradient-purple"
           trend={latestSchooling?.schoolYear ?? undefined}

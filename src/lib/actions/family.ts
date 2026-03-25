@@ -1,19 +1,9 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { familyMemberSchema, householdSchema, profileSchema, type FamilyMemberFormData, type HouseholdFormData, type ProfileFormData } from "@/lib/validators/family";
 import { validateUUID } from "@/lib/validators/common";
-import type { ActionResult } from "@/lib/actions/safe-action";
+import { type ActionResult, getAuthenticatedUser } from "@/lib/actions/safe-action";
 import type { FamilyMember, Household } from "@/types/family";
-
-async function getAuthenticatedUser() {
-  const supabase = createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
-  if (error || !user) {
-    return { user: null, supabase };
-  }
-  return { user, supabase };
-}
 
 export async function getHousehold(): Promise<ActionResult<Household>> {
   const { user, supabase } = await getAuthenticatedUser();

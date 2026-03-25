@@ -47,21 +47,21 @@ export default async function AdminCohortsPage() {
         <StatCard
           label="Cohortes"
           value={String(totalCohorts)}
-          icon={BarChart3}
+          icon={<BarChart3 className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Utilisateurs suivis"
           value={String(totalUsersTracked)}
-          icon={Users}
+          icon={<Users className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-teal/10 text-warm-teal"
           gradientClass="card-gradient-teal"
         />
         <StatCard
           label="Dernière cohorte"
           value={latestCohort ? formatDate(latestCohort.cohortDate, "MMM yyyy") : "—"}
-          icon={Calendar}
+          icon={<Calendar className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-purple/10 text-warm-purple"
           gradientClass="card-gradient-purple"
           trend={latestCohort ? `${latestCohort.totalUsers} utilisateurs` : undefined}

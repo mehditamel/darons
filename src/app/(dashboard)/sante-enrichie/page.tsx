@@ -128,7 +128,7 @@ export default async function SanteEnrichiePage() {
         <StatCard
           label="Examens complétés"
           value={`${completedExams}/${totalExpectedExams}`}
-          icon={ClipboardCheck}
+          icon={<ClipboardCheck className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-teal/10 text-warm-teal"
           gradientClass="card-gradient-teal"
           trend={totalExpectedExams > 0 ? `${Math.round((completedExams / totalExpectedExams) * 100)}%` : undefined}
@@ -137,21 +137,21 @@ export default async function SanteEnrichiePage() {
         <StatCard
           label="Allergies connues"
           value={String(allAllergies.length)}
-          icon={AllergyIcon}
+          icon={<AllergyIcon className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-orange/10 text-warm-orange"
           gradientClass="card-gradient-orange"
         />
         <StatCard
           label="Ordonnances"
           value={String(allPrescriptions.length)}
-          icon={Pill}
+          icon={<Pill className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Dernier journal"
           value={latestJournal ? formatRelativeDate(latestJournal.createdAt) : "—"}
-          icon={BookHeart}
+          icon={<BookHeart className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-purple/10 text-warm-purple"
           gradientClass="card-gradient-purple"
         />

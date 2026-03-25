@@ -60,21 +60,21 @@ export default async function GardePage() {
         <StatCard
           label="Favoris"
           value={String(favorites.length)}
-          icon={Heart}
+          icon={<Heart className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-red/10 text-warm-red"
           gradientClass="card-gradient-red"
         />
         <StatCard
           label="Structures disponibles"
           value={String(structures.length)}
-          icon={MapPin}
+          icon={<MapPin className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Tarif moyen/heure"
           value={avgHourlyRate ? formatCurrency(avgHourlyRate) : "—"}
-          icon={Euro}
+          icon={<Euro className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-teal/10 text-warm-teal"
           gradientClass="card-gradient-teal"
         />
