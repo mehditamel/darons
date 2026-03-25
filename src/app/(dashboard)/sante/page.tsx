@@ -106,7 +106,7 @@ export default async function SantePage() {
         <StatCard
           label="Vaccins faits"
           value={totalExpectedDoses > 0 ? `${vaccinsDone}/${totalExpectedDoses}` : String(vaccinsDone)}
-          icon={Syringe}
+          icon={<Syringe className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-teal/10 text-warm-teal"
           gradientClass="card-gradient-teal"
           trend={totalExpectedDoses > 0 ? `${Math.round((vaccinsDone / totalExpectedDoses) * 100)}%` : undefined}
@@ -115,21 +115,21 @@ export default async function SantePage() {
         <StatCard
           label="RDV à venir"
           value={String(upcomingAppointments.length)}
-          icon={Calendar}
+          icon={<Calendar className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="RDV complétés"
           value={String(completedAppointments)}
-          icon={CheckCircle}
+          icon={<CheckCircle className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-green/10 text-warm-green"
           gradientClass="card-gradient-green"
         />
         <StatCard
           label="Dernière mesure"
           value={latestMeasurement ? formatRelativeDate(latestMeasurement.measurementDate) : "—"}
-          icon={Ruler}
+          icon={<Ruler className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-purple/10 text-warm-purple"
           gradientClass="card-gradient-purple"
         />

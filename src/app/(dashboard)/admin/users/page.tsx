@@ -49,14 +49,14 @@ export default async function AdminUsersPage() {
         <StatCard
           label="Total utilisateurs"
           value={String(totalUsers)}
-          icon={Users}
+          icon={<Users className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Premium / Pro"
           value={String(premiumUsers)}
-          icon={Crown}
+          icon={<Crown className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-gold/10 text-warm-gold"
           gradientClass="card-gradient-gold"
           trend={totalUsers > 0 ? `${Math.round((premiumUsers / totalUsers) * 100)}% conversion` : undefined}
@@ -65,7 +65,7 @@ export default async function AdminUsersPage() {
         <StatCard
           label="Inscrits ce mois"
           value={String(newThisMonth)}
-          icon={CalendarPlus}
+          icon={<CalendarPlus className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-teal/10 text-warm-teal"
           gradientClass="card-gradient-teal"
         />

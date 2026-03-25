@@ -74,14 +74,14 @@ export default async function DemarchesPage() {
         <StatCard
           label="Total démarches"
           value={String(totalTasks)}
-          icon={ClipboardList}
+          icon={<ClipboardList className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Complétées"
           value={String(completedTasks)}
-          icon={CheckCircle}
+          icon={<CheckCircle className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-green/10 text-warm-green"
           gradientClass="card-gradient-green"
           trend={`${completionPct}%`}
@@ -90,14 +90,14 @@ export default async function DemarchesPage() {
         <StatCard
           label="En retard"
           value={String(overdueTasks.length)}
-          icon={Clock}
+          icon={<Clock className="h-5 w-5" aria-hidden="true" />}
           color={overdueTasks.length > 0 ? "bg-warm-red/10 text-warm-red" : "bg-warm-green/10 text-warm-green"}
           gradientClass={overdueTasks.length > 0 ? "card-gradient-red" : "card-gradient-green"}
         />
         <StatCard
           label="Urgentes"
           value={String(urgentTasks.length)}
-          icon={AlertTriangle}
+          icon={<AlertTriangle className="h-5 w-5" aria-hidden="true" />}
           color={urgentTasks.length > 0 ? "bg-warm-orange/10 text-warm-orange" : "bg-warm-green/10 text-warm-green"}
           gradientClass={urgentTasks.length > 0 ? "card-gradient-orange" : "card-gradient-green"}
         />

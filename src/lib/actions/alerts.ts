@@ -1,34 +1,10 @@
 "use server";
-import type { ActionResult } from "@/lib/actions/safe-action";
+import { type ActionResult, getAuthenticatedUser, getUserHouseholdId } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { differenceInMonths, differenceInDays, format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { VACCINATION_SCHEDULE } from "@/lib/constants";
 import type { ProactiveAlert, AlertPriority, AlertCategory } from "@/types/ai";
-
-
-async function getAuthenticatedUser() {
-  const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-  if (error || !user) return { user: null, supabase };
-  return { user, supabase };
-}
-
-async function getUserHouseholdId(
-  supabase: ReturnType<typeof createClient>,
-  userId: string
-): Promise<string | null> {
-  const { data } = await supabase
-    .from("households")
-    .select("id")
-    .eq("owner_id", userId)
-    .single();
-  return data?.id ?? null;
-}
 
 function mapAlert(row: Record<string, unknown>): ProactiveAlert {
   return {
@@ -328,33 +304,38 @@ export async function dispatchAlertNotifications(): Promise<ActionResult<number>
     return { success: true, data: 0 };
   }
 
-  // Lazy import to avoid circular deps
-  const { dispatchNotification } = await import("@/lib/integrations/notifications");
-  const { PLAN_LIMITS } = await import("@/lib/constants");
-  const plan = (profile.subscription_plan ?? "free") as keyof typeof PLAN_LIMITS;
-
   let dispatched = 0;
 
-  for (const alert of alertsToNotify) {
-    const alertHtml = `
-      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #E8534A;">Alerte Darons</h2>
-        <h3>${alert.title}</h3>
-        <p>${alert.message}</p>
-        ${alert.due_date ? `<p style="color: #666;">Échéance : ${alert.due_date}</p>` : ""}
-        <p><a href="https://darons.app${alert.action_url || "/dashboard"}" style="color: #E8734A; font-weight: bold;">Voir dans Darons</a></p>
-      </div>
-    `;
+  try {
+    // Lazy import to avoid circular deps
+    const { dispatchNotification } = await import("@/lib/integrations/notifications");
+    const { PLAN_LIMITS } = await import("@/lib/constants");
+    const plan = (profile.subscription_plan ?? "free") as keyof typeof PLAN_LIMITS;
 
-    await dispatchNotification(householdId, profile.email ?? user.email!, plan, {
-      type: "proactive_alert",
-      subject: alert.title,
-      htmlBody: alertHtml,
-      smsBody: `Darons: ${alert.title} — ${alert.message}`.substring(0, 160),
-      metadata: { alertId: alert.id, category: alert.category, priority: alert.priority },
-    });
+    for (const alert of alertsToNotify) {
+      const alertHtml = `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #E8534A;">Alerte Darons</h2>
+          <h3>${alert.title}</h3>
+          <p>${alert.message}</p>
+          ${alert.due_date ? `<p style="color: #666;">Échéance : ${alert.due_date}</p>` : ""}
+          <p><a href="https://darons.app${alert.action_url || "/dashboard"}" style="color: #E8734A; font-weight: bold;">Voir dans Darons</a></p>
+        </div>
+      `;
 
-    dispatched++;
+      await dispatchNotification(householdId, profile.email ?? user.email!, plan, {
+        type: "proactive_alert",
+        subject: alert.title,
+        htmlBody: alertHtml,
+        smsBody: `Darons: ${alert.title} — ${alert.message}`.substring(0, 160),
+        metadata: { alertId: alert.id, category: alert.category, priority: alert.priority },
+      });
+
+      dispatched++;
+    }
+  } catch (error) {
+    console.error("[dispatchAlertNotifications] Notification dispatch failed:", error);
+    return { success: false, error: "Erreur lors de l'envoi des notifications" };
   }
 
   return { success: true, data: dispatched };

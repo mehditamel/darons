@@ -70,28 +70,28 @@ export default async function DocumentsPage() {
         <StatCard
           label="Documents"
           value={String(documents.length)}
-          icon={FileText}
+          icon={<FileText className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Catégories"
           value={String(categories.size)}
-          icon={FolderLock}
+          icon={<FolderLock className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-purple/10 text-warm-purple"
           gradientClass="card-gradient-purple"
         />
         <StatCard
           label="Espace utilisé"
           value={formatStorageUsed(totalSize)}
-          icon={HardDrive}
+          icon={<HardDrive className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-teal/10 text-warm-teal"
           gradientClass="card-gradient-teal"
         />
         <StatCard
           label="Dernier ajout"
           value={latestUpload ? formatRelativeDate(latestUpload.uploadedAt) : "—"}
-          icon={Clock}
+          icon={<Clock className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-orange/10 text-warm-orange"
           gradientClass="card-gradient-orange"
         />

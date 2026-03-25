@@ -65,28 +65,28 @@ export function SimulationResults({ result, input }: SimulationResultsProps) {
         <StatCard
           label="Impôt net"
           value={formatCurrency(result.impotNet)}
-          icon={Calculator}
+          icon={<Calculator className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-gold/10 text-warm-gold"
           gradientClass="card-gradient-gold"
         />
         <StatCard
           label="TMI"
           value={`${result.tmi}%`}
-          icon={TrendingDown}
+          icon={<TrendingDown className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-orange/10 text-warm-orange"
           gradientClass="card-gradient-orange"
         />
         <StatCard
           label="Taux effectif"
           value={`${result.tauxEffectif}%`}
-          icon={Percent}
+          icon={<Percent className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Quotient familial"
           value={formatCurrency(result.quotientFamilial)}
-          icon={DivideSquare}
+          icon={<DivideSquare className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-teal/10 text-warm-teal"
           gradientClass="card-gradient-teal"
         />

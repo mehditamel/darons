@@ -104,28 +104,28 @@ export default async function FiscalPage() {
         <StatCard
           label="Parts fiscales"
           value={String(latestYear?.nbParts ?? defaultNbParts)}
-          icon={Users}
+          icon={<Users className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-gold/10 text-warm-gold"
           gradientClass="card-gradient-gold"
         />
         <StatCard
           label="TMI"
           value={simulationResult ? `${simulationResult.tmi} %` : "—"}
-          icon={Percent}
+          icon={<Percent className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-orange/10 text-warm-orange"
           gradientClass="card-gradient-orange"
         />
         <StatCard
           label="Impôt net"
           value={simulationResult ? formatCurrency(simulationResult.impotNet) : "—"}
-          icon={Calculator}
+          icon={<Calculator className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Économie famille"
           value={savingsVsSingle !== null ? formatCurrency(savingsVsSingle) : "—"}
-          icon={TrendingDown}
+          icon={<TrendingDown className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-green/10 text-warm-green"
           gradientClass="card-gradient-green"
           trend={savingsVsSingle !== null ? "vs célibataire sans enfant" : undefined}

@@ -47,14 +47,14 @@ export default async function AdminSystemPage() {
         <StatCard
           label="Services"
           value={String(totalServices)}
-          icon={Server}
+          icon={<Server className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />
         <StatCard
           label="Opérationnels"
           value={String(healthyServices)}
-          icon={CheckCircle}
+          icon={<CheckCircle className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-green/10 text-warm-green"
           gradientClass="card-gradient-green"
           trend={totalServices > 0 ? `${Math.round((healthyServices / totalServices) * 100)}%` : undefined}
@@ -63,14 +63,14 @@ export default async function AdminSystemPage() {
         <StatCard
           label="Dégradés / Down"
           value={String(degradedOrDown)}
-          icon={AlertTriangle}
+          icon={<AlertTriangle className="h-5 w-5" aria-hidden="true" />}
           color={degradedOrDown > 0 ? "bg-warm-red/10 text-warm-red" : "bg-warm-green/10 text-warm-green"}
           gradientClass={degradedOrDown > 0 ? "card-gradient-red" : "card-gradient-green"}
         />
         <StatCard
           label="Erreurs récentes"
           value={String(recentErrors)}
-          icon={Activity}
+          icon={<Activity className="h-5 w-5" aria-hidden="true" />}
           color={recentErrors > 0 ? "bg-warm-orange/10 text-warm-orange" : "bg-warm-green/10 text-warm-green"}
           gradientClass={recentErrors > 0 ? "card-gradient-orange" : "card-gradient-green"}
         />

@@ -121,7 +121,7 @@ export default async function BudgetPage({
         <StatCard
           label="Dépenses du mois"
           value={formatCurrency(summary.totalExpenses)}
-          icon={TrendingDown}
+          icon={<TrendingDown className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-red/10 text-warm-red"
           gradientClass="card-gradient-red"
           trend={expenseTrend !== null ? `${expenseTrend > 0 ? "+" : ""}${expenseTrend.toFixed(0)}% vs mois dernier` : undefined}
@@ -130,21 +130,21 @@ export default async function BudgetPage({
         <StatCard
           label="Allocations CAF"
           value={formatCurrency(summary.totalAllocations)}
-          icon={HandCoins}
+          icon={<HandCoins className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-green/10 text-warm-green"
           gradientClass="card-gradient-green"
         />
         <StatCard
           label="Solde net"
           value={formatCurrency(summary.netBalance)}
-          icon={summary.netBalance >= 0 ? TrendingUp : TrendingDown}
+          icon={summary.netBalance >= 0 ? <TrendingUp className="h-5 w-5" aria-hidden="true" /> : <TrendingDown className="h-5 w-5" aria-hidden="true" />}
           color={summary.netBalance >= 0 ? "bg-warm-green/10 text-warm-green" : "bg-warm-red/10 text-warm-red"}
           gradientClass={summary.netBalance >= 0 ? "card-gradient-green" : "card-gradient-red"}
         />
         <StatCard
           label="Opérations"
           value={String(summary.entryCount)}
-          icon={Receipt}
+          icon={<Receipt className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           gradientClass="card-gradient-blue"
         />

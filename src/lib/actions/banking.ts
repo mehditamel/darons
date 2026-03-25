@@ -1,8 +1,7 @@
 "use server";
-import type { ActionResult } from "@/lib/actions/safe-action";
+import { type ActionResult, getAuthenticatedUser, getUserHouseholdId } from "@/lib/actions/safe-action";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { bridgeClient, isBridgeConfigured } from "@/lib/integrations/bridge";
 import { categorizeTransactions } from "@/lib/ai/categorize-transactions";
 import type { BankTransactionFilter } from "@/lib/validators/banking";
@@ -45,28 +44,6 @@ export interface BankTransaction {
   isRecurring: boolean;
   tags: string[];
   createdAt: string;
-}
-
-async function getAuthenticatedUser() {
-  const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-  if (error || !user) return { user: null, supabase };
-  return { user, supabase };
-}
-
-async function getUserHouseholdId(
-  supabase: ReturnType<typeof createClient>,
-  userId: string
-): Promise<string | null> {
-  const { data } = await supabase
-    .from("households")
-    .select("id")
-    .eq("owner_id", userId)
-    .single();
-  return data?.id ?? null;
 }
 
 interface BankConnectionRow {

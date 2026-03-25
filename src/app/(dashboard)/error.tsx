@@ -38,6 +38,16 @@ export default function DashboardError({
             <RefreshCw className="h-4 w-4" />
             Réessayer
           </Button>
+          {error.digest && (
+            <p className="text-xs text-muted-foreground mt-2">
+              Référence : {error.digest}
+            </p>
+          )}
+          {process.env.NODE_ENV === "development" && error.message && (
+            <pre className="mt-4 text-xs text-left bg-muted p-3 rounded overflow-auto max-h-40">
+              {error.message}
+            </pre>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -24,78 +24,82 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   let userEmail = "";
   let userInitials = "?";
   let alertCount = 0;
   const sidebarBadges: Record<string, number> = {};
 
-  if (user) {
-    userEmail = user.email ?? "";
+  try {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("first_name, last_name")
-      .eq("id", user.id)
-      .single();
+    if (user) {
+      userEmail = user.email ?? "";
 
-    if (profile) {
-      const first = profile.first_name?.[0] ?? "";
-      const last = profile.last_name?.[0] ?? "";
-      userInitials = (first + last).toUpperCase() || "?";
-    }
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("first_name, last_name")
+        .eq("id", user.id)
+        .single();
 
-    const { data: household } = await supabase
-      .from("households")
-      .select("id")
-      .eq("owner_id", user.id)
-      .single();
+      if (profile) {
+        const first = profile.first_name?.[0] ?? "";
+        const last = profile.last_name?.[0] ?? "";
+        userInitials = (first + last).toUpperCase() || "?";
+      }
 
-    if (household) {
-      // Fetch family member IDs first to avoid nested await inside Promise.all
-      const { data: members } = await supabase
-        .from("family_members")
+      const { data: household } = await supabase
+        .from("households")
         .select("id")
-        .eq("household_id", household.id);
-      const memberIds = members?.map((m: { id: string }) => m.id) ?? [];
+        .eq("owner_id", user.id)
+        .single();
 
-      const [alertsRes, expiringRes] = await Promise.all([
-        supabase
-          .from("proactive_alerts")
-          .select("id, category", { count: "exact" })
-          .eq("household_id", household.id)
-          .eq("dismissed", false),
-        memberIds.length > 0
-          ? supabase
-              .from("identity_documents")
-              .select("id", { count: "exact", head: true })
-              .in("member_id", memberIds)
-              .or("status.eq.expired,status.eq.expiring_soon")
-          : Promise.resolve({ count: 0, data: null }),
-      ]);
+      if (household) {
+        // Fetch family member IDs first to avoid nested await inside Promise.all
+        const { data: members } = await supabase
+          .from("family_members")
+          .select("id")
+          .eq("household_id", household.id);
+        const memberIds = members?.map((m: { id: string }) => m.id) ?? [];
 
-      alertCount = alertsRes.count ?? 0;
+        const [alertsRes, expiringRes] = await Promise.all([
+          supabase
+            .from("proactive_alerts")
+            .select("id, category", { count: "exact" })
+            .eq("household_id", household.id)
+            .eq("dismissed", false),
+          memberIds.length > 0
+            ? supabase
+                .from("identity_documents")
+                .select("id", { count: "exact", head: true })
+                .in("member_id", memberIds)
+                .or("status.eq.expired,status.eq.expiring_soon")
+            : Promise.resolve({ count: 0, data: null }),
+        ]);
 
-      // Count alerts by category for sidebar badges
-      const alerts = alertsRes.data ?? [];
-      for (const alert of alerts) {
-        const cat = alert.category as string;
-        if (cat === "sante") sidebarBadges["/sante"] = (sidebarBadges["/sante"] ?? 0) + 1;
-        else if (cat === "fiscal") sidebarBadges["/fiscal"] = (sidebarBadges["/fiscal"] ?? 0) + 1;
-        else if (cat === "identite") sidebarBadges["/identite"] = (sidebarBadges["/identite"] ?? 0) + 1;
-        else if (cat === "caf" || cat === "scolarite") sidebarBadges["/demarches"] = (sidebarBadges["/demarches"] ?? 0) + 1;
-      }
+        alertCount = alertsRes.count ?? 0;
 
-      // Add expiring docs badge
-      const expiringCount = expiringRes.count ?? 0;
-      if (expiringCount > 0) {
-        sidebarBadges["/identite"] = (sidebarBadges["/identite"] ?? 0) + expiringCount;
+        // Count alerts by category for sidebar badges
+        const alerts = alertsRes.data ?? [];
+        for (const alert of alerts) {
+          const cat = alert.category as string;
+          if (cat === "sante") sidebarBadges["/sante"] = (sidebarBadges["/sante"] ?? 0) + 1;
+          else if (cat === "fiscal") sidebarBadges["/fiscal"] = (sidebarBadges["/fiscal"] ?? 0) + 1;
+          else if (cat === "identite") sidebarBadges["/identite"] = (sidebarBadges["/identite"] ?? 0) + 1;
+          else if (cat === "caf" || cat === "scolarite") sidebarBadges["/demarches"] = (sidebarBadges["/demarches"] ?? 0) + 1;
+        }
+
+        // Add expiring docs badge
+        const expiringCount = expiringRes.count ?? 0;
+        if (expiringCount > 0) {
+          sidebarBadges["/identite"] = (sidebarBadges["/identite"] ?? 0) + expiringCount;
+        }
       }
     }
+  } catch (error) {
+    console.error("[DashboardLayout] Erreur lors du chargement des donnees utilisateur:", error);
   }
 
   return (

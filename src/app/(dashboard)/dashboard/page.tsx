@@ -185,8 +185,12 @@ export default async function DashboardPage() {
   const latestFiscal = fiscalYears.length > 0 ? fiscalYears[0] : null;
 
   // Generate alerts + dispatch notifications for high priority ones
-  await generateProactiveAlerts();
-  await dispatchAlertNotifications();
+  try { await generateProactiveAlerts(); } catch (e) {
+    console.error("[dashboard] Alert generation failed:", e);
+  }
+  try { await dispatchAlertNotifications(); } catch (e) {
+    console.error("[dashboard] Notification dispatch failed:", e);
+  }
 
   const alertsResult = await getAlerts();
   const proactiveAlerts = alertsResult.data ?? [];
@@ -402,14 +406,14 @@ export default async function DashboardPage() {
         <StatCard
           label="Famille"
           value={`${members.length} membre${members.length > 1 ? "s" : ""}`}
-          icon={Users}
+          icon={<Users className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-teal/10 text-warm-teal"
           gradientClass="card-gradient-teal"
         />
         <StatCard
           label="Vaccins"
           value={totalDoses > 0 ? `${vaccPercent}%` : "\u2014"}
-          icon={Syringe}
+          icon={<Syringe className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-orange/10 text-warm-orange"
           trend={totalDoses > 0 ? `${doneDoses}/${totalDoses} doses` : undefined}
           trendUp={vaccPercent >= 80}
@@ -418,7 +422,7 @@ export default async function DashboardPage() {
         <StatCard
           label="Identite"
           value={String(identityDocs.length)}
-          icon={IdCard}
+          icon={<IdCard className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
           trend={expiring.length > 0 ? `${expiring.length} expire${expiring.length > 1 ? "nt" : ""} bientot` : undefined}
           trendUp={false}
@@ -427,7 +431,7 @@ export default async function DashboardPage() {
         <StatCard
           label="Coffre-fort"
           value={`${vaultDocs.length} doc${vaultDocs.length > 1 ? "s" : ""}`}
-          icon={FolderLock}
+          icon={<FolderLock className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-purple/10 text-warm-purple"
           gradientClass="card-gradient-purple"
         />
