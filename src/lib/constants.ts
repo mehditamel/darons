@@ -182,6 +182,37 @@ export const DEVELOPMENT_MILESTONES_REFERENCE = [
   { category: "autonomie", name: "S'habille seul", expectedAgeMonths: 36 },
 ] as const;
 
+// Échéancier fiscal annuel (dates clés)
+export const FISCAL_DEADLINES = [
+  { label: "Ouverture déclaration en ligne", month: 4, day: 10, description: "Début de la campagne de déclaration" },
+  { label: "Date limite déclaration (zone 1)", month: 5, day: 22, description: "Départements 01 à 19 + non-résidents" },
+  { label: "Date limite déclaration (zone 2)", month: 5, day: 29, description: "Départements 20 à 54" },
+  { label: "Date limite déclaration (zone 3)", month: 6, day: 5, description: "Départements 55 à 976" },
+  { label: "Réception avis d'imposition", month: 7, day: 25, description: "Avis disponible en ligne" },
+  { label: "Solde IR (si reste à payer)", month: 9, day: 15, description: "Prélèvement du solde d'impôt" },
+  { label: "Acompte prélèvement à la source", month: 9, day: 15, description: "Ajustement du taux de PAS" },
+] as const;
+
+// Mapping âge → niveau scolaire français
+export const SCHOOL_LEVELS = [
+  { minAge: 2, maxAge: 3, level: "TPS", label: "Toute Petite Section", type: "maternelle" },
+  { minAge: 3, maxAge: 4, level: "PS", label: "Petite Section", type: "maternelle" },
+  { minAge: 4, maxAge: 5, level: "MS", label: "Moyenne Section", type: "maternelle" },
+  { minAge: 5, maxAge: 6, level: "GS", label: "Grande Section", type: "maternelle" },
+  { minAge: 6, maxAge: 7, level: "CP", label: "CP", type: "élémentaire" },
+  { minAge: 7, maxAge: 8, level: "CE1", label: "CE1", type: "élémentaire" },
+  { minAge: 8, maxAge: 9, level: "CE2", label: "CE2", type: "élémentaire" },
+  { minAge: 9, maxAge: 10, level: "CM1", label: "CM1", type: "élémentaire" },
+  { minAge: 10, maxAge: 11, level: "CM2", label: "CM2", type: "élémentaire" },
+  { minAge: 11, maxAge: 12, level: "6e", label: "Sixième", type: "collège" },
+  { minAge: 12, maxAge: 13, level: "5e", label: "Cinquième", type: "collège" },
+  { minAge: 13, maxAge: 14, level: "4e", label: "Quatrième", type: "collège" },
+  { minAge: 14, maxAge: 15, level: "3e", label: "Troisième", type: "collège" },
+  { minAge: 15, maxAge: 16, level: "2nde", label: "Seconde", type: "lycée" },
+  { minAge: 16, maxAge: 17, level: "1ère", label: "Première", type: "lycée" },
+  { minAge: 17, maxAge: 18, level: "Tle", label: "Terminale", type: "lycée" },
+] as const;
+
 // Darons est gratuit — pas de pricing
 export const PLAN_PRICING = {
   free: { price: 0, label: "Gratuit" },

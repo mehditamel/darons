@@ -82,6 +82,28 @@ export function ShareButtons({ url, title }: ShareButtonsProps) {
       <Button
         variant="ghost"
         size="sm"
+        className="h-8 px-2 text-xs"
+        onClick={() =>
+          openShare(
+            `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`
+          )
+        }
+      >
+        WhatsApp
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-8 px-2 text-xs"
+        asChild
+      >
+        <a href={`mailto:?subject=${encodedTitle}&body=${encodedUrl}`}>
+          Email
+        </a>
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
         className="h-8 px-2 text-xs gap-1"
         onClick={copyLink}
       >

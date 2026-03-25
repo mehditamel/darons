@@ -38,7 +38,7 @@ export default function MarketingLayout({
       >
         Aller au contenu principal
       </a>
-      <header className="border-b bg-background">
+      <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4">
           <Link href="/" className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-warm-orange text-white font-bold text-sm">
@@ -64,6 +64,11 @@ export default function MarketingLayout({
             <Link href="/">
               <Button variant="ghost" size="sm">
                 Accueil
+              </Button>
+            </Link>
+            <Link href="/register">
+              <Button size="sm" className="ml-1">
+                S'inscrire
               </Button>
             </Link>
           </div>

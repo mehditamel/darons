@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 type Priority = "high" | "medium" | "low";
 
@@ -70,7 +71,14 @@ export function AlertCard({
   );
 
   if (actionUrl) {
-    return <Link href={actionUrl}>{content}</Link>;
+    return (
+      <Link
+        href={actionUrl}
+        onClick={() => trackEvent("alert_clicked", { alertType: category })}
+      >
+        {content}
+      </Link>
+    );
   }
 
   return content;

@@ -79,6 +79,18 @@
       "short_name": "Santé",
       "url": "/sante",
       "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Foyer fiscal",
+      "short_name": "Fiscal",
+      "url": "/fiscal",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Coffre-fort",
+      "short_name": "Documents",
+      "url": "/documents",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }
   ]
 }

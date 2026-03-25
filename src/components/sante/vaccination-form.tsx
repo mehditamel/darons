@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { FormError } from "@/components/shared/form-error";
 import { useToast } from "@/hooks/use-toast";
+import { trackEvent } from "@/lib/analytics";
 import { vaccinationSchema, type VaccinationFormData } from "@/lib/validators/health";
 import { createVaccination } from "@/lib/actions/health";
 import { VACCINATION_SCHEDULE } from "@/lib/constants";
@@ -95,6 +96,7 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
         reset();
         onOpenChange(false);
         toast({ title: "Vaccin enregistré" });
+        trackEvent("vaccine_recorded", { vaccineCode: data.vaccineCode ?? "unknown" });
       } else {
         setError(result.error ?? "Une erreur est survenue");
         toast({ title: "Erreur", description: result.error ?? "Une erreur est survenue", variant: "destructive" });

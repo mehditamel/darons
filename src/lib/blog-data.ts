@@ -1559,6 +1559,477 @@ Notre [simulateur d'impôt](/outils/simulateur-ir) te permet de calculer exactem
 
 **Voir aussi :** [Crédit d'impôt garde d'enfant](/blog/credit-impot-garde-enfant-2025) | [Quotient familial](/blog/quotient-familial-comment-ca-marche) | [5 crédits d'impôt que les parents oublient](/blog/5-credits-impot-parents-oublient)`,
   },
+  {
+    slug: "diversification-alimentaire-bebe",
+    title: "Diversification alimentaire : quand et comment commencer",
+    description:
+      "Guide complet de la diversification alimentaire de bébé : à quel âge commencer, quels aliments introduire en premier, les erreurs à éviter et le calendrier mois par mois.",
+    date: "2026-03-20",
+    readingTime: "8 min",
+    category: "Santé",
+    content: `## La diversification alimentaire, c'est quoi ?
+
+C'est le moment où ton bébé passe du lait maternel ou infantile à une alimentation variée. C'est une étape clé, mais pas de panique : il y a des repères simples.
+
+### Quand commencer ?
+
+L'OMS recommande de commencer la diversification **entre 4 et 6 mois révolus** (jamais avant 4 mois). Les signes que bébé est prêt :
+
+- Il tient sa tête droite
+- Il s'intéresse à ce que tu manges
+- Il ouvre la bouche quand on lui propose une cuillère
+- Il a perdu le réflexe d'extrusion (repousser la nourriture avec la langue)
+
+### Par quoi commencer ?
+
+**Les légumes d'abord** (pendant 2-3 semaines), puis les fruits :
+
+**Mois 4-6 :**
+- Légumes doux : carotte, courgette, haricots verts, patate douce, potiron
+- Fruits cuits : pomme, poire, banane
+- Texture : purées lisses, très fluides
+- Quantité : 2-3 cuillères à café, puis augmenter progressivement
+
+**Mois 6-8 :**
+- Ajouter : brocoli, épinards, petit pois, avocat
+- Viande/poisson : 10g/jour (2 cuillères à café)
+- Œuf : introduire progressivement (1/4 d'œuf dur)
+- Féculents : pomme de terre, semoule fine, riz
+- Texture : purées plus épaisses, petits morceaux fondants
+
+**Mois 8-12 :**
+- Quasi tous les légumes et fruits
+- Viande/poisson : 20g/jour
+- Légumineuses : lentilles corail, pois chiches écrasés
+- Pain, pâtes, fromage pasteurisé
+- Texture : morceaux mous, finger food
+
+### Les aliments à éviter avant 1 an
+
+- **Miel** : risque de botulisme infantile
+- **Lait de vache** en boisson principale (ok en petite quantité dans les recettes)
+- **Sel et sucre ajoutés**
+- **Fruits à coque entiers** : risque d'étouffement (ok en poudre)
+- **Charcuterie, plats préparés industriels**
+
+### La méthode DME (Diversification Menée par l'Enfant)
+
+Alternative aux purées : on propose des morceaux que bébé attrape et porte à sa bouche. Conditions :
+- Bébé tient assis seul
+- Morceaux longs et mous (bâtonnets de légumes cuits)
+- Toujours sous surveillance
+- Complémentaire au lait (qui reste l'alimentation principale)
+
+### Les allergènes : ne plus attendre
+
+Les recommandations ont changé ! On n'attend plus pour introduire les allergènes courants. Au contraire, les études montrent qu'une introduction **précoce** (entre 4 et 6 mois) **réduit le risque d'allergie** :
+- Arachide (beurre de cacahuète dilué)
+- Œuf
+- Lait de vache
+- Poisson
+- Blé (gluten)
+
+Introduis un nouvel allergène à la fois, et attends 3 jours avant le suivant pour surveiller les réactions.
+
+### Conseils pratiques
+
+1. **Un seul nouvel aliment à la fois** pendant 3 jours
+2. **Pas de forcing** : s'il refuse, on repropose un autre jour (il faut parfois 10-15 essais)
+3. **Le lait reste la base** : 500 ml minimum par jour jusqu'à 1 an
+4. **Mange avec lui** : le repas est un moment de partage
+5. **Fais confiance à ses signaux** : il sait quand il a faim et quand il a assez
+
+### Suivi avec Darons
+
+Notre [journal quotidien enrichi](/sante-enrichie) te permet de noter ce que bébé mange chaque jour et de suivre l'introduction des aliments. Le module [allergies](/sante-enrichie) t'alerte en cas d'allergènes croisés.
+
+**Voir aussi :** [20 examens de santé obligatoires](/blog/20-examens-sante-obligatoires-bebe) | [Allergies alimentaires bébé](/blog/allergies-alimentaires-bebe-guide)`,
+  },
+  {
+    slug: "sommeil-bebe-conseils",
+    title: "Sommeil de bébé : les clés pour des nuits sereines",
+    description:
+      "Tout comprendre sur le sommeil de bébé : cycles, régressions, rituels du coucher, méthodes d'endormissement et conseils pratiques pour retrouver des nuits complètes.",
+    date: "2026-03-15",
+    readingTime: "9 min",
+    category: "Santé",
+    content: `## Le sommeil de bébé : ce qu'il faut savoir
+
+Soyons honnêtes : les premières semaines, le sommeil c'est la galère. Mais ça s'améliore, promis. Voici ce qu'il faut comprendre pour traverser cette période.
+
+### Les cycles de sommeil par âge
+
+Le sommeil de bébé est très différent de celui d'un adulte. Il évolue rapidement :
+
+**0-3 mois (nouveau-né) :**
+- Dort 14-17h par jour en fragments de 2-4h
+- Pas de rythme jour/nuit établi
+- Cycles courts de 50-60 minutes
+- C'est normal, c'est physiologique
+
+**3-6 mois :**
+- Commence à distinguer jour et nuit
+- Nuits de 6-8h possibles (pas systématiques)
+- 3-4 siestes par jour
+- Total : 14-15h
+
+**6-12 mois :**
+- Nuits de 8-12h possibles
+- 2-3 siestes par jour
+- Début de l'autonomie d'endormissement
+- Total : 12-15h
+
+**1-3 ans :**
+- Nuit de 10-12h
+- 1-2 siestes (puis une seule vers 18 mois)
+- Total : 11-14h
+
+### Les régressions du sommeil
+
+Ton bébé dormait bien et d'un coup c'est la cata ? Bienvenue dans les régressions :
+
+- **4 mois** : la plus connue — les cycles de sommeil se réorganisent
+- **8-10 mois** : angoisse de séparation + motricité (il veut se lever dans le lit)
+- **12 mois** : premiers pas, trop d'excitation
+- **18 mois** : opposition, cauchemars, peur du noir
+- **2 ans** : imagination débordante, terreurs nocturnes
+
+Ça dure généralement **2-4 semaines**. Garde le cap sur la routine, ça passe.
+
+### Le rituel du coucher (la clé de tout)
+
+Un bon rituel du coucher est le meilleur investissement que tu puisses faire :
+
+1. **Toujours à la même heure** (à 15 minutes près)
+2. **Même séquence** chaque soir : bain → pyjama → histoire → câlin → dodo
+3. **Durée** : 20-30 minutes max
+4. **Lumière tamisée** dès le début du rituel
+5. **Pas d'écran** dans l'heure qui précède (on ne rigole pas avec ça)
+6. **Phrase de fin** toujours la même : "Bonne nuit, je t'aime, à demain"
+
+### L'endormissement autonome
+
+L'objectif (pas la norme, l'objectif) : que bébé s'endorme seul dans son lit. Ça s'apprend progressivement :
+
+**Étape 1 — Poser éveillé** : Mets-le au lit somnolent mais pas endormi
+**Étape 2 — Présence rassurante** : Reste à côté, pose ta main sur son ventre
+**Étape 3 — Retrait progressif** : Recule ta chaise chaque soir
+**Étape 4 — Autonomie** : Tu sors de la chambre, il s'endort seul
+
+Chaque enfant a son rythme. Pas de méthode miracle, pas de culpabilité.
+
+### Les erreurs fréquentes
+
+- **Coucher trop tard** : un bébé fatigué dort MOINS bien (cortisol élevé)
+- **Sauter la sieste** pour qu'il dorme mieux la nuit : contre-productif
+- **Intervenir trop vite** : il fait du bruit entre deux cycles, c'est normal, attends 2-3 minutes
+- **Changer de méthode tous les 3 jours** : la constance est la clé
+- **Comparer avec d'autres bébés** : chaque enfant est unique
+
+### L'environnement idéal
+
+- **Température** : 18-20°C (c'est frais, on sait)
+- **Obscurité** : rideaux occultants, pas de veilleuse trop forte
+- **Bruit blanc** : efficace chez beaucoup de bébés (ventilateur, appli)
+- **Gigoteuse** adaptée à la saison (TOG)
+- **Matelas ferme**, pas de couverture, pas d'oreiller avant 2 ans
+
+### Quand consulter ?
+
+- Ronflements persistants (apnée du sommeil)
+- Réveils toutes les heures après 6 mois
+- Bébé qui ne dort jamais plus de 30 minutes
+- Terreurs nocturnes très fréquentes (plus de 3/semaine)
+
+### Suivi avec Darons
+
+Le [journal quotidien](/sante-enrichie) te permet de noter les heures de sommeil et les réveils nocturnes. Au fil des semaines, tu verras les patterns émerger et tu pourras ajuster le rituel.
+
+**Voir aussi :** [Calendrier vaccinal 2025](/blog/calendrier-vaccinal-2025) | [Guide écrans par âge](/outils/ecrans-enfants)`,
+  },
+  {
+    slug: "aides-financieres-jeunes-parents",
+    title: "Les 10 aides financières méconnues pour les jeunes parents",
+    description:
+      "Au-delà des allocations familiales, découvrez 10 aides financières que beaucoup de parents ignorent : PAJE, CMG, prime de naissance, aide au logement, prêt CAF et plus.",
+    date: "2026-03-10",
+    readingTime: "7 min",
+    category: "Budget",
+    content: `## Tu touches peut-être pas tout ce à quoi tu as droit
+
+Entre la CAF, la Sécu, la mairie et les impôts, les aides pour les parents sont nombreuses mais éparpillées. Voici 10 aides que beaucoup de jeunes parents ne connaissent pas (ou oublient de demander).
+
+### 1. La prime de naissance (PAJE)
+
+**Montant :** 1 019,40 € (versée au 7e mois de grossesse)
+**Conditions :** Sous plafond de ressources (ex : 39 098 € pour un couple avec 1 enfant)
+**Piège :** Il faut déclarer la grossesse à la CAF AVANT la fin du 3e mois. Si tu oublies, tu la perds.
+
+### 2. L'allocation de base PAJE
+
+**Montant :** 184,81 €/mois jusqu'aux 3 ans de l'enfant
+**Conditions :** Sous plafond de ressources
+**Bon à savoir :** Cumulable avec les allocations familiales à partir du 2e enfant.
+
+### 3. Le CMG (Complément de libre choix du Mode de Garde)
+
+**Montant :** Variable selon revenus, mode de garde et âge de l'enfant. Peut atteindre 500-900 €/mois.
+**Pour qui :** Parents qui font garder leur enfant de moins de 6 ans par une assistante maternelle, une garde à domicile, une micro-crèche.
+**Le piège :** Le montant dépend de ta tranche de revenus ET du mode de garde. [Simule le tien →](/outils/simulateur-garde)
+
+### 4. Le crédit d'impôt garde d'enfant
+
+**Montant :** 50% des dépenses de garde, plafonné à 3 500 € → max **1 750 € par enfant** de moins de 6 ans.
+**Astuce :** C'est un CRÉDIT d'impôt, pas une réduction. Même si tu ne paies pas d'impôt, tu reçois un virement du fisc.
+**Cumulable avec le CMG** : oui, mais les dépenses prises en compte sont diminuées du CMG perçu.
+
+### 5. L'allocation de rentrée scolaire (ARS)
+
+**Montant :** 416,40 € (6-10 ans), 439,38 € (11-14 ans), 454,60 € (15-18 ans)
+**Versement :** Mi-août, automatique si tu es allocataire CAF
+**Pour qui :** Sous plafond de ressources. Enfants de 6 à 18 ans scolarisés.
+**Astuce :** Pour les enfants de 6-15 ans, c'est automatique. Pour les 16-18 ans, il faut déclarer que l'enfant est toujours scolarisé sur caf.fr.
+
+### 6. Le prêt équipement CAF
+
+**Montant :** Jusqu'à 800 € à taux zéro (ou très faible)
+**Pour quoi :** Poussette, lit bébé, lave-linge, équipement ménager
+**Comment :** Demande auprès de ta CAF locale. Peu connu, souvent disponible.
+
+### 7. L'aide au logement (APL/ALF/ALS)
+
+**Bon à savoir :** L'arrivée d'un enfant modifie le calcul de tes aides au logement. Si tu n'en bénéficiais pas avant, **refais une simulation** après la naissance.
+**Piège :** Il faut déclarer le changement de situation familiale à la CAF dans les 30 jours.
+
+### 8. La prime d'activité
+
+**Pour qui :** Travailleurs aux revenus modestes avec enfants.
+**Impact enfant :** Chaque enfant augmente le montant de la prime.
+**Montant :** Variable, jusqu'à 300-500 €/mois selon les cas.
+**Astuce :** Beaucoup de parents éligibles ne la demandent pas. [Simule tes droits →](/outils/mes-droits)
+
+### 9. Le CESU préfinancé par l'employeur
+
+**C'est quoi :** Des chèques emploi service que ton employeur peut te donner pour financer la garde d'enfant, le ménage, le soutien scolaire.
+**Avantage :** Exonéré de charges sociales et d'impôt jusqu'à 2 421 €/an.
+**Comment :** Demande à ton service RH si l'entreprise propose le CESU. Beaucoup de salariés ne savent pas que leur employeur le propose.
+
+### 10. Les aides municipales et départementales
+
+Les mairies et départements ont souvent des aides locales :
+- **Bons de naissance** (chèques cadeaux pour achats bébé)
+- **Aide à l'inscription en crèche** (réduction du tarif)
+- **Subventions activités sportives** (coupons sport)
+- **Aide au permis de conduire** pour les jeunes parents
+
+**Comment les trouver :** Renseigne-toi en mairie ou sur le site de ton département. Chaque commune a ses propres dispositifs.
+
+### Ne laisse pas d'argent sur la table
+
+Le simulateur de droits Darons calcule toutes tes aides en 2 minutes : [Simule tes droits sociaux →](/outils/mes-droits)
+
+Et notre module [budget familial](/budget) te permet de suivre les allocations perçues chaque mois pour vérifier que tout est bien versé.
+
+**Voir aussi :** [Simulateur allocations CAF](/blog/simulateur-allocations-caf-2025) | [Prime naissance PAJE](/blog/prime-naissance-paje-guide-complet) | [Budget bébé première année](/blog/budget-bebe-premiere-annee)`,
+  },
+  {
+    slug: "assistante-maternelle-questions",
+    title: "Assistante maternelle : les 15 questions à poser avant de signer",
+    description:
+      "Trouver la bonne assistante maternelle, c'est stressant. Voici les 15 questions essentielles à poser lors du premier entretien pour faire le bon choix.",
+    date: "2026-03-05",
+    readingTime: "7 min",
+    category: "Garde",
+    content: `## Trouver la bonne assmat : mode d'emploi
+
+Choisir une assistante maternelle, c'est confier ton enfant à quelqu'un que tu ne connais pas. Normal que ce soit stressant. Voici les 15 questions à poser pour faire le bon choix — et celles auxquelles tu n'aurais pas pensé.
+
+### Avant l'entretien
+
+- Demande la liste des assistantes maternelles agréées au **Relais Petite Enfance** (RPE) de ta commune
+- Vérifie l'agrément sur le site du département (nombre d'enfants autorisés, dates)
+- Prépare une liste de tes contraintes (horaires, jours, lieu)
+
+### Les 15 questions essentielles
+
+#### Organisation quotidienne
+
+**1. "Quelle est votre journée type ?"**
+Tu veux entendre : activités, repas, siestes, sorties. Si elle décrit une journée structurée avec des temps de jeu, d'éveil et de repos, c'est bon signe.
+
+**2. "Combien d'enfants gardez-vous actuellement ?"**
+L'agrément précise un nombre max (généralement 2-4). Moins il y en a, plus ton enfant aura d'attention individuelle.
+
+**3. "Quels sont vos horaires ? Êtes-vous flexible ?"**
+Sois précis sur tes besoins. Certaines assmat ne font pas après 18h. Clarifier les dépassements horaires et leur surcoût.
+
+**4. "Où les enfants dorment-ils ?"**
+Chaque enfant doit avoir un lit individuel dans un espace calme et sécurisé. Demande à voir la pièce.
+
+#### Repas et santé
+
+**5. "Qui prépare les repas ?"**
+Deux options : tu fournis les repas, ou elle cuisine. Si elle cuisine, demande les menus types. Vérifie qu'elle respecte les recommandations de diversification alimentaire.
+
+**6. "Comment gérez-vous les allergies alimentaires ?"**
+Même si ton enfant n'a pas d'allergie connue, sa réponse montre son sérieux.
+
+**7. "Que faites-vous en cas de fièvre ou d'accident ?"**
+Elle doit avoir un protocole clair : appeler les parents, appeler le 15, administrer du paracétamol (avec autorisation écrite). Demande si elle a un brevet de premiers secours (PSC1).
+
+#### Éducation et éveil
+
+**8. "Quelles activités proposez-vous ?"**
+Peinture, pâte à modeler, lecture, musique, jeux en extérieur... Une bonne assmat a un programme varié adapté à l'âge.
+
+**9. "Sortez-vous avec les enfants ?"**
+Parc, bibliothèque, RAM/RPE, promenades. Les sorties sont essentielles pour la socialisation.
+
+**10. "Comment gérez-vous les pleurs et les conflits entre enfants ?"**
+Tu veux une réponse empathique, pas autoritaire. "Je prends l'enfant dans mes bras et j'essaie de comprendre ce qui ne va pas" > "Je le laisse pleurer, ça forge le caractère".
+
+#### Administratif et financier
+
+**11. "Quel est votre tarif horaire ?"**
+Le tarif moyen est de **3,50-4,50 €/heure** selon la région. Attention aux compléments : indemnités d'entretien (3,65 €/jour minimum), repas, km.
+
+**12. "Êtes-vous disponible pendant les vacances scolaires ?"**
+Beaucoup d'assmat prennent 5 semaines de congés. Planifie la garde de remplacement.
+
+**13. "Acceptez-vous le CESU ou Pajemploi ?"**
+Pajemploi est obligatoire pour déclarer l'emploi. Le CESU préfinancé par ton employeur peut réduire ton reste à charge.
+
+#### Feeling et valeurs
+
+**14. "Pourquoi avez-vous choisi ce métier ?"**
+Une question ouverte qui en dit long sur la motivation. Tu veux quelqu'un de passionné, pas quelqu'un qui fait ça faute de mieux.
+
+**15. "Puis-je faire une période d'adaptation ?"**
+Indispensable : 1-2 semaines de transition progressive. D'abord 1h avec toi, puis 2h sans toi, puis une demi-journée, puis une journée complète.
+
+### Les red flags
+
+- Elle refuse que tu visites son domicile
+- Elle ne veut pas d'adaptation progressive
+- Elle garde plus d'enfants que son agrément ne l'autorise
+- Elle minimise les questions sur la sécurité
+- Elle critique les autres parents ou assistantes maternelles
+- Son domicile n'est pas sécurisé (prises accessibles, escaliers ouverts, produits ménagers à portée)
+
+### Le contrat
+
+Une fois que tu as trouvé la perle, formalise tout dans un **contrat de travail** (obligatoire). Le site pajemploi.urssaf.fr propose un modèle. Points clés :
+- Tarif horaire et indemnités
+- Horaires habituels
+- Jours de garde
+- Congés payés
+- Délai de prévenance
+- Clauses particulières (repas, sorties, médicaments)
+
+### Calcule ton reste à charge
+
+Notre [simulateur de coût de garde](/outils/simulateur-garde) te donne le reste à charge réel après CMG et crédit d'impôt. Pour une assmat à 4 €/h sur 45h/semaine, le reste à charge peut descendre à **200-400 €/mois** selon tes revenus.
+
+**Voir aussi :** [Crèche ou assistante maternelle ?](/blog/creche-ou-assistante-maternelle-comparatif) | [Inscription crèche guide](/blog/inscription-creche-guide-complet) | [Coût de garde](/outils/simulateur-garde)`,
+  },
+  {
+    slug: "preparer-rentree-scolaire",
+    title: "Comment bien préparer la rentrée scolaire de son enfant",
+    description:
+      "Guide pratique pour préparer la première rentrée scolaire : inscription, fournitures, adaptation, gestion du stress et astuces de parents expérimentés.",
+    date: "2026-02-28",
+    readingTime: "7 min",
+    category: "Éducation",
+    content: `## La rentrée, ça se prépare (et c'est pas que les fournitures)
+
+Que ce soit la toute première rentrée en maternelle ou un changement d'école, c'est un moment charnière pour ton enfant — et pour toi. Voici comment s'y préparer sereinement.
+
+### Le calendrier : quand faire quoi
+
+**6 mois avant (janvier-mars) :**
+- **Inscription en mairie** pour la maternelle (obligatoire pour les 3 ans)
+- Documents nécessaires : livret de famille, justificatif de domicile, carnet de santé (vaccins à jour)
+- Si tu déménages, anticipe le changement d'école
+
+**3 mois avant (juin) :**
+- **Visite de l'école** : profite des portes ouvertes pour découvrir les locaux avec ton enfant
+- **Rencontre avec l'enseignant** (si possible)
+- **Périscolaire** : inscris-toi à la cantine, à la garderie et aux activités périscolaires (les places partent vite)
+
+**1 mois avant (août) :**
+- **Fournitures** : achète la liste (donnée par l'école ou la mairie)
+- **Vêtements** : des vêtements pratiques que l'enfant peut enfiler seul (pas de lacets, pas de boutons compliqués)
+- **Cartable** : léger, ergonomique, que l'enfant aime (c'est important pour la motivation)
+
+**1 semaine avant :**
+- **Rythme** : recale les heures de coucher et de lever progressivement
+- **Parler de l'école** positivement : "Tu vas rencontrer plein de copains"
+- **Lire des livres** sur la rentrée (T'choupi, Petit Ours Brun, etc.)
+- **Préparer le cartable ensemble**
+
+### L'adaptation en maternelle (PS)
+
+La première rentrée en Petite Section est un gros moment. Voici ce qui fonctionne :
+
+**Avant le jour J :**
+- Jouer à "l'école" à la maison : peinture, découpage, comptines
+- Travailler l'autonomie : s'habiller seul, aller aux toilettes, manger seul
+- Habituer aux séparations courtes (laisser chez les grands-parents, chez des amis)
+
+**Le jour J :**
+- Arriver décontracté (même si tu stresses, il le sent)
+- Rester 5-10 minutes max, pas plus
+- Dire au revoir clairement : "Je pars, je reviens te chercher à 16h30"
+- NE PAS partir en douce (ça crée de l'angoisse)
+- Les pleurs sont normaux et durent rarement plus de 10 minutes après ton départ
+
+**Les premières semaines :**
+- Beaucoup d'écoles proposent une **rentrée échelonnée** (matin seulement la 1ère semaine)
+- Fatigue intense : couche-le plus tôt le soir
+- Il peut régresser (pipi au lit, pouce, doudou) : c'est temporaire
+- Demande à l'enseignant comment ça se passe (pas à ton enfant qui dira "j'ai rien fait")
+
+### Les fournitures : le juste nécessaire
+
+L'école fournit généralement le matériel pédagogique. Les parents achètent :
+
+**Maternelle :**
+- Un cartable (pas trop grand)
+- Une tenue de rechange dans un sac
+- Un doudou (si l'école l'autorise)
+- Des chaussons
+
+**Élémentaire (CP et +) :**
+- Cartable ergonomique (max 10% du poids de l'enfant)
+- Trousse : stylos, crayons, gomme, règle, colle, ciseaux
+- Cahiers (format précisé par l'école)
+- Protège-cahiers
+
+**Astuce budget :** Attends la liste officielle de l'école avant d'acheter. Les supermarchés cassent les prix fin août. L'allocation de rentrée scolaire (416,40 € pour les 6-10 ans) est versée mi-août.
+
+### La gestion du stress (le tien, pas le sien)
+
+Soyons honnêtes : la rentrée, c'est souvent plus dur pour les parents que pour les enfants.
+
+- **C'est normal** de stresser (tu confies ton enfant à des inconnus)
+- **Fais confiance** aux enseignants — c'est leur métier
+- **Ne projette pas** ton anxiété : si tu es serein, il le sera
+- **Réseau de parents** : échange avec d'autres parents de la classe (WhatsApp, Klassly)
+- **Premier bilan** après 2-3 semaines : si les pleurs persistent, parles-en à l'enseignant
+
+### Les aides financières pour la rentrée
+
+- **ARS** : 416,40 € (6-10 ans), versée mi-août automatiquement par la CAF
+- **Bourse de collège** : à partir de la 6e, sous conditions de ressources
+- **Coupons sport** : aide municipale pour les activités périscolaires (renseigne-toi en mairie)
+- **Aide aux fournitures** : certaines associations (Secours populaire, Croix-Rouge) distribuent des kits rentrée
+
+### Suivi avec Darons
+
+Notre [timeline scolarité](/scolarite) calcule automatiquement les dates clés d'inscription et de rentrée en fonction de l'âge de ton enfant. Et le module [démarches](/demarches) te rappelle les inscriptions à ne pas oublier.
+
+**Voir aussi :** [Allocation rentrée scolaire](/blog/allocation-rentree-scolaire-2026) | [Coût d'un enfant 0-18 ans](/blog/cout-enfant-0-18-ans-france) | [Timeline administrative](/outils/timeline-administrative)`,
+  },
 ];
 
 function withReadTime(article: BlogArticle): BlogArticle {

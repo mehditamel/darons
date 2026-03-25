@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookieResetButton } from "./cookie-reset-button";
 
 interface FooterProps {
   variant?: "full" | "compact";
@@ -37,7 +38,7 @@ export function Footer({ variant = "full" }: FooterProps) {
   return (
     <footer className="border-t bg-card py-12">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
           <div>
             <div className="flex items-center space-x-2.5 mb-4">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white font-bold text-sm shadow-lg shadow-warm-orange/20">
@@ -93,6 +94,39 @@ export function Footer({ variant = "full" }: FooterProps) {
                   Politique de confidentialité
                 </Link>
               </li>
+              <li>
+                <CookieResetButton />
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="mb-3 text-sm font-semibold">Outils populaires</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link href="/outils/simulateur-ir" className="hover:text-foreground transition-colors">
+                  Simulateur impôt
+                </Link>
+              </li>
+              <li>
+                <Link href="/outils/simulateur-caf" className="hover:text-foreground transition-colors">
+                  Simulateur allocations CAF
+                </Link>
+              </li>
+              <li>
+                <Link href="/outils/simulateur-garde" className="hover:text-foreground transition-colors">
+                  Coût de garde
+                </Link>
+              </li>
+              <li>
+                <Link href="/outils/calendrier-vaccinal" className="hover:text-foreground transition-colors">
+                  Calendrier vaccinal
+                </Link>
+              </li>
+              <li>
+                <Link href="/outils/checklist-naissance" className="hover:text-foreground transition-colors">
+                  Checklist naissance
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
@@ -103,12 +137,17 @@ export function Footer({ variant = "full" }: FooterProps) {
                   contact@darons.app
                 </a>
               </li>
+              <li>
+                <a href="mailto:dpo@darons.app" className="hover:text-foreground transition-colors">
+                  DPO / RGPD
+                </a>
+              </li>
             </ul>
           </div>
         </div>
         <div className="mt-10 border-t pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Darons. Tous droits réservés.
+            &copy; {new Date().getFullYear()} Darons. Tous droits réservés. 100% gratuit.
           </p>
           <p className="text-xs text-muted-foreground">
             Fait avec amour à Marseille

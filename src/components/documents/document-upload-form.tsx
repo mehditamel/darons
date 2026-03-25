@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Upload } from "lucide-react";
 import { uploadDocument } from "@/lib/actions/documents";
+import { trackEvent } from "@/lib/analytics";
 import { DOCUMENT_CATEGORY_LABELS, type DocumentCategory } from "@/types/budget";
 import type { FamilyMember } from "@/types/family";
 import { MAX_FILE_SIZE, ALLOWED_EXTENSIONS } from "@/lib/validators/documents";
@@ -88,6 +89,7 @@ export function DocumentUploadForm({ open, onOpenChange, members }: DocumentUplo
       setDescription("");
       setSelectedFile(null);
       onOpenChange(false);
+      trackEvent("document_added", { type: category || "autre" });
     } else {
       setError(result.error ?? "Une erreur est survenue");
     }

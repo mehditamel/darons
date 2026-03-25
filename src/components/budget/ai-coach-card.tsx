@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { AiCoachResponse } from "@/types/ai";
+import { trackEvent } from "@/lib/analytics";
 
 interface AiCoachCardProps {
   hasAccess: boolean;
@@ -37,6 +38,7 @@ export function AiCoachCard({ hasAccess }: AiCoachCardProps) {
     setError(null);
     setResponse(null);
     setStreamingText("");
+    trackEvent("ai_coach_used", { module: "budget" });
 
     try {
       const res = await fetch("/api/ai/coach", { method: "POST" });

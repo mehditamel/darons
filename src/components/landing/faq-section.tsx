@@ -39,6 +39,36 @@ const FAQ_ITEMS = [
     answer:
       "Non. Jamais. On ne vend pas, on ne loue pas, on ne partage pas tes données avec des tiers à des fins publicitaires. Point. Les seuls sous-traitants qui accèdent à tes données sont ceux nécessaires au fonctionnement de l'app (hébergement, emails), et ils sont tous conformes au RGPD avec des DPA signés.",
   },
+  {
+    question: "Comment fonctionne le suivi vaccinal ?",
+    answer:
+      "On intègre le calendrier vaccinal français officiel (les 9 vaccins obligatoires). Quand tu ajoutes ton enfant avec sa date de naissance, on calcule automatiquement les dates de chaque dose. Tu reçois des rappels avant chaque vaccin. Tu coches au fur et à mesure, et on te dit ce qui reste à faire.",
+  },
+  {
+    question: "Je peux connecter ma banque ?",
+    answer:
+      "Oui, via Open Banking (Bridge API, certifié DSP2 et ACPR). Tes identifiants bancaires ne transitent jamais par nos serveurs — c'est Bridge qui gère la connexion sécurisée. On récupère tes transactions pour les catégoriser automatiquement par enfant et par poste de dépense. Tu peux aussi tout saisir manuellement si tu préfères.",
+  },
+  {
+    question: "L'IA analyse mes données ?",
+    answer:
+      "L'IA (Claude by Anthropic) est utilisée côté serveur uniquement pour te donner des suggestions personnalisées : coach budget, alertes proactives, résumé mensuel. Tes données ne sont jamais utilisées pour entraîner des modèles IA. Tu peux désactiver les fonctionnalités IA à tout moment dans les paramètres.",
+  },
+  {
+    question: "Mon/ma conjoint(e) peut accéder au compte ?",
+    answer:
+      "Oui ! Tu peux inviter ton/ta partenaire sur ton foyer avec un rôle dédié (partenaire ou lecteur). Chacun a son propre compte, mais vous partagez les mêmes données famille. Pratique pour gérer le budget à deux ou suivre les vaccins sans se demander \"t'as pris le RDV ?\".",
+  },
+  {
+    question: "Ça remplace le carnet de santé officiel ?",
+    answer:
+      "Non, Darons est un complément numérique. Le carnet de santé papier reste le document officiel. On te permet de centraliser les infos (vaccins, mesures, RDV) pour y accéder facilement depuis ton téléphone. On prépare la synchronisation avec Mon Espace Santé (API FHIR) dès que l'API sera disponible.",
+  },
+  {
+    question: "Comment sont calculés les impôts ?",
+    answer:
+      "On utilise le barème officiel de la DGFiP (Direction Générale des Finances Publiques) : tranches progressives, quotient familial, plafonnement, décote. Les crédits d'impôt (garde d'enfant, emploi à domicile, dons) sont calculés avec les plafonds 2025. C'est le même calcul qu'impots.gouv.fr, en plus simple.",
+  },
 ];
 
 export function FaqSection() {

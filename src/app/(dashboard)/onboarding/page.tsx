@@ -34,6 +34,7 @@ import { familyMemberSchema, type FamilyMemberFormData } from "@/lib/validators/
 import { createHousehold, createFamilyMember } from "@/lib/actions/family";
 import { useToast } from "@/hooks/use-toast";
 import { ConfettiEffect } from "@/components/shared/confetti-effect";
+import { trackEvent } from "@/lib/analytics";
 
 const STEPS = [
   { label: "Ton foyer", icon: Home },
@@ -81,7 +82,10 @@ const MODULE_OPTIONS = [
 export default function OnboardingPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(() => {
+    trackEvent("onboarding_started");
+    return 0;
+  });
   const [isPending, startTransition] = useTransition();
   const [selectedModules, setSelectedModules] = useState<Set<string>>(new Set());
   const [childName, setChildName] = useState("");
@@ -106,6 +110,7 @@ export default function OnboardingPage() {
       startTransition(async () => {
         const result = await createHousehold(data);
         if (result.success) {
+          trackEvent("onboarding_step_completed", { step: 0 });
           setStep(1);
         } else {
           toast({
@@ -124,6 +129,7 @@ export default function OnboardingPage() {
         const result = await createFamilyMember(data);
         if (result.success) {
           setChildName(data.firstName);
+          trackEvent("onboarding_step_completed", { step: 1 });
           setStep(2);
         } else {
           toast({
@@ -138,10 +144,13 @@ export default function OnboardingPage() {
 
   function handlePartnerStep() {
     // Partner invite is optional — just advance
+    trackEvent("onboarding_step_completed", { step: 2 });
     setStep(3);
   }
 
   function handleModulesSubmit() {
+    trackEvent("onboarding_step_completed", { step: 3 });
+    trackEvent("onboarding_completed", { durationSeconds: 0 });
     setStep(4);
   }
 

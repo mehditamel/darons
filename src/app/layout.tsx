@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { PlausibleProvider } from "@/components/analytics/plausible-provider";
+import { WebVitalsReporter } from "@/components/analytics/web-vitals";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -99,6 +100,7 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
         <PlausibleProvider />
+        <WebVitalsReporter />
       </body>
     </html>
   );

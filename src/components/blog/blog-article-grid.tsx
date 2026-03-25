@@ -20,6 +20,12 @@ interface BlogArticleGridProps {
   categoryColors: Record<string, string>;
 }
 
+const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000;
+
+function isNewArticle(dateStr: string): boolean {
+  return Date.now() - new Date(dateStr).getTime() < FOURTEEN_DAYS_MS;
+}
+
 export function BlogArticleGrid({ articles, categoryColors }: BlogArticleGridProps) {
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get("category");
@@ -48,7 +54,12 @@ export function BlogArticleGrid({ articles, categoryColors }: BlogArticleGridPro
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filtered.map((article) => (
           <Link key={article.slug} href={`/blog/${article.slug}`}>
-            <Card className="h-full transition-shadow hover:shadow-lg cursor-pointer">
+            <Card className="h-full transition-shadow hover:shadow-lg cursor-pointer relative">
+              {isNewArticle(article.date) && (
+                <Badge className="absolute top-3 right-3 bg-warm-orange text-white text-[10px] px-2 py-0.5">
+                  Nouveau
+                </Badge>
+              )}
               <CardHeader>
                 <div className="flex items-center gap-2 mb-2">
                   <Badge

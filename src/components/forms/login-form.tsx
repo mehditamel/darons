@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Lock, Loader2 } from "lucide-react";
+import { Mail, Lock, Loader2, Shield, CreditCard, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -222,6 +222,18 @@ export function LoginForm() {
               ? "Se connecter avec mot de passe"
               : "Se connecter par magic link"}
           </Button>
+
+          <div className="flex items-center justify-center gap-4 pt-2">
+            <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+              <Shield className="h-3 w-3" /> Chiffré AES-256
+            </span>
+            <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+              <CreditCard className="h-3 w-3" /> 100% gratuit
+            </span>
+            <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+              <EyeOff className="h-3 w-3" /> Zéro tracking
+            </span>
+          </div>
         </form>
       </CardContent>
       <CardFooter className="justify-center">

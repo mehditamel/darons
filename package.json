@@ -12,7 +12,14 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "analyze": "ANALYZE=true next build"
+    "e2e:debug": "playwright test --debug",
+    "e2e:ui": "playwright test --ui",
+    "ci": "npm run lint && npm run type-check && npm run test",
+    "analyze": "ANALYZE=true next build",
+    "db:reset": "npx supabase db reset",
+    "db:push": "npx supabase db push",
+    "db:types": "npx supabase gen types typescript --local > src/types/database.ts",
+    "db:migration": "npx supabase migration new"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.79.0",

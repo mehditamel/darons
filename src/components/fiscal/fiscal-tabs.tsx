@@ -11,6 +11,7 @@ import { FiscalSchedule } from "./fiscal-schedule";
 import type { TaxSimulationResult, TaxSimulationInput } from "@/types/fiscal";
 import type { FiscalYear } from "@/types/fiscal";
 import type { TaxSimulationFormData } from "@/lib/validators/fiscal";
+import { trackEvent } from "@/lib/analytics";
 
 interface FiscalTabsProps {
   defaultNbParts: number;
@@ -50,6 +51,7 @@ export function FiscalTabs({
 
   const handleResult = (result: TaxSimulationResult, input: TaxSimulationFormData) => {
     setSimulationResult(result);
+    trackEvent("fiscal_simulation_run");
     setSimulationInput(input);
   };
 

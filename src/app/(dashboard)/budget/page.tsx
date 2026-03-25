@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
-import { Wallet } from "lucide-react";
+import {
+  Wallet,
+  TrendingDown,
+  TrendingUp,
+  HandCoins,
+  Receipt,
+} from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
+import { StatCard } from "@/components/shared/stat-card";
+import { AlertCard } from "@/components/shared/alert-card";
 import { BudgetTabs } from "@/components/budget/budget-tabs";
 import { AiCoachCard } from "@/components/budget/ai-coach-card";
 import { RoundupSettingsCard } from "@/components/budget/roundup-settings-card";
@@ -19,6 +27,7 @@ import { getBankConnections, getBankTransactions } from "@/lib/actions/banking";
 import { getRoundupSettings } from "@/lib/actions/roundup";
 import { PLAN_LIMITS } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
+import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Budget familial",
@@ -93,6 +102,12 @@ export default async function BudgetPage({
     summary.netBalance = summary.totalAllocations + summary.totalIncome - summary.totalExpenses;
   }
 
+  // Month-over-month comparison
+  const previousMonth = history.length >= 2 ? history[1] : null;
+  const expenseTrend = previousMonth && previousMonth.totalExpenses > 0
+    ? ((summary.totalExpenses - previousMonth.totalExpenses) / previousMonth.totalExpenses * 100)
+    : null;
+
   return (
     <div className="space-y-6 page-enter">
       <PageHeader
@@ -100,6 +115,50 @@ export default async function BudgetPage({
         description="Où passe ta thune ? On te montre"
         icon={<Wallet className="h-5 w-5" />}
       />
+
+      {/* Summary stat cards */}
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          label="Dépenses du mois"
+          value={formatCurrency(summary.totalExpenses)}
+          icon={TrendingDown}
+          color="bg-warm-red/10 text-warm-red"
+          gradientClass="card-gradient-red"
+          trend={expenseTrend !== null ? `${expenseTrend > 0 ? "+" : ""}${expenseTrend.toFixed(0)}% vs mois dernier` : undefined}
+          trendUp={expenseTrend !== null && expenseTrend < 0}
+        />
+        <StatCard
+          label="Allocations CAF"
+          value={formatCurrency(summary.totalAllocations)}
+          icon={HandCoins}
+          color="bg-warm-green/10 text-warm-green"
+          gradientClass="card-gradient-green"
+        />
+        <StatCard
+          label="Solde net"
+          value={formatCurrency(summary.netBalance)}
+          icon={summary.netBalance >= 0 ? TrendingUp : TrendingDown}
+          color={summary.netBalance >= 0 ? "bg-warm-green/10 text-warm-green" : "bg-warm-red/10 text-warm-red"}
+          gradientClass={summary.netBalance >= 0 ? "card-gradient-green" : "card-gradient-red"}
+        />
+        <StatCard
+          label="Opérations"
+          value={String(summary.entryCount)}
+          icon={Receipt}
+          color="bg-warm-blue/10 text-warm-blue"
+          gradientClass="card-gradient-blue"
+        />
+      </div>
+
+      {/* Alert if negative balance */}
+      {summary.netBalance < 0 && summary.entryCount > 0 && (
+        <AlertCard
+          title="Solde négatif ce mois-ci"
+          message={`Tes dépenses dépassent tes revenus de ${formatCurrency(Math.abs(summary.netBalance))}. Regarde les postes les plus importants pour identifier des économies possibles.`}
+          priority="high"
+          category="Budget"
+        />
+      )}
 
       <BudgetForecastCard currentSummary={summary} history={history} />
 

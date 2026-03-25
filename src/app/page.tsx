@@ -26,6 +26,8 @@ import { Footer } from "@/components/layout/footer";
 import { FaqSection } from "@/components/landing/faq-section";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { NewsletterSignup } from "@/components/blog/newsletter-signup";
+import { getAllArticles } from "@/lib/blog-data";
+import { BookOpen, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Darons — Toute ta vie de daron. Une seule app.",
@@ -439,7 +441,7 @@ export default function LandingPage() {
               Ils utilisent Darons au quotidien. Voici pourquoi ils ne reviennent pas en arrière.
             </p>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 name: "Sarah L.",
@@ -457,6 +459,18 @@ export default function LandingPage() {
                 name: "Amira & Karim B.",
                 role: "Parents d'un bébé de 6 mois",
                 quote: "On cherchait une crèche depuis des semaines. Avec la carte de recherche de garde, on a trouvé une micro-crèche à 10 min du boulot qu'on ne connaissait pas.",
+                stars: 5,
+              },
+              {
+                name: "Julie M.",
+                role: "Maman solo d'une fille de 4 ans",
+                quote: "J'ai économisé 1 200 € sur mes impôts grâce à la simulation. Je ne savais même pas que j'avais droit au crédit d'impôt emploi à domicile. Merci Darons !",
+                stars: 5,
+              },
+              {
+                name: "Romain & Sophie P.",
+                role: "Parents de 3 enfants (7, 4 et 1 an)",
+                quote: "On sait enfin où passe notre argent chaque mois. Le budget par enfant et les alertes CAF, c'est exactement ce qu'il nous fallait. Et c'est gratuit, sérieux ?",
                 stars: 5,
               },
             ].map((testimonial, index) => (
@@ -482,6 +496,14 @@ export default function LandingPage() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/register">
+              <Button size="lg" variant="outline" className="group">
+                Rejoins les parents qui galèrent moins
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -512,6 +534,50 @@ export default function LandingPage() {
             <Link href="/outils">
               <Button variant="outline" size="lg" className="h-14 px-10 text-base">
                 Essayer les outils
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Blog articles */}
+      <section className="py-24 bg-card">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-serif font-bold">
+              Du contenu utile, pas du blabla
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Des articles écrits par des parents, pour des parents. Zéro jargon, que du concret.
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {getAllArticles().slice(0, 3).map((article) => (
+              <Link key={article.slug} href={`/blog/${article.slug}`}>
+                <Card className="h-full card-playful cursor-pointer">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="outline" className="text-[10px]">{article.category}</Badge>
+                      <span className="text-[11px] text-muted-foreground flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {article.readingTime}
+                      </span>
+                    </div>
+                    <CardTitle className="text-base leading-snug line-clamp-2">{article.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <p className="text-sm text-muted-foreground line-clamp-3">{article.description}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link href="/blog">
+              <Button variant="outline" size="lg" className="group">
+                <BookOpen className="h-4 w-4 mr-2" />
+                Voir tous les articles
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           </div>

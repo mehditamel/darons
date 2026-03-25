@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Lock, User, Loader2, CheckCircle2 } from "lucide-react";
+import { Mail, Lock, User, Loader2, CheckCircle2, Shield, CreditCard, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,10 +29,13 @@ export function RegisterForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   });
+
+  const watchedPassword = watch("password", "");
 
   async function onSubmit(data: RegisterFormData) {
     setIsLoading(true);
@@ -178,6 +181,9 @@ export function RegisterForm() {
                 {errors.password.message}
               </p>
             )}
+            {watchedPassword && (
+              <PasswordStrength password={watchedPassword} />
+            )}
           </div>
 
           <div className="space-y-2">
@@ -235,6 +241,18 @@ export function RegisterForm() {
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             C'est parti, c'est gratuit
           </Button>
+
+          <div className="flex items-center justify-center gap-4 pt-2">
+            <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+              <Shield className="h-3 w-3" /> Chiffré AES-256
+            </span>
+            <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+              <CreditCard className="h-3 w-3" /> Sans carte bancaire
+            </span>
+            <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+              <EyeOff className="h-3 w-3" /> Zéro tracking
+            </span>
+          </div>
         </form>
       </CardContent>
       <CardFooter className="justify-center">
@@ -246,5 +264,40 @@ export function RegisterForm() {
         </p>
       </CardFooter>
     </Card>
+  );
+}
+
+function getPasswordStrength(password: string): { score: number; label: string; color: string } {
+  let score = 0;
+  if (password.length >= 8) score++;
+  if (/[A-Z]/.test(password)) score++;
+  if (/[0-9]/.test(password)) score++;
+  if (/[^A-Za-z0-9]/.test(password)) score++;
+
+  const levels = [
+    { label: "Très faible", color: "bg-warm-red" },
+    { label: "Faible", color: "bg-warm-orange" },
+    { label: "Moyen", color: "bg-warm-gold" },
+    { label: "Bon", color: "bg-warm-blue" },
+    { label: "Fort", color: "bg-warm-green" },
+  ];
+
+  return { score, ...levels[score] };
+}
+
+function PasswordStrength({ password }: { password: string }) {
+  const { score, label, color } = getPasswordStrength(password);
+  const width = `${((score + 1) / 5) * 100}%`;
+
+  return (
+    <div className="space-y-1 pt-1">
+      <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all duration-300 ${color}`}
+          style={{ width }}
+        />
+      </div>
+      <p className="text-[11px] text-muted-foreground">{label}</p>
+    </div>
   );
 }

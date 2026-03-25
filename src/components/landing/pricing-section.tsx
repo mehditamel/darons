@@ -1,8 +1,12 @@
-import { Check } from "lucide-react";
+"use client";
+
+import { useEffect, useRef } from "react";
+import { Check, Minus } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { trackEvent } from "@/lib/analytics";
 
 const PLANS = [
   {
@@ -63,9 +67,74 @@ const PLANS = [
   },
 ];
 
+type CellValue = true | false | string;
+
+interface ComparisonRow {
+  label: string;
+  isGroup?: boolean;
+  free?: CellValue;
+  plus?: CellValue;
+  pro?: CellValue;
+}
+
+const COMPARISON_ROWS: ComparisonRow[] = [
+  { label: "Santé", isGroup: true },
+  { label: "Suivi vaccins & croissance", free: true, plus: true, pro: true },
+  { label: "RDV médicaux & rappels", free: true, plus: true, pro: true },
+  { label: "20 examens obligatoires", free: true, plus: true, pro: true },
+  { label: "OCR ordonnances", free: "5/mois", plus: "Illimité", pro: "Illimité" },
+  { label: "Budget & Finances", isGroup: true },
+  { label: "Budget manuel + catégories", free: true, plus: true, pro: true },
+  { label: "Open Banking (Bridge)", free: true, plus: true, pro: true },
+  { label: "Coach IA budget", free: true, plus: true, pro: true },
+  { label: "Simulation IR & crédits", free: true, plus: true, pro: true },
+  { label: "Documents & Outils", isGroup: true },
+  { label: "Coffre-fort numérique", free: "1 Go", plus: "50 Go", pro: "50 Go" },
+  { label: "Recherche de garde", free: true, plus: true, pro: true },
+  { label: "Export PDF", free: false, plus: true, pro: true },
+  { label: "Sync calendrier", free: false, plus: true, pro: true },
+  { label: "Notifications", isGroup: true },
+  { label: "Alertes email + push", free: true, plus: true, pro: true },
+  { label: "Alertes SMS urgentes", free: false, plus: true, pro: true },
+  { label: "Collaboration", isGroup: true },
+  { label: "Multi-foyers", free: false, plus: false, pro: true },
+  { label: "Dépenses partagées", free: false, plus: false, pro: true },
+  { label: "Support prioritaire", free: false, plus: false, pro: true },
+  { label: "Personnalisation", isGroup: true },
+  { label: "Thèmes personnalisés", free: false, plus: true, pro: true },
+  { label: "Zéro publicité", free: false, plus: true, pro: true },
+];
+
+function renderCell(value?: CellValue) {
+  if (value === true) return <Check className="h-4 w-4 text-warm-green mx-auto" />;
+  if (value === false) return <Minus className="h-4 w-4 text-muted-foreground/40 mx-auto" />;
+  if (typeof value === "string") return <span className="text-xs font-medium">{value}</span>;
+  return <Minus className="h-4 w-4 text-muted-foreground/40 mx-auto" />;
+}
+
 export function PricingSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const tracked = useRef(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !tracked.current) {
+          tracked.current = true;
+          trackEvent("pricing_page_viewed");
+        }
+      },
+      { threshold: 0.3 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="pricing" className="py-20 px-4">
+    <section ref={sectionRef} id="pricing" className="py-20 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-serif font-bold">
@@ -130,6 +199,43 @@ export function PricingSection() {
         <p className="text-center text-xs text-muted-foreground mt-8">
           Pas de carte bancaire requise. Pas d'engagement. Tu peux annuler à tout moment.
         </p>
+
+        {/* Feature comparison table — desktop only */}
+        <div className="hidden lg:block mt-16">
+          <h3 className="text-xl font-serif font-bold text-center mb-8">
+            Comparatif détaillé
+          </h3>
+          <div className="rounded-xl border overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b bg-muted/50">
+                  <th className="text-left p-4 font-semibold">Fonctionnalité</th>
+                  <th className="text-center p-4 font-semibold">Gratuit</th>
+                  <th className="text-center p-4 font-semibold text-warm-orange">Darons+</th>
+                  <th className="text-center p-4 font-semibold">Family Pro</th>
+                </tr>
+              </thead>
+              <tbody>
+                {COMPARISON_ROWS.map((row, i) => (
+                  row.isGroup ? (
+                    <tr key={i} className="bg-muted/30">
+                      <td colSpan={4} className="p-3 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+                        {row.label}
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr key={i} className="border-b last:border-0">
+                      <td className="p-3 pl-4">{row.label}</td>
+                      <td className="p-3 text-center">{renderCell(row.free)}</td>
+                      <td className="p-3 text-center">{renderCell(row.plus)}</td>
+                      <td className="p-3 text-center">{renderCell(row.pro)}</td>
+                    </tr>
+                  )
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </section>
   );
