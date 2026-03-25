@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { journalEntrySchema, type JournalEntryFormData } from "@/lib/validators/educational";
 import { createJournalEntry, updateJournalEntry } from "@/lib/actions/educational";
+import { trackEvent } from "@/lib/analytics";
 import type { ParentJournalEntry, Mood } from "@/types/health";
 import { MOOD_LABELS } from "@/types/health";
 import { cn } from "@/lib/utils";
@@ -90,6 +91,7 @@ export function JournalForm({
     if (result.success) {
       reset();
       onOpenChange(false);
+      if (!entry) trackEvent("journal_entry_created");
     } else {
       setError(result.error ?? "Une erreur est survenue");
     }

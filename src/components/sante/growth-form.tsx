@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { FormError } from "@/components/shared/form-error";
 import { growthMeasurementSchema, type GrowthMeasurementFormData } from "@/lib/validators/health";
 import { createGrowthMeasurement } from "@/lib/actions/health";
+import { trackEvent } from "@/lib/analytics";
 
 interface GrowthFormProps {
   open: boolean;
@@ -58,6 +59,7 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
     if (result.success) {
       reset();
       onOpenChange(false);
+      trackEvent("growth_measured");
     } else {
       setError(result.error ?? "Une erreur est survenue");
     }

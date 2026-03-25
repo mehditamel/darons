@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { FormError } from "@/components/shared/form-error";
 import { useToast } from "@/hooks/use-toast";
+import { trackEvent } from "@/lib/analytics";
 import { budgetEntrySchema, type BudgetEntryFormData } from "@/lib/validators/budget";
 import { createBudgetEntry, updateBudgetEntry } from "@/lib/actions/budget";
 import { BUDGET_CATEGORY_LABELS, type BudgetEntry } from "@/types/budget";
@@ -101,6 +102,7 @@ export function BudgetEntryForm({
         reset();
         onOpenChange(false);
         toast({ title: entry ? "Entrée modifiée" : "Entrée ajoutée" });
+        if (!entry) trackEvent("budget_transaction_added", { source: "manual" });
       } else {
         setError(result.error ?? "Une erreur est survenue");
         toast({ title: "Erreur", description: result.error ?? "Une erreur est survenue", variant: "destructive" });

@@ -1,8 +1,12 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import { Check, Minus } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { trackEvent } from "@/lib/analytics";
 
 const PLANS = [
   {
@@ -109,8 +113,28 @@ function renderCell(value?: CellValue) {
 }
 
 export function PricingSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const tracked = useRef(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !tracked.current) {
+          tracked.current = true;
+          trackEvent("pricing_page_viewed");
+        }
+      },
+      { threshold: 0.3 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="pricing" className="py-20 px-4">
+    <section ref={sectionRef} id="pricing" className="py-20 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-serif font-bold">
