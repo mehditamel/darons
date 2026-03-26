@@ -116,11 +116,12 @@ export default async function SanteEnrichiePage() {
   }
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Santé enrichie"
         description="Examens obligatoires, repérage TND, exposition écrans, journal quotidien, allergies et ordonnances"
         icon={<Stethoscope className="h-5 w-5" />}
+        iconColor="bg-warm-teal/10 text-warm-teal"
       />
 
       {/* Stat cards */}

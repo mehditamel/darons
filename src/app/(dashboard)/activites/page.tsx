@@ -63,11 +63,12 @@ export default async function ActivitesPage() {
   });
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Activités & loisirs"
         description="Gérez les activités extra-scolaires et le planning hebdomadaire"
         icon={<Palette className="h-5 w-5" />}
+        iconColor="bg-warm-green/10 text-warm-green"
       />
 
       {/* Stat cards */}

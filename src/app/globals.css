@@ -359,6 +359,44 @@
     @apply from-warm-green/10 to-warm-green/25;
   }
 
+  /* Dark mode text-gradient readability */
+  .dark .text-gradient {
+    @apply from-warm-orange via-warm-orange/90 to-warm-teal;
+  }
+
+  /* Dark mode badge better contrast */
+  .dark [data-variant="outline"] {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Focus visible ring — global accessibility */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background rounded-sm;
+  }
+
+  /* Reduced motion — respect user preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .animate-bounce-gentle,
+    .animate-pulse-glow,
+    .animate-float,
+    .animate-shimmer {
+      animation: none !important;
+    }
+  }
+
+  /* Skip link visual enhancement */
+  .skip-link:focus {
+    @apply not-sr-only fixed top-4 left-4 z-[100] rounded-lg bg-primary px-4 py-2.5 text-primary-foreground shadow-lg font-medium;
+  }
+
   /* Smooth page transitions */
   .page-enter {
     animation: fade-in-up 0.3s ease-out both;

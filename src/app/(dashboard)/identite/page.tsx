@@ -31,11 +31,12 @@ export default async function IdentitePage() {
   const expiredCount = documents.filter((d) => d.status === "expired").length;
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Identité & documents"
         description="Tes papiers d'identité en un coup d'oeil"
         icon={<IdCard className="h-5 w-5" />}
+        iconColor="bg-warm-orange/10 text-warm-orange"
       />
 
       {/* Stats */}

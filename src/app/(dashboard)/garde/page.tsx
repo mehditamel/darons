@@ -48,11 +48,12 @@ export default async function GardePage() {
   });
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Recherche de garde"
         description="Trouve la crèche ou la nounou idéale près de chez toi"
         icon={<Baby className="h-5 w-5" />}
+        iconColor="bg-warm-blue/10 text-warm-blue"
       />
 
       {/* Stat cards */}

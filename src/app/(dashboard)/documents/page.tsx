@@ -58,11 +58,12 @@ export default async function DocumentsPage() {
   }
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Coffre-fort numérique"
         description="Tes documents importants, bien rangés et en sécurité"
         icon={<FolderLock className="h-5 w-5" />}
+        iconColor="bg-warm-purple/10 text-warm-purple"
       />
 
       {/* Stat cards */}

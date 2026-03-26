@@ -126,7 +126,7 @@ export default async function DeveloppementPage() {
     : null;
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Développement"
         description={firstChild ? `Les progrès de ${firstChild.firstName} (${firstChildAge?.label})` : "Suivez les jalons de développement et tenez le journal parental"}

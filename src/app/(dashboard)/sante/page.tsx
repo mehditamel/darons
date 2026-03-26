@@ -94,11 +94,12 @@ export default async function SantePage() {
     : null;
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Santé & vaccinations"
         description="Les vaccins, la croissance, les RDV — tout est là"
         icon={<HeartPulse className="h-5 w-5" />}
+        iconColor="bg-warm-teal/10 text-warm-teal"
       />
 
       {/* Stat cards */}

@@ -109,11 +109,12 @@ export default async function BudgetPage({
     : null;
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Budget familial"
         description="Où passe ta thune ? On te montre"
         icon={<Wallet className="h-5 w-5" />}
+        iconColor="bg-warm-blue/10 text-warm-blue"
       />
 
       {/* Summary stat cards */}

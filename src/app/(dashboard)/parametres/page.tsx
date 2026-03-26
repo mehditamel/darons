@@ -58,11 +58,12 @@ export default async function ParametresPage() {
   const smsEnabled = getConsentValue("sms_notifications");
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Paramètres"
         description="Ton compte, ton foyer, tes préférences"
         icon={<Settings className="h-5 w-5" />}
+        iconColor="bg-muted text-muted-foreground"
       />
 
       <div className="grid gap-6">

@@ -62,11 +62,12 @@ export default async function DemarchesPage() {
   const completionPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Démarches & droits"
         description="Tes papiers administratifs sous contrôle"
         icon={<ClipboardList className="h-5 w-5" />}
+        iconColor="bg-warm-orange/10 text-warm-orange"
       />
 
       {/* Stat cards */}

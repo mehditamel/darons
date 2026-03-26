@@ -19,7 +19,7 @@ export default async function AlertesPage() {
   const dismissedAlerts = historyResult.data ?? [];
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Alertes"
         description="L'IA surveille ton foyer et te previent quand il y a un truc a faire."

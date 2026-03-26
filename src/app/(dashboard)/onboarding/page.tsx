@@ -31,9 +31,13 @@ import {
 } from "@/components/ui/select";
 import { householdSchema, type HouseholdFormData } from "@/lib/validators/family";
 import { familyMemberSchema, type FamilyMemberFormData } from "@/lib/validators/family";
+import dynamic from "next/dynamic";
 import { createHousehold, createFamilyMember } from "@/lib/actions/family";
 import { useToast } from "@/hooks/use-toast";
-import { ConfettiEffect } from "@/components/shared/confetti-effect";
+const ConfettiEffect = dynamic(
+  () => import("@/components/shared/confetti-effect").then((m) => m.ConfettiEffect),
+  { ssr: false }
+);
 import { trackEvent } from "@/lib/analytics";
 
 const STEPS = [

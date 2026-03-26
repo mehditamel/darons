@@ -92,11 +92,12 @@ export default async function FiscalPage() {
   const nextDeadline = getNextFiscalDeadline();
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Foyer fiscal"
         description="Tes impôts, on t'aide à payer moins"
         icon={<Calculator className="h-5 w-5" />}
+        iconColor="bg-warm-gold/10 text-warm-gold"
       />
 
       {/* Stat cards */}

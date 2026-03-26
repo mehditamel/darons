@@ -126,7 +126,7 @@ export default async function ScolaritePage() {
   const tooYoung = firstChildAge && firstChildAge.years < 2;
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       <PageHeader
         title="Scolarité"
         description={firstChild ? `Parcours scolaire de ${firstChild.firstName}` : "Timeline prévisionnelle et suivi de la scolarité de vos enfants"}
