@@ -10,6 +10,7 @@ import { SessionTracker } from "@/components/analytics/session-tracker";
 import { CookieBanner } from "@/components/shared/cookie-banner";
 import { ScrollToTop } from "@/components/shared/scroll-to-top";
 import { RouteProgress } from "@/components/shared/route-progress";
+import { PageTransition } from "@/components/layout/page-transition";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -115,7 +116,7 @@ export default async function DashboardLayout({
         Aller au contenu principal
       </a>
       <Sidebar badges={sidebarBadges} userInitials={userInitials} userEmail={userEmail} />
-      <div className="lg:pl-64">
+      <div className="lg:pl-64 transition-all duration-300">
         <Topbar
           userEmail={userEmail}
           userInitials={userInitials}
@@ -124,7 +125,9 @@ export default async function DashboardLayout({
         <main id="main-content" className="p-4 pb-20 lg:p-6 lg:pb-6" role="main">
           <OfflineBanner />
           <InstallPrompt />
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </main>
       </div>
       <BottomNavigation />

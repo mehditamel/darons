@@ -1,7 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import { MiniProgressRing } from "@/components/shared/progress-ring";
 import { TrendingUp, ArrowRight } from "lucide-react";
 import type { DevelopmentMilestone, MilestoneCategory } from "@/types/health";
 import { MILESTONE_CATEGORY_LABELS } from "@/types/health";
@@ -13,12 +15,20 @@ interface MilestonesProgressCardProps {
   birthDate: string;
 }
 
-const CATEGORY_COLORS: Record<string, string> = {
-  motricite: "bg-warm-teal",
-  langage: "bg-warm-blue",
-  cognition: "bg-warm-purple",
-  social: "bg-warm-orange",
-  autonomie: "bg-warm-gold",
+const CATEGORY_RING_COLORS: Record<string, string> = {
+  motricite: "text-warm-teal",
+  langage: "text-warm-blue",
+  cognition: "text-warm-purple",
+  social: "text-warm-orange",
+  autonomie: "text-warm-gold",
+};
+
+const CATEGORY_BG_COLORS: Record<string, string> = {
+  motricite: "bg-warm-teal/10",
+  langage: "bg-warm-blue/10",
+  cognition: "bg-warm-purple/10",
+  social: "bg-warm-orange/10",
+  autonomie: "bg-warm-gold/10",
 };
 
 export function MilestonesProgressCard({ milestones, childName, birthDate }: MilestonesProgressCardProps) {
@@ -53,21 +63,25 @@ export function MilestonesProgressCard({ milestones, childName, birthDate }: Mil
             <p className="text-xs text-muted-foreground">
               {childName} : {totalAchieved}/{totalExpected} jalons atteints
             </p>
-            <div className="space-y-2">
+            <div className="grid grid-cols-5 gap-2">
               {categoryStats.filter((c) => c.total > 0).map((stat) => (
-                <div key={stat.category} className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground">
-                      {MILESTONE_CATEGORY_LABELS[stat.category]}
-                    </span>
-                    <span className="text-xs font-medium">{stat.achieved}/{stat.total}</span>
-                  </div>
-                  <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
-                    <div
-                      className={`h-full rounded-full transition-all ${CATEGORY_COLORS[stat.category] ?? "bg-primary"}`}
-                      style={{ width: `${stat.percent}%` }}
+                <div
+                  key={stat.category}
+                  className="flex flex-col items-center gap-1.5"
+                >
+                  <div className={`rounded-full p-1.5 ${CATEGORY_BG_COLORS[stat.category] ?? "bg-muted"}`}>
+                    <MiniProgressRing
+                      value={stat.percent}
+                      size={28}
+                      color={CATEGORY_RING_COLORS[stat.category] ?? "text-primary"}
                     />
                   </div>
+                  <span className="text-[9px] text-muted-foreground text-center leading-tight">
+                    {MILESTONE_CATEGORY_LABELS[stat.category]}
+                  </span>
+                  <span className="text-[10px] font-semibold tabular-nums">
+                    {stat.achieved}/{stat.total}
+                  </span>
                 </div>
               ))}
             </div>

@@ -26,6 +26,7 @@ import { Footer } from "@/components/layout/footer";
 import { FaqSection } from "@/components/landing/faq-section";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { AnimatedStatsBar } from "@/components/landing/animated-stats-bar";
+import { ScrollSection } from "@/components/landing/scroll-section";
 import { NewsletterSignup } from "@/components/blog/newsletter-signup";
 import { getAllArticles } from "@/lib/blog-data";
 import { BookOpen, Clock } from "lucide-react";
@@ -335,46 +336,49 @@ export default function LandingPage() {
 
       {/* Features */}
       <section id="fonctionnalites" data-testid="features" className="py-24">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center mb-16">
-            <Badge variant="outline" className="mb-4">Fonctionnalités</Badge>
-            <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-              6 piliers pour gérer ta tribu
-            </h2>
-            <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-              Aucune solution intégrée n'existe sur le marché français. Jusqu'à aujourd'hui.
-            </p>
+        <ScrollSection direction="up">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="text-center mb-16">
+              <Badge variant="outline" className="mb-4">Fonctionnalités</Badge>
+              <h2 className="text-3xl font-serif font-bold lg:text-4xl">
+                6 piliers pour gérer ta tribu
+              </h2>
+              <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
+                Aucune solution intégrée n'existe sur le marché français. Jusqu'à aujourd'hui.
+              </p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {FEATURES.map((feature, index) => (
+                <Link key={index} href={feature.href}>
+                  <Card className="card-playful border-0 shadow-md group overflow-hidden h-full">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                    <CardHeader className="relative">
+                      <div
+                        className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bgColor} ${feature.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}
+                      >
+                        <feature.icon className="h-6 w-6" />
+                      </div>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        {feature.title}
+                        <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="relative">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((feature, index) => (
-              <Link key={index} href={feature.href}>
-                <Card className="card-playful border-0 shadow-md group overflow-hidden h-full">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <CardHeader className="relative">
-                    <div
-                      className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bgColor} ${feature.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}
-                    >
-                      <feature.icon className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      {feature.title}
-                      <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="relative">
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
+        </ScrollSection>
       </section>
 
       {/* AI Section */}
       <section data-testid="ai-alerts" className="py-24 bg-gradient-to-b from-background to-card">
+        <ScrollSection direction="up">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-warm-purple/20 to-warm-blue/20 mb-6 shadow-lg shadow-warm-purple/10">
@@ -409,10 +413,12 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       {/* Gratuit vs concurrence */}
       <section data-testid="competitors" className="py-24">
+        <ScrollSection direction="left">
         <div className="mx-auto max-w-4xl px-4">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4 border-warm-green/30 text-warm-green">Comparatif</Badge>
@@ -452,10 +458,12 @@ export default function LandingPage() {
             </CardContent>
           </Card>
         </div>
+        </ScrollSection>
       </section>
 
       {/* Security */}
       <section id="securite" data-testid="security" className="py-24 bg-card">
+        <ScrollSection direction="up">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10 mb-6">
@@ -488,10 +496,12 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       {/* Testimonials */}
       <section data-testid="testimonials" className="py-24">
+        <ScrollSection direction="up">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4">Ce qu'ils en disent</Badge>
@@ -567,6 +577,7 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       {/* CTA */}
@@ -574,6 +585,7 @@ export default function LandingPage() {
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-warm-orange/5 via-transparent to-warm-teal/5" />
         </div>
+        <ScrollSection direction="scale">
         <div className="relative mx-auto max-w-3xl px-4 text-center">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white mb-8 shadow-xl shadow-warm-orange/20">
             <Sparkles className="h-7 w-7" />
@@ -599,10 +611,12 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       {/* Blog articles */}
       <section className="py-24 bg-card">
+        <ScrollSection direction="up">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-serif font-bold">
@@ -643,6 +657,7 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       <PricingSection />

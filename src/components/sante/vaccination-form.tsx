@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FormError } from "@/components/shared/form-error";
+import { ConfettiBurst, useConfetti } from "@/components/shared/confetti-burst";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/analytics";
 import { vaccinationSchema, type VaccinationFormData } from "@/lib/validators/health";
@@ -45,6 +46,7 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
   const [error, setError] = useState<string | null>(null);
   const lastSubmitData = useRef<VaccinationFormData | null>(null);
   const { toast } = useToast();
+  const { isActive: showConfetti, trigger: triggerConfetti } = useConfetti();
 
   const {
     register,
@@ -93,9 +95,10 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
       const result = await createVaccination(data);
 
       if (result.success) {
+        triggerConfetti();
         reset();
-        onOpenChange(false);
-        toast({ title: "Vaccin enregistré" });
+        setTimeout(() => onOpenChange(false), 800);
+        toast({ title: "Vaccin enregistré 🎉" });
         trackEvent("vaccine_recorded", { vaccineCode: data.vaccineCode ?? "unknown" });
       } else {
         setError(result.error ?? "Une erreur est survenue");
@@ -112,7 +115,8 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md" aria-label="Enregistrer un vaccin">
+      <DialogContent className="sm:max-w-md relative overflow-hidden" aria-label="Enregistrer un vaccin">
+        <ConfettiBurst active={showConfetti} />
         <DialogHeader>
           <DialogTitle>Enregistrer un vaccin</DialogTitle>
           <DialogDescription>

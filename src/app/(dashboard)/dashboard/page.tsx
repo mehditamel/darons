@@ -27,6 +27,7 @@ import { MonthlySummaryCard } from "@/components/dashboard/monthly-summary-card"
 import { FamilyOverviewCard } from "@/components/dashboard/family-overview-card";
 import { WeeklyActivitiesCard } from "@/components/dashboard/weekly-activities-card";
 import { MilestonesProgressCard } from "@/components/dashboard/milestones-progress-card";
+import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -324,6 +325,7 @@ export default async function DashboardPage() {
   const quickActions = getQuickActions(youngestAgeMonths);
 
   return (
+    <DashboardShell>
     <div className="space-y-8 page-enter">
       {/* Greeting */}
       <div className="flex flex-col gap-1">
@@ -641,5 +643,6 @@ export default async function DashboardPage() {
       {/* Monthly AI Summary */}
       <MonthlySummaryCard hasAccess={hasAiSummary} />
     </div>
+    </DashboardShell>
   );
 }
