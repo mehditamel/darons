@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export function SkeletonBlock({ className }: { className?: string }) {
-  return <div className={`animate-pulse rounded bg-muted ${className ?? ""}`} />;
+  return <div className={`skeleton-shimmer ${className ?? ""}`} />;
 }
 
 interface SkeletonPageProps {

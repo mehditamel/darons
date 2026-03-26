@@ -30,7 +30,7 @@ export function BottomNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-md lg:hidden" role="navigation" aria-label="Navigation mobile">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-xl lg:hidden" role="navigation" aria-label="Navigation mobile">
       <div className="flex items-center justify-around">
         {BOTTOM_TABS.map((tab) => {
           const Icon = tab.icon;
@@ -43,17 +43,24 @@ export function BottomNavigation() {
               key={tab.href}
               href={tab.href}
               className={cn(
-                "relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium transition-colors",
+                "relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium transition-all duration-200 active:scale-90",
                 isActive
                   ? "text-warm-orange"
-                  : "text-muted-foreground"
+                  : "text-muted-foreground active:text-warm-orange/70"
               )}
             >
               {isActive && (
-                <span className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-8 rounded-full bg-warm-orange" />
+                <span className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-8 rounded-full bg-warm-orange transition-all duration-300" />
               )}
-              <Icon className={cn("h-5 w-5 transition-transform", isActive && "scale-110")} />
-              <span>{tab.label}</span>
+              <Icon
+                className={cn(
+                  "h-5 w-5 transition-all duration-200",
+                  isActive && "scale-110"
+                )}
+              />
+              <span className={cn("transition-all duration-200", isActive && "font-semibold")}>
+                {tab.label}
+              </span>
             </Link>
           );
         })}
@@ -62,7 +69,7 @@ export function BottomNavigation() {
         <Sheet>
           <SheetTrigger asChild>
             <button
-              className="relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium text-muted-foreground transition-colors"
+              className="relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium text-muted-foreground transition-all duration-200 active:scale-90 active:text-warm-orange/70"
               aria-label="Plus de modules"
             >
               <Menu className="h-5 w-5" />
@@ -73,7 +80,10 @@ export function BottomNavigation() {
             <SheetHeader className="sr-only">
               <SheetTitle>Navigation</SheetTitle>
             </SheetHeader>
-            <div className="mx-auto mt-2 mb-4 h-1 w-12 rounded-full bg-white/20" />
+            {/* Drag handle */}
+            <div className="flex justify-center pt-3 pb-4">
+              <div className="h-1.5 w-12 rounded-full bg-white/25" />
+            </div>
             <MobileNav />
           </SheetContent>
         </Sheet>

@@ -12,6 +12,7 @@ import {
   TrendingUp,
   type LucideIcon,
 } from "lucide-react";
+import { ILLUSTRATION_MAP } from "@/components/shared/illustrations";
 
 interface EmptyStateConfig {
   icon: LucideIcon;
@@ -101,22 +102,40 @@ export function EnhancedEmptyState({ module, childName }: EnhancedEmptyStateProp
   const config = EMPTY_STATE_CONFIGS[module];
   if (!config) return null;
 
-  const Icon = config.icon;
+  const Illustration = ILLUSTRATION_MAP[module];
   const description = childName
     ? config.description.replace("ton enfant", childName)
     : config.description;
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardContent className="flex flex-col items-center py-12 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted animate-bounce-gentle">
-          <Icon className="h-8 w-8 text-muted-foreground" />
-        </div>
-        <h3 className="text-lg font-semibold">{config.title}</h3>
-        <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+        {/* SVG Illustration with fade-in */}
+        {Illustration ? (
+          <div className="mb-6">
+            <Illustration size={120} />
+          </div>
+        ) : (
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted animate-bounce-gentle">
+            <config.icon className="h-8 w-8 text-muted-foreground" />
+          </div>
+        )}
+
+        {/* Title with stagger delay */}
+        <h3 className="text-lg font-semibold animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+          {config.title}
+        </h3>
+
+        {/* Description with stagger delay */}
+        <p
+          className="mt-2 max-w-sm text-sm text-muted-foreground animate-fade-in-up"
+          style={{ animationDelay: "0.2s" }}
+        >
           {description}
         </p>
-        <div className="mt-6 flex gap-2">
+
+        {/* CTAs with stagger delay */}
+        <div className="mt-6 flex gap-2 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
           <Button asChild className="animate-pulse-glow">
             <Link href={config.ctaHref}>{config.cta}</Link>
           </Button>

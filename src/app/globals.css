@@ -40,16 +40,16 @@
     --popover-foreground: 210 40% 98%;
     --primary: 16 76% 60%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 174 40% 42%;
+    --secondary: 174 40% 48%;
     --secondary-foreground: 0 0% 100%;
     --muted: 222 30% 20%;
-    --muted-foreground: 210 20% 60%;
+    --muted-foreground: 210 20% 65%;
     --accent: 222 30% 20%;
     --accent-foreground: 210 40% 98%;
     --destructive: 4 76% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 222 20% 22%;
-    --input: 222 20% 22%;
+    --border: 222 20% 24%;
+    --input: 222 20% 24%;
     --ring: 16 76% 60%;
     --sidebar: 222 47% 8%;
     --sidebar-foreground: 210 40% 90%;
@@ -214,6 +214,46 @@
     background-size: 200% 100%;
   }
 
+  /* Shimmer skeleton loader — gradient sweep */
+  .skeleton-shimmer {
+    @apply rounded bg-gradient-to-r from-muted via-muted/40 to-muted;
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  @keyframes progress-ring-fill {
+    from {
+      stroke-dashoffset: var(--ring-circumference, 283);
+    }
+    to {
+      stroke-dashoffset: var(--ring-offset, 0);
+    }
+  }
+
+  @keyframes swipe-hint {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-4px);
+    }
+    75% {
+      transform: translateX(4px);
+    }
+  }
+  .animate-swipe-hint {
+    animation: swipe-hint 1.5s ease-in-out 1;
+  }
+
+  @keyframes draw-path {
+    from {
+      stroke-dashoffset: var(--path-length, 100);
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
   @keyframes count-up {
     from {
       opacity: 0;
@@ -279,16 +319,54 @@
   }
 
   .glass-card {
-    @apply rounded-2xl border border-white/20 bg-white/60 backdrop-blur-sm shadow-sm;
+    @apply rounded-2xl border border-white/20 bg-white/60 backdrop-blur-lg shadow-sm;
   }
 
   .dark .glass-card {
     @apply border-white/10 bg-white/5;
+    border-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-topbar {
+    @apply border-b bg-background/60 backdrop-blur-xl;
+  }
+
+  .dark .glass-topbar {
+    @apply bg-background/50 border-white/10;
+  }
+
+  /* Dark mode card gradient adjustments for better visibility */
+  .dark .card-gradient-teal {
+    @apply from-warm-teal/10 to-warm-teal/25;
+  }
+  .dark .card-gradient-orange {
+    @apply from-warm-orange/10 to-warm-orange/25;
+  }
+  .dark .card-gradient-blue {
+    @apply from-warm-blue/10 to-warm-blue/25;
+  }
+  .dark .card-gradient-purple {
+    @apply from-warm-purple/10 to-warm-purple/25;
+  }
+  .dark .card-gradient-gold {
+    @apply from-warm-gold/10 to-warm-gold/25;
+  }
+  .dark .card-gradient-red {
+    @apply from-warm-red/10 to-warm-red/25;
+  }
+  .dark .card-gradient-green {
+    @apply from-warm-green/10 to-warm-green/25;
   }
 
   /* Smooth page transitions */
   .page-enter {
     animation: fade-in-up 0.3s ease-out both;
+  }
+
+  /* Dashboard section spacing */
+  .dashboard-section {
+    @apply mb-8;
   }
 
   /* Active bottom nav indicator */

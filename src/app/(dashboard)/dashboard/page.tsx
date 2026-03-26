@@ -31,6 +31,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { ProgressRing } from "@/components/shared/progress-ring";
 import { getGreeting, formatDate, formatCurrency } from "@/lib/utils";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getIdentityDocuments, getExpiringDocuments } from "@/lib/actions/identity";
@@ -323,7 +324,7 @@ export default async function DashboardPage() {
   const quickActions = getQuickActions(youngestAgeMonths);
 
   return (
-    <div className="space-y-6 page-enter">
+    <div className="space-y-8 page-enter">
       {/* Greeting */}
       <div className="flex flex-col gap-1">
         <PageHeader
@@ -372,30 +373,45 @@ export default async function DashboardPage() {
       {/* Profile completion */}
       {completionPercent < 100 && (
         <Card className="border-dashed border-warm-orange/30 bg-warm-orange/5">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-warm-orange" />
-                <p className="text-sm font-semibold">Ton profil est a {completionPercent}%</p>
+          <CardContent className="p-5">
+            <div className="flex items-start gap-5">
+              {/* Progress Ring */}
+              <div className="shrink-0">
+                <ProgressRing
+                  value={completionPercent}
+                  size={72}
+                  strokeWidth={6}
+                  color="text-warm-orange"
+                  animated
+                />
               </div>
-              <Badge variant="outline" className="text-xs">
-                {completionChecks.filter((c) => !c.done).length} etape{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""} restante{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""}
-              </Badge>
-            </div>
-            <Progress value={completionPercent} className="h-2 mb-3" aria-label={`Profil complete a ${completionPercent}%`} />
-            <div className="flex flex-wrap gap-1.5">
-              {completionChecks.map((check) => (
-                <span
-                  key={check.label}
-                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
-                    check.done
-                      ? "bg-warm-green/10 text-warm-green"
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
-                  }`}
-                >
-                  {check.done ? "\u2713" : "\u25CB"} {check.label}
-                </span>
-              ))}
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-warm-orange" />
+                    <p className="text-sm font-semibold">Ton profil est a {completionPercent}%</p>
+                  </div>
+                  <Badge variant="outline" className="text-xs">
+                    {completionChecks.filter((c) => !c.done).length} etape{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""} restante{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""}
+                  </Badge>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {completionChecks.map((check, i) => (
+                    <span
+                      key={check.label}
+                      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors animate-fade-in-up ${
+                        check.done
+                          ? "bg-warm-green/10 text-warm-green"
+                          : "bg-muted text-muted-foreground hover:bg-muted/80"
+                      }`}
+                      style={{ animationDelay: `${i * 0.05}s` }}
+                    >
+                      {check.done ? "\u2713" : "\u25CB"} {check.label}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>

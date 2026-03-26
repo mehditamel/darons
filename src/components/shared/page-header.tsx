@@ -6,6 +6,7 @@ interface PageHeaderProps {
   children?: React.ReactNode;
   className?: string;
   icon?: React.ReactNode;
+  iconColor?: string;
 }
 
 export function PageHeader({
@@ -14,6 +15,7 @@ export function PageHeader({
   children,
   className,
   icon,
+  iconColor = "bg-primary/10 text-primary",
 }: PageHeaderProps) {
   return (
     <div
@@ -24,16 +26,21 @@ export function PageHeader({
     >
       <div className="flex items-start gap-3">
         {icon && (
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary shrink-0 mt-0.5">
+          <div
+            className={cn(
+              "flex h-10 w-10 items-center justify-center rounded-xl shrink-0 mt-0.5 transition-transform hover:scale-105",
+              iconColor
+            )}
+          >
             {icon}
           </div>
         )}
         <div>
-          <h1 className="text-2xl font-serif font-bold tracking-tight lg:text-3xl">
+          <h1 className="text-2xl font-serif font-bold tracking-tight lg:text-3xl xl:text-4xl">
             {title}
           </h1>
           {description && (
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1.5 text-sm text-muted-foreground lg:text-base">
               {description}
             </p>
           )}

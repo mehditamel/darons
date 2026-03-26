@@ -180,6 +180,15 @@ const config: Config = {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		},
+  		boxShadow: {
+  			'warm-orange': '0 4px 14px -3px rgba(232, 115, 74, 0.25)',
+  			'warm-teal': '0 4px 14px -3px rgba(43, 168, 158, 0.25)',
+  			'warm-blue': '0 4px 14px -3px rgba(74, 123, 232, 0.25)',
+  			'warm-purple': '0 4px 14px -3px rgba(123, 94, 167, 0.25)',
+  			'warm-gold': '0 4px 14px -3px rgba(212, 168, 67, 0.25)',
+  			'warm-green': '0 4px 14px -3px rgba(76, 175, 80, 0.25)',
+  			'warm-red': '0 4px 14px -3px rgba(232, 83, 74, 0.25)',
+  		},
   		transitionTimingFunction: {
   			spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
   		}

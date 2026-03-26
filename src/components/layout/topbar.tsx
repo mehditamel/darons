@@ -35,7 +35,7 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b bg-background/80 backdrop-blur-md px-4 lg:px-6" role="banner">
+    <header className="sticky top-0 z-30 flex h-14 items-center gap-3 glass-topbar px-4 lg:px-6" role="banner">
       {/* Spacer for mobile (hamburger removed - using bottom nav "Plus") */}
       <div className="lg:hidden w-1" />
 
