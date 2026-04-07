@@ -100,6 +100,7 @@ export function PhoneNumberSettings({ currentPhoneNumber, hasSms }: PhoneNumberS
           <div className="space-y-2">
             <Input
               type="tel"
+              inputMode="tel"
               placeholder="+33612345678"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}

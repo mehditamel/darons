@@ -86,6 +86,7 @@ export function SimulationForm({
               <Input
                 id="revenuNetImposable"
                 type="number"
+                inputMode="numeric"
                 min={0}
                 step={100}
                 placeholder="60 000"
@@ -124,6 +125,7 @@ export function SimulationForm({
             <Input
               id="numChildren"
               type="number"
+              inputMode="numeric"
               min={0}
               max={10}
               {...register("numChildren", { valueAsNumber: true })}
@@ -141,6 +143,7 @@ export function SimulationForm({
                 <Input
                   id="gardeEnfantExpenses"
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   step={100}
                   placeholder="3 500"
@@ -154,6 +157,7 @@ export function SimulationForm({
                 <Input
                   id="emploiDomicileExpenses"
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   step={100}
                   placeholder="12 000"
@@ -167,6 +171,7 @@ export function SimulationForm({
                 <Input
                   id="donsOrganismes"
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   step={100}
                   placeholder="500"
@@ -180,6 +185,7 @@ export function SimulationForm({
                 <Input
                   id="donsAidePersonnes"
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   step={100}
                   placeholder="1 000"

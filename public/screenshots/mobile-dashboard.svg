@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920">
+  <rect width="1080" height="1920" fill="#FDFAF6"/>
+  <!-- Status bar -->
+  <rect width="1080" height="80" fill="#1B2838"/>
+  <!-- Topbar -->
+  <rect y="80" width="1080" height="120" fill="#FFFFFF" opacity="0.95"/>
+  <text x="80" y="155" font-family="DM Sans,sans-serif" font-size="36" fill="#1B2838" font-weight="600">Darons</text>
+  <!-- Welcome card -->
+  <rect x="40" y="240" width="1000" height="200" rx="24" fill="#FFFFFF" stroke="#E8E2D8" stroke-width="2"/>
+  <text x="80" y="310" font-family="DM Serif Display,serif" font-size="40" fill="#1B2838">Salut, Mehdi !</text>
+  <text x="80" y="370" font-family="DM Sans,sans-serif" font-size="28" fill="#7A7568">Voici le r&#233;sum&#233; de ta famille</text>
+  <!-- Stat cards row -->
+  <rect x="40" y="480" width="480" height="180" rx="20" fill="#2BA89E" opacity="0.1"/>
+  <text x="80" y="545" font-family="DM Sans,sans-serif" font-size="24" fill="#2BA89E" font-weight="600">Sant&#233;</text>
+  <text x="80" y="610" font-family="DM Sans,sans-serif" font-size="48" fill="#1B2838" font-weight="700">3</text>
+  <text x="150" y="610" font-family="DM Sans,sans-serif" font-size="24" fill="#7A7568">vaccins &#224; jour</text>
+  <rect x="560" y="480" width="480" height="180" rx="20" fill="#E8734A" opacity="0.1"/>
+  <text x="600" y="545" font-family="DM Sans,sans-serif" font-size="24" fill="#E8734A" font-weight="600">Budget</text>
+  <text x="600" y="610" font-family="DM Sans,sans-serif" font-size="48" fill="#1B2838" font-weight="700">1 245 &#8364;</text>
+  <!-- More stat cards -->
+  <rect x="40" y="700" width="480" height="180" rx="20" fill="#4A7BE8" opacity="0.1"/>
+  <text x="80" y="765" font-family="DM Sans,sans-serif" font-size="24" fill="#4A7BE8" font-weight="600">Fiscal</text>
+  <text x="80" y="830" font-family="DM Sans,sans-serif" font-size="48" fill="#1B2838" font-weight="700">3 850 &#8364;</text>
+  <text x="310" y="830" font-family="DM Sans,sans-serif" font-size="24" fill="#7A7568">&#233;conomis&#233;s</text>
+  <rect x="560" y="700" width="480" height="180" rx="20" fill="#7B5EA7" opacity="0.1"/>
+  <text x="600" y="765" font-family="DM Sans,sans-serif" font-size="24" fill="#7B5EA7" font-weight="600">Famille</text>
+  <text x="600" y="830" font-family="DM Sans,sans-serif" font-size="48" fill="#1B2838" font-weight="700">3</text>
+  <text x="650" y="830" font-family="DM Sans,sans-serif" font-size="24" fill="#7A7568">membres</text>
+  <!-- Alerts section -->
+  <rect x="40" y="940" width="1000" height="160" rx="20" fill="#FFFFFF" stroke="#E8E2D8" stroke-width="2"/>
+  <circle cx="100" cy="1020" r="24" fill="#E8734A" opacity="0.15"/>
+  <text x="100" y="1028" text-anchor="middle" font-size="28">&#x1F514;</text>
+  <text x="150" y="1005" font-family="DM Sans,sans-serif" font-size="28" fill="#1B2838" font-weight="600">2 alertes</text>
+  <text x="150" y="1050" font-family="DM Sans,sans-serif" font-size="24" fill="#7A7568">Vaccin en retard, CNI &#224; renouveler</text>
+  <!-- Bottom nav -->
+  <rect y="1760" width="1080" height="160" fill="#FFFFFF" stroke="#E8E2D8" stroke-width="1"/>
+  <text x="135" y="1850" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="22" fill="#E8734A" font-weight="600">Accueil</text>
+  <text x="378" y="1850" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="22" fill="#7A7568">Sant&#233;</text>
+  <text x="621" y="1850" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="22" fill="#7A7568">Budget</text>
+  <text x="864" y="1850" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="22" fill="#7A7568">Famille</text>
+</svg>

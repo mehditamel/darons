@@ -43,7 +43,7 @@ export function BottomNavigation() {
               key={tab.href}
               href={tab.href}
               className={cn(
-                "relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium transition-all duration-200 active:scale-90",
+                "relative flex flex-1 flex-col items-center gap-0.5 py-3 text-[11px] font-medium transition-all duration-200 active:scale-90",
                 isActive
                   ? "text-warm-orange"
                   : "text-muted-foreground active:text-warm-orange/70"
@@ -54,7 +54,7 @@ export function BottomNavigation() {
               )}
               <Icon
                 className={cn(
-                  "h-5 w-5 transition-all duration-200",
+                  "h-6 w-6 transition-all duration-200",
                   isActive && "scale-110"
                 )}
               />
@@ -69,10 +69,10 @@ export function BottomNavigation() {
         <Sheet>
           <SheetTrigger asChild>
             <button
-              className="relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium text-muted-foreground transition-all duration-200 active:scale-90 active:text-warm-orange/70"
+              className="relative flex flex-1 flex-col items-center gap-0.5 py-3 text-[11px] font-medium text-muted-foreground transition-all duration-200 active:scale-90 active:text-warm-orange/70"
               aria-label="Plus de modules"
             >
-              <Menu className="h-5 w-5" />
+              <Menu className="h-6 w-6" />
               <span>Plus</span>
             </button>
           </SheetTrigger>

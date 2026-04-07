@@ -84,6 +84,7 @@ export function AddExpenseDialog({ groupId, members }: AddExpenseDialogProps) {
               <Input
                 id="amount"
                 type="number"
+                inputMode="decimal"
                 step="0.01"
                 placeholder="0.00"
                 {...form.register("amount", { valueAsNumber: true })}

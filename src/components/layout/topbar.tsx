@@ -65,13 +65,13 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
       <Button
         variant="ghost"
         size="icon"
-        className="sm:hidden h-8 w-8"
+        className="sm:hidden h-10 w-10"
         onClick={() => {
           document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }));
         }}
         aria-label="Rechercher"
       >
-        <Search className="h-4 w-4" />
+        <Search className="h-5 w-5" />
       </Button>
 
       <ThemeToggle />
@@ -80,11 +80,11 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
       <Button
         variant="ghost"
         size="icon"
-        className="relative h-8 w-8"
+        className="relative h-10 w-10"
         aria-label={`Notifications${alertCount > 0 ? ` (${alertCount} en attente)` : ""}`}
         onClick={() => router.push("/alertes")}
       >
-        <Bell className="h-4 w-4" />
+        <Bell className="h-5 w-5" />
         {alertCount > 0 && (
           <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-warm-orange text-[9px] font-bold text-white px-1 animate-pulse-glow">
             {alertCount > 9 ? "9+" : alertCount}
@@ -95,8 +95,8 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
       {/* User menu */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0" aria-label="Menu utilisateur">
-            <Avatar className="h-8 w-8">
+          <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0" aria-label="Menu utilisateur">
+            <Avatar className="h-10 w-10">
               <AvatarFallback className="bg-gradient-to-br from-warm-teal to-warm-teal/80 text-white text-xs font-semibold">
                 {initials}
               </AvatarFallback>

@@ -5,6 +5,10 @@ import { WebVitalsReporter } from "@/components/analytics/web-vitals";
 import "./globals.css";
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
   themeColor: "#1B2838",
 };
 
@@ -30,7 +34,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "Darons",
   },
   openGraph: {
@@ -88,7 +92,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
         <link rel="alternate" type="application/rss+xml" title="Blog Darons" href="/rss.xml" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body>
         <ThemeProvider

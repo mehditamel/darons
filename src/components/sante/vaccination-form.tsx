@@ -153,6 +153,7 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
               <Input
                 id="doseNumber"
                 type="number"
+                inputMode="numeric"
                 min={1}
                 max={5}
                 aria-describedby={errors.doseNumber ? "doseNumber-error" : undefined}
