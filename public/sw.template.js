@@ -1,4 +1,6 @@
 const CACHE_NAME = "darons-__BUILD_ID__";
+const FONT_CACHE_NAME = "darons-fonts-v1";
+const MAX_DYNAMIC_CACHE_SIZE = 50;
 const STATIC_ASSETS = [
   "/",
   "/dashboard",
@@ -21,6 +23,16 @@ const DASHBOARD_PAGES = [
   "/demarches",
 ];
 
+// Trim cache to max size (LRU eviction by insertion order)
+async function trimCache(cacheName, maxSize) {
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+  if (keys.length > maxSize) {
+    const toDelete = keys.slice(0, keys.length - maxSize);
+    await Promise.all(toDelete.map((key) => cache.delete(key)));
+  }
+}
+
 // Install: cache static assets
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -31,16 +43,23 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
-// Activate: clean old caches
+// Activate: clean old caches + enable navigation preload
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
+    (async () => {
+      // Clean old caches (keep font cache across versions)
+      const cacheNames = await caches.keys();
+      await Promise.all(
         cacheNames
-          .filter((name) => name !== CACHE_NAME)
+          .filter((name) => name !== CACHE_NAME && name !== FONT_CACHE_NAME)
           .map((name) => caches.delete(name))
       );
-    })
+
+      // Enable navigation preload for faster first load
+      if (self.registration.navigationPreload) {
+        await self.registration.navigationPreload.enable();
+      }
+    })()
   );
   self.clients.claim();
 });
@@ -74,31 +93,61 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  // Cache Google Fonts with cache-first strategy (they're immutable)
+  if (
+    url.hostname === "fonts.googleapis.com" ||
+    url.hostname === "fonts.gstatic.com"
+  ) {
+    event.respondWith(
+      caches.open(FONT_CACHE_NAME).then((cache) => {
+        return cache.match(request).then((cached) => {
+          if (cached) return cached;
+          return fetch(request).then((response) => {
+            if (response.ok) {
+              cache.put(request, response.clone());
+            }
+            return response;
+          });
+        });
+      })
+    );
+    return;
+  }
+
   // Stale-while-revalidate for dashboard pages
   const isDashboardPage = DASHBOARD_PAGES.some((p) => url.pathname === p || url.pathname.startsWith(p + "/"));
   if (isDashboardPage || url.pathname === "/dashboard") {
     event.respondWith(
-      caches.open(CACHE_NAME).then((cache) => {
-        return cache.match(request).then((cached) => {
-          const fetchPromise = fetch(request)
-            .then((response) => {
-              if (response.ok) {
-                cache.put(request, response.clone());
-              }
-              return response;
-            })
-            .catch(() => {
-              if (cached) return cached;
-              if (request.mode === "navigate") {
-                return caches.match("/offline.html");
-              }
-              return new Response("Hors ligne", { status: 503, headers: { "Content-Type": "text/plain" } });
-            });
+      (async () => {
+        const cache = await caches.open(CACHE_NAME);
+        const cached = await cache.match(request);
 
-          // Return cached version immediately, update in background
-          return cached || fetchPromise;
-        });
-      })
+        // Use navigation preload response if available
+        const preloadResponse = event.preloadResponse
+          ? await event.preloadResponse
+          : null;
+
+        const fetchPromise = (preloadResponse && preloadResponse.ok
+          ? Promise.resolve(preloadResponse)
+          : fetch(request)
+        )
+          .then((response) => {
+            if (response.ok) {
+              cache.put(request, response.clone());
+            }
+            return response;
+          })
+          .catch(() => {
+            if (cached) return cached;
+            if (request.mode === "navigate") {
+              return caches.match("/offline.html");
+            }
+            return new Response("Hors ligne", { status: 503, headers: { "Content-Type": "text/plain" } });
+          });
+
+        // Return cached version immediately, update in background
+        return cached || fetchPromise;
+      })()
     );
     return;
   }
@@ -106,6 +155,7 @@ self.addEventListener("fetch", (event) => {
   // Stale-while-revalidate for fonts and images
   if (
     url.pathname.startsWith("/icons/") ||
+    url.pathname.startsWith("/screenshots/") ||
     url.pathname.endsWith(".woff2") ||
     url.pathname.endsWith(".woff") ||
     url.pathname.endsWith(".png") ||
@@ -136,6 +186,8 @@ self.addEventListener("fetch", (event) => {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(request, responseClone);
+            // LRU: trim dynamic cache to prevent unbounded growth
+            trimCache(CACHE_NAME, MAX_DYNAMIC_CACHE_SIZE);
           });
         }
         return response;

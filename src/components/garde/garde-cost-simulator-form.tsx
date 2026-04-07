@@ -103,6 +103,7 @@ export function GardeCostSimulatorForm() {
                 <Input
                   id="coutMensuelBrut"
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   step={10}
                   placeholder="800"
@@ -122,6 +123,7 @@ export function GardeCostSimulatorForm() {
                 <Input
                   id="revenuAnnuel"
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   step={1000}
                   placeholder="45 000"
@@ -141,6 +143,7 @@ export function GardeCostSimulatorForm() {
                 <Input
                   id="nbEnfantsGardes"
                   type="number"
+                  inputMode="numeric"
                   min={1}
                   max={10}
                   {...register("nbEnfantsGardes", { valueAsNumber: true })}

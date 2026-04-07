@@ -126,6 +126,7 @@ export function ExaminationForm({
               <Input
                 id="weightKg"
                 type="number"
+                inputMode="decimal"
                 step="0.01"
                 placeholder="5.20"
                 {...register("weightKg", { valueAsNumber: true })}
@@ -136,6 +137,7 @@ export function ExaminationForm({
               <Input
                 id="heightCm"
                 type="number"
+                inputMode="decimal"
                 step="0.1"
                 placeholder="60.0"
                 {...register("heightCm", { valueAsNumber: true })}
@@ -146,6 +148,7 @@ export function ExaminationForm({
               <Input
                 id="headCircumferenceCm"
                 type="number"
+                inputMode="decimal"
                 step="0.1"
                 placeholder="40.0"
                 {...register("headCircumferenceCm", { valueAsNumber: true })}

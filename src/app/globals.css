@@ -65,9 +65,21 @@
   }
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    overscroll-behavior-y: contain;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Touch-friendly: disable double-tap zoom on interactive elements */
+  button,
+  a,
+  [role="button"],
+  input[type="submit"],
+  input[type="button"] {
+    touch-action: manipulation;
   }
   h1,
   h2,
@@ -441,6 +453,32 @@
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-muted-foreground/40;
+  }
+}
+
+/* PWA standalone mode — adjust for status bar and immersive feel */
+@media (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+  }
+  /* Hide install-related UI when already installed */
+  .pwa-install-only {
+    display: none !important;
+  }
+}
+
+/* Landscape orientation — compact bottom nav */
+@media (orientation: landscape) and (max-height: 500px) {
+  .bottom-nav-container {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  .bottom-nav-container .nav-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .bottom-nav-container .nav-label {
+    display: none;
   }
 }
 

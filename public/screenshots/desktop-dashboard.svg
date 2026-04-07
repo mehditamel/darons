@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <rect width="1920" height="1080" fill="#FDFAF6"/>
+  <!-- Sidebar -->
+  <rect width="280" height="1080" fill="#1B2838"/>
+  <text x="40" y="60" font-family="DM Serif Display,serif" font-size="36" fill="#E8734A" font-weight="bold">Darons</text>
+  <!-- Sidebar nav items -->
+  <rect x="16" y="100" width="248" height="48" rx="12" fill="#FFFFFF" opacity="0.1"/>
+  <text x="60" y="132" font-family="DM Sans,sans-serif" font-size="22" fill="#FFFFFF">Tableau de bord</text>
+  <text x="60" y="192" font-family="DM Sans,sans-serif" font-size="22" fill="#8B9BB4">Sant&#233;</text>
+  <text x="60" y="242" font-family="DM Sans,sans-serif" font-size="22" fill="#8B9BB4">Budget</text>
+  <text x="60" y="292" font-family="DM Sans,sans-serif" font-size="22" fill="#8B9BB4">Fiscal</text>
+  <text x="60" y="342" font-family="DM Sans,sans-serif" font-size="22" fill="#8B9BB4">Famille</text>
+  <text x="60" y="392" font-family="DM Sans,sans-serif" font-size="22" fill="#8B9BB4">Documents</text>
+  <text x="60" y="442" font-family="DM Sans,sans-serif" font-size="22" fill="#8B9BB4">D&#233;marches</text>
+  <!-- Topbar -->
+  <rect x="280" y="0" width="1640" height="72" fill="#FFFFFF" opacity="0.95"/>
+  <text x="1700" y="45" font-family="DM Sans,sans-serif" font-size="20" fill="#7A7568">Mehdi T.</text>
+  <!-- Welcome -->
+  <text x="330" y="140" font-family="DM Serif Display,serif" font-size="40" fill="#1B2838">Salut, Mehdi !</text>
+  <text x="330" y="185" font-family="DM Sans,sans-serif" font-size="24" fill="#7A7568">Voici le r&#233;sum&#233; de ta famille pour aujourd'hui</text>
+  <!-- Stat cards -->
+  <rect x="330" y="220" width="360" height="180" rx="20" fill="#FFFFFF" stroke="#E8E2D8" stroke-width="2"/>
+  <text x="370" y="275" font-family="DM Sans,sans-serif" font-size="22" fill="#2BA89E" font-weight="600">Sant&#233;</text>
+  <text x="370" y="340" font-family="DM Sans,sans-serif" font-size="44" fill="#1B2838" font-weight="700">3 vaccins</text>
+  <text x="370" y="375" font-family="DM Sans,sans-serif" font-size="20" fill="#7A7568">&#224; jour sur 9 obligatoires</text>
+  <rect x="720" y="220" width="360" height="180" rx="20" fill="#FFFFFF" stroke="#E8E2D8" stroke-width="2"/>
+  <text x="760" y="275" font-family="DM Sans,sans-serif" font-size="22" fill="#E8734A" font-weight="600">Budget mensuel</text>
+  <text x="760" y="340" font-family="DM Sans,sans-serif" font-size="44" fill="#1B2838" font-weight="700">1 245 &#8364;</text>
+  <text x="760" y="375" font-family="DM Sans,sans-serif" font-size="20" fill="#7A7568">d&#233;penses enfant ce mois</text>
+  <rect x="1110" y="220" width="360" height="180" rx="20" fill="#FFFFFF" stroke="#E8E2D8" stroke-width="2"/>
+  <text x="1150" y="275" font-family="DM Sans,sans-serif" font-size="22" fill="#D4A843" font-weight="600">Fiscal</text>
+  <text x="1150" y="340" font-family="DM Sans,sans-serif" font-size="44" fill="#1B2838" font-weight="700">3 850 &#8364;</text>
+  <text x="1150" y="375" font-family="DM Sans,sans-serif" font-size="20" fill="#7A7568">&#233;conomie estim&#233;e</text>
+  <rect x="1500" y="220" width="360" height="180" rx="20" fill="#FFFFFF" stroke="#E8E2D8" stroke-width="2"/>
+  <text x="1540" y="275" font-family="DM Sans,sans-serif" font-size="22" fill="#7B5EA7" font-weight="600">Famille</text>
+  <text x="1540" y="340" font-family="DM Sans,sans-serif" font-size="44" fill="#1B2838" font-weight="700">3</text>
+  <text x="1540" y="375" font-family="DM Sans,sans-serif" font-size="20" fill="#7A7568">membres du foyer</text>
+  <!-- Alerts panel -->
+  <rect x="330" y="440" width="1530" height="200" rx="20" fill="#FFFFFF" stroke="#E8E2D8" stroke-width="2"/>
+  <text x="370" y="490" font-family="DM Sans,sans-serif" font-size="26" fill="#1B2838" font-weight="700">Alertes</text>
+  <rect x="370" y="510" width="700" height="52" rx="12" fill="#E8734A" opacity="0.08"/>
+  <text x="400" y="545" font-family="DM Sans,sans-serif" font-size="22" fill="#E8734A">Vaccin DTPCa dose 2 en retard pour Matis</text>
+  <rect x="370" y="575" width="700" height="52" rx="12" fill="#D4A843" opacity="0.08"/>
+  <text x="400" y="610" font-family="DM Sans,sans-serif" font-size="22" fill="#D4A843">CNI de Mehdi expire dans 47 jours</text>
+</svg>

@@ -101,6 +101,7 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
               <Input
                 id="weightKg"
                 type="number"
+                inputMode="decimal"
                 step="0.01"
                 placeholder="3.50"
                 {...register("weightKg", { valueAsNumber: true })}
@@ -111,6 +112,7 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
               <Input
                 id="heightCm"
                 type="number"
+                inputMode="decimal"
                 step="0.1"
                 placeholder="50.0"
                 {...register("heightCm", { valueAsNumber: true })}
@@ -121,6 +123,7 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
               <Input
                 id="headCircumferenceCm"
                 type="number"
+                inputMode="decimal"
                 step="0.1"
                 placeholder="34.5"
                 {...register("headCircumferenceCm", { valueAsNumber: true })}
