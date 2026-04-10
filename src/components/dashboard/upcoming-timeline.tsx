@@ -54,7 +54,7 @@ export function UpcomingTimeline({ events }: UpcomingTimelineProps) {
         <CardContent>
           <div className="py-4 text-center">
             <p className="text-sm text-muted-foreground">
-              Rien de prevu pour le moment. Profite !
+              Rien de prévu pour le moment. Profite !
             </p>
           </div>
         </CardContent>
@@ -71,7 +71,7 @@ export function UpcomingTimeline({ events }: UpcomingTimelineProps) {
             Prochains 30 jours
           </CardTitle>
           <Badge variant="outline" className="text-[10px]">
-            {sortedEvents.length} evenement{sortedEvents.length > 1 ? "s" : ""}
+            {sortedEvents.length} événement{sortedEvents.length > 1 ? "s" : ""}
           </Badge>
         </div>
       </CardHeader>

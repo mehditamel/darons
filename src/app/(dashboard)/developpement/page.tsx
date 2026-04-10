@@ -7,6 +7,7 @@ import {
   Hand,
   BookOpen,
   AlertTriangle,
+  TrendingUp,
 } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
@@ -130,6 +131,8 @@ export default async function DeveloppementPage() {
       <PageHeader
         title="Développement"
         description={firstChild ? `Les progrès de ${firstChild.firstName} (${firstChildAge?.label})` : "Suivez les jalons de développement et tenez le journal parental"}
+        icon={<TrendingUp className="h-5 w-5" />}
+        iconColor="bg-warm-purple/10 text-warm-purple"
       />
 
       {/* Milestone stats by category */}

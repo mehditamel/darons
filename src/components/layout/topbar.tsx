@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Bell, LogOut, Settings, User, Search, Sparkles } from "lucide-react";
+import { SIDEBAR_NAVIGATION } from "@/lib/constants";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -24,8 +25,16 @@ interface TopbarProps {
 
 export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const initials = userInitials || "?";
   const email = userEmail || "";
+
+  // Derive page title from navigation constants
+  const allNavItems = SIDEBAR_NAVIGATION.flatMap((g) => [...g.items]);
+  const matchedItem = allNavItems.find(
+    (item) => pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href))
+  );
+  const pageTitle = matchedItem?.label ?? (pathname === "/parametres" ? "Paramètres" : pathname === "/onboarding" ? "Bienvenue" : "");
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -36,11 +45,14 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-3 glass-topbar px-4 lg:px-6" role="banner">
-      {/* Spacer for mobile (hamburger removed - using bottom nav "Plus") */}
-      <div className="lg:hidden w-1" />
-
-      {/* Page context area - flexible space */}
-      <div className="flex-1" />
+      {/* Page title on mobile for wayfinding */}
+      <div className="flex-1 min-w-0">
+        {pageTitle && (
+          <span className="lg:hidden text-sm font-semibold truncate block">
+            {pageTitle}
+          </span>
+        )}
+      </div>
 
       {/* Connectivity indicator */}
       <ConnectivityIndicator />
@@ -65,7 +77,7 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
       <Button
         variant="ghost"
         size="icon"
-        className="sm:hidden h-10 w-10"
+        className="sm:hidden h-10 w-10 rounded-full bg-muted/50"
         onClick={() => {
           document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }));
         }}

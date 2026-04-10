@@ -33,13 +33,13 @@ export function DeleteExpenseButton({ expenseId, expenseTitle }: DeleteExpenseBu
 
     if (result.success) {
       toast({
-        title: "Depense supprimee",
-        description: `"${expenseTitle}" a ete supprimee.`,
+        title: "Dépense supprimée",
+        description: `"${expenseTitle}" a été supprimée.`,
       });
     } else {
       toast({
         title: "Erreur",
-        description: result.error ?? "Impossible de supprimer la depense",
+        description: result.error ?? "Impossible de supprimer la dépense",
         variant: "destructive",
       });
     }
@@ -59,9 +59,9 @@ export function DeleteExpenseButton({ expenseId, expenseTitle }: DeleteExpenseBu
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Supprimer cette depense ?</AlertDialogTitle>
+          <AlertDialogTitle>Supprimer cette dépense ?</AlertDialogTitle>
           <AlertDialogDescription>
-            La depense &quot;{expenseTitle}&quot; sera definitivement supprimee. Les equilibres du groupe seront recalcules.
+            La dépense &quot;{expenseTitle}&quot; sera définitivement supprimée. Les équilibres du groupe seront recalculés.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

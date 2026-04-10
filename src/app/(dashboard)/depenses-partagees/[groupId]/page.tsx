@@ -146,8 +146,8 @@ export default async function GroupDetailPage({ params }: Props) {
         {/* Balances */}
         <Card>
           <CardHeader>
-            <CardTitle>Equilibres</CardTitle>
-            <CardDescription>Qui doit quoi a qui</CardDescription>
+            <CardTitle>Équilibres</CardTitle>
+            <CardDescription>Qui doit quoi à qui</CardDescription>
           </CardHeader>
           <CardContent>
             <BalanceOverview
@@ -162,11 +162,11 @@ export default async function GroupDetailPage({ params }: Props) {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Depenses</CardTitle>
+              <CardTitle>Dépenses</CardTitle>
               <AddExpenseDialog groupId={group.id} members={members} />
             </div>
             <CardDescription>
-              {expenses.length} depense{expenses.length > 1 ? "s" : ""}
+              {expenses.length} dépense{expenses.length > 1 ? "s" : ""}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -184,7 +184,7 @@ export default async function GroupDetailPage({ params }: Props) {
               Historique des remboursements
             </CardTitle>
             <CardDescription>
-              {settlements.length} remboursement{settlements.length > 1 ? "s" : ""} effectue{settlements.length > 1 ? "s" : ""}
+              {settlements.length} remboursement{settlements.length > 1 ? "s" : ""} effectué{settlements.length > 1 ? "s" : ""}
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -189,13 +189,45 @@ export default function OnboardingPage() {
       </div>
 
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-muted-foreground">
-            Étape {step + 1} sur {STEPS.length}
-          </span>
-          <span className="text-sm font-medium">{STEPS[step].label}</span>
+        {/* Step indicator icons */}
+        <div className="flex items-center justify-center gap-1 mb-4">
+          {STEPS.map((s, i) => {
+            const StepIcon = s.icon;
+            const isCompleted = i < step;
+            const isCurrent = i === step;
+            return (
+              <div key={s.label} className="flex items-center">
+                <div
+                  className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ${
+                    isCompleted
+                      ? "bg-warm-orange text-white scale-90"
+                      : isCurrent
+                        ? "bg-warm-orange/15 text-warm-orange ring-2 ring-warm-orange/50 scale-105"
+                        : "bg-muted text-muted-foreground scale-90"
+                  }`}
+                >
+                  {isCompleted ? (
+                    <CheckCircle2 className="h-4 w-4" />
+                  ) : (
+                    <StepIcon className="h-4 w-4" />
+                  )}
+                </div>
+                {i < STEPS.length - 1 && (
+                  <div className={`w-6 h-0.5 mx-0.5 rounded-full transition-colors duration-300 ${
+                    i < step ? "bg-warm-orange" : "bg-muted"
+                  }`} />
+                )}
+              </div>
+            );
+          })}
         </div>
-        <Progress value={progress} className="h-2" />
+        <div className="text-center mb-3">
+          <span className="text-sm font-medium">{STEPS[step].label}</span>
+          <span className="text-xs text-muted-foreground ml-2">
+            {step + 1}/{STEPS.length}
+          </span>
+        </div>
+        <Progress value={progress} className="h-1.5" />
       </div>
 
       {/* Step 0: Create household */}
@@ -450,31 +482,33 @@ export default function OnboardingPage() {
 
       {/* Skip link */}
       {step < 4 && (
-        <button
-          type="button"
-          onClick={() => router.push("/dashboard")}
-          className="mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          Passer pour l'instant →
-        </button>
+        <div className="flex justify-center mt-6">
+          <button
+            type="button"
+            onClick={() => router.push("/dashboard")}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Passer pour l'instant →
+          </button>
+        </div>
       )}
 
       {/* Step 4: Done + quick win */}
       {step === 4 && (
-        <Card className="animate-fade-in-up">
+        <Card className="animate-scale-in bg-gradient-to-br from-warm-green/5 to-warm-teal/5">
           <ConfettiEffect trigger={step === 4} />
           <CardHeader>
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10 animate-scale-in">
               <CheckCircle2 className="h-8 w-8 text-warm-green" />
             </div>
-            <CardTitle className="text-center text-xl">
+            <CardTitle className="text-center text-2xl font-serif">
               {childName
-                ? `L'espace de ${childName} est pret !`
-                : "Ton espace est pret !"}
+                ? `L'espace de ${childName} est prêt !`
+                : "Ton espace est prêt !"}
             </CardTitle>
             <CardDescription className="text-center">
               {selectedModules.size > 0 ? (
-                <>On a active tes modules prioritaires. Commence par un premier quick win :</>
+                <>On a activé tes modules prioritaires. Commence par un premier quick win :</>
               ) : (
                 <>Tu peux maintenant explorer tous les modules. Par quoi tu commences ?</>
               )}

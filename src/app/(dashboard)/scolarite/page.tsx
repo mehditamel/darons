@@ -130,6 +130,8 @@ export default async function ScolaritePage() {
       <PageHeader
         title="Scolarité"
         description={firstChild ? `Parcours scolaire de ${firstChild.firstName}` : "Timeline prévisionnelle et suivi de la scolarité de vos enfants"}
+        icon={<GraduationCap className="h-5 w-5" />}
+        iconColor="bg-warm-blue/10 text-warm-blue"
       />
 
       {/* Stat cards */}

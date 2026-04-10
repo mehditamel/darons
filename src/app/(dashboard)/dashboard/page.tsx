@@ -57,9 +57,9 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 const GREETING_MESSAGES = [
-  "On gere ta tribu comme des pros",
+  "On gère ta tribu comme des pros",
   "Voici ce qui se passe chez toi",
-  "Ton foyer en un coup d'oeil",
+  "Ton foyer en un coup d'œil",
   "La famille, c'est du boulot. On t'aide",
 ];
 
@@ -72,26 +72,26 @@ function getQuickActions(youngestAgeMonths: number | null) {
       { label: "RDV pediatre", description: "Planifier", href: "/sante", icon: Stethoscope, color: "bg-warm-blue/10 text-warm-blue hover:bg-warm-blue/20" },
       { label: "Journal", description: "Noter un moment", href: "/developpement", icon: BookOpen, color: "bg-warm-purple/10 text-warm-purple hover:bg-warm-purple/20" },
       { label: "Identite", description: "Ajouter un papier", href: "/identite", icon: IdCard, color: "bg-warm-orange/10 text-warm-orange hover:bg-warm-orange/20" },
-      { label: "Budget", description: "Ajouter une depense", href: "/budget", icon: Wallet, color: "bg-warm-gold/10 text-warm-gold hover:bg-warm-gold/20" },
+      { label: "Budget", description: "Ajouter une dépense", href: "/budget", icon: Wallet, color: "bg-warm-gold/10 text-warm-gold hover:bg-warm-gold/20" },
     ];
   }
   if (youngestAgeMonths !== null && youngestAgeMonths <= 18) {
     return [
       { label: "Vaccin", description: "Enregistrer une dose", href: "/sante", icon: Syringe, color: "bg-warm-teal/10 text-warm-teal hover:bg-warm-teal/20" },
-      { label: "Activite", description: "Eveil / sport", href: "/activites", icon: Palette, color: "bg-warm-purple/10 text-warm-purple hover:bg-warm-purple/20" },
+      { label: "Activité", description: "Éveil / sport", href: "/activites", icon: Palette, color: "bg-warm-purple/10 text-warm-purple hover:bg-warm-purple/20" },
       { label: "Journal", description: "Noter un moment", href: "/developpement", icon: BookOpen, color: "bg-warm-green/10 text-warm-green hover:bg-warm-green/20" },
-      { label: "Garde", description: "Chercher une creche", href: "/garde", icon: Baby, color: "bg-warm-blue/10 text-warm-blue hover:bg-warm-blue/20" },
-      { label: "Identite", description: "Ajouter un papier", href: "/identite", icon: IdCard, color: "bg-warm-orange/10 text-warm-orange hover:bg-warm-orange/20" },
-      { label: "Impots", description: "Simuler mon IR", href: "/fiscal", icon: Calculator, color: "bg-warm-gold/10 text-warm-gold hover:bg-warm-gold/20" },
+      { label: "Garde", description: "Chercher une crèche", href: "/garde", icon: Baby, color: "bg-warm-blue/10 text-warm-blue hover:bg-warm-blue/20" },
+      { label: "Identité", description: "Ajouter un papier", href: "/identite", icon: IdCard, color: "bg-warm-orange/10 text-warm-orange hover:bg-warm-orange/20" },
+      { label: "Impôts", description: "Simuler mon IR", href: "/fiscal", icon: Calculator, color: "bg-warm-gold/10 text-warm-gold hover:bg-warm-gold/20" },
     ];
   }
   if (youngestAgeMonths !== null && youngestAgeMonths <= 36) {
     return [
-      { label: "Garde", description: "Creche / nounou", href: "/garde", icon: Baby, color: "bg-warm-teal/10 text-warm-teal hover:bg-warm-teal/20" },
-      { label: "Activite", description: "Sport / eveil", href: "/activites", icon: Palette, color: "bg-warm-purple/10 text-warm-purple hover:bg-warm-purple/20" },
-      { label: "Developpement", description: "Jalons moteurs", href: "/developpement", icon: TrendingUp, color: "bg-warm-green/10 text-warm-green hover:bg-warm-green/20" },
-      { label: "Budget", description: "Ajouter une depense", href: "/budget", icon: Wallet, color: "bg-warm-blue/10 text-warm-blue hover:bg-warm-blue/20" },
-      { label: "Impots", description: "Simuler mon IR", href: "/fiscal", icon: Calculator, color: "bg-warm-gold/10 text-warm-gold hover:bg-warm-gold/20" },
+      { label: "Garde", description: "Crèche / nounou", href: "/garde", icon: Baby, color: "bg-warm-teal/10 text-warm-teal hover:bg-warm-teal/20" },
+      { label: "Activité", description: "Sport / éveil", href: "/activites", icon: Palette, color: "bg-warm-purple/10 text-warm-purple hover:bg-warm-purple/20" },
+      { label: "Développement", description: "Jalons moteurs", href: "/developpement", icon: TrendingUp, color: "bg-warm-green/10 text-warm-green hover:bg-warm-green/20" },
+      { label: "Budget", description: "Ajouter une dépense", href: "/budget", icon: Wallet, color: "bg-warm-blue/10 text-warm-blue hover:bg-warm-blue/20" },
+      { label: "Impôts", description: "Simuler mon IR", href: "/fiscal", icon: Calculator, color: "bg-warm-gold/10 text-warm-gold hover:bg-warm-gold/20" },
       { label: "Document", description: "Importer un fichier", href: "/documents", icon: FileText, color: "bg-warm-orange/10 text-warm-orange hover:bg-warm-orange/20" },
     ];
   }
@@ -99,10 +99,10 @@ function getQuickActions(youngestAgeMonths: number | null) {
   return [
     { label: "Vaccin", description: "Enregistrer une dose", href: "/sante", icon: HeartPulse, color: "bg-warm-teal/10 text-warm-teal hover:bg-warm-teal/20" },
     { label: "Document", description: "Importer un fichier", href: "/documents", icon: FileText, color: "bg-warm-blue/10 text-warm-blue hover:bg-warm-blue/20" },
-    { label: "Identite", description: "Ajouter un papier", href: "/identite", icon: IdCard, color: "bg-warm-orange/10 text-warm-orange hover:bg-warm-orange/20" },
-    { label: "Impots", description: "Simuler mon IR", href: "/fiscal", icon: Calculator, color: "bg-warm-gold/10 text-warm-gold hover:bg-warm-gold/20" },
-    { label: "Budget", description: "Ajouter une depense", href: "/budget", icon: Wallet, color: "bg-warm-purple/10 text-warm-purple hover:bg-warm-purple/20" },
-    { label: "Garde", description: "Chercher une creche", href: "/garde", icon: Baby, color: "bg-warm-green/10 text-warm-green hover:bg-warm-green/20" },
+    { label: "Identité", description: "Ajouter un papier", href: "/identite", icon: IdCard, color: "bg-warm-orange/10 text-warm-orange hover:bg-warm-orange/20" },
+    { label: "Impôts", description: "Simuler mon IR", href: "/fiscal", icon: Calculator, color: "bg-warm-gold/10 text-warm-gold hover:bg-warm-gold/20" },
+    { label: "Budget", description: "Ajouter une dépense", href: "/budget", icon: Wallet, color: "bg-warm-purple/10 text-warm-purple hover:bg-warm-purple/20" },
+    { label: "Garde", description: "Chercher une crèche", href: "/garde", icon: Baby, color: "bg-warm-green/10 text-warm-green hover:bg-warm-green/20" },
   ];
 }
 
@@ -199,16 +199,16 @@ export default async function DashboardPage() {
 
   // Profile completion
   const completionChecks = [
-    { label: "Foyer cree", done: members.length > 0 },
-    { label: "Enfant ajoute", done: children.length > 0 },
-    { label: "Document d'identite", done: identityDocs.length > 0 },
-    { label: "Vaccin enregistre", done: doneDoses > 0 },
+    { label: "Foyer créé", done: members.length > 0 },
+    { label: "Enfant ajouté", done: children.length > 0 },
+    { label: "Document d'identité", done: identityDocs.length > 0 },
+    { label: "Vaccin enregistré", done: doneDoses > 0 },
     { label: "Document coffre-fort", done: vaultDocs.length > 0 },
     { label: "Mesure de croissance", done: hasGrowthData },
-    { label: "Activite ajoutee", done: hasActivities },
-    { label: "Donnees fiscales", done: hasFiscalData },
-    { label: "Depense budget", done: hasBudgetData },
-    { label: "Email verifie", done: !!user?.email_confirmed_at },
+    { label: "Activité ajoutée", done: hasActivities },
+    { label: "Données fiscales", done: hasFiscalData },
+    { label: "Dépense budget", done: hasBudgetData },
+    { label: "E-mail vérifié", done: !!user?.email_confirmed_at },
   ];
   const completionPercent = Math.round(
     (completionChecks.filter((c) => c.done).length / completionChecks.length) * 100
@@ -224,17 +224,17 @@ export default async function DashboardPage() {
   const healthDetail = overdueVaccines > 0
     ? `${overdueVaccines} vaccin${overdueVaccines > 1 ? "s" : ""} en retard`
     : vaccPercent === 100
-      ? "Vaccins a jour"
+      ? "Vaccins à jour"
       : `${vaccPercent}% des vaccins faits`;
 
   const expiredDocs = expiring.filter((d) => d.status === "expired").length;
   const expiringSoonDocs = expiring.filter((d) => d.status === "expiring_soon").length;
   const adminStatus = expiredDocs > 0 ? "alert" : expiringSoonDocs > 0 ? "warning" : "good";
   const adminDetail = expiredDocs > 0
-    ? `${expiredDocs} doc${expiredDocs > 1 ? "s" : ""} expire${expiredDocs > 1 ? "s" : ""}`
+    ? `${expiredDocs} doc${expiredDocs > 1 ? "s" : ""} expiré${expiredDocs > 1 ? "s" : ""}`
     : expiringSoonDocs > 0
-      ? `${expiringSoonDocs} expire${expiringSoonDocs > 1 ? "nt" : ""} bientot`
-      : "Tout est en regle";
+      ? `${expiringSoonDocs} expire${expiringSoonDocs > 1 ? "nt" : ""} bientôt`
+      : "Tout est en règle";
 
   const budgetBalance = budgetSummary
     ? totalAllocations + (budgetSummary.totalIncome ?? 0) - budgetSummary.totalExpenses
@@ -244,7 +244,7 @@ export default async function DashboardPage() {
     ? budgetBalance >= 0
       ? `+${formatCurrency(budgetBalance)} ce mois`
       : `${formatCurrency(budgetBalance)} ce mois`
-    : "Aucune donnee budget";
+    : "Aucune donnée budget";
 
   // Build upcoming timeline events (30 days)
   const thirtyDaysFromNow = new Date();
@@ -268,7 +268,7 @@ export default async function DashboardPage() {
         id: `appt-${appt.id}`,
         date: apptDate,
         title: appt.appointmentType,
-        description: appt.practitioner ?? "RDV medical",
+        description: appt.practitioner ?? "RDV médical",
         category: "sante",
         memberName: member?.firstName,
       });
@@ -308,7 +308,7 @@ export default async function DashboardPage() {
               id: `vacc-${vaccine.code}-${dose.doseNumber}-${child.id}`,
               date: now,
               title: `${vaccine.name} (dose ${dose.doseNumber})`,
-              description: `Prevu a ${dose.label}, en retard`,
+              description: `Prévu à ${dose.label}, en retard`,
               category: "sante",
               memberName: child.firstName,
             });
@@ -367,14 +367,14 @@ export default async function DashboardPage() {
 
       {/* Household weather */}
       <HouseholdWeather
-        health={{ label: "Sante", status: healthStatus, detail: healthDetail }}
+        health={{ label: "Santé", status: healthStatus, detail: healthDetail }}
         budget={{ label: "Budget", status: budgetStatus, detail: budgetDetail }}
         admin={{ label: "Admin", status: adminStatus, detail: adminDetail }}
       />
 
       {/* Profile completion */}
       {completionPercent < 100 && (
-        <Card className="border-dashed border-warm-orange/30 bg-warm-orange/5">
+        <Card className="border-dashed border-warm-orange/30 bg-warm-orange/5 card-interactive">
           <CardContent className="p-5">
             <div className="flex items-start gap-5">
               {/* Progress Ring */}
@@ -392,10 +392,10 @@ export default async function DashboardPage() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Sparkles className="h-4 w-4 text-warm-orange" />
-                    <p className="text-sm font-semibold">Ton profil est a {completionPercent}%</p>
+                    <p className="text-sm font-semibold">Ton profil est à {completionPercent}%</p>
                   </div>
                   <Badge variant="outline" className="text-xs">
-                    {completionChecks.filter((c) => !c.done).length} etape{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""} restante{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""}
+                    {completionChecks.filter((c) => !c.done).length} étape{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""} restante{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""}
                   </Badge>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -438,11 +438,11 @@ export default async function DashboardPage() {
           gradientClass="card-gradient-orange"
         />
         <StatCard
-          label="Identite"
+          label="Identité"
           value={String(identityDocs.length)}
           icon={<IdCard className="h-5 w-5" aria-hidden="true" />}
           color="bg-warm-blue/10 text-warm-blue"
-          trend={expiring.length > 0 ? `${expiring.length} expire${expiring.length > 1 ? "nt" : ""} bientot` : undefined}
+          trend={expiring.length > 0 ? `${expiring.length} expire${expiring.length > 1 ? "nt" : ""} bientôt` : undefined}
           trendUp={false}
           gradientClass="card-gradient-blue"
         />
@@ -469,16 +469,16 @@ export default async function DashboardPage() {
             <CardTitle className="text-base">Actions rapides</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               {quickActions.map((action) => (
                 <Link
                   key={action.href + action.label}
                   href={action.href}
-                  className={`flex flex-col items-center gap-1.5 rounded-xl p-3 transition-all duration-200 ${action.color} group`}
+                  className={`flex flex-col items-center gap-1.5 rounded-2xl p-3 transition-all duration-200 ${action.color} group hover:shadow-sm hover:-translate-y-0.5`}
                 >
                   <action.icon className="h-5 w-5 transition-transform group-hover:scale-110" />
                   <span className="text-xs font-semibold">{action.label}</span>
-                  <span className="text-[10px] opacity-70">{action.description}</span>
+                  <span className="text-[10px] opacity-70 leading-tight text-center">{action.description}</span>
                 </Link>
               ))}
             </div>
@@ -494,18 +494,18 @@ export default async function DashboardPage() {
         {/* Budget / Fiscal stacked */}
         <div className="space-y-6">
           {/* Budget snapshot */}
-          <Card className="card-gradient-blue">
+          <Card className="card-gradient-blue transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
             <CardHeader className="pb-2">
               <CardTitle className="text-base flex items-center gap-2">
                 <Wallet className="h-4 w-4 text-warm-blue" />
                 Budget du mois
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-3">
               {budgetSummary && budgetSummary.entryCount > 0 ? (
                 <>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Depenses</span>
+                    <span className="text-muted-foreground">Dépenses</span>
                     <span className="font-semibold">{formatCurrency(budgetSummary.totalExpenses)}</span>
                   </div>
                   {totalAllocations > 0 && (
@@ -523,8 +523,8 @@ export default async function DashboardPage() {
                 </>
               ) : (
                 <div className="py-3 text-center">
-                  <p className="text-sm text-muted-foreground">Aucune depense ce mois-ci.</p>
-                  <p className="text-xs text-muted-foreground mt-1">Connecte ta banque ou ajoute tes depenses</p>
+                  <p className="text-sm text-muted-foreground">Aucune dépense ce mois-ci.</p>
+                  <p className="text-xs text-muted-foreground mt-1">Connecte ta banque ou ajoute tes dépenses</p>
                 </div>
               )}
               <Button variant="ghost" size="sm" className="w-full mt-1 text-warm-blue hover:text-warm-blue" asChild>
@@ -537,18 +537,18 @@ export default async function DashboardPage() {
           </Card>
 
           {/* Fiscal snapshot */}
-          <Card className="card-gradient-gold">
+          <Card className="card-gradient-gold transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
             <CardHeader className="pb-2">
               <CardTitle className="text-base flex items-center gap-2">
                 <Calculator className="h-4 w-4 text-warm-gold" />
                 Situation fiscale
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-3">
               {latestFiscal ? (
                 <>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Annee</span>
+                    <span className="text-muted-foreground">Année</span>
                     <span className="font-medium">{latestFiscal.year}</span>
                   </div>
                   <div className="flex justify-between text-sm">
@@ -563,15 +563,15 @@ export default async function DashboardPage() {
                   )}
                   {latestFiscal.impotNet != null && (
                     <div className="flex justify-between text-sm border-t pt-2">
-                      <span className="text-muted-foreground">Impot net</span>
+                      <span className="text-muted-foreground">Impôt net</span>
                       <span className="font-bold text-lg">{formatCurrency(latestFiscal.impotNet)}</span>
                     </div>
                   )}
                 </>
               ) : (
                 <div className="py-3 text-center">
-                  <p className="text-sm text-muted-foreground">Aucune donnee fiscale.</p>
-                  <p className="text-xs text-muted-foreground mt-1">Lance ta premiere simulation</p>
+                  <p className="text-sm text-muted-foreground">Aucune donnée fiscale.</p>
+                  <p className="text-xs text-muted-foreground mt-1">Lance ta première simulation</p>
                 </div>
               )}
               <Button variant="ghost" size="sm" className="w-full mt-1 text-warm-gold hover:text-warm-gold" asChild>
@@ -586,7 +586,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Upcoming appointments */}
-      <Card>
+      <Card className="card-gradient-teal transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">
             <CalendarClock className="h-4 w-4 text-warm-teal" />
@@ -613,7 +613,7 @@ export default async function DashboardPage() {
             })
           ) : (
             <div className="py-3 text-center">
-              <p className="text-sm text-muted-foreground">Aucun RDV a venir.</p>
+              <p className="text-sm text-muted-foreground">Aucun RDV à venir.</p>
             </div>
           )}
           <Button variant="ghost" size="sm" className="w-full mt-1" asChild>

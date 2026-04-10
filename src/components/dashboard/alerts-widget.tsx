@@ -10,11 +10,11 @@ import { DismissibleAlertCard } from "@/components/shared/dismissible-alert-card
 import type { ProactiveAlert, AlertCategory } from "@/types/ai";
 
 const CATEGORY_LABELS: Record<string, string> = {
-  identite: "Identite",
-  sante: "Sante",
+  identite: "Identité",
+  sante: "Santé",
   fiscal: "Fiscal",
   caf: "CAF",
-  scolarite: "Scolarite",
+  scolarite: "Scolarité",
   budget: "Budget",
 };
 

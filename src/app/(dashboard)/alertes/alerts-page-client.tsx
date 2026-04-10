@@ -20,11 +20,11 @@ import { AlertCard } from "@/components/shared/alert-card";
 import type { ProactiveAlert, AlertCategory } from "@/types/ai";
 
 const CATEGORY_LABELS: Record<string, string> = {
-  identite: "Identite",
-  sante: "Sante",
+  identite: "Identité",
+  sante: "Santé",
   fiscal: "Fiscal",
   caf: "CAF",
-  scolarite: "Scolarite",
+  scolarite: "Scolarité",
   budget: "Budget",
 };
 
@@ -187,7 +187,7 @@ export function AlertsPageClient({
               </div>
               <p className="text-sm font-medium">Aucune alerte active</p>
               <p className="text-xs text-muted-foreground mt-1">
-                Tout est en ordre dans ton foyer. Continue comme ca !
+                Tout est en ordre dans ton foyer. Continue comme ça !
               </p>
             </CardContent>
           </Card>
@@ -199,7 +199,7 @@ export function AlertsPageClient({
         <div className="space-y-3">
           <h3 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
             <History className="h-4 w-4" />
-            Alertes traitees ({filteredHistory.length})
+            Alertes traitées ({filteredHistory.length})
           </h3>
           {filteredHistory.length > 0 ? (
             <div className="space-y-2 opacity-60">
@@ -216,7 +216,7 @@ export function AlertsPageClient({
               ))}
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground">Aucune alerte traitee.</p>
+            <p className="text-xs text-muted-foreground">Aucune alerte traitée.</p>
           )}
         </div>
       )}

@@ -100,7 +100,7 @@ export default async function DashboardLayout({
       }
     }
   } catch (error) {
-    console.error("[DashboardLayout] Erreur lors du chargement des donnees utilisateur:", error);
+    console.error("[DashboardLayout] Erreur lors du chargement des données utilisateur:", error);
   }
 
   return (
