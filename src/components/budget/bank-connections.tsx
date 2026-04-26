@@ -4,9 +4,10 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Building2, RefreshCw, Link2, AlertTriangle } from "lucide-react";
+import { Building2, RefreshCw, Link2, AlertTriangle, Loader2 } from "lucide-react";
 import type { BankConnection } from "@/lib/actions/banking";
 import { syncBankAccounts } from "@/lib/actions/banking";
+import { UpgradeButton } from "@/components/parametres/upgrade-button";
 
 interface BankConnectionsProps {
   connections: BankConnection[];
@@ -22,6 +23,26 @@ const STATUS_CONFIG: Record<string, { label: string; variant: "default" | "secon
 
 export function BankConnections({ connections, hasOpenBanking }: BankConnectionsProps) {
   const [syncing, setSyncing] = useState<string | null>(null);
+  const [connecting, setConnecting] = useState(false);
+
+  async function handleConnect() {
+    setConnecting(true);
+    try {
+      const response = await fetch("/api/banking/connect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      const data = await response.json();
+      if (data.connectUrl) {
+        window.location.href = data.connectUrl;
+      } else {
+        setConnecting(false);
+      }
+    } catch {
+      setConnecting(false);
+    }
+  }
 
   if (!hasOpenBanking) {
     return (
@@ -41,9 +62,9 @@ export function BankConnections({ connections, hasOpenBanking }: BankConnections
             <p className="mt-2 text-sm text-muted-foreground">
               La connexion bancaire est disponible avec le plan Premium ou Family Pro.
             </p>
-            <Button className="mt-3" size="sm">
-              Passer à Premium
-            </Button>
+            <div className="mt-3 inline-flex">
+              <UpgradeButton plan="premium" label="Passer à Premium" />
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -71,8 +92,12 @@ export function BankConnections({ connections, hasOpenBanking }: BankConnections
                 : "Aucune banque connectée"}
             </CardDescription>
           </div>
-          <Button size="sm" variant="outline">
-            <Link2 className="mr-2 h-4 w-4" />
+          <Button size="sm" variant="outline" onClick={handleConnect} disabled={connecting}>
+            {connecting ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Link2 className="mr-2 h-4 w-4" />
+            )}
             Connecter une banque
           </Button>
         </div>

@@ -102,16 +102,18 @@ export function JournalList({ memberId, entries }: JournalListProps) {
                   <Button
                     variant="ghost"
                     size="icon"
-
-                        aria-label="Modifier"
+                    className="h-8 w-8"
+                    onClick={() => handleEdit(entry)}
+                    aria-label="Modifier"
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
-
-                        aria-label="Supprimer"
+                    className="h-8 w-8 text-destructive"
+                    onClick={() => setDeletingId(entry.id)}
+                    aria-label="Supprimer"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

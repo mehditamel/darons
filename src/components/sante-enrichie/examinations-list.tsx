@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle2, Clock, AlertCircle, Plus } from "lucide-react";
 import { HEALTH_EXAMINATIONS } from "@/lib/constants";
@@ -117,9 +116,7 @@ export function ExaminationsList({ member, examinations }: ExaminationsListProps
                       À venir
                     </Badge>
                   ) : null}
-                  <Button variant="ghost" size="sm">
-                    <Plus className="h-4 w-4" />
-                  </Button>
+                  <Plus className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 </div>
               </CardContent>
             </Card>
