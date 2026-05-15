@@ -12,7 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDownLeft, ArrowUpRight, Search, Sparkles, CreditCard, Users } from "lucide-react";
+import Link from "next/link";
+import { ArrowDownLeft, ArrowUpRight, Search, Sparkles, CreditCard, Wallet } from "lucide-react";
 import type { BankTransaction } from "@/lib/actions/banking";
 import { updateTransactionCategory, aiCategorizeUncategorized, assignTransactionToMember } from "@/lib/actions/banking";
 import { BUDGET_CATEGORY_LABELS, type BudgetCategory } from "@/types/budget";
@@ -66,11 +67,28 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-dashed p-6 text-center">
-            <CreditCard className="mx-auto h-10 w-10 text-muted-foreground/50" />
-            <p className="mt-2 text-sm text-muted-foreground">
-              Aucune transaction synchronisée. Connectez votre banque ou synchronisez vos comptes.
+          <div className="rounded-2xl border border-dashed border-warm-blue/30 bg-warm-blue/5 p-8 text-center">
+            <div
+              className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-warm-blue/10 animate-bounce-gentle"
+              aria-hidden="true"
+            >
+              <CreditCard className="h-7 w-7 text-warm-blue" />
+            </div>
+            <h3 className="text-base font-semibold">Aucune transaction synchronisée</h3>
+            <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
+              Connecte ta banque pour voir où passe la thune, ou note tes dépenses à la main. Zéro jugement, juste plus de clarté.
             </p>
+            <div className="mt-5 flex flex-wrap justify-center gap-2">
+              <Button asChild size="sm" className="animate-pulse-glow">
+                <Link href="/budget#banking">Connecter ma banque</Link>
+              </Button>
+              <Button asChild size="sm" variant="outline">
+                <Link href="/budget#manual">
+                  <Wallet className="mr-1.5 h-4 w-4" aria-hidden="true" />
+                  Saisie manuelle
+                </Link>
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

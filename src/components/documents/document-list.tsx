@@ -26,6 +26,7 @@ import { DocumentCard } from "@/components/documents/document-card";
 import { DocumentUploadForm } from "@/components/documents/document-upload-form";
 import { DocumentPreview } from "@/components/documents/document-preview";
 import { deleteDocument } from "@/lib/actions/documents";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import type { DocumentWithMember } from "@/lib/actions/documents";
 import type { FamilyMember } from "@/types/family";
 import { DOCUMENT_CATEGORY_LABELS, type DocumentCategory } from "@/types/budget";
@@ -43,6 +44,7 @@ export function DocumentList({ documents, members }: DocumentListProps) {
   const [search, setSearch] = useState("");
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [filterMember, setFilterMember] = useState<string>("all");
+  const feedback = useActionFeedback();
 
   const filtered = documents.filter((doc) => {
     if (search && !doc.title.toLowerCase().includes(search.toLowerCase())) return false;
@@ -54,9 +56,21 @@ export function DocumentList({ documents, members }: DocumentListProps) {
   const handleDelete = async () => {
     if (!deletingDoc) return;
     setIsDeleting(true);
-    await deleteDocument(deletingDoc.id);
+    const title = deletingDoc.title;
+    const result = await deleteDocument(deletingDoc.id);
     setIsDeleting(false);
     setDeletingDoc(null);
+    if (result.success) {
+      feedback.success({
+        title: "Document supprimé",
+        description: `« ${title} » a quitté ton coffre-fort.`,
+      });
+    } else {
+      feedback.error({
+        title: "Suppression impossible",
+        description: result.error ?? "Réessaie dans quelques instants.",
+      });
+    }
   };
 
   const categories = Object.entries(DOCUMENT_CATEGORY_LABELS) as [DocumentCategory, string][];
@@ -66,11 +80,73 @@ export function DocumentList({ documents, members }: DocumentListProps) {
       <>
         <EmptyState
           icon={FolderLock}
-          title="Votre coffre-fort est vide"
-          description="Importez vos documents importants : pièces d'identité, ordonnances, factures, bulletins scolaires..."
-          actionLabel="Importer un document"
+          title="Ton coffre-fort est vide"
+          description="Ordonnances, certificats, factures — tout au même endroit, en sécurité. Plus jamais à chercher ce papier introuvable."
+          actionLabel="Importer un premier document"
           onAction={() => setUploadOpen(true)}
         />
+        <DocumentUploadForm open={uploadOpen} onOpenChange={setUploadOpen} members={members} />
+      </>
+    );
+  }
+
+  if (filtered.length === 0 && documents.length > 0) {
+    return (
+      <>
+        <div className="flex flex-col sm:flex-row gap-3 mb-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Rechercher un document..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+          <Select value={filterCategory} onValueChange={setFilterCategory}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Catégorie" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Toutes catégories</SelectItem>
+              {categories.map(([value, label]) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={filterMember} onValueChange={setFilterMember}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Membre" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tous les membres</SelectItem>
+              {members.map((m) => (
+                <SelectItem key={m.id} value={m.id}>{m.firstName}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button onClick={() => setUploadOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Importer
+          </Button>
+        </div>
+        <div className="rounded-2xl border border-dashed border-muted-foreground/30 p-8 text-center">
+          <Search className="mx-auto h-8 w-8 text-muted-foreground/60" aria-hidden="true" />
+          <p className="mt-3 text-sm font-medium">Aucun document ne correspond.</p>
+          <p className="mt-1 text-xs text-muted-foreground">Essaie d'élargir tes filtres ou ta recherche.</p>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mt-4"
+            onClick={() => {
+              setSearch("");
+              setFilterCategory("all");
+              setFilterMember("all");
+            }}
+          >
+            Réinitialiser les filtres
+          </Button>
+        </div>
         <DocumentUploadForm open={uploadOpen} onOpenChange={setUploadOpen} members={members} />
       </>
     );
@@ -133,12 +209,6 @@ export function DocumentList({ documents, members }: DocumentListProps) {
           />
         ))}
       </div>
-
-      {filtered.length === 0 && documents.length > 0 && (
-        <p className="text-center text-sm text-muted-foreground py-8">
-          Aucun document ne correspond aux filtres.
-        </p>
-      )}
 
       <DocumentUploadForm open={uploadOpen} onOpenChange={setUploadOpen} members={members} />
 

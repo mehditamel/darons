@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FormError } from "@/components/shared/form-error";
-import { useToast } from "@/hooks/use-toast";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import {
   identityDocumentSchema,
   type IdentityDocumentFormData,
@@ -51,7 +51,7 @@ export function IdentityDocumentForm({
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const lastSubmitData = useRef<IdentityDocumentFormData | null>(null);
-  const { toast } = useToast();
+  const feedback = useActionFeedback();
   const isEditing = !!document;
 
   const {
@@ -94,10 +94,18 @@ export function IdentityDocumentForm({
       if (result.success) {
         reset();
         onOpenChange(false);
-        toast({ title: isEditing ? "Document modifié" : "Document ajouté" });
+        feedback.success({
+          title: isEditing ? "Document mis à jour" : "Document ajouté",
+          description: data.expiryDate
+            ? "On te préviendra avant qu'il expire."
+            : "Tu peux toujours ajouter une date d'expiration plus tard.",
+        });
       } else {
         setError(result.error ?? "Une erreur est survenue");
-        toast({ title: "Erreur", description: result.error ?? "Une erreur est survenue", variant: "destructive" });
+        feedback.error({
+          title: isEditing ? "Mise à jour impossible" : "Ajout impossible",
+          description: result.error ?? "Réessaie dans quelques instants.",
+        });
       }
     });
   };

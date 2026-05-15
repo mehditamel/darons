@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { FormError } from "@/components/shared/form-error";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import { growthMeasurementSchema, type GrowthMeasurementFormData } from "@/lib/validators/health";
 import { createGrowthMeasurement } from "@/lib/actions/health";
 import { trackEvent } from "@/lib/analytics";
@@ -30,6 +31,7 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const lastSubmitData = useRef<GrowthMeasurementFormData | null>(null);
+  const feedback = useActionFeedback();
 
   const {
     register,
@@ -60,8 +62,16 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
       reset();
       onOpenChange(false);
       trackEvent("growth_measured");
+      feedback.success({
+        title: "Mesure enregistrée 📏",
+        description: "On a mis à jour la courbe de croissance.",
+      });
     } else {
       setError(result.error ?? "Une erreur est survenue");
+      feedback.error({
+        title: "Impossible d'enregistrer la mesure",
+        description: result.error ?? "Réessaie dans quelques instants.",
+      });
     }
   };
 

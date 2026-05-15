@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { FormError } from "@/components/shared/form-error";
 import { ConfettiBurst, useConfetti } from "@/components/shared/confetti-burst";
-import { useToast } from "@/hooks/use-toast";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import { trackEvent } from "@/lib/analytics";
 import { vaccinationSchema, type VaccinationFormData } from "@/lib/validators/health";
 import { createVaccination } from "@/lib/actions/health";
@@ -45,7 +45,7 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const lastSubmitData = useRef<VaccinationFormData | null>(null);
-  const { toast } = useToast();
+  const feedback = useActionFeedback();
   const { isActive: showConfetti, trigger: triggerConfetti } = useConfetti();
 
   const {
@@ -98,11 +98,17 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
         triggerConfetti();
         reset();
         setTimeout(() => onOpenChange(false), 800);
-        toast({ title: "Vaccin enregistré 🎉" });
+        feedback.success({
+          title: "Vaccin enregistré 🎉",
+          description: data.vaccineName ? `${data.vaccineName} — dose ${data.doseNumber}.` : "Une dose de plus dans la poche.",
+        });
         trackEvent("vaccine_recorded", { vaccineCode: data.vaccineCode ?? "unknown" });
       } else {
         setError(result.error ?? "Une erreur est survenue");
-        toast({ title: "Erreur", description: result.error ?? "Une erreur est survenue", variant: "destructive" });
+        feedback.error({
+          title: "Impossible d'enregistrer le vaccin",
+          description: result.error ?? "Réessaie dans quelques instants.",
+        });
       }
     });
   };

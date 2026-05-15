@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Upload } from "lucide-react";
 import { uploadDocument } from "@/lib/actions/documents";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import { trackEvent } from "@/lib/analytics";
 import { DOCUMENT_CATEGORY_LABELS, type DocumentCategory } from "@/types/budget";
 import type { FamilyMember } from "@/types/family";
@@ -42,6 +43,7 @@ export function DocumentUploadForm({ open, onOpenChange, members }: DocumentUplo
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const feedback = useActionFeedback();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -83,6 +85,7 @@ export function DocumentUploadForm({ open, onOpenChange, members }: DocumentUplo
     setIsSubmitting(false);
 
     if (result.success) {
+      const uploadedTitle = title;
       setTitle("");
       setCategory("");
       setMemberId("");
@@ -90,8 +93,16 @@ export function DocumentUploadForm({ open, onOpenChange, members }: DocumentUplo
       setSelectedFile(null);
       onOpenChange(false);
       trackEvent("document_added", { type: category || "autre" });
+      feedback.success({
+        title: "Document ajouté au coffre-fort",
+        description: uploadedTitle || "Tu le retrouveras dans la catégorie correspondante.",
+      });
     } else {
       setError(result.error ?? "Une erreur est survenue");
+      feedback.error({
+        title: "Upload impossible",
+        description: result.error ?? "Réessaie dans quelques instants.",
+      });
     }
   };
 
