@@ -25,6 +25,7 @@ import {
 import { FormError } from "@/components/shared/form-error";
 import { familyMemberSchema, type FamilyMemberFormData } from "@/lib/validators/family";
 import { createFamilyMember, updateFamilyMember } from "@/lib/actions/family";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import type { FamilyMember } from "@/types/family";
 
 interface MemberFormProps {
@@ -38,6 +39,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
   const [error, setError] = useState<string | null>(null);
   const lastSubmitData = useRef<FamilyMemberFormData | null>(null);
   const isEditing = !!member;
+  const feedback = useActionFeedback();
 
   const {
     register,
@@ -79,10 +81,24 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
     setIsSubmitting(false);
 
     if (result.success) {
+      feedback.success({
+        title: isEditing
+          ? `${data.firstName} a été mis à jour`
+          : `${data.firstName} a rejoint le foyer`,
+        description: isEditing
+          ? "Les nouvelles infos sont sauvegardées."
+          : data.memberType === "child"
+            ? "On t'aide à suivre sa santé, son éveil et ses papiers."
+            : "Membre adulte ajouté au foyer.",
+      });
       reset();
       onOpenChange(false);
     } else {
       setError(result.error ?? "Une erreur est survenue");
+      feedback.error({
+        title: isEditing ? "Mise à jour impossible" : "Ajout impossible",
+        description: result.error ?? "Réessaie dans quelques instants.",
+      });
     }
   };
 

@@ -23,7 +23,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { FormError } from "@/components/shared/form-error";
-import { useToast } from "@/hooks/use-toast";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import { trackEvent } from "@/lib/analytics";
 import { budgetEntrySchema, type BudgetEntryFormData } from "@/lib/validators/budget";
 import { createBudgetEntry, updateBudgetEntry } from "@/lib/actions/budget";
@@ -48,7 +48,7 @@ export function BudgetEntryForm({
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const lastSubmitData = useRef<BudgetEntryFormData | null>(null);
-  const { toast } = useToast();
+  const feedback = useActionFeedback();
   const isExpense = !entry || entry.amount >= 0;
 
   const {
@@ -101,11 +101,17 @@ export function BudgetEntryForm({
       if (result.success) {
         reset();
         onOpenChange(false);
-        toast({ title: entry ? "Entrée modifiée" : "Entrée ajoutée" });
+        feedback.success({
+          title: entry ? "Entrée mise à jour" : type === "income" ? "Revenu ajouté" : "Dépense ajoutée",
+          description: finalData.label,
+        });
         if (!entry) trackEvent("budget_transaction_added", { source: "manual" });
       } else {
         setError(result.error ?? "Une erreur est survenue");
-        toast({ title: "Erreur", description: result.error ?? "Une erreur est survenue", variant: "destructive" });
+        feedback.error({
+          title: entry ? "Mise à jour impossible" : "Ajout impossible",
+          description: result.error ?? "Réessaie dans quelques instants.",
+        });
       }
     });
   };
@@ -122,7 +128,10 @@ export function BudgetEntryForm({
         if (result.success) {
           reset();
           onOpenChange(false);
-          toast({ title: entry ? "Entrée modifiée" : "Entrée ajoutée" });
+          feedback.success({
+            title: entry ? "Entrée mise à jour" : "Entrée ajoutée",
+            description: data.label,
+          });
         } else {
           setError(result.error ?? "Une erreur est survenue");
         }

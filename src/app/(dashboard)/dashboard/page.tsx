@@ -9,7 +9,6 @@ import {
   Wallet,
   Calculator,
   CalendarClock,
-  Sparkles,
   Baby,
   FolderLock,
   BookOpen,
@@ -27,13 +26,12 @@ import { MonthlySummaryCard } from "@/components/dashboard/monthly-summary-card"
 import { FamilyOverviewCard } from "@/components/dashboard/family-overview-card";
 import { WeeklyActivitiesCard } from "@/components/dashboard/weekly-activities-card";
 import { MilestonesProgressCard } from "@/components/dashboard/milestones-progress-card";
+import { ProfileProgressCard, type CompletionItem } from "@/components/dashboard/profile-progress-card";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { ProgressRing } from "@/components/shared/progress-ring";
-import { getGreeting, formatDate, formatCurrency } from "@/lib/utils";
+import { getGreeting, formatCurrency } from "@/lib/utils";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getIdentityDocuments, getExpiringDocuments } from "@/lib/actions/identity";
 import { getVaccinationsByMembers, getGrowthMeasurements, getUpcomingAppointments } from "@/lib/actions/health";
@@ -198,21 +196,68 @@ export default async function DashboardPage() {
   const proactiveAlerts = alertsResult.data ?? [];
 
   // Profile completion
-  const completionChecks = [
-    { label: "Foyer créé", done: members.length > 0 },
-    { label: "Enfant ajouté", done: children.length > 0 },
-    { label: "Document d'identité", done: identityDocs.length > 0 },
-    { label: "Vaccin enregistré", done: doneDoses > 0 },
-    { label: "Document coffre-fort", done: vaultDocs.length > 0 },
-    { label: "Mesure de croissance", done: hasGrowthData },
-    { label: "Activité ajoutée", done: hasActivities },
-    { label: "Données fiscales", done: hasFiscalData },
-    { label: "Dépense budget", done: hasBudgetData },
-    { label: "E-mail vérifié", done: !!user?.email_confirmed_at },
+  const completionItems: CompletionItem[] = [
+    {
+      label: "Foyer créé",
+      done: members.length > 0,
+      href: "/onboarding",
+      hint: "Commence par créer ta tribu.",
+    },
+    {
+      label: "Enfant ajouté",
+      done: children.length > 0,
+      href: "/parametres",
+      hint: "Ajoute ton moutard pour activer le suivi vaccinal et la croissance.",
+    },
+    {
+      label: "Document d'identité",
+      done: identityDocs.length > 0,
+      href: "/identite",
+      hint: "CNI, passeport, livret de famille — on te préviendra avant qu'ils expirent.",
+    },
+    {
+      label: "Vaccin enregistré",
+      done: doneDoses > 0,
+      href: "/sante",
+      hint: "Dis-nous le dernier vaccin fait, on s'occupe des rappels.",
+    },
+    {
+      label: "Document coffre-fort",
+      done: vaultDocs.length > 0,
+      href: "/documents",
+      hint: "Un seul endroit pour tout retrouver, plus jamais paniqué.",
+    },
+    {
+      label: "Mesure de croissance",
+      done: hasGrowthData,
+      href: "/sante",
+      hint: "Poids, taille, périmètre crânien — on trace les courbes OMS.",
+    },
+    {
+      label: "Activité ajoutée",
+      done: hasActivities,
+      href: "/activites",
+      hint: "Bébé nageur, éveil musical… note ce qui rythme ses semaines.",
+    },
+    {
+      label: "Données fiscales",
+      done: hasFiscalData,
+      href: "/fiscal",
+      hint: "Lance ta première simulation, on chiffre ce que tu peux économiser.",
+    },
+    {
+      label: "Dépense budget",
+      done: hasBudgetData,
+      href: "/budget",
+      hint: "Une dépense suffit pour voir où passe la thune.",
+    },
+    {
+      label: "E-mail vérifié",
+      done: !!user?.email_confirmed_at,
+      href: "/parametres",
+      hint: "Vérifie ton mail pour recevoir les alertes critiques.",
+    },
   ];
-  const completionPercent = Math.round(
-    (completionChecks.filter((c) => c.done).length / completionChecks.length) * 100
-  );
 
   const firstAdult = members.find((m) => m.memberType === "adult");
   const displayName = firstAdult?.firstName ?? "Utilisateur";
@@ -373,51 +418,7 @@ export default async function DashboardPage() {
       />
 
       {/* Profile completion */}
-      {completionPercent < 100 && (
-        <Card className="border-dashed border-warm-orange/30 bg-warm-orange/5 card-interactive">
-          <CardContent className="p-5">
-            <div className="flex items-start gap-5">
-              {/* Progress Ring */}
-              <div className="shrink-0">
-                <ProgressRing
-                  value={completionPercent}
-                  size={72}
-                  strokeWidth={6}
-                  color="text-warm-orange"
-                  animated
-                />
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-warm-orange" />
-                    <p className="text-sm font-semibold">Ton profil est à {completionPercent}%</p>
-                  </div>
-                  <Badge variant="outline" className="text-xs">
-                    {completionChecks.filter((c) => !c.done).length} étape{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""} restante{completionChecks.filter((c) => !c.done).length > 1 ? "s" : ""}
-                  </Badge>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {completionChecks.map((check, i) => (
-                    <span
-                      key={check.label}
-                      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors animate-fade-in-up ${
-                        check.done
-                          ? "bg-warm-green/10 text-warm-green"
-                          : "bg-muted text-muted-foreground hover:bg-muted/80"
-                      }`}
-                      style={{ animationDelay: `${i * 0.05}s` }}
-                    >
-                      {check.done ? "\u2713" : "\u25CB"} {check.label}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      <ProfileProgressCard items={completionItems} />
 
       {/* Stats row */}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">

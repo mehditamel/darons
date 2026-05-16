@@ -17,7 +17,9 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { deleteIdentityDocument } from "@/lib/actions/identity";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import type { IdentityDocumentWithMember } from "@/lib/actions/identity";
+import { DOCUMENT_TYPE_LABELS } from "@/types/family";
 import type { FamilyMember } from "@/types/family";
 
 interface IdentityDocumentListProps {
@@ -30,6 +32,7 @@ export function IdentityDocumentList({ documents, members }: IdentityDocumentLis
   const [editing, setEditing] = useState<IdentityDocumentWithMember | undefined>();
   const [deleting, setDeleting] = useState<IdentityDocumentWithMember | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const feedback = useActionFeedback();
 
   const handleEdit = (doc: IdentityDocumentWithMember) => {
     setEditing(doc);
@@ -44,9 +47,21 @@ export function IdentityDocumentList({ documents, members }: IdentityDocumentLis
   const handleDelete = async () => {
     if (!deleting) return;
     setIsDeleting(true);
-    await deleteIdentityDocument(deleting.id);
+    const docLabel = DOCUMENT_TYPE_LABELS[deleting.documentType] ?? "Document";
+    const result = await deleteIdentityDocument(deleting.id);
     setIsDeleting(false);
     setDeleting(null);
+    if (result.success) {
+      feedback.success({
+        title: "Document supprimé",
+        description: `${docLabel} retiré de la liste.`,
+      });
+    } else {
+      feedback.error({
+        title: "Suppression impossible",
+        description: result.error ?? "Réessaie dans quelques instants.",
+      });
+    }
   };
 
   if (documents.length === 0 && members.length > 0) {
@@ -54,9 +69,9 @@ export function IdentityDocumentList({ documents, members }: IdentityDocumentLis
       <>
         <EmptyState
           icon={IdCard}
-          title="Aucun document enregistré"
-          description="Ajoutez les pièces d'identité de votre famille pour ne plus jamais oublier une date d'expiration."
-          actionLabel="Ajouter un premier document"
+          title="Aucun papier enregistré"
+          description="CNI, passeport, livret de famille... Ajoute-les ici et on te prévient avant qu'ils expirent. Fini la panique au guichet."
+          actionLabel="Ajouter un premier papier"
           onAction={() => setFormOpen(true)}
         />
         <IdentityDocumentForm

@@ -12,6 +12,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { deleteFamilyMember } from "@/lib/actions/family";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import type { FamilyMember } from "@/types/family";
 
 interface DeleteMemberDialogProps {
@@ -22,13 +23,25 @@ interface DeleteMemberDialogProps {
 
 export function DeleteMemberDialog({ open, onOpenChange, member }: DeleteMemberDialogProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const feedback = useActionFeedback();
 
   const handleDelete = async () => {
     if (!member) return;
     setIsDeleting(true);
-    await deleteFamilyMember(member.id);
+    const result = await deleteFamilyMember(member.id);
     setIsDeleting(false);
-    onOpenChange(false);
+    if (result.success) {
+      feedback.success({
+        title: `${member.firstName} a été supprimé du foyer`,
+        description: "Tu peux toujours le rajouter quand tu veux.",
+      });
+      onOpenChange(false);
+    } else {
+      feedback.error({
+        title: "Suppression impossible",
+        description: result.error ?? "Réessaie dans quelques instants.",
+      });
+    }
   };
 
   return (

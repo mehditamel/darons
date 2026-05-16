@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useTransform, type PanInfo } from "framer-motion";
+import { useHaptic } from "@/hooks/use-haptic";
 import { cn } from "@/lib/utils";
 
 interface SwipeableCardProps {
@@ -29,12 +30,15 @@ export function SwipeableCard({
   const opacity = useTransform(x, [-threshold, 0, threshold], [0.5, 1, 0.5]);
   const leftOpacity = useTransform(x, [-threshold, -20, 0], [1, 0, 0]);
   const rightOpacity = useTransform(x, [0, 20, threshold], [0, 0, 1]);
+  const haptic = useHaptic();
 
   function handleDragEnd(_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) {
     setIsDragging(false);
     if (info.offset.x < -threshold && onSwipeLeft) {
+      haptic.tap();
       onSwipeLeft();
     } else if (info.offset.x > threshold && onSwipeRight) {
+      haptic.tap();
       onSwipeRight();
     }
   }

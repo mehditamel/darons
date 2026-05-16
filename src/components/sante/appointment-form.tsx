@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FormError } from "@/components/shared/form-error";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
 import { medicalAppointmentSchema, type MedicalAppointmentFormData } from "@/lib/validators/health";
 import { createMedicalAppointment } from "@/lib/actions/health";
 
@@ -49,6 +50,7 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const lastSubmitData = useRef<MedicalAppointmentFormData | null>(null);
+  const feedback = useActionFeedback();
 
   const {
     register,
@@ -80,8 +82,18 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
     if (result.success) {
       reset();
       onOpenChange(false);
+      feedback.success({
+        title: "RDV ajouté",
+        description: data.appointmentType
+          ? `${data.appointmentType}${data.practitioner ? ` — ${data.practitioner}` : ""}`
+          : "On te le rappellera le moment venu.",
+      });
     } else {
       setError(result.error ?? "Une erreur est survenue");
+      feedback.error({
+        title: "Impossible d'ajouter le RDV",
+        description: result.error ?? "Réessaie dans quelques instants.",
+      });
     }
   };
 

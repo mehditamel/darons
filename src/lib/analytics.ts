@@ -29,6 +29,10 @@ export const ANALYTICS_EVENTS = {
   alert_clicked: "alert_clicked",
   monthly_summary_opened: "monthly_summary_opened",
   document_exported: "document_exported",
+  pull_to_refresh_triggered: "pull_to_refresh_triggered",
+  transaction_swipe_action: "transaction_swipe_action",
+  savings_goal_completed: "savings_goal_completed",
+  first_document_uploaded: "first_document_uploaded",
 } as const;
 
 export type AnalyticsEventName = keyof typeof ANALYTICS_EVENTS;
@@ -55,6 +59,10 @@ export type AnalyticsEventData = {
   alert_clicked: { alertType: string };
   monthly_summary_opened: Record<string, never>;
   document_exported: { format: "pdf" | "csv" | "json" };
+  pull_to_refresh_triggered: { page: "budget" | "sante" | "alertes" | "dashboard" };
+  transaction_swipe_action: { direction: "left" | "right"; action: string };
+  savings_goal_completed: { goalName: string };
+  first_document_uploaded: { category: string };
 };
 
 /**

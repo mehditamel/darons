@@ -7,6 +7,7 @@ import {
   Receipt,
 } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
+import { RefreshablePage } from "@/components/shared/refreshable-page";
 import { StatCard } from "@/components/shared/stat-card";
 import { AlertCard } from "@/components/shared/alert-card";
 import { BudgetTabs } from "@/components/budget/budget-tabs";
@@ -33,6 +34,8 @@ export const metadata: Metadata = {
   title: "Budget familial",
   description: "Suivez vos dépenses, allocations CAF et reste à charge",
 };
+
+export const revalidate = 60;
 
 function resolveMonth(monthParam?: string): string {
   if (monthParam && /^\d{4}-\d{2}-01$/.test(monthParam)) {
@@ -109,7 +112,8 @@ export default async function BudgetPage({
     : null;
 
   return (
-    <div className="space-y-8 page-enter">
+    <RefreshablePage page="budget">
+      <div className="space-y-8 page-enter">
       <PageHeader
         title="Budget familial"
         description="Où passe ta thune ? On te montre"
@@ -191,6 +195,7 @@ export default async function BudgetPage({
       )}
 
       <AiCoachCard hasAccess={hasAiCoach} />
-    </div>
+      </div>
+    </RefreshablePage>
   );
 }

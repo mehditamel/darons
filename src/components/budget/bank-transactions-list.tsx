@@ -1,6 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDownLeft, ArrowUpRight, Search, Sparkles, CreditCard, Users } from "lucide-react";
+import Link from "next/link";
+import { ArrowDownLeft, ArrowUpRight, Search, Sparkles, CreditCard, Wallet } from "lucide-react";
+import { SwipeableCard } from "@/components/shared/swipeable-card";
+import { useIsCoarsePointer } from "@/hooks/use-media-query";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
+import { trackEvent } from "@/lib/analytics";
 import type { BankTransaction } from "@/lib/actions/banking";
 import { updateTransactionCategory, aiCategorizeUncategorized, assignTransactionToMember } from "@/lib/actions/banking";
 import { BUDGET_CATEGORY_LABELS, type BudgetCategory } from "@/types/budget";
@@ -26,6 +39,9 @@ interface BankTransactionsListProps {
 export function BankTransactionsList({ transactions, members }: BankTransactionsListProps) {
   const [search, setSearch] = useState("");
   const [categorizing, setCategorizing] = useState(false);
+  const [categoryDialogTx, setCategoryDialogTx] = useState<BankTransaction | null>(null);
+  const isCoarsePointer = useIsCoarsePointer();
+  const feedback = useActionFeedback();
 
   const filtered = transactions.filter((tx) => {
     if (!search) return true;
@@ -44,6 +60,53 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
 
   async function handleMemberChange(txId: string, memberId: string) {
     await assignTransactionToMember(txId, memberId === "none" ? null : memberId);
+  }
+
+  async function handleSwipeAssignToHousehold(tx: BankTransaction) {
+    const previousMemberId = tx.memberId;
+    if (previousMemberId === null) {
+      feedback.info("Déjà rattaché au foyer");
+      return;
+    }
+    trackEvent("transaction_swipe_action", { direction: "left", action: "assign_household" });
+    const result = await assignTransactionToMember(tx.id, null);
+    if (!result.success) {
+      feedback.error({ title: "Impossible de rattacher", description: result.error });
+      return;
+    }
+    feedback.undo({
+      title: "Rattachée au foyer",
+      description: tx.description ?? undefined,
+      onUndo: async () => {
+        await assignTransactionToMember(tx.id, previousMemberId);
+      },
+    });
+  }
+
+  function handleSwipeOpenCategory(tx: BankTransaction) {
+    trackEvent("transaction_swipe_action", { direction: "right", action: "edit_category" });
+    setCategoryDialogTx(tx);
+  }
+
+  async function handleDialogCategorySelect(category: BudgetCategory) {
+    if (!categoryDialogTx) return;
+    const tx = categoryDialogTx;
+    const previousCategory = tx.categoryUser;
+    setCategoryDialogTx(null);
+    const result = await updateTransactionCategory(tx.id, category);
+    if (!result.success) {
+      feedback.error({ title: "Catégorie non enregistrée", description: result.error });
+      return;
+    }
+    feedback.undo({
+      title: `Catégorie : ${BUDGET_CATEGORY_LABELS[category]}`,
+      description: tx.description ?? undefined,
+      onUndo: async () => {
+        if (previousCategory) {
+          await updateTransactionCategory(tx.id, previousCategory);
+        }
+      },
+    });
   }
 
   function getEffectiveCategory(tx: BankTransaction): string | null {
@@ -66,11 +129,28 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-dashed p-6 text-center">
-            <CreditCard className="mx-auto h-10 w-10 text-muted-foreground/50" />
-            <p className="mt-2 text-sm text-muted-foreground">
-              Aucune transaction synchronisée. Connectez votre banque ou synchronisez vos comptes.
+          <div className="rounded-2xl border border-dashed border-warm-blue/30 bg-warm-blue/5 p-8 text-center">
+            <div
+              className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-warm-blue/10 animate-bounce-gentle"
+              aria-hidden="true"
+            >
+              <CreditCard className="h-7 w-7 text-warm-blue" />
+            </div>
+            <h3 className="text-base font-semibold">Aucune transaction synchronisée</h3>
+            <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
+              Connecte ta banque pour voir où passe la thune, ou note tes dépenses à la main. Zéro jugement, juste plus de clarté.
             </p>
+            <div className="mt-5 flex flex-wrap justify-center gap-2">
+              <Button asChild size="sm" className="animate-pulse-glow">
+                <Link href="/budget#banking">Connecter ma banque</Link>
+              </Button>
+              <Button asChild size="sm" variant="outline">
+                <Link href="/budget#manual">
+                  <Wallet className="mr-1.5 h-4 w-4" aria-hidden="true" />
+                  Saisie manuelle
+                </Link>
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -124,11 +204,8 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
             const memberName = getMemberName(tx.memberId);
             const isExpense = tx.amount < 0;
 
-            return (
-              <div
-                key={tx.id}
-                className="flex items-center justify-between rounded-lg px-3 py-2 hover:bg-muted/50"
-              >
+            const row = (
+              <div className="flex items-center justify-between rounded-lg bg-card px-3 py-2 hover:bg-muted/50">
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
@@ -162,7 +239,7 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  {members.length > 0 && (
+                  {!isCoarsePointer && members.length > 0 && (
                     <Select
                       value={tx.memberId ?? "none"}
                       onValueChange={(val) => handleMemberChange(tx.id, val)}
@@ -183,21 +260,23 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
                     </Select>
                   )}
 
-                  <Select
-                    value={category ?? ""}
-                    onValueChange={(val) => handleCategoryChange(tx.id, val)}
-                  >
-                    <SelectTrigger className="h-7 w-28 text-xs">
-                      <SelectValue placeholder="Categorie" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.entries(BUDGET_CATEGORY_LABELS).map(([key, label]) => (
-                        <SelectItem key={key} value={key} className="text-xs">
-                          {label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  {!isCoarsePointer && (
+                    <Select
+                      value={category ?? ""}
+                      onValueChange={(val) => handleCategoryChange(tx.id, val)}
+                    >
+                      <SelectTrigger className="h-7 w-28 text-xs">
+                        <SelectValue placeholder="Categorie" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.entries(BUDGET_CATEGORY_LABELS).map(([key, label]) => (
+                          <SelectItem key={key} value={key} className="text-xs">
+                            {label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
 
                   <span
                     className={`text-sm font-semibold tabular-nums ${
@@ -213,6 +292,26 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
                 </div>
               </div>
             );
+
+            if (!isCoarsePointer) {
+              return (
+                <div key={tx.id}>
+                  {row}
+                </div>
+              );
+            }
+
+            return (
+              <SwipeableCard
+                key={tx.id}
+                leftLabel="Foyer"
+                rightLabel="Catégorie"
+                onSwipeLeft={() => void handleSwipeAssignToHousehold(tx)}
+                onSwipeRight={() => handleSwipeOpenCategory(tx)}
+              >
+                {row}
+              </SwipeableCard>
+            );
           })}
         </div>
 
@@ -222,6 +321,41 @@ export function BankTransactionsList({ transactions, members }: BankTransactions
           </p>
         )}
       </CardContent>
+
+      <Dialog
+        open={!!categoryDialogTx}
+        onOpenChange={(open) => !open && setCategoryDialogTx(null)}
+      >
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Catégorie de la transaction</DialogTitle>
+            {categoryDialogTx?.description && (
+              <DialogDescription className="truncate">
+                {categoryDialogTx.description}
+              </DialogDescription>
+            )}
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-2">
+            {(Object.entries(BUDGET_CATEGORY_LABELS) as [BudgetCategory, string][]).map(
+              ([value, label]) => (
+                <Button
+                  key={value}
+                  variant="outline"
+                  className="justify-start"
+                  onClick={() => void handleDialogCategorySelect(value)}
+                >
+                  {label}
+                </Button>
+              )
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setCategoryDialogTx(null)}>
+              Annuler
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }

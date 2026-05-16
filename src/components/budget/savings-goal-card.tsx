@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pencil, Trash2, MoreHorizontal, Target, Plus } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { ConfettiBurst, useConfetti } from "@/components/shared/confetti-burst";
 import { deleteSavingsGoal } from "@/lib/actions/budget";
+import { useActionFeedback } from "@/hooks/use-action-feedback";
+import { trackEvent } from "@/lib/analytics";
 import type { SavingsGoal } from "@/types/budget";
 import { SavingsGoalForm } from "./savings-goal-form";
 import { formatCurrency, formatDate } from "@/lib/utils";
@@ -30,10 +33,34 @@ interface SavingsGoalCardProps {
   goals: SavingsGoal[];
 }
 
+function isCompleted(goal: SavingsGoal): boolean {
+  return goal.targetAmount > 0 && goal.currentAmount >= goal.targetAmount;
+}
+
 export function SavingsGoalCard({ goals }: SavingsGoalCardProps) {
   const [showForm, setShowForm] = useState(false);
   const [editGoal, setEditGoal] = useState<SavingsGoal | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const confetti = useConfetti();
+  const feedback = useActionFeedback();
+  const completedIdsRef = useRef<Set<string>>(
+    new Set(goals.filter(isCompleted).map((g) => g.id))
+  );
+
+  useEffect(() => {
+    const newlyCompleted = goals.find(
+      (g) => isCompleted(g) && !completedIdsRef.current.has(g.id)
+    );
+    if (newlyCompleted) {
+      completedIdsRef.current.add(newlyCompleted.id);
+      confetti.trigger();
+      trackEvent("savings_goal_completed", { goalName: newlyCompleted.name });
+      feedback.success({
+        title: `Objectif atteint : ${newlyCompleted.name}`,
+        description: "Bravo, l'enveloppe est complète.",
+      });
+    }
+  }, [goals, confetti, feedback]);
 
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -45,7 +72,8 @@ export function SavingsGoalCard({ goals }: SavingsGoalCardProps) {
 
   return (
     <>
-      <Card>
+      <Card className="relative overflow-hidden">
+        <ConfettiBurst active={confetti.isActive} />
         <CardHeader className="flex flex-row items-center justify-between pb-3">
           <CardTitle className="text-base flex items-center gap-2">
             <Target className="h-4 w-4" />
