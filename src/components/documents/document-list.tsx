@@ -85,7 +85,12 @@ export function DocumentList({ documents, members }: DocumentListProps) {
           actionLabel="Importer un premier document"
           onAction={() => setUploadOpen(true)}
         />
-        <DocumentUploadForm open={uploadOpen} onOpenChange={setUploadOpen} members={members} />
+        <DocumentUploadForm
+          open={uploadOpen}
+          onOpenChange={setUploadOpen}
+          members={members}
+          existingCount={documents.length}
+        />
       </>
     );
   }
@@ -147,7 +152,12 @@ export function DocumentList({ documents, members }: DocumentListProps) {
             Réinitialiser les filtres
           </Button>
         </div>
-        <DocumentUploadForm open={uploadOpen} onOpenChange={setUploadOpen} members={members} />
+        <DocumentUploadForm
+          open={uploadOpen}
+          onOpenChange={setUploadOpen}
+          members={members}
+          existingCount={documents.length}
+        />
       </>
     );
   }
@@ -210,7 +220,12 @@ export function DocumentList({ documents, members }: DocumentListProps) {
         ))}
       </div>
 
-      <DocumentUploadForm open={uploadOpen} onOpenChange={setUploadOpen} members={members} />
+      <DocumentUploadForm
+          open={uploadOpen}
+          onOpenChange={setUploadOpen}
+          members={members}
+          existingCount={documents.length}
+        />
 
       <DocumentPreview
         document={previewDoc}

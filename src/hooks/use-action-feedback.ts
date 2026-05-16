@@ -4,6 +4,7 @@ import * as React from "react";
 import { ToastAction } from "@/components/ui/toast";
 import type { ToastActionElement } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
+import { useHaptic } from "@/hooks/use-haptic";
 import { ERROR_CODES } from "@/lib/constants";
 
 type ErrorCode = keyof typeof ERROR_CODES;
@@ -66,10 +67,12 @@ function resolveError(input: ErrorInput, fallbackTitle: string) {
 
 export function useActionFeedback() {
   const { toast } = useToast();
+  const haptic = useHaptic();
 
   const success = React.useCallback(
     (input: FeedbackInput) => {
       const { title, description, durationMs } = resolveFeedback(input, "C'est fait");
+      haptic.success();
       return toast({
         variant: "success",
         title,
@@ -77,12 +80,13 @@ export function useActionFeedback() {
         duration: durationMs ?? 3500,
       });
     },
-    [toast]
+    [toast, haptic]
   );
 
   const error = React.useCallback(
     (input: ErrorInput) => {
       const { title, description, durationMs } = resolveError(input, "Oups, ça a bloqué");
+      haptic.error();
       return toast({
         variant: "destructive",
         title,
@@ -90,7 +94,7 @@ export function useActionFeedback() {
         duration: durationMs ?? 6000,
       });
     },
-    [toast]
+    [toast, haptic]
   );
 
   const info = React.useCallback(

@@ -23,6 +23,7 @@ import {
 import { Upload } from "lucide-react";
 import { uploadDocument } from "@/lib/actions/documents";
 import { useActionFeedback } from "@/hooks/use-action-feedback";
+import { ConfettiBurst, useConfetti } from "@/components/shared/confetti-burst";
 import { trackEvent } from "@/lib/analytics";
 import { DOCUMENT_CATEGORY_LABELS, type DocumentCategory } from "@/types/budget";
 import type { FamilyMember } from "@/types/family";
@@ -32,9 +33,15 @@ interface DocumentUploadFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   members: FamilyMember[];
+  existingCount?: number;
 }
 
-export function DocumentUploadForm({ open, onOpenChange, members }: DocumentUploadFormProps) {
+export function DocumentUploadForm({
+  open,
+  onOpenChange,
+  members,
+  existingCount = 0,
+}: DocumentUploadFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState("");
@@ -44,6 +51,7 @@ export function DocumentUploadForm({ open, onOpenChange, members }: DocumentUplo
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const feedback = useActionFeedback();
+  const confetti = useConfetti();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -86,17 +94,29 @@ export function DocumentUploadForm({ open, onOpenChange, members }: DocumentUplo
 
     if (result.success) {
       const uploadedTitle = title;
+      const wasFirst = existingCount === 0;
+      const uploadedCategory = category || "autre";
       setTitle("");
       setCategory("");
       setMemberId("");
       setDescription("");
       setSelectedFile(null);
-      onOpenChange(false);
-      trackEvent("document_added", { type: category || "autre" });
-      feedback.success({
-        title: "Document ajouté au coffre-fort",
-        description: uploadedTitle || "Tu le retrouveras dans la catégorie correspondante.",
-      });
+      trackEvent("document_added", { type: uploadedCategory });
+      if (wasFirst) {
+        confetti.trigger();
+        trackEvent("first_document_uploaded", { category: uploadedCategory });
+        feedback.success({
+          title: "Premier document sécurisé !",
+          description: "Bienvenue dans le coffre-fort. On le garde au chaud.",
+        });
+        setTimeout(() => onOpenChange(false), 800);
+      } else {
+        onOpenChange(false);
+        feedback.success({
+          title: "Document ajouté au coffre-fort",
+          description: uploadedTitle || "Tu le retrouveras dans la catégorie correspondante.",
+        });
+      }
     } else {
       setError(result.error ?? "Une erreur est survenue");
       feedback.error({
@@ -110,7 +130,8 @@ export function DocumentUploadForm({ open, onOpenChange, members }: DocumentUplo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md overflow-hidden">
+        <ConfettiBurst active={confetti.isActive} />
         <DialogHeader>
           <DialogTitle>Importer un document</DialogTitle>
           <DialogDescription>

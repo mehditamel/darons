@@ -7,6 +7,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
+import { RefreshablePage } from "@/components/shared/refreshable-page";
 import { StatCard } from "@/components/shared/stat-card";
 import { AlertCard } from "@/components/shared/alert-card";
 import { SanteTabs } from "@/components/sante/sante-tabs";
@@ -22,6 +23,8 @@ export const metadata: Metadata = {
   title: "Santé & vaccinations",
   description: "Calendrier vaccinal, courbes de croissance et rendez-vous médicaux de vos enfants",
 };
+
+export const revalidate = 60;
 
 function countExpectedDoses(childAgeMonths: number): number {
   let count = 0;
@@ -94,7 +97,8 @@ export default async function SantePage() {
     : null;
 
   return (
-    <div className="space-y-8 page-enter">
+    <RefreshablePage page="sante">
+      <div className="space-y-8 page-enter">
       <PageHeader
         title="Santé & vaccinations"
         description="Les vaccins, la croissance, les RDV — tout est là"
@@ -176,6 +180,7 @@ export default async function SantePage() {
       </SanteTabs>
 
       <PractitionerSearch />
-    </div>
+      </div>
+    </RefreshablePage>
   );
 }

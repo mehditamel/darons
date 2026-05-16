@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bell, RefreshCw, CheckCircle2, History } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
+import { RefreshablePage } from "@/components/shared/refreshable-page";
 import { AlertsPageClient } from "./alerts-page-client";
 import { getAlerts, getAlertHistory } from "@/lib/actions/alerts";
 
@@ -8,6 +9,8 @@ export const metadata: Metadata = {
   title: "Alertes",
   description: "Toutes les alertes proactives de votre foyer",
 };
+
+export const revalidate = 60;
 
 export default async function AlertesPage() {
   const [alertsResult, historyResult] = await Promise.all([
@@ -19,16 +22,18 @@ export default async function AlertesPage() {
   const dismissedAlerts = historyResult.data ?? [];
 
   return (
-    <div className="space-y-8 page-enter">
-      <PageHeader
-        title="Alertes"
-        description="L'IA surveille ton foyer et te previent quand il y a un truc a faire."
-      />
+    <RefreshablePage page="alertes">
+      <div className="space-y-8 page-enter">
+        <PageHeader
+          title="Alertes"
+          description="L'IA surveille ton foyer et te previent quand il y a un truc a faire."
+        />
 
-      <AlertsPageClient
-        activeAlerts={activeAlerts}
-        dismissedAlerts={dismissedAlerts}
-      />
-    </div>
+        <AlertsPageClient
+          activeAlerts={activeAlerts}
+          dismissedAlerts={dismissedAlerts}
+        />
+      </div>
+    </RefreshablePage>
   );
 }
