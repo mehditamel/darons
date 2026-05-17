@@ -122,7 +122,7 @@ export default async function BudgetPage({
       />
 
       {/* Summary stat cards */}
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 grid-cols-2 sm:gap-4 lg:grid-cols-4">
         <StatCard
           label="Dépenses du mois"
           value={formatCurrency(summary.totalExpenses)}

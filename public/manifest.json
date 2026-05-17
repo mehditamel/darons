@@ -5,13 +5,35 @@
   "start_url": "/dashboard",
   "id": "/dashboard",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
   "background_color": "#FDFAF6",
   "theme_color": "#1B2838",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "fr",
+  "dir": "ltr",
   "categories": ["lifestyle", "finance", "health"],
   "prefer_related_applications": false,
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "handle_links": "preferred",
+  "share_target": {
+    "action": "/api/share-target",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": ["image/*", "application/pdf"]
+        }
+      ]
+    }
+  },
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -125,6 +147,18 @@
       "name": "Coffre-fort",
       "short_name": "Documents",
       "url": "/documents",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Démarches",
+      "short_name": "Démarches",
+      "url": "/demarches",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Alertes",
+      "short_name": "Alertes",
+      "url": "/alertes",
       "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }
   ]

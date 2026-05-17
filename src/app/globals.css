@@ -460,14 +460,32 @@
   }
 }
 
+/* Safe-area utilities — usable anywhere */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.safe-x {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
 /* PWA standalone mode — adjust for status bar and immersive feel */
 @media (display-mode: standalone) {
-  body {
+  /* Don't push body — let sticky headers handle their own safe area
+     so scroll content stays flush with the viewport edges. */
+  .pwa-safe-top {
     padding-top: env(safe-area-inset-top);
   }
   /* Hide install-related UI when already installed */
   .pwa-install-only {
     display: none !important;
+  }
+  /* Slight tweak for full-bleed feel: remove the body bounce highlight */
+  body {
+    overscroll-behavior-y: none;
   }
 }
 

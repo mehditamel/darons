@@ -386,7 +386,7 @@ export default async function DashboardPage() {
       {/* Empty state: no children */}
       {children.length === 0 && (
         <Card className="border-2 border-dashed border-warm-teal/30 bg-warm-teal/5">
-          <CardContent className="p-8 text-center space-y-4">
+          <CardContent className="p-5 sm:p-8 text-center space-y-4">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-warm-teal/10">
               <Baby className="h-7 w-7 text-warm-teal" />
             </div>
@@ -421,7 +421,7 @@ export default async function DashboardPage() {
       <ProfileProgressCard items={completionItems} />
 
       {/* Stats row */}
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 grid-cols-2 sm:gap-4 lg:grid-cols-4">
         <StatCard
           label="Famille"
           value={`${members.length} membre${members.length > 1 ? "s" : ""}`}
@@ -470,15 +470,15 @@ export default async function DashboardPage() {
             <CardTitle className="text-base">Actions rapides</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
               {quickActions.map((action) => (
                 <Link
                   key={action.href + action.label}
                   href={action.href}
-                  className={`flex flex-col items-center gap-1.5 rounded-2xl p-3 transition-all duration-200 ${action.color} group hover:shadow-sm hover:-translate-y-0.5`}
+                  className={`flex min-h-[88px] flex-col items-center justify-center gap-1.5 rounded-2xl p-3 transition-all duration-200 ${action.color} group hover:shadow-sm hover:-translate-y-0.5 active:scale-95`}
                 >
                   <action.icon className="h-5 w-5 transition-transform group-hover:scale-110" />
-                  <span className="text-xs font-semibold">{action.label}</span>
+                  <span className="text-xs font-semibold text-center leading-tight">{action.label}</span>
                   <span className="text-[10px] opacity-70 leading-tight text-center">{action.description}</span>
                 </Link>
               ))}
