@@ -1,4 +1,4 @@
-const CACHE_NAME = "darons-1775538735";
+const CACHE_NAME = "darons-1778994247";
 const FONT_CACHE_NAME = "darons-fonts-v1";
 const MAX_DYNAMIC_CACHE_SIZE = 50;
 const STATIC_ASSETS = [
@@ -33,14 +33,28 @@ async function trimCache(cacheName, maxSize) {
   }
 }
 
+// Message handler: allow the client to force activation of a waiting worker
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
 // Install: cache static assets
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll([...STATIC_ASSETS, ...DASHBOARD_PAGES]);
-    })
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      // Pre-cache each asset individually so a single 404 doesn't abort install
+      await Promise.all(
+        [...STATIC_ASSETS, ...DASHBOARD_PAGES].map((url) =>
+          cache.add(url).catch(() => undefined)
+        )
+      );
+    })()
   );
-  self.skipWaiting();
+  // No skipWaiting() here — the client surfaces an "Update available"
+  // prompt and posts { type: "SKIP_WAITING" } when the user agrees.
 });
 
 // Activate: clean old caches + enable navigation preload

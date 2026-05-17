@@ -5,6 +5,7 @@ import { BottomNavigation } from "@/components/layout/bottom-navigation";
 import { CommandPalette } from "@/components/layout/command-palette";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
+import { IosInstallPrompt } from "@/components/pwa/ios-install-prompt";
 import { OfflineBanner } from "@/components/pwa/offline-fallback";
 import { SessionTracker } from "@/components/analytics/session-tracker";
 import { CookieBanner } from "@/components/shared/cookie-banner";
@@ -125,6 +126,7 @@ export default async function DashboardLayout({
         <main id="main-content" className="p-4 pb-20 lg:p-6 lg:pb-6" role="main">
           <OfflineBanner />
           <InstallPrompt />
+          <IosInstallPrompt />
           <PageTransition>
             {children}
           </PageTransition>
