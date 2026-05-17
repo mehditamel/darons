@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useHaptic } from "@/hooks/use-haptic";
+import { useHideOnScroll } from "@/hooks/use-hide-on-scroll";
 import {
   Sheet,
   SheetContent,
@@ -30,9 +31,18 @@ const BOTTOM_TABS = [
 export function BottomNavigation() {
   const pathname = usePathname();
   const haptic = useHaptic();
+  const hidden = useHideOnScroll();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-xl lg:hidden" role="navigation" aria-label="Navigation mobile">
+    <nav
+      className={cn(
+        "fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur-xl transition-transform duration-300 ease-out lg:hidden",
+        hidden ? "translate-y-full" : "translate-y-0"
+      )}
+      role="navigation"
+      aria-label="Navigation mobile"
+      aria-hidden={hidden}
+    >
       <div className="flex items-center justify-around">
         {BOTTOM_TABS.map((tab) => {
           const Icon = tab.icon;
@@ -48,7 +58,7 @@ export function BottomNavigation() {
                 if (!isActive) haptic.tap();
               }}
               className={cn(
-                "relative flex flex-1 flex-col items-center gap-0.5 py-3 text-[11px] font-medium transition-all duration-200 active:scale-90",
+                "relative flex min-h-[56px] flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium transition-all duration-200 active:scale-90",
                 isActive
                   ? "text-warm-orange"
                   : "text-muted-foreground active:text-warm-orange/70"
@@ -74,7 +84,7 @@ export function BottomNavigation() {
         <Sheet>
           <SheetTrigger asChild>
             <button
-              className="relative flex flex-1 flex-col items-center gap-0.5 py-3 text-[11px] font-medium text-muted-foreground transition-all duration-200 active:scale-90 active:text-warm-orange/70"
+              className="relative flex min-h-[56px] flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium text-muted-foreground transition-all duration-200 active:scale-90 active:text-warm-orange/70"
               aria-label="Plus de modules"
             >
               <Menu className="h-6 w-6" />
