@@ -1,3 +1,7 @@
+// App version — exposed to UI (settings footer, support) and useful for SW cache busting context
+// Bump on each release; build ID is appended at runtime via package.json or env.
+export const APP_VERSION = "0.1.0";
+
 // Darons est 100% gratuit — pas de tiers, pas de premium, tout est accessible
 export const APP_LIMITS = {
   maxAdults: Infinity,

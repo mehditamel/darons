@@ -67,7 +67,7 @@ export default async function DocumentsPage() {
       />
 
       {/* Stat cards */}
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 grid-cols-2 sm:gap-4 lg:grid-cols-4">
         <StatCard
           label="Documents"
           value={String(documents.length)}

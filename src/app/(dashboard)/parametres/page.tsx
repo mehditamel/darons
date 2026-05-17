@@ -19,7 +19,7 @@ import { EditProfileForm } from "@/components/parametres/edit-profile-form";
 import { UpgradeButton } from "@/components/parametres/upgrade-button";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getUserConsents, getDeletionStatus } from "@/lib/actions/rgpd";
-import { PLAN_LIMITS } from "@/lib/constants";
+import { PLAN_LIMITS, APP_VERSION } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -222,6 +222,11 @@ export default async function ParametresPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* App version footer */}
+        <p className="text-center text-[11px] text-muted-foreground pt-2">
+          Darons · version {APP_VERSION}
+        </p>
       </div>
     </div>
   );
