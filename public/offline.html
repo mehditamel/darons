@@ -2,69 +2,154 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1B2838" />
   <title>Hors ligne — Darons</title>
+  <link rel="icon" type="image/png" href="/icons/icon-192x192.png" />
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
-      font-family: 'DM Sans', system-ui, sans-serif;
-      background: #FDFAF6;
+      font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(180deg, #FDFAF6 0%, #F5E9DC 100%);
       color: #1B2838;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       padding: 1.5rem;
+      padding-top: max(1.5rem, env(safe-area-inset-top));
+      padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
     }
     .container {
+      width: 100%;
+      max-width: 420px;
       text-align: center;
-      max-width: 400px;
     }
-    .icon {
-      font-size: 4rem;
-      margin-bottom: 1.5rem;
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #E8734A 0%, #d4653e 100%);
+      color: white;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(232, 115, 74, 0.25);
+      margin-bottom: 1.75rem;
     }
     h1 {
       font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
+      font-size: 1.625rem;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
     }
-    p {
+    .lede {
       color: #64748B;
-      font-size: 0.875rem;
-      line-height: 1.5;
-      margin-bottom: 1.5rem;
+      font-size: 0.9375rem;
+      line-height: 1.55;
+      margin-bottom: 2rem;
     }
-    button {
+    button.reload {
       background: #E8734A;
       color: white;
       border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.75rem;
-      font-size: 0.875rem;
-      font-weight: 500;
+      padding: 0.875rem 1.75rem;
+      border-radius: 0.875rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
       cursor: pointer;
       font-family: inherit;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 4px 12px rgba(232, 115, 74, 0.25);
     }
-    button:hover { background: #d4653e; }
+    button.reload:active { transform: scale(0.97); }
+    button.reload:hover { background: #d4653e; }
+    .cached-section {
+      margin-top: 2.5rem;
+      text-align: left;
+    }
+    .cached-section h2 {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #94A3B8;
+      margin-bottom: 0.75rem;
+      padding-left: 0.25rem;
+    }
+    .cached-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .cached-list a {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.75rem 0.875rem;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(27, 40, 56, 0.08);
+      border-radius: 0.75rem;
+      color: #1B2838;
+      text-decoration: none;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .cached-list a:active { transform: scale(0.97); }
+    .cached-list a:hover { background: rgba(255, 255, 255, 0.95); }
+    .cached-list .emoji { font-size: 1rem; line-height: 1; }
+    .status {
+      margin-top: 1.25rem;
+      font-size: 0.75rem;
+      color: #94A3B8;
+      min-height: 1.25rem;
+    }
+    .status.online { color: #2BA89E; font-weight: 500; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="icon">📡</div>
-    <h1>Pas de connexion</h1>
-    <p>
-      On dirait que tu n'es pas connecté à Internet.
-      Vérifie ta connexion et réessaie. Tes données sont en sécurité, promis.
+    <div class="logo" aria-hidden="true">D</div>
+    <h1>Le réseau t'a lâché, pas nous</h1>
+    <p class="lede">
+      Y'a pas de connexion, mais tes données sont en sécurité. Tu peux toujours consulter les pages déjà chargées.
     </p>
-    <button onclick="window.location.reload()">Réessayer</button>
-    <p id="status" style="margin-top:1rem;font-size:0.75rem;color:#9CA3AF;"></p>
+    <button class="reload" onclick="window.location.reload()">Réessayer</button>
+
+    <div class="cached-section">
+      <h2>Disponible hors ligne</h2>
+      <ul class="cached-list">
+        <li><a href="/dashboard"><span class="emoji">🏠</span><span>Tableau de bord</span></a></li>
+        <li><a href="/sante"><span class="emoji">💉</span><span>Santé</span></a></li>
+        <li><a href="/budget"><span class="emoji">💸</span><span>Budget</span></a></li>
+        <li><a href="/identite"><span class="emoji">🪪</span><span>Identité</span></a></li>
+        <li><a href="/documents"><span class="emoji">📁</span><span>Coffre-fort</span></a></li>
+        <li><a href="/alertes"><span class="emoji">🔔</span><span>Alertes</span></a></li>
+      </ul>
+    </div>
+
+    <p id="status" class="status"></p>
   </div>
   <script>
-    window.addEventListener('online', function() {
-      document.getElementById('status').textContent = 'Connexion rétablie !';
-      setTimeout(function() { window.location.reload(); }, 500);
-    });
+    var status = document.getElementById('status');
+    function update() {
+      if (navigator.onLine) {
+        status.className = 'status online';
+        status.textContent = 'Connexion rétablie ! On recharge…';
+        setTimeout(function () { window.location.reload(); }, 600);
+      }
+    }
+    window.addEventListener('online', update);
+    update();
   </script>
 </body>
 </html>
