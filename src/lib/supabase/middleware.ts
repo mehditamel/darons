@@ -53,6 +53,7 @@ export async function updateSession(request: NextRequest) {
     "/activites", "/developpement", "/fiscal", "/budget", "/garde",
     "/demarches", "/sante-enrichie", "/parametres", "/partage",
     "/depenses-partagees", "/parrainage", "/admin", "/onboarding",
+    "/confiance", "/capsule",
   ];
   const isProtectedRoute = PROTECTED_PREFIXES.some((prefix) =>
     request.nextUrl.pathname.startsWith(prefix)

@@ -233,6 +233,7 @@ export const SIDEBAR_NAVIGATION = [
       { label: "Identité & documents", href: "/identite", icon: "IdCard" },
       { label: "Santé & vaccins", href: "/sante", icon: "HeartPulse" },
       { label: "Coffre-fort", href: "/documents", icon: "FolderLock" },
+      { label: "Carnet de Confiance", href: "/confiance", icon: "ShieldCheck" },
     ],
   },
   {
@@ -241,6 +242,7 @@ export const SIDEBAR_NAVIGATION = [
       { label: "Scolarité", href: "/scolarite", icon: "GraduationCap" },
       { label: "Activités", href: "/activites", icon: "Palette" },
       { label: "Développement", href: "/developpement", icon: "TrendingUp" },
+      { label: "La Capsule", href: "/capsule", icon: "BookHeart" },
     ],
   },
   {

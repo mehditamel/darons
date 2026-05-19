@@ -21,6 +21,8 @@ import {
   Gift,
   BarChart3,
   Bell,
+  BookHeart,
+  ShieldCheck,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -57,6 +59,8 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   Gift,
   BarChart3,
   Bell,
+  BookHeart,
+  ShieldCheck,
 };
 
 interface SidebarProps {
