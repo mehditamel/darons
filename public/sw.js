@@ -1,4 +1,4 @@
-const CACHE_NAME = "darons-1778994247";
+const CACHE_NAME = "darons-1779224346";
 const FONT_CACHE_NAME = "darons-fonts-v1";
 const MAX_DYNAMIC_CACHE_SIZE = 50;
 const STATIC_ASSETS = [
