@@ -3,6 +3,11 @@ import tailwindcssAnimate from "tailwindcss-animate";
 import tailwindcssTypography from "@tailwindcss/typography";
 
 const config: Config = {
+  future: {
+    // Only apply hover styles on devices that actually support hover,
+    // avoiding sticky hover states after tap on touch screens.
+    hoverOnlyWhenSupported: true,
+  },
   darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",

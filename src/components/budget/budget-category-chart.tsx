@@ -2,6 +2,7 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { BUDGET_CATEGORY_LABELS, BUDGET_CATEGORY_COLORS, type BudgetCategory } from "@/types/budget";
 import { formatCurrency } from "@/lib/utils";
 
@@ -53,6 +54,7 @@ interface BudgetCategoryChartProps {
 }
 
 export function BudgetCategoryChart({ byCategory }: BudgetCategoryChartProps) {
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const data = Object.entries(byCategory)
     .filter(([, value]) => value > 0)
     .map(([key, value]) => ({
@@ -84,14 +86,14 @@ export function BudgetCategoryChart({ byCategory }: BudgetCategoryChartProps) {
       </CardHeader>
       <CardContent>
         <div role="img" aria-label="Répartition des dépenses par catégorie sous forme de camembert">
-        <ResponsiveContainer width="100%" height={280}>
+        <ResponsiveContainer width="100%" height={isMobile ? 260 : 280}>
           <PieChart>
             <Pie
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius={60}
-              outerRadius={100}
+              innerRadius={isMobile ? 50 : 60}
+              outerRadius={isMobile ? 85 : 100}
               paddingAngle={2}
               dataKey="value"
               animationBegin={200}

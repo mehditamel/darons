@@ -123,11 +123,12 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">Prénom</Label>
               <Input
                 id="firstName"
+                autoComplete="given-name"
                 aria-describedby={errors.firstName ? "firstName-error" : undefined}
                 {...register("firstName")}
                 placeholder="Prénom"
@@ -140,6 +141,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
               <Label htmlFor="lastName">Nom</Label>
               <Input
                 id="lastName"
+                autoComplete="family-name"
                 aria-describedby={errors.lastName ? "lastName-error" : undefined}
                 {...register("lastName")}
                 placeholder="Nom"
@@ -163,7 +165,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Genre</Label>
               <Select

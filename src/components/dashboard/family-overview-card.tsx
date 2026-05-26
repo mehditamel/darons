@@ -58,7 +58,7 @@ export function FamilyOverviewCard({ members }: FamilyOverviewCardProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-5 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory">
+        <div className="scroll-shadow-x flex gap-5 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory">
           {members.map((member, index) => (
             <motion.div
               key={member.id}
@@ -95,7 +95,7 @@ export function FamilyOverviewCard({ members }: FamilyOverviewCardProps) {
                 </div>
                 <div className="text-center">
                   <p className="text-xs font-semibold truncate max-w-[72px]">{member.firstName}</p>
-                  <p className="text-[10px] text-muted-foreground leading-tight">
+                  <p className="text-[11px] text-muted-foreground leading-tight">
                     {member.memberType === "child" ? "Enfant" : "Parent"}
                   </p>
                 </div>

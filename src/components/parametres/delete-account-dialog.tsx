@@ -20,6 +20,7 @@ import {
   requestAccountDeletion,
   cancelAccountDeletion,
 } from "@/lib/actions/rgpd";
+import { useHaptic } from "@/hooks/use-haptic";
 
 interface DeleteAccountDialogProps {
   userEmail: string;
@@ -36,10 +37,12 @@ export function DeleteAccountDialog({
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const haptic = useHaptic();
 
   const isConfirmed = confirmEmail === userEmail;
 
   async function handleDelete() {
+    haptic.warning();
     setLoading(true);
     setError(null);
     const result = await requestAccountDeletion(reason || undefined);

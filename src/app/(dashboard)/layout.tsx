@@ -123,7 +123,7 @@ export default async function DashboardLayout({
           userInitials={userInitials}
           alertCount={alertCount}
         />
-        <main id="main-content" className="p-4 pb-20 lg:p-6 lg:pb-6" role="main">
+        <main id="main-content" className="p-4 pb-[calc(5rem+env(safe-area-inset-bottom))] lg:p-6 lg:pb-6" role="main">
           <OfflineBanner />
           <InstallPrompt />
           <IosInstallPrompt />

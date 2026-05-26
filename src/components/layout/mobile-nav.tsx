@@ -21,7 +21,7 @@ export function MobileNav() {
           <span className="text-base font-serif text-white leading-tight">
             Darons
           </span>
-          <span className="text-[10px] text-sidebar-muted leading-tight">
+          <span className="text-xs text-sidebar-muted leading-tight">
             Navigation
           </span>
         </div>

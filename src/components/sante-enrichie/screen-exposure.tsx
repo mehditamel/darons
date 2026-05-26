@@ -13,6 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { SCREEN_EXPOSURE_RECOMMENDATIONS } from "@/lib/constants";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { differenceInMonths, format } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { DailyHealthJournal } from "@/types/health";
@@ -24,6 +25,7 @@ interface ScreenExposureProps {
 }
 
 export function ScreenExposure({ member, journal }: ScreenExposureProps) {
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const childAgeMonths = differenceInMonths(new Date(), new Date(member.birthDate));
 
   const currentReco = SCREEN_EXPOSURE_RECOMMENDATIONS.find(
@@ -124,7 +126,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
           </CardHeader>
           <CardContent>
             <div role="img" aria-label="Évolution du temps d'écran quotidien">
-            <ResponsiveContainer width="100%" height={250}>
+            <ResponsiveContainer width="100%" height={isMobile ? 200 : 250}>
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="date" tick={{ fontSize: 11 }} />

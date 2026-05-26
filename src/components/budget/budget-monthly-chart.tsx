@@ -11,6 +11,7 @@ import {
   Legend,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import type { BudgetSummary } from "@/types/budget";
 import { formatCurrency } from "@/lib/utils";
 import { format } from "date-fns";
@@ -60,6 +61,7 @@ interface BudgetMonthlyChartProps {
 }
 
 export function BudgetMonthlyChart({ history }: BudgetMonthlyChartProps) {
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const data = history.map((s) => ({
     month: format(new Date(s.month), "MMM yy", { locale: fr }),
     depenses: s.totalExpenses,
@@ -88,7 +90,7 @@ export function BudgetMonthlyChart({ history }: BudgetMonthlyChartProps) {
       </CardHeader>
       <CardContent>
         <div role="img" aria-label="Graphique de l'évolution du budget mensuel : dépenses et revenus sur les derniers mois">
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={isMobile ? 230 : 300}>
           <BarChart data={data} barGap={4}>
             <defs>
               <linearGradient id="gradientExpenses" x1="0" y1="0" x2="0" y2="1">

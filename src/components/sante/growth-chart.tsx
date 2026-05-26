@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { EmptyState } from "@/components/shared/empty-state";
 import { GrowthForm } from "@/components/sante/growth-form";
 import { getPercentileData } from "@/data/oms-percentiles";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { differenceInMonths, differenceInWeeks } from "date-fns";
 import type { GrowthMeasurement } from "@/types/health";
 import type { FamilyMember, Gender } from "@/types/family";
@@ -40,6 +41,7 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
   const [formOpen, setFormOpen] = useState(false);
   const [activeMetric, setActiveMetric] = useState<MetricType>("weight");
   const [useCorrectedAge, setUseCorrectedAge] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   const isPremature =
     member.gestationalAgeWeeks !== null &&
@@ -158,17 +160,17 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
         </CardHeader>
         <CardContent>
           <div role="img" aria-label="Courbe de croissance avec percentiles OMS">
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width="100%" height={isMobile ? 260 : 350}>
             <LineChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis
                 dataKey="ageMonths"
                 label={{ value: "Âge (mois)", position: "insideBottomRight", offset: -5 }}
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: isMobile ? 11 : 12 }}
               />
               <YAxis
                 label={{ value: config.unit, angle: -90, position: "insideLeft" }}
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: isMobile ? 11 : 12 }}
               />
               <Tooltip
                 formatter={(value: number, name: string) => {
@@ -206,8 +208,8 @@ export function GrowthChart({ member, measurements }: GrowthChartProps) {
           <CardTitle className="text-base">Mesures enregistrées</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="scroll-shadow-x overflow-x-auto">
+            <table className="w-full text-xs sm:text-sm">
               <thead>
                 <tr className="border-b">
                   <th className="text-left py-2 px-3">Date</th>

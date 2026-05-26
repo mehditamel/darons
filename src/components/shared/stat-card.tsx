@@ -69,11 +69,11 @@ export function StatCard({
       role="status"
       aria-label={`${label} : ${value}`}
     >
-      <CardContent className="p-5">
+      <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="flex items-start justify-between">
           <div className="space-y-1 flex-1 min-w-0">
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</p>
-            <p className="text-2xl font-bold" aria-hidden="true">
+            <p className="text-xl sm:text-2xl font-bold" aria-hidden="true">
               {numericValue !== undefined ? (
                 <AnimatedCounter
                   value={numericValue}
