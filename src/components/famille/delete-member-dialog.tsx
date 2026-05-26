@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { deleteFamilyMember } from "@/lib/actions/family";
 import { useActionFeedback } from "@/hooks/use-action-feedback";
+import { useHaptic } from "@/hooks/use-haptic";
 import type { FamilyMember } from "@/types/family";
 
 interface DeleteMemberDialogProps {
@@ -24,9 +25,11 @@ interface DeleteMemberDialogProps {
 export function DeleteMemberDialog({ open, onOpenChange, member }: DeleteMemberDialogProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const feedback = useActionFeedback();
+  const haptic = useHaptic();
 
   const handleDelete = async () => {
     if (!member) return;
+    haptic.warning();
     setIsDeleting(true);
     const result = await deleteFamilyMember(member.id);
     setIsDeleting(false);

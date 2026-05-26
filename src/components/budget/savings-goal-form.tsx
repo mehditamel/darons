@@ -93,7 +93,7 @@ export function SavingsGoalForm({ open, onOpenChange, goal }: SavingsGoalFormPro
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="targetAmount">Objectif (€)</Label>
               <Input
@@ -122,7 +122,7 @@ export function SavingsGoalForm({ open, onOpenChange, goal }: SavingsGoalFormPro
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="targetDate">Date cible (optionnel)</Label>
               <Input

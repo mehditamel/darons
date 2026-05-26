@@ -58,7 +58,7 @@ export function BottomNavigation() {
                 if (!isActive) haptic.tap();
               }}
               className={cn(
-                "relative flex min-h-[56px] flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium transition-all duration-200 active:scale-90",
+                "relative flex min-h-[56px] flex-1 flex-col items-center justify-center gap-0.5 py-2 text-xs font-medium transition-all duration-200 active:scale-90",
                 isActive
                   ? "text-warm-orange"
                   : "text-muted-foreground active:text-warm-orange/70"
@@ -84,22 +84,24 @@ export function BottomNavigation() {
         <Sheet>
           <SheetTrigger asChild>
             <button
-              className="relative flex min-h-[56px] flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium text-muted-foreground transition-all duration-200 active:scale-90 active:text-warm-orange/70"
+              className="relative flex min-h-[56px] flex-1 flex-col items-center justify-center gap-0.5 py-2 text-xs font-medium text-muted-foreground transition-all duration-200 active:scale-90 active:text-warm-orange/70"
               aria-label="Plus de modules"
             >
               <Menu className="h-6 w-6" />
               <span>Plus</span>
             </button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="h-[70vh] rounded-t-2xl bg-sidebar p-0">
+          <SheetContent side="bottom" className="flex h-[min(70vh,calc(100dvh-5rem))] flex-col rounded-t-2xl bg-sidebar p-0">
             <SheetHeader className="sr-only">
               <SheetTitle>Navigation</SheetTitle>
             </SheetHeader>
             {/* Drag handle */}
-            <div className="flex justify-center pt-3 pb-4">
+            <div className="flex shrink-0 justify-center pt-3 pb-4">
               <div className="h-1.5 w-12 rounded-full bg-white/25" />
             </div>
-            <MobileNav />
+            <div className="flex min-h-0 flex-1 flex-col pb-[env(safe-area-inset-bottom)]">
+              <MobileNav />
+            </div>
           </SheetContent>
         </Sheet>
       </div>

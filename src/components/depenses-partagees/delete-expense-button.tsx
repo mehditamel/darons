@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { deleteSharedExpense } from "@/lib/actions/shared-expenses";
 import { useToast } from "@/hooks/use-toast";
+import { useHaptic } from "@/hooks/use-haptic";
 
 interface DeleteExpenseButtonProps {
   expenseId: string;
@@ -25,8 +26,10 @@ interface DeleteExpenseButtonProps {
 export function DeleteExpenseButton({ expenseId, expenseTitle }: DeleteExpenseButtonProps) {
   const [deleting, setDeleting] = useState(false);
   const { toast } = useToast();
+  const haptic = useHaptic();
 
   async function handleDelete() {
+    haptic.warning();
     setDeleting(true);
     const result = await deleteSharedExpense(expenseId);
     setDeleting(false);

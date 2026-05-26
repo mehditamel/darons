@@ -421,7 +421,7 @@ export default async function DashboardPage() {
       <ProfileProgressCard items={completionItems} />
 
       {/* Stats row */}
-      <div className="grid gap-3 grid-cols-2 sm:gap-4 lg:grid-cols-4">
+      <div className="grid gap-3 grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
         <StatCard
           label="Famille"
           value={`${members.length} membre${members.length > 1 ? "s" : ""}`}
@@ -475,11 +475,11 @@ export default async function DashboardPage() {
                 <Link
                   key={action.href + action.label}
                   href={action.href}
-                  className={`flex min-h-[88px] flex-col items-center justify-center gap-1.5 rounded-2xl p-3 transition-all duration-200 ${action.color} group hover:shadow-sm hover:-translate-y-0.5 active:scale-95`}
+                  className={`flex min-h-[96px] flex-col items-center justify-center gap-1.5 rounded-2xl p-3 transition-all duration-200 sm:min-h-[88px] ${action.color} group hover:shadow-sm hover:-translate-y-0.5 active:scale-95`}
                 >
                   <action.icon className="h-5 w-5 transition-transform group-hover:scale-110" />
-                  <span className="text-xs font-semibold text-center leading-tight">{action.label}</span>
-                  <span className="text-[10px] opacity-70 leading-tight text-center">{action.description}</span>
+                  <span className="text-xs font-semibold text-center leading-tight line-clamp-2">{action.label}</span>
+                  <span className="text-[11px] opacity-70 leading-tight text-center line-clamp-2">{action.description}</span>
                 </Link>
               ))}
             </div>

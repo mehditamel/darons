@@ -472,6 +472,19 @@
   padding-right: env(safe-area-inset-right);
 }
 
+/* Horizontal scroll affordance — fades content at edges when scrollable.
+   Apply on an overflow-x-auto container to hint there's more to scroll. */
+.scroll-shadow-x {
+  background:
+    linear-gradient(to right, hsl(var(--card)) 30%, transparent),
+    linear-gradient(to left, hsl(var(--card)) 30%, transparent) 100% 0,
+    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.12), transparent),
+    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.12), transparent) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+
 /* PWA standalone mode — adjust for status bar and immersive feel */
 @media (display-mode: standalone) {
   /* Don't push body — let sticky headers handle their own safe area

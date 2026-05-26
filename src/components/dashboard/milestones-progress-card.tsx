@@ -63,7 +63,7 @@ export function MilestonesProgressCard({ milestones, childName, birthDate }: Mil
             <p className="text-xs text-muted-foreground">
               {childName} : {totalAchieved}/{totalExpected} jalons atteints
             </p>
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5">
               {categoryStats.filter((c) => c.total > 0).map((stat) => (
                 <div
                   key={stat.category}
@@ -76,10 +76,10 @@ export function MilestonesProgressCard({ milestones, childName, birthDate }: Mil
                       color={CATEGORY_RING_COLORS[stat.category] ?? "text-primary"}
                     />
                   </div>
-                  <span className="text-[9px] text-muted-foreground text-center leading-tight">
+                  <span className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight">
                     {MILESTONE_CATEGORY_LABELS[stat.category]}
                   </span>
-                  <span className="text-[10px] font-semibold tabular-nums">
+                  <span className="text-[11px] sm:text-xs font-semibold tabular-nums">
                     {stat.achieved}/{stat.total}
                   </span>
                 </div>

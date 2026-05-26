@@ -102,22 +102,6 @@
       "purpose": "any"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshots/mobile-dashboard.svg",
-      "sizes": "1080x1920",
-      "type": "image/svg+xml",
-      "form_factor": "narrow",
-      "label": "Tableau de bord Darons sur mobile"
-    },
-    {
-      "src": "/screenshots/desktop-dashboard.svg",
-      "sizes": "1920x1080",
-      "type": "image/svg+xml",
-      "form_factor": "wide",
-      "label": "Tableau de bord Darons sur desktop"
-    }
-  ],
   "shortcuts": [
     {
       "name": "Tableau de bord",
