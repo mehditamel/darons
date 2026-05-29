@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 
 const presets: Record<string, Variants> = {
@@ -41,16 +41,18 @@ export function MotionWrapper({
   duration = 0.5,
   className,
 }: MotionWrapperProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial="hidden"
+      initial={shouldReduceMotion ? false : "hidden"}
       animate="visible"
       variants={presets[preset]}
-      transition={{
-        duration,
-        delay,
-        ease: [0.34, 1.56, 0.64, 1],
-      }}
+      transition={
+        shouldReduceMotion
+          ? { duration: 0 }
+          : { duration, delay, ease: [0.34, 1.56, 0.64, 1] }
+      }
       className={className}
     >
       {children}
@@ -69,14 +71,16 @@ export function StaggerContainer({
   staggerDelay = 0.1,
   className,
 }: StaggerContainerProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial="hidden"
+      initial={shouldReduceMotion ? false : "hidden"}
       animate="visible"
       variants={{
         visible: {
           transition: {
-            staggerChildren: staggerDelay,
+            staggerChildren: shouldReduceMotion ? 0 : staggerDelay,
           },
         },
       }}
@@ -93,13 +97,19 @@ interface StaggerItemProps {
 }
 
 export function StaggerItem({ children, className }: StaggerItemProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
       variants={{
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 },
       }}
-      transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+      transition={
+        shouldReduceMotion
+          ? { duration: 0 }
+          : { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }
+      }
       className={className}
     >
       {children}
