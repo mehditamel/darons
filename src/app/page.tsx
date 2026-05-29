@@ -217,7 +217,7 @@ export default function LandingPage() {
             {/* Hero text — left side on desktop, full width on mobile */}
             <div className="text-center lg:text-left lg:flex-1">
               {/* Trust badge */}
-              <div className="inline-flex items-center gap-2 rounded-full bg-warm-green/10 px-4 py-1.5 text-sm text-warm-green font-medium mb-8 animate-fade-in-up">
+              <div className="inline-flex items-center gap-2 rounded-full bg-warm-green/10 px-4 py-1.5 text-sm text-success font-medium mb-8 animate-fade-in-up">
                 <Zap className="h-3.5 w-3.5" />
                 100% gratuit, sans piège, sans pub intrusive
               </div>
@@ -434,7 +434,7 @@ export default function LandingPage() {
               <div className="flex items-center justify-between text-sm font-semibold">
                 <span>Fonctionnalité</span>
                 <div className="flex items-center gap-8">
-                  <span className="text-warm-green w-20 text-center">Darons</span>
+                  <span className="text-success w-20 text-center">Darons</span>
                   <span className="text-muted-foreground w-48 text-right">Concurrence</span>
                 </div>
               </div>
@@ -445,7 +445,7 @@ export default function LandingPage() {
                   <div key={index} className="flex items-center justify-between py-3.5 border-b last:border-0 hover:bg-muted/30 transition-colors px-2 -mx-2 rounded-lg">
                     <span className="text-sm font-medium flex-1">{row.feature}</span>
                     <div className="flex items-center gap-8">
-                      <span className="flex items-center gap-1.5 text-sm text-warm-green font-bold w-20 justify-center">
+                      <span className="flex items-center gap-1.5 text-sm text-success font-bold w-20 justify-center">
                         <Check className="w-4 h-4" /> Gratuit
                       </span>
                       <span className="text-xs text-muted-foreground w-48 text-right">

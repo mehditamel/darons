@@ -231,7 +231,7 @@ function ToolCardComponent({ tool }: { tool: ToolCard }) {
     <Link href={tool.href}>
       <Card className="h-full card-playful cursor-pointer relative">
         {tool.isNew && (
-          <Badge className="absolute top-3 right-3 bg-warm-orange text-white text-[10px] px-2 py-0.5">
+          <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground text-[10px] px-2 py-0.5">
             Nouveau
           </Badge>
         )}

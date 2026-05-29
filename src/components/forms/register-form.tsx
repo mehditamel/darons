@@ -216,7 +216,7 @@ export function RegisterForm() {
               J'accepte les{" "}
               <Link
                 href="/cgu"
-                className="text-primary hover:underline"
+                className="text-primary underline underline-offset-2 hover:text-primary/80"
                 target="_blank"
               >
                 conditions générales d'utilisation
@@ -224,7 +224,7 @@ export function RegisterForm() {
               et la{" "}
               <Link
                 href="/politique-confidentialite"
-                className="text-primary hover:underline"
+                className="text-primary underline underline-offset-2 hover:text-primary/80"
                 target="_blank"
               >
                 politique de confidentialité
@@ -258,7 +258,7 @@ export function RegisterForm() {
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
           Déjà inscrit ?{" "}
-          <Link href="/login" className="text-primary hover:underline">
+          <Link href="/login" className="text-primary underline underline-offset-2 hover:text-primary/80">
             Se connecter
           </Link>
         </p>

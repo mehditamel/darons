@@ -65,7 +65,14 @@ const config: Config = {
   				gold: '#D4A843',
   				green: '#4CAF50',
   				red: '#E8534A'
-  			}
+  			},
+  			// Text-safe semantic colours (AA on light & dark). Use these when a
+  			// warm-* hue must read as TEXT or carry a white label on a solid fill;
+  			// the raw warm-* palette stays for tints, icons and gradients.
+  			success: 'hsl(var(--success) / <alpha-value>)',
+  			danger: 'hsl(var(--danger) / <alpha-value>)',
+  			info: 'hsl(var(--info) / <alpha-value>)',
+  			gold: 'hsl(var(--gold-foreground) / <alpha-value>)'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -186,6 +193,12 @@ const config: Config = {
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		},
   		boxShadow: {
+  			// Neutral elevation scale — softly warm-tinted, multi-layered.
+  			// Use these for surface depth; reserve the `warm-*` shadows below
+  			// for coloured accent hovers.
+  			'elevation-1': '0 1px 2px -1px rgba(40, 30, 20, 0.08), 0 2px 6px -2px rgba(40, 30, 20, 0.06)',
+  			'elevation-2': '0 2px 4px -2px rgba(40, 30, 20, 0.08), 0 8px 20px -6px rgba(40, 30, 20, 0.10)',
+  			'elevation-3': '0 8px 24px -6px rgba(40, 30, 20, 0.12), 0 18px 44px -12px rgba(40, 30, 20, 0.14)',
   			'warm-orange': '0 4px 14px -3px rgba(232, 115, 74, 0.25)',
   			'warm-teal': '0 4px 14px -3px rgba(43, 168, 158, 0.25)',
   			'warm-blue': '0 4px 14px -3px rgba(74, 123, 232, 0.25)',
@@ -193,6 +206,12 @@ const config: Config = {
   			'warm-gold': '0 4px 14px -3px rgba(212, 168, 67, 0.25)',
   			'warm-green': '0 4px 14px -3px rgba(76, 175, 80, 0.25)',
   			'warm-red': '0 4px 14px -3px rgba(232, 83, 74, 0.25)',
+  		},
+  		transitionDuration: {
+  			// Named motion scale — keep durations consistent across the app.
+  			fast: '150ms',
+  			base: '250ms',
+  			slow: '400ms'
   		},
   		transitionTimingFunction: {
   			spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
