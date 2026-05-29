@@ -142,8 +142,9 @@ export function DocumentUploadForm({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label>Fichier</Label>
-            <div
-              className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 cursor-pointer hover:border-primary/50 transition-colors"
+            <button
+              type="button"
+              className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 cursor-pointer hover:border-primary/50 transition-colors"
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="h-8 w-8 text-muted-foreground mb-2" />
@@ -155,7 +156,7 @@ export function DocumentUploadForm({
                 </p>
               )}
               <p className="text-xs text-muted-foreground mt-1">10 Mo maximum</p>
-            </div>
+            </button>
             <input
               ref={fileInputRef}
               type="file"

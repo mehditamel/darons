@@ -173,7 +173,6 @@ export function Sidebar({
                 {(isCompact || !isCollapsed) && (
                   <ul
                     className={cn("space-y-0.5", !isCompact && "mb-3")}
-                    role="list"
                     aria-labelledby={isCompact ? undefined : `nav-group-${group.group.replace(/\s+/g, "-").toLowerCase()}`}
                   >
                     {group.items.map((item) => {
