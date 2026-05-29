@@ -240,7 +240,7 @@
 
   /* Shimmer skeleton loader — gradient sweep */
   .skeleton-shimmer {
-    @apply rounded bg-gradient-to-r from-muted via-muted/40 to-muted;
+    @apply rounded-lg bg-gradient-to-r from-muted via-muted/40 to-muted;
     background-size: 200% 100%;
     animation: shimmer 2s ease-in-out infinite;
   }
