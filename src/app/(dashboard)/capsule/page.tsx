@@ -27,7 +27,7 @@ export default async function CapsulePage() {
   const children = result.data?.filter((m) => m.memberType === "child") ?? [];
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <PageHeader
         title="La Capsule"
         description="La biographie vivante de tes enfants. Tu construis aujourd'hui ce qu'ils découvriront plus tard."

@@ -30,7 +30,7 @@ export default async function ParrainagePage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <PageHeader
         title="Programme de parrainage"
         description="Invite tes proches à rejoindre Darons et gagne des récompenses"

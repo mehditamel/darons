@@ -25,7 +25,7 @@ export default async function TrustCardDetailPage({ params }: PageProps) {
   const qrDataUrl = await generateQrDataUrl(shareUrl);
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <Button variant="ghost" asChild className="-ml-3">
         <Link href="/confiance">
           <ArrowLeft className="h-4 w-4 mr-2" /> Tous mes carnets

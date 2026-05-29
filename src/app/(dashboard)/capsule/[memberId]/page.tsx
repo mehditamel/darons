@@ -41,7 +41,7 @@ export default async function CapsuleMemberPage({ params }: PageProps) {
   const suggestion = suggestionRes.data;
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <Button variant="ghost" asChild className="-ml-3">
         <Link href="/capsule">
           <ArrowLeft className="h-4 w-4 mr-2" /> Toutes les Capsules
