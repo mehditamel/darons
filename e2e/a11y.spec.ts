@@ -33,8 +33,12 @@ const PUBLIC_ROUTES = [
 test.describe("Accessibilité (axe smoke)", () => {
   for (const route of PUBLIC_ROUTES) {
     test(`${route.name} — aucune violation serious/critical`, async ({ page }) => {
+      // Render entrance animations at their final state so axe never samples a
+      // mid-fade (transient low-opacity) frame — deterministic contrast checks.
+      await page.emulateMedia({ reducedMotion: "reduce" });
       await page.goto(route.path);
       await page.waitForLoadState("networkidle");
+      await page.waitForTimeout(300);
 
       const results = await new AxeBuilder({ page })
         .withTags(WCAG_TAGS)
