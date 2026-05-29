@@ -146,7 +146,7 @@ export function TrustCardDetail({ card, shareUrl, qrDataUrl }: Props) {
               <code className="flex-1 text-xs bg-muted px-3 py-2 rounded truncate">
                 {shareUrl}
               </code>
-              <Button size="icon" variant="outline" onClick={copyUrl} disabled={!isActive}>
+              <Button size="icon" variant="outline" onClick={copyUrl} disabled={!isActive} aria-label="Copier le lien">
                 {copied ? <Check className="h-4 w-4 text-warm-green" /> : <Copy className="h-4 w-4" />}
               </Button>
             </div>

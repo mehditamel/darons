@@ -115,6 +115,7 @@ export function PediatricianQuestions({ childName }: PediatricianQuestionsProps)
                     size="icon"
                     className="h-7 w-7 shrink-0"
                     onClick={() => removeQuestion(index)}
+                    aria-label="Supprimer la question"
                   >
                     <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
                   </Button>
