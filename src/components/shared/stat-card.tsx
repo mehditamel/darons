@@ -6,14 +6,23 @@ import { AnimatedCounter } from "@/components/shared/animated-counter";
 import { Sparkline } from "@/components/shared/sparkline";
 import { cn } from "@/lib/utils";
 
-const SHADOW_MAP: Record<string, string> = {
-  "card-gradient-orange": "hover:shadow-warm-orange",
-  "card-gradient-teal": "hover:shadow-warm-teal",
-  "card-gradient-blue": "hover:shadow-warm-blue",
-  "card-gradient-purple": "hover:shadow-warm-purple",
-  "card-gradient-gold": "hover:shadow-warm-gold",
-  "card-gradient-green": "hover:shadow-warm-green",
-  "card-gradient-red": "hover:shadow-warm-red",
+type CardTone =
+  | "orange"
+  | "teal"
+  | "blue"
+  | "purple"
+  | "gold"
+  | "green"
+  | "red";
+
+const TONE_MAP: Record<string, CardTone> = {
+  "card-gradient-orange": "orange",
+  "card-gradient-teal": "teal",
+  "card-gradient-blue": "blue",
+  "card-gradient-purple": "purple",
+  "card-gradient-gold": "gold",
+  "card-gradient-green": "green",
+  "card-gradient-red": "red",
 };
 
 const COLOR_MAP: Record<string, string> = {
@@ -55,17 +64,14 @@ export function StatCard({
   valueSuffix = "",
   sparklineData,
 }: StatCardProps) {
-  const coloredShadow = gradientClass ? SHADOW_MAP[gradientClass] : undefined;
+  const tone = gradientClass ? TONE_MAP[gradientClass] : undefined;
   const sparklineColor = gradientClass ? COLOR_MAP[gradientClass] : "#2BA89E";
 
   return (
     <Card
-      className={cn(
-        "transition-all duration-300 hover:shadow-md hover:-translate-y-1 animate-fade-in-up overflow-hidden",
-        gradientClass,
-        coloredShadow,
-        className
-      )}
+      variant={gradientClass ? "gradient" : "interactive"}
+      tone={tone}
+      className={cn("animate-fade-in-up overflow-hidden", className)}
       role="status"
       aria-label={`${label} : ${value}`}
     >
@@ -89,7 +95,7 @@ export function StatCard({
               <p
                 className={cn(
                   "text-xs flex items-center gap-1 font-medium",
-                  trendUp ? "text-warm-green" : "text-warm-red"
+                  trendUp ? "text-success" : "text-danger"
                 )}
               >
                 {trendUp ? (

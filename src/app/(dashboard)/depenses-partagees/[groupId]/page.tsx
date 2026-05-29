@@ -51,7 +51,7 @@ export default async function GroupDetailPage({ params }: Props) {
   const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <div className="flex items-center gap-2">
         <Button variant="ghost" size="sm" asChild>
           <Link href="/depenses-partagees">

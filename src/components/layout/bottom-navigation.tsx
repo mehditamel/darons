@@ -54,6 +54,7 @@ export function BottomNavigation() {
             <Link
               key={tab.href}
               href={tab.href}
+              aria-current={isActive ? "page" : undefined}
               onClick={() => {
                 if (!isActive) haptic.tap();
               }}

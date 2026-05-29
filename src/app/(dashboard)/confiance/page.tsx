@@ -28,7 +28,7 @@ export default async function ConfiancePage() {
     })) ?? [];
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <PageHeader
         title="Carnet de Confiance"
         description="Confie ton enfant sereinement : un lien + un PIN, accès limité dans le temps."

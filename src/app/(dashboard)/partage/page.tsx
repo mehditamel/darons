@@ -35,7 +35,7 @@ export default async function PartagePage() {
   const pendingInvitations = invitations.filter((i) => i.status === "pending");
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <PageHeader
         title="Partage du foyer"
         description="Invite des proches à consulter ou collaborer sur ton espace familial"

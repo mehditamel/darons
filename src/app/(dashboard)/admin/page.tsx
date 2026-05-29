@@ -53,7 +53,7 @@ export default async function AdminPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <PageHeader
         title="Tableau de bord Admin"
         description="Métriques SaaS — Darons"

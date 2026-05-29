@@ -22,7 +22,7 @@ export default async function DepensesPartageesPage() {
   const totalExpenses = groups.reduce((sum, g) => sum + (g.totalExpenses ?? 0), 0);
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <PageHeader
         title="Dépenses partagées"
         description="Gérez les dépenses entre membres de la famille et amis, à la manière de Tricount"

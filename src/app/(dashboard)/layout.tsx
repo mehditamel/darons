@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { Sidebar } from "@/components/layout/sidebar";
+import { SidebarProvider, SIDEBAR_COOKIE } from "@/components/layout/sidebar-provider";
 import { Topbar } from "@/components/layout/topbar";
 import { BottomNavigation } from "@/components/layout/bottom-navigation";
 import { CommandPalette } from "@/components/layout/command-palette";
@@ -26,6 +28,8 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const initialCompact = cookies().get(SIDEBAR_COOKIE)?.value === "1";
+
   let userEmail = "";
   let userInitials = "?";
   let alertCount = 0;
@@ -105,7 +109,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background app-ambient">
       <RouteProgress />
       <ServiceWorkerRegister />
       <SessionTracker />
@@ -116,22 +120,24 @@ export default async function DashboardLayout({
       >
         Aller au contenu principal
       </a>
-      <Sidebar badges={sidebarBadges} userInitials={userInitials} userEmail={userEmail} />
-      <div className="lg:pl-64 transition-all duration-300">
-        <Topbar
-          userEmail={userEmail}
-          userInitials={userInitials}
-          alertCount={alertCount}
-        />
-        <main id="main-content" className="p-4 pb-[calc(5rem+env(safe-area-inset-bottom))] lg:p-6 lg:pb-6" role="main">
-          <OfflineBanner />
-          <InstallPrompt />
-          <IosInstallPrompt />
-          <PageTransition>
-            {children}
-          </PageTransition>
-        </main>
-      </div>
+      <SidebarProvider initialCompact={initialCompact}>
+        <Sidebar badges={sidebarBadges} userInitials={userInitials} userEmail={userEmail} />
+        <div className="lg:pl-[var(--sidebar-w)] transition-[padding] duration-300">
+          <Topbar
+            userEmail={userEmail}
+            userInitials={userInitials}
+            alertCount={alertCount}
+          />
+          <main id="main-content" className="p-4 pb-[calc(5rem+env(safe-area-inset-bottom))] lg:p-6 lg:pb-6" role="main">
+            <OfflineBanner />
+            <InstallPrompt />
+            <IosInstallPrompt />
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </main>
+        </div>
+      </SidebarProvider>
       <BottomNavigation />
       <CommandPalette />
       <CookieBanner />

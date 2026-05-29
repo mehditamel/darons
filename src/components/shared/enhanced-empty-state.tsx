@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { EmptyStateShell } from "@/components/shared/empty-state-shell";
 import {
   IdCard,
   Syringe,
@@ -108,46 +108,30 @@ export function EnhancedEmptyState({ module, childName }: EnhancedEmptyStateProp
     : config.description;
 
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="flex flex-col items-center py-12 text-center">
-        {/* SVG Illustration with fade-in */}
-        {Illustration ? (
-          <div className="mb-6">
-            <Illustration size={120} />
-          </div>
+    <EmptyStateShell
+      visual={
+        Illustration ? (
+          <Illustration size={120} />
         ) : (
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted animate-bounce-gentle">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted animate-bounce-gentle">
             <config.icon className="h-8 w-8 text-muted-foreground" />
           </div>
-        )}
-
-        {/* Title with stagger delay */}
-        <h3 className="text-lg font-semibold animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
-          {config.title}
-        </h3>
-
-        {/* Description with stagger delay */}
-        <p
-          className="mt-2 max-w-sm text-sm text-muted-foreground animate-fade-in-up"
-          style={{ animationDelay: "0.2s" }}
-        >
-          {description}
-        </p>
-
-        {/* CTAs with stagger delay */}
-        <div className="mt-6 flex gap-2 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+        )
+      }
+      title={config.title}
+      description={description}
+      actions={
+        <>
           <Button asChild className="animate-pulse-glow">
             <Link href={config.ctaHref}>{config.cta}</Link>
           </Button>
           {config.ctaSecondary && config.ctaSecondaryHref && (
             <Button variant="outline" asChild>
-              <Link href={config.ctaSecondaryHref}>
-                {config.ctaSecondary}
-              </Link>
+              <Link href={config.ctaSecondaryHref}>{config.ctaSecondary}</Link>
             </Button>
           )}
-        </div>
-      </CardContent>
-    </Card>
+        </>
+      }
+    />
   );
 }

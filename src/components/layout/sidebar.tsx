@@ -32,6 +32,7 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { SIDEBAR_NAVIGATION } from "@/lib/constants";
+import { useSidebar } from "@/components/layout/sidebar-provider";
 import { MiniProgressRing } from "@/components/shared/progress-ring";
 import {
   Tooltip,
@@ -78,7 +79,7 @@ export function Sidebar({
 }: SidebarProps) {
   const pathname = usePathname();
   const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
-  const [isCompact, setIsCompact] = useState(false);
+  const { isCompact, toggle } = useSidebar();
 
   function toggleGroup(group: string) {
     setCollapsedGroups((prev) => ({ ...prev, [group]: !prev[group] }));
@@ -173,7 +174,6 @@ export function Sidebar({
                 {(isCompact || !isCollapsed) && (
                   <ul
                     className={cn("space-y-0.5", !isCompact && "mb-3")}
-                    role="list"
                     aria-labelledby={isCompact ? undefined : `nav-group-${group.group.replace(/\s+/g, "-").toLowerCase()}`}
                   >
                     {group.items.map((item) => {
@@ -269,7 +269,7 @@ export function Sidebar({
         <div className="border-t border-white/10 p-2 space-y-1">
           {/* Compact mode toggle */}
           <button
-            onClick={() => setIsCompact(!isCompact)}
+            onClick={toggle}
             className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-sidebar-muted hover:text-sidebar-foreground hover:bg-sidebar-accent/50 transition-all"
             aria-label={isCompact ? "Agrandir la sidebar" : "Réduire la sidebar"}
           >

@@ -65,7 +65,7 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden h-10 w-10 -ml-2 shrink-0"
+            className="lg:hidden h-11 w-11 -ml-2 shrink-0"
             onClick={handleBack}
             aria-label="Retour"
           >
@@ -105,7 +105,7 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
         <Button
           variant="ghost"
           size="icon"
-          className="sm:hidden h-10 w-10 rounded-full bg-muted/50"
+          className="sm:hidden h-11 w-11 rounded-full bg-muted/50"
           onClick={() => {
             document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }));
           }}
@@ -120,7 +120,7 @@ export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps)
         <Button
           variant="ghost"
           size="icon"
-          className="relative h-10 w-10"
+          className="relative h-11 w-11"
           aria-label={`Notifications${alertCount > 0 ? ` (${alertCount} en attente)` : ""}`}
           onClick={() => router.push("/alertes")}
         >

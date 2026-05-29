@@ -1,7 +1,7 @@
 import { type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { EmptyStateShell } from "@/components/shared/empty-state-shell";
 
 interface EmptyStateProps {
   icon: LucideIcon;
@@ -27,38 +27,44 @@ export function EmptyState({
   onSecondaryAction,
 }: EmptyStateProps) {
   return (
-    <Card className="border-dashed">
-      <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+    <EmptyStateShell
+      visual={
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
           <Icon className="h-8 w-8 text-muted-foreground" />
         </div>
-        <h3 className="mb-2 text-lg font-semibold">{title}</h3>
-        <p className="mb-6 max-w-sm text-sm text-muted-foreground">
-          {description}
-        </p>
-        <div className="flex gap-3">
-          {actionLabel && actionHref && (
-            <Button asChild>
-              <Link href={actionHref}>{actionLabel}</Link>
-            </Button>
-          )}
-          {actionLabel && !actionHref && (
-            <Button onClick={onAction} disabled={!onAction}>
-              {actionLabel}
-            </Button>
-          )}
-          {secondaryLabel && secondaryHref && (
-            <Button variant="outline" asChild>
-              <Link href={secondaryHref}>{secondaryLabel}</Link>
-            </Button>
-          )}
-          {secondaryLabel && !secondaryHref && (
-            <Button variant="outline" onClick={onSecondaryAction} disabled={!onSecondaryAction}>
-              {secondaryLabel}
-            </Button>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+      }
+      title={title}
+      description={description}
+      actions={
+        (actionLabel || secondaryLabel) && (
+          <>
+            {actionLabel && actionHref && (
+              <Button asChild>
+                <Link href={actionHref}>{actionLabel}</Link>
+              </Button>
+            )}
+            {actionLabel && !actionHref && (
+              <Button onClick={onAction} disabled={!onAction}>
+                {actionLabel}
+              </Button>
+            )}
+            {secondaryLabel && secondaryHref && (
+              <Button variant="outline" asChild>
+                <Link href={secondaryHref}>{secondaryLabel}</Link>
+              </Button>
+            )}
+            {secondaryLabel && !secondaryHref && (
+              <Button
+                variant="outline"
+                onClick={onSecondaryAction}
+                disabled={!onSecondaryAction}
+              >
+                {secondaryLabel}
+              </Button>
+            )}
+          </>
+        )
+      }
+    />
   );
 }

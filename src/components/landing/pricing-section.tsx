@@ -157,7 +157,7 @@ export function PricingSection() {
               }`}
             >
               {plan.badge && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-warm-orange text-white px-4">
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4">
                   {plan.badge}
                 </Badge>
               )}
@@ -211,7 +211,7 @@ export function PricingSection() {
                 <tr className="border-b bg-muted/50">
                   <th className="text-left p-4 font-semibold">Fonctionnalité</th>
                   <th className="text-center p-4 font-semibold">Gratuit</th>
-                  <th className="text-center p-4 font-semibold text-warm-orange">Darons+</th>
+                  <th className="text-center p-4 font-semibold text-primary">Darons+</th>
                   <th className="text-center p-4 font-semibold">Family Pro</th>
                 </tr>
               </thead>

@@ -57,7 +57,7 @@ export function TrustCardCreatedDialog({ pin, shareUrl, label, onClose }: Props)
 
         <div className="space-y-4">
           <div>
-            <label className="text-xs font-medium uppercase text-muted-foreground">Lien à partager</label>
+            <p className="text-xs font-medium uppercase text-muted-foreground">Lien à partager</p>
             <div className="flex items-center gap-2 mt-1">
               <code className="flex-1 text-xs bg-muted px-3 py-2 rounded truncate">{shareUrl}</code>
               <Button size="icon" variant="outline" onClick={() => copy(shareUrl, "url")} aria-label="Copier le lien">
@@ -67,7 +67,7 @@ export function TrustCardCreatedDialog({ pin, shareUrl, label, onClose }: Props)
           </div>
 
           <div>
-            <label className="text-xs font-medium uppercase text-muted-foreground">Code PIN (4 chiffres)</label>
+            <p className="text-xs font-medium uppercase text-muted-foreground">Code PIN (4 chiffres)</p>
             <div className="flex items-center gap-2 mt-1">
               <code className="flex-1 text-2xl font-mono tracking-[0.5em] text-center bg-warm-teal/10 text-warm-teal px-3 py-3 rounded font-semibold">
                 {pin}

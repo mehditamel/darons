@@ -10,20 +10,26 @@
     --card-foreground: 210 30% 15%;
     --popover: 0 0% 100%;
     --popover-foreground: 210 30% 15%;
-    --primary: 16 76% 60%;
+    --primary: 16 84% 41%;
     --primary-foreground: 0 0% 100%;
     --secondary: 174 40% 42%;
     --secondary-foreground: 0 0% 100%;
     --muted: 34 30% 92%;
-    --muted-foreground: 210 15% 45%;
-    --accent: 34 30% 92%;
+    --muted-foreground: 210 18% 38%;
+    --accent: 30 40% 89%;
     --accent-foreground: 210 30% 15%;
     --destructive: 4 76% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 34 20% 88%;
     --input: 34 20% 88%;
-    --ring: 16 76% 60%;
-    --radius: 0.75rem;
+    --ring: 16 84% 41%;
+    --radius: 1rem;
+    /* Text-safe gold for use on light surfaces (warm-gold #D4A843 fails AA as text). */
+    --gold-foreground: 42 65% 34%;
+    /* Text-safe semantic colours (the vibrant warm-* equivalents fail AA as text). */
+    --success: 123 50% 30%;
+    --danger: 0 65% 45%;
+    --info: 183 70% 30%;
     --sidebar: 210 30% 16%;
     --sidebar-foreground: 214 32% 91%;
     --sidebar-accent: 210 25% 22%;
@@ -38,19 +44,25 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 15%;
     --popover-foreground: 210 40% 98%;
-    --primary: 16 76% 60%;
+    --primary: 16 84% 41%;
     --primary-foreground: 0 0% 100%;
     --secondary: 174 40% 48%;
     --secondary-foreground: 0 0% 100%;
     --muted: 222 30% 20%;
     --muted-foreground: 210 20% 65%;
-    --accent: 222 30% 20%;
+    --accent: 222 33% 24%;
     --accent-foreground: 210 40% 98%;
     --destructive: 4 76% 55%;
     --destructive-foreground: 0 0% 100%;
     --border: 222 20% 24%;
     --input: 222 20% 24%;
-    --ring: 16 76% 60%;
+    /* Brighter ring in dark mode — more visible focus indicator on dark surfaces. */
+    --ring: 16 80% 56%;
+    /* Warm-gold reads fine as text on dark surfaces; keep it light. */
+    --gold-foreground: 42 60% 60%;
+    --success: 123 50% 62%;
+    --danger: 0 80% 72%;
+    --info: 183 55% 62%;
     --sidebar: 222 47% 8%;
     --sidebar-foreground: 210 40% 90%;
     --sidebar-accent: 222 35% 14%;
@@ -228,7 +240,7 @@
 
   /* Shimmer skeleton loader — gradient sweep */
   .skeleton-shimmer {
-    @apply rounded bg-gradient-to-r from-muted via-muted/40 to-muted;
+    @apply rounded-lg bg-gradient-to-r from-muted via-muted/40 to-muted;
     background-size: 200% 100%;
     animation: shimmer 2s ease-in-out infinite;
   }
@@ -295,43 +307,65 @@
   }
 
   .card-playful {
-    @apply rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+    @apply rounded-2xl shadow-elevation-1 hover:shadow-elevation-2 transition-all duration-base hover:-translate-y-0.5;
   }
 
   .card-interactive {
-    @apply transition-all duration-300 hover:shadow-md hover:-translate-y-0.5;
+    @apply transition-all duration-base hover:shadow-elevation-2 hover:-translate-y-0.5;
   }
 
   .card-gradient-teal {
-    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-teal/5 to-warm-teal/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-teal/5 to-warm-teal/15 shadow-elevation-1 hover:shadow-elevation-2 transition-all duration-base hover:-translate-y-0.5;
   }
 
   .card-gradient-orange {
-    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-orange/5 to-warm-orange/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-orange/5 to-warm-orange/15 shadow-elevation-1 hover:shadow-elevation-2 transition-all duration-base hover:-translate-y-0.5;
   }
 
   .card-gradient-blue {
-    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-blue/5 to-warm-blue/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-blue/5 to-warm-blue/15 shadow-elevation-1 hover:shadow-elevation-2 transition-all duration-base hover:-translate-y-0.5;
   }
 
   .card-gradient-purple {
-    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-purple/5 to-warm-purple/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-purple/5 to-warm-purple/15 shadow-elevation-1 hover:shadow-elevation-2 transition-all duration-base hover:-translate-y-0.5;
   }
 
   .card-gradient-gold {
-    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-gold/5 to-warm-gold/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-gold/5 to-warm-gold/15 shadow-elevation-1 hover:shadow-elevation-2 transition-all duration-base hover:-translate-y-0.5;
   }
 
   .card-gradient-red {
-    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-red/5 to-warm-red/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-red/5 to-warm-red/15 shadow-elevation-1 hover:shadow-elevation-2 transition-all duration-base hover:-translate-y-0.5;
   }
 
   .card-gradient-green {
-    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-green/5 to-warm-green/15 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5;
+    @apply rounded-2xl border-0 bg-gradient-to-br from-warm-green/5 to-warm-green/15 shadow-elevation-1 hover:shadow-elevation-2 transition-all duration-base hover:-translate-y-0.5;
   }
 
+  /* Decorative brand gradient — large serif headings only, never the sole
+     carrier of meaning (it remains legible but isn't a guaranteed AA text colour). */
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-warm-orange to-warm-teal;
+  }
+
+  /* Text-safe semantic colours are exposed as Tailwind colours (success /
+     danger / info / gold → text-*, bg-*, border-* with opacity support).
+     Use them when a warm-* hue must read as TEXT; the raw warm-* palette
+     stays for fills, tints, icons and gradients. */
+
+  /* Brand ambient backdrop — applied once on the dashboard shell. A very faint
+     multi-hue radial mesh that gives a sense of place without any motion cost. */
+  .app-ambient {
+    background-image:
+      radial-gradient(60rem 60rem at 0% 0%, hsl(var(--primary) / 0.05), transparent 60%),
+      radial-gradient(50rem 50rem at 100% 0%, hsl(174 40% 42% / 0.05), transparent 55%),
+      radial-gradient(55rem 55rem at 100% 100%, hsl(258 30% 50% / 0.045), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  /* Consistent vertical rhythm for stacked page sections. */
+  .section-stack {
+    @apply space-y-6 lg:space-y-8;
   }
 
   .glass-card {

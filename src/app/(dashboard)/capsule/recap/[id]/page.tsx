@@ -21,7 +21,7 @@ export default async function RecapPage({ params }: PageProps) {
   const recap = result.data;
 
   return (
-    <div className="space-y-6">
+    <div className="section-stack">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <Button variant="ghost" asChild className="-ml-3">
           <Link href={`/capsule/${recap.memberId}`}>
