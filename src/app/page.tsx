@@ -238,6 +238,15 @@ export default function LandingPage() {
                   </Button>
                 </Link>
               </div>
+              <p className="mt-4 text-sm text-muted-foreground">
+                ou{" "}
+                <Link
+                  href="/demo"
+                  className="font-medium text-warm-orange underline-offset-4 hover:underline"
+                >
+                  visite la démo du tableau de bord
+                </Link>
+              </p>
             </div>
 
             {/* Phone mockup — right side on desktop, below text on mobile */}
