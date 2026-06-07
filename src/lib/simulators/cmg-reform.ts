@@ -23,6 +23,10 @@ export const CMG_REFORM = {
   // Ressources mensuelles encadrées (mêmes bornes que les EAJE), 2025.
   resourceFloor: 815,
   resourceCeiling: 8500,
+  // Prise en charge des cotisations sociales (inchangée par la réforme) :
+  // assistante maternelle 100 %, garde à domicile 50 % plafonné selon l'âge.
+  contribCapUnder3: 496, // plafond mensuel garde à domicile, enfant < 3 ans
+  contribCap3to6: 249, // plafond mensuel garde à domicile, enfant 3-6 ans
   assistante_maternelle: {
     hourlyCap: 8, // plafond horaire retenu (€)
     refHourlyCost: 4.85, // coût horaire de référence (€)
@@ -93,4 +97,25 @@ export function simulateCmgReform(input: CmgReformInput): CmgReformResult {
     participationRate: Math.min(1, Math.max(0, participationRate)),
     capExcess: Math.round(capExcess * 100) / 100,
   };
+}
+
+/**
+ * Prise en charge des cotisations sociales par le CMG (composante distincte du
+ * CMG rémunération, inchangée par la réforme) :
+ *  - assistante maternelle : 100 % ;
+ *  - garde à domicile : 50 %, plafonné à 496 €/mois (< 3 ans) ou 249 € (3-6 ans).
+ */
+export function cmgCotisations(input: {
+  mode: CmgEmploiMode;
+  childUnder3: boolean;
+  monthlyContributions: number;
+}): number {
+  const contributions = Math.max(0, input.monthlyContributions);
+  if (input.mode === "assistante_maternelle") {
+    return Math.round(contributions * 100) / 100; // 100 % pris en charge
+  }
+  const cap = input.childUnder3
+    ? CMG_REFORM.contribCapUnder3
+    : CMG_REFORM.contribCap3to6;
+  return Math.round(Math.min(contributions * 0.5, cap) * 100) / 100;
 }

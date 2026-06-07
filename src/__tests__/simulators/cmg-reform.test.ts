@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { simulateCmgReform, CMG_REFORM } from "@/lib/simulators/cmg-reform";
+import {
+  simulateCmgReform,
+  cmgCotisations,
+  CMG_REFORM,
+} from "@/lib/simulators/cmg-reform";
 
 describe("simulateCmgReform", () => {
   describe("formule (art. D. 531-18)", () => {
@@ -128,6 +132,48 @@ describe("simulateCmgReform", () => {
       });
       expect(res.cmg).toBeGreaterThanOrEqual(0);
       expect(res.cmg).toBeLessThanOrEqual(res.retainedMonthlyCost);
+    });
+  });
+
+  describe("cotisations sociales", () => {
+    it("prend en charge 100 % des cotisations pour l'assistante maternelle", () => {
+      expect(
+        cmgCotisations({
+          mode: "assistante_maternelle",
+          childUnder3: true,
+          monthlyContributions: 320,
+        })
+      ).toBe(320);
+    });
+
+    it("prend en charge 50 % à domicile, sous le plafond (< 3 ans)", () => {
+      expect(
+        cmgCotisations({
+          mode: "garde_domicile",
+          childUnder3: true,
+          monthlyContributions: 600,
+        })
+      ).toBe(300); // 50 % de 600 = 300 < 496
+    });
+
+    it("plafonne la prise en charge à domicile à 496 € (< 3 ans)", () => {
+      expect(
+        cmgCotisations({
+          mode: "garde_domicile",
+          childUnder3: true,
+          monthlyContributions: 1200,
+        })
+      ).toBe(496); // 50 % de 1200 = 600 > 496
+    });
+
+    it("plafonne à 249 € pour un enfant de 3 à 6 ans", () => {
+      expect(
+        cmgCotisations({
+          mode: "garde_domicile",
+          childUnder3: false,
+          monthlyContributions: 600,
+        })
+      ).toBe(249); // 50 % de 600 = 300 > 249
     });
   });
 });

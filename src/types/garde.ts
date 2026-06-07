@@ -54,6 +54,10 @@ export interface GardeCostSimulationInput {
   heuresMensuelles?: number;
   coutHoraireReel?: number;
   parentIsole?: boolean;
+  // Prise en charge des cotisations sociales (emploi direct) : si le montant
+  // mensuel de cotisations est fourni, on déduit la part couverte par le CMG.
+  coutCotisationsMensuelles?: number;
+  enfantMoins3ans?: boolean;
 }
 
 export interface GardeCostSimulationResult {
