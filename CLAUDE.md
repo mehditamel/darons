@@ -964,7 +964,17 @@ Méningocoque C : 5 mois, 12 mois
 ROR (Rougeole-Oreillons-Rubéole) : 12 mois, 16-18 mois
 ```
 
-### Barème IR 2025 (revenus 2024)
+### Barème IR 2026 (imposition des revenus 2025) — millésime courant
+> LF 2026 du 19/02/2026, indexation +0,9 %. Plafond QF : 1 807 €/demi-part. Décote : forfait 897 € (seul) / 1 483 € (couple), taux 45,25 %.
+```
+0 — 11 600 € : 0%
+11 601 — 29 579 € : 11%
+29 580 — 84 577 € : 30%
+84 578 — 181 917 € : 41%
+> 181 917 € : 45%
+```
+
+### Barème IR 2025 (imposition des revenus 2024) — historique
 ```
 0 — 11 294 € : 0%
 11 295 — 28 797 € : 11%

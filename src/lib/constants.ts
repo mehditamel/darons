@@ -35,7 +35,7 @@ export const AI_MONTHLY_LIMITS: Record<PlanName, number> = {
   family_pro: 500,
 } as const;
 
-// Barème IR 2025 (revenus 2024)
+// Barème IR 2025 (imposition des revenus 2024)
 export const IR_BRACKETS_2025 = [
   { min: 0, max: 11294, rate: 0 },
   { min: 11295, max: 28797, rate: 0.11 },
@@ -43,6 +43,53 @@ export const IR_BRACKETS_2025 = [
   { min: 82342, max: 177106, rate: 0.41 },
   { min: 177107, max: Infinity, rate: 0.45 },
 ] as const;
+
+// Barème IR 2026 (imposition des revenus 2025) — LF 2026 du 19/02/2026, indexation +0,9 %
+// Sources : service-public.gouv.fr (F1419), economie.gouv.fr, bofip ACTU-2026-00022
+export const IR_BRACKETS_2026 = [
+  { min: 0, max: 11600, rate: 0 },
+  { min: 11601, max: 29579, rate: 0.11 },
+  { min: 29580, max: 84577, rate: 0.30 },
+  { min: 84578, max: 181917, rate: 0.41 },
+  { min: 181918, max: Infinity, rate: 0.45 },
+] as const;
+
+// Paramètres fiscaux par millésime d'imposition (année de déclaration).
+// Regroupe barème, plafond du quotient familial et décote pour permettre aux
+// simulateurs de calculer l'impôt d'une année donnée (comparateur, historique).
+export const FISCAL_PARAMS_BY_YEAR = {
+  2025: {
+    brackets: IR_BRACKETS_2025,
+    // Plafond du quotient familial : 1 759 € par demi-part supplémentaire
+    qfCapPerHalfPart: 1759,
+    decote: {
+      thresholdSingle: 1929,
+      thresholdCouple: 2845,
+      baseSingle: 1269,
+      baseCouple: 1870,
+      rate: 0.4525,
+    },
+  },
+  2026: {
+    brackets: IR_BRACKETS_2026,
+    // Plafond du quotient familial 2026 : 1 807 € par demi-part supplémentaire
+    qfCapPerHalfPart: 1807,
+    // Décote 2026 : forfait 897 € (seul) / 1 483 € (couple), taux 45,25 %
+    // (seuils d'application : 1 982 € / 3 277 € d'impôt brut)
+    decote: {
+      thresholdSingle: 1982,
+      thresholdCouple: 3277,
+      baseSingle: 897,
+      baseCouple: 1483,
+      rate: 0.4525,
+    },
+  },
+} as const;
+
+export type FiscalYear = keyof typeof FISCAL_PARAMS_BY_YEAR;
+
+// Millésime d'imposition courant (déclaration 2026 sur les revenus 2025)
+export const CURRENT_TAX_YEAR: FiscalYear = 2026;
 
 // Plafonds crédits d'impôt
 export const TAX_CREDITS = {
