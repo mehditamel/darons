@@ -1,5 +1,9 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  HAS_HOUSEHOLD_COOKIE,
+  HAS_HOUSEHOLD_COOKIE_MAX_AGE,
+} from "@/lib/auth/household-cookie";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -76,18 +80,33 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Redirect new users (without household) to onboarding
+  // Redirect new users (without household) to onboarding.
+  // Fast path: once a household has been seen we cache it in a cookie to avoid a
+  // DB roundtrip on every protected navigation. The cookie is set on household
+  // creation and cleared on deletion; here we self-heal if it is missing.
   if (user && isProtectedRoute && request.nextUrl.pathname !== "/onboarding") {
-    const { data: household } = await supabase
-      .from("households")
-      .select("id")
-      .eq("owner_id", user.id)
-      .single();
+    const hasHouseholdCookie =
+      request.cookies.get(HAS_HOUSEHOLD_COOKIE)?.value === "1";
 
-    if (!household) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/onboarding";
-      return NextResponse.redirect(url);
+    if (!hasHouseholdCookie) {
+      const { data: household } = await supabase
+        .from("households")
+        .select("id")
+        .eq("owner_id", user.id)
+        .single();
+
+      if (!household) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/onboarding";
+        return NextResponse.redirect(url);
+      }
+
+      supabaseResponse.cookies.set(HAS_HOUSEHOLD_COOKIE, "1", {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        maxAge: HAS_HOUSEHOLD_COOKIE_MAX_AGE,
+      });
     }
   }
 
