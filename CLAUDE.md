@@ -1,7 +1,7 @@
 # CLAUDE.md — Darons (darons.app)
 
 > Ce fichier est lu par Claude Code à chaque session. Il constitue la référence unique du projet.
-> Dernière mise à jour : 19 mars 2026
+> Dernière mise à jour : 7 juin 2026
 
 ---
 
@@ -819,86 +819,88 @@ NEXT_PUBLIC_APP_NAME=Darons
 
 ## 8. Phasage de développement
 
+> **État au 7 juin 2026** : Phases 0 → 7 **livrées** (auth, tous les modules fonctionnels, IA, notifications, OCR, santé enrichie). Phase 8 **en cours** (multi-foyers, export PDF, parrainage, admin SaaS, dépenses partagées et arrondi épargne livrés ; restent l'app mobile native et l'import CAF via API Particulier — soumis à habilitation). 16 migrations appliquées.
+
 ### Phase 0 — Fondations (Semaine 1-2)
 - [x] Prototype HTML navigable (9 écrans) — FAIT
-- [x] Prototype Next.js sur mavieparentale.vercel.app — EN COURS
-- [ ] Init projet Next.js + TypeScript + Tailwind + shadcn/ui (repo `darons`)
-- [ ] Configurer Supabase (projet, migrations initiales, RLS)
-- [ ] Auth (login, register, magic link, middleware)
-- [ ] Shell layout (sidebar, topbar, routing)
-- [ ] Onboarding guidé pour nouveaux utilisateurs (création foyer, ajout enfants)
-- [ ] Landing page darons.app (vitrine + inscription, ton décalé)
-- [ ] Seed data foyer TAMELGHAGHET (beta interne)
-- [ ] Déploiement Vercel + domaine darons.app
+- [x] Prototype Next.js — FAIT
+- [x] Init projet Next.js + TypeScript + Tailwind + shadcn/ui (repo `darons`)
+- [x] Configurer Supabase (projet, migrations initiales, RLS)
+- [x] Auth (login, register, magic link, middleware)
+- [x] Shell layout (sidebar, topbar, routing)
+- [x] Onboarding guidé pour nouveaux utilisateurs (création foyer, ajout enfants)
+- [x] Landing page darons.app (vitrine + inscription, ton décalé)
+- [x] Seed data foyer TAMELGHAGHET (beta interne)
+- [x] Déploiement Vercel + domaine darons.app
 
 ### Phase 1 — Module Administratif (Semaines 2-4)
-- [ ] CRUD membres du foyer
-- [ ] Registre documents d'identité + alertes expiration
-- [ ] Santé : calendrier vaccinal, saisie doses, rappels
-- [ ] Santé : courbes de croissance (Recharts + percentiles OMS)
-- [ ] Coffre-fort : upload, catégorisation, recherche, prévisualisation
+- [x] CRUD membres du foyer
+- [x] Registre documents d'identité + alertes expiration
+- [x] Santé : calendrier vaccinal, saisie doses, rappels
+- [x] Santé : courbes de croissance (Recharts + percentiles OMS)
+- [x] Coffre-fort : upload, catégorisation, recherche, prévisualisation
 
 ### Phase 2 — Module Éducatif (Semaines 5-6)
-- [ ] Timeline scolarité
-- [ ] Activités : CRUD + planning hebdomadaire
-- [ ] Jalons développement avec barres de progression
-- [ ] Journal parental
+- [x] Timeline scolarité
+- [x] Activités : CRUD + planning hebdomadaire
+- [x] Jalons développement avec barres de progression
+- [x] Journal parental
 
 ### Phase 3 — Module Fiscal (Semaines 7-8)
-- [ ] Simulateur IR (barème 2025, quotient familial, décote)
-- [ ] Détail crédits/réductions d'impôt
-- [ ] Comparateur avant/après optimisation
-- [ ] Échéancier fiscal avec alertes
+- [x] Simulateur IR (barème 2026 year-aware, quotient familial, décote)
+- [x] Détail crédits/réductions d'impôt
+- [x] Comparateur avant/après optimisation
+- [x] Échéancier fiscal avec alertes
 
 ### Phase 4 — Module Budget intelligent (Semaines 9-11)
-- [ ] Intégration Bridge API : flux OAuth, connexion comptes bancaires
-- [ ] Synchronisation automatique des transactions
-- [ ] Catégorisation IA des transactions (Bridge enrichment + Anthropic fallback)
-- [ ] Catégories personnalisables par enfant
-- [ ] Budget prévisionnel à 30 jours (algorithme dépenses récurrentes)
-- [ ] Alertes : dépense inhabituelle, risque découvert, dépassement budget
-- [ ] Calcul reste à vivre quotidien
-- [ ] Objectifs d'épargne avec progression visuelle
-- [ ] Graphiques mensuels/trimestriels/annuels (Recharts)
-- [ ] Dashboard budget couple partagé
-- [ ] Saisie manuelle dépenses (récurrentes + ponctuelles) en fallback sans Open Banking
+- [x] Intégration Bridge API : flux OAuth, connexion comptes bancaires
+- [x] Synchronisation automatique des transactions
+- [x] Catégorisation IA des transactions (Bridge enrichment + Anthropic fallback)
+- [x] Catégories personnalisables par enfant
+- [x] Budget prévisionnel à 30 jours (algorithme dépenses récurrentes)
+- [x] Alertes : dépense inhabituelle, risque découvert, dépassement budget
+- [x] Calcul reste à vivre quotidien
+- [x] Objectifs d'épargne avec progression visuelle
+- [x] Graphiques mensuels/trimestriels/annuels (Recharts)
+- [x] Dashboard budget couple partagé
+- [x] Saisie manuelle dépenses (récurrentes + ponctuelles) en fallback sans Open Banking
 
 ### Phase 5 — Modules Garde + Démarches (Semaines 12-13)
-- [ ] Recherche géolocalisée de modes de garde (monenfant.fr + API Géo + API Adresse)
-- [ ] Carte interactive des structures autour du domicile
-- [ ] Simulateur coût de garde (reste à charge après CMG)
-- [ ] Simulateur droits sociaux (PAJE, AF, APL, prime activité)
-- [ ] Checklist démarches grossesse → 3 ans (frise interactive)
-- [ ] Rappels échéances administratives automatiques
+- [x] Recherche géolocalisée de modes de garde (monenfant.fr + API Géo + API Adresse)
+- [x] Carte interactive des structures autour du domicile
+- [x] Simulateur coût de garde (reste à charge après CMG)
+- [x] Simulateur droits sociaux (PAJE, AF, APL, prime activité)
+- [x] Checklist démarches grossesse → 3 ans (frise interactive)
+- [x] Rappels échéances administratives automatiques
 
 ### Phase 6 — IA, alertes & notifications (Semaine 14)
-- [ ] Intégration Anthropic API côté serveur (Edge Function)
-- [ ] Alertes proactives : expirations documents, vaccins en retard, échéances fiscales, CMG à renouveler
-- [ ] Coach budgétaire IA : suggestions personnalisées d'économies
-- [ ] Suggestions activités par âge de l'enfant
-- [ ] Résumé mensuel IA du foyer (email + dashboard)
-- [ ] Notifications multicanal : email (Resend), SMS critiques (Twilio), Web Push
-- [ ] Sync Google Calendar / Apple Calendar (RDV médicaux, inscriptions, échéances)
+- [x] Intégration Anthropic API côté serveur (Edge Function)
+- [x] Alertes proactives : expirations documents, vaccins en retard, échéances fiscales, CMG à renouveler
+- [x] Coach budgétaire IA : suggestions personnalisées d'économies
+- [x] Suggestions activités par âge de l'enfant
+- [x] Résumé mensuel IA du foyer (email + dashboard)
+- [x] Notifications multicanal : email (Resend), SMS critiques (Twilio), Web Push
+- [x] Sync Google Calendar / Apple Calendar (RDV médicaux, inscriptions, échéances)
 
 ### Phase 7 — Santé enrichie & OCR (Semaines 15-16)
-- [ ] 20 examens obligatoires détaillés avec rappels par âge
-- [ ] Grilles repérage troubles neurodéveloppementaux
-- [ ] Questionnaire exposition écrans (à partir de 3 mois)
-- [ ] Journal quotidien enrichi (humeur, sommeil, appétit)
-- [ ] Courbes de croissance avec âge corrigé prématurés
-- [ ] OCR ordonnances (Tesseract.js ou Google Vision)
-- [ ] Numéros d'urgence intégrés avec appel direct
-- [ ] Préparation intégration Mon Espace Santé (API FHIR — quand disponible)
+- [x] 20 examens obligatoires détaillés avec rappels par âge
+- [x] Grilles repérage troubles neurodéveloppementaux
+- [x] Questionnaire exposition écrans (à partir de 3 mois)
+- [x] Journal quotidien enrichi (humeur, sommeil, appétit)
+- [x] Courbes de croissance avec âge corrigé prématurés
+- [x] OCR ordonnances (Tesseract.js ou Google Vision)
+- [x] Numéros d'urgence intégrés avec appel direct
+- [x] Préparation intégration Mon Espace Santé (API FHIR — quand disponible)
 
 ### Phase 8 — Croissance & extensions (Semaines 17+)
-- [ ] Multi-foyers (grands-parents, nounou, mode partagé)
-- [ ] Export PDF (bilan annuel foyer)
-- [ ] App mobile (React Native ou PWA)
+- [x] Multi-foyers (grands-parents, nounou, mode partagé)
+- [x] Export PDF (bilan annuel foyer)
+- [ ] App mobile (React Native ou PWA native) — PWA installable livrée, app native à venir
 - [ ] Intégrations externes (import CAF via API Particulier si habilitation obtenue)
-- [ ] Programme de parrainage
-- [ ] Tableau de bord admin SaaS (métriques MRR, churn, cohortes)
-- [ ] Arrondi épargne automatique (micro-épargne)
-- [ ] Module dépenses partagées type Tricount intégré
+- [x] Programme de parrainage
+- [x] Tableau de bord admin SaaS (métriques MRR, churn, cohortes)
+- [x] Arrondi épargne automatique (micro-épargne)
+- [x] Module dépenses partagées type Tricount intégré
 
 ---
 

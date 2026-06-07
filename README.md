@@ -24,14 +24,17 @@ L'app 100% gratuite qui centralise toute la vie de famille : sante des enfants, 
 
 ## Fonctionnalites
 
-- **Sante & vaccinations** — Calendrier vaccinal francais, courbes de croissance OMS, RDV medicaux, 20 examens obligatoires
-- **Budget familial** — Suivi depenses par categorie et par enfant, allocations CAF, Open Banking (Bridge API), coach IA
-- **Foyer fiscal** — Simulateur IR (bareme 2025), quotient familial, credits d'impot, echeancier fiscal
+- **Sante & vaccinations** — Calendrier vaccinal francais, courbes de croissance OMS, RDV medicaux, 20 examens obligatoires, repérage TND, exposition écrans, OCR ordonnances, sync FHIR (Mon Espace Santé)
+- **Budget familial** — Suivi depenses par categorie et par enfant, allocations CAF, Open Banking (Bridge API), coach IA, arrondi épargne, dépenses partagées (type Tricount)
+- **Foyer fiscal** — Simulateur IR multi-millésime (barème 2026 par défaut), quotient familial, credits d'impot, echeancier fiscal
 - **Coffre-fort numerique** — Upload securise, categorisation, recherche, partage temporaire
 - **Scolarite** — Timeline previsionnelle, inscriptions, suivi notes
 - **Recherche de garde** — Creches, assistantes maternelles, simulateur cout net apres CMG
 - **Demarches & droits** — Checklist naissance-3 ans, simulateur droits sociaux, modeles courriers
+- **La Capsule** — Biographie vivante de l'enfant (souvenirs + récaps IA, export PDF)
+- **Carnet de Confiance** — Lien partagé sécurisé (PIN + durée limitée) pour nounou / grands-parents
 - **IA proactive** — Alertes expirations, vaccins en retard, echeances fiscales, suggestions activites
+- **Multi-foyers, parrainage, admin SaaS** — Mode partagé, programme de parrainage, tableau de bord métriques
 
 ## Installation
 
@@ -98,16 +101,16 @@ L'app sera accessible sur [http://localhost:3000](http://localhost:3000).
 src/
 ├── app/                    # Next.js App Router
 │   ├── (auth)/             # Login, register, reset-password
-│   ├── (dashboard)/        # 14 pages dashboard + 4 admin
+│   ├── (dashboard)/        # ~22 modules dashboard + admin SaaS
 │   ├── (marketing)/        # Landing, blog, outils, legal
-│   └── api/                # 38 API routes
+│   └── api/                # API routes (ai, banking, health/FHIR, notifications, ocr, payments, webhooks…)
 ├── components/
 │   ├── ui/                 # shadcn/ui (30+ composants)
 │   ├── layout/             # Sidebar, topbar, footer
 │   ├── shared/             # StatCard, AlertCard, EmptyState
 │   └── {module}/           # Composants par module
 ├── lib/
-│   ├── actions/            # Server actions (19 fichiers)
+│   ├── actions/            # Server actions (21 fichiers)
 │   ├── simulators/         # IR, CAF, cout de garde
 │   ├── integrations/       # Bridge, FHIR, Calendar, OCR
 │   ├── validators/         # Schemas Zod
@@ -130,12 +133,13 @@ npm run e2e:debug
 ```
 
 Les tests couvrent :
-- Simulateur IR (bareme, decote, quotient familial, credits)
+- Simulateur IR (barème multi-millésime 2025/2026, decote, quotient familial, credits)
 - Simulateur CAF (PAJE, CMG, allocations familiales)
 - Simulateur cout de garde
 - Validators (auth, budget, fiscal, family, health, garde)
 - FHIR integration (client, mappers, sync)
-- E2E : landing, auth, onboarding, sante, fiscal, budget, identite, responsive
+- Capsule (aggregator), Carnet de Confiance (token/PIN), rate-limit & retry
+- E2E : landing, auth, onboarding, sante, fiscal, budget, identite, garde, parametres, responsive, a11y (axe)
 
 ## Deploiement
 
