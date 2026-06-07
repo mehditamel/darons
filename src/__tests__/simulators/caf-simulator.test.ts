@@ -60,13 +60,13 @@ describe("simulateCaf", () => {
   });
 
   describe("PAJE — allocation de base", () => {
-    it("accorde 184.81 €/mois si enfant < 3 ans et revenus sous plafond", () => {
+    it("accorde 196.60 €/mois si enfant < 3 ans et revenus sous plafond", () => {
       const result = simulateCaf(input({
         nbEnfantsACharge: 1,
         ageEnfants: [1],
         revenuNetCatAnnuel: 30000,
       }));
-      expect(result.pajeAllocationBase).toBe(184.81);
+      expect(result.pajeAllocationBase).toBe(196.60);
     });
 
     it("refuse si aucun enfant < 3 ans", () => {
@@ -89,13 +89,13 @@ describe("simulateCaf", () => {
   });
 
   describe("PAJE — prime naissance", () => {
-    it("accorde 1 019.40 € pour enfant < 1 an sous plafond", () => {
+    it("accorde 1 084.43 € pour enfant < 1 an sous plafond", () => {
       const result = simulateCaf(input({
         nbEnfantsACharge: 1,
         ageEnfants: [0],
         revenuNetCatAnnuel: 30000,
       }));
-      expect(result.pajeNaissance).toBe(1019.40);
+      expect(result.pajeNaissance).toBe(1084.43);
     });
 
     it("refuse pour enfant >= 1 an", () => {
@@ -166,31 +166,31 @@ describe("simulateCaf", () => {
   });
 
   describe("allocation de rentrée scolaire", () => {
-    it("accorde 416.40 € pour enfant 6-10 ans sous plafond", () => {
+    it("accorde 426.87 € pour enfant 6-10 ans sous plafond", () => {
       const result = simulateCaf(input({
         nbEnfantsACharge: 1,
         ageEnfants: [7],
         revenuNetCatAnnuel: 25000,
       }));
-      expect(result.allocationRentree).toBe(416.40);
+      expect(result.allocationRentree).toBe(426.87);
     });
 
-    it("accorde 439.38 € pour enfant 11-14 ans", () => {
+    it("accorde 450.41 € pour enfant 11-14 ans", () => {
       const result = simulateCaf(input({
         nbEnfantsACharge: 1,
         ageEnfants: [12],
         revenuNetCatAnnuel: 25000,
       }));
-      expect(result.allocationRentree).toBe(439.38);
+      expect(result.allocationRentree).toBe(450.41);
     });
 
-    it("accorde 454.60 € pour enfant 15-18 ans", () => {
+    it("accorde 466.02 € pour enfant 15-18 ans", () => {
       const result = simulateCaf(input({
         nbEnfantsACharge: 1,
         ageEnfants: [16],
         revenuNetCatAnnuel: 25000,
       }));
-      expect(result.allocationRentree).toBe(454.60);
+      expect(result.allocationRentree).toBe(466.02);
     });
 
     it("retourne 0 ARS pour enfant < 6 ans", () => {
@@ -208,7 +208,7 @@ describe("simulateCaf", () => {
         ageEnfants: [7, 12],
         revenuNetCatAnnuel: 25000,
       }));
-      expect(result.allocationRentree).toBeCloseTo(416.40 + 439.38, 1);
+      expect(result.allocationRentree).toBeCloseTo(426.87 + 450.41, 1);
     });
   });
 
@@ -220,7 +220,7 @@ describe("simulateCaf", () => {
         ageEnfants: [1],
       }));
       expect(result.totalMensuel).toBeGreaterThanOrEqual(0);
-      expect(result.pajeAllocationBase).toBe(184.81);
+      expect(result.pajeAllocationBase).toBe(196.60);
     });
 
     it("gère un revenu négatif comme 0", () => {
@@ -250,7 +250,7 @@ describe("simulateCaf", () => {
         ageEnfants: [6],
         revenuNetCatAnnuel: 25000,
       }));
-      expect(result.allocationRentree).toBe(416.40);
+      expect(result.allocationRentree).toBe(426.87);
     });
 
     it("gère un enfant exactement à 3 ans pour la PAJE", () => {

@@ -1,6 +1,17 @@
 /**
  * CAF Simulator — Calcul des droits aux allocations familiales
- * Barèmes 2025
+ *
+ * Millésime : prestations à montant fixe revalorisées au 01/04/2026
+ * (BMAF 478,16 €, +0,8 %) — allocation de base PAJE, prime de naissance, ARS.
+ *
+ * NB — deux dispositifs suivent des réformes structurelles non encore modélisées
+ * ici, et restent estimés sur le modèle pré-réforme :
+ *  - CMG : réforme du 01/09/2025 (calcul continu selon ressources, heures de
+ *    garde et reste à charge, fin des tranches fixes). Les montants par tranche
+ *    ci-dessous sont des maxima indicatifs, pas le calcul officiel.
+ *  - Majoration des allocations familiales : âge ouvrant droit porté de 14 à
+ *    18 ans (01/03/2026) — non pris en compte dans AF_MONTANTS.
+ * Sources : service-public.gouv.fr, caf.fr (barèmes 2026).
  */
 
 export interface CafSimulationInput {
@@ -51,7 +62,7 @@ const AF_PLAFONDS = {
   supplement_par_enfant: 5946,
 };
 
-// Montants AF 2025
+// Montants AF (base, modèle pré-réforme — majoration 18 ans non modélisée)
 const AF_MONTANTS = {
   base: {
     deux_enfants: 148.52,
@@ -67,7 +78,7 @@ const AF_MONTANTS = {
   },
 };
 
-// CMG 2025 — plafonds et montants (enfant < 6 ans)
+// CMG — montants maximaux par tranche (modèle pré-réforme 01/09/2025, indicatif)
 const CMG_PLAFONDS = {
   creche: {
     tranche1: { plafond: 22191, montant: 925.38 },
@@ -131,7 +142,7 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
       (input.nbEnfantsACharge - 1) * PAJE_PLAFONDS.supplement_par_enfant;
 
     if (input.revenuNetCatAnnuel <= plafondSup) {
-      pajeBase = 184.81;
+      pajeBase = 196.60; // PAJE allocation de base, taux plein (01/04/2026)
       details.push({
         label: "PAJE — Allocation de base",
         montant: pajeBase,
@@ -165,7 +176,7 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
       (input.nbEnfantsACharge - 1) * PAJE_PLAFONDS.supplement_par_enfant;
 
     if (input.revenuNetCatAnnuel <= plafondNaissance) {
-      pajeNaissance = 1019.40;
+      pajeNaissance = 1084.43; // Prime de naissance PAJE (01/04/2026)
       details.push({
         label: "PAJE — Prime de naissance",
         montant: pajeNaissance,
@@ -214,9 +225,10 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
   const arsPlafond = 26231 + input.nbEnfantsACharge * 6135;
   if (input.revenuNetCatAnnuel <= arsPlafond) {
     for (const age of input.ageEnfants) {
-      if (age >= 6 && age <= 10) ars += 416.40;
-      else if (age >= 11 && age <= 14) ars += 439.38;
-      else if (age >= 15 && age <= 18) ars += 454.60;
+      // Allocation de rentrée scolaire — montants rentrée 2026
+      if (age >= 6 && age <= 10) ars += 426.87;
+      else if (age >= 11 && age <= 14) ars += 450.41;
+      else if (age >= 15 && age <= 18) ars += 466.02;
     }
   }
 
