@@ -23,6 +23,8 @@ interface FormValues {
   heuresMensuelles: number;
   coutHoraireReel: number;
   parentIsole: boolean;
+  coutCotisationsMensuelles: number;
+  enfantMoins3ans: boolean;
 }
 
 export default function SimulateurGardePage() {
@@ -37,6 +39,8 @@ export default function SimulateurGardePage() {
       heuresMensuelles: 120,
       coutHoraireReel: 6,
       parentIsole: false,
+      coutCotisationsMensuelles: 0,
+      enfantMoins3ans: true,
     },
   });
 
@@ -55,6 +59,10 @@ export default function SimulateurGardePage() {
       isEmploiDirect && heures && coutHoraire
         ? heures * coutHoraire
         : data.coutMensuelBrut;
+    const cotisations =
+      isEmploiDirect && Number.isFinite(data.coutCotisationsMensuelles)
+        ? data.coutCotisationsMensuelles
+        : undefined;
 
     const simulation = simulateGardeCost({
       modeGarde: data.modeGarde,
@@ -64,6 +72,8 @@ export default function SimulateurGardePage() {
       heuresMensuelles: isEmploiDirect ? heures : undefined,
       coutHoraireReel: isEmploiDirect ? coutHoraire : undefined,
       parentIsole: data.parentIsole,
+      coutCotisationsMensuelles: cotisations,
+      enfantMoins3ans: isEmploiDirect ? data.enfantMoins3ans : undefined,
     });
     setResult(simulation);
   }
@@ -159,6 +169,38 @@ export default function SimulateurGardePage() {
                   {...register("nbEnfantsGardes", { valueAsNumber: true })}
                 />
               </div>
+
+              {isEmploiDirect && (
+                <div>
+                  <Label htmlFor="coutCotisationsMensuelles">
+                    Cotisations sociales / mois (€)
+                  </Label>
+                  <Input
+                    id="coutCotisationsMensuelles"
+                    type="number"
+                    min={0}
+                    step={10}
+                    {...register("coutCotisationsMensuelles", { valueAsNumber: true })}
+                    placeholder="0"
+                  />
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Cotisations employeur (URSSAF / Pajemploi). Laisse à 0 si tu ne les
+                    connais pas — le CMG les prend en charge (100 % nounou, 50 % à
+                    domicile).
+                  </p>
+                </div>
+              )}
+
+              {isEmploiDirect && (
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-input"
+                    {...register("enfantMoins3ans")}
+                  />
+                  Enfant de moins de 3 ans
+                </label>
+              )}
 
               {isEmploiDirect && (
                 <label className="flex items-center gap-2 text-sm">

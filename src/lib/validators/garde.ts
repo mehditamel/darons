@@ -65,6 +65,12 @@ export const gardeCostSimulationSchema = z
       .min(0, "Le coût horaire ne peut pas être négatif")
       .optional(),
     parentIsole: z.boolean().optional(),
+    // Prise en charge des cotisations sociales (emploi direct).
+    coutCotisationsMensuelles: z
+      .number()
+      .min(0, "Les cotisations ne peuvent pas être négatives")
+      .optional(),
+    enfantMoins3ans: z.boolean().optional(),
   })
   .superRefine((data, ctx) => {
     const isEmploiDirect =
