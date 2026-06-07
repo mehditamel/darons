@@ -21,13 +21,13 @@ describe("simulateCaf", () => {
       expect(result.allocationsFamiliales).toBe(0);
     });
 
-    it("retourne 148.52 € AF pour 2 enfants (revenus tranche 1)", () => {
+    it("retourne 152.25 € AF pour 2 enfants (revenus tranche 1)", () => {
       const result = simulateCaf(input({
         nbEnfantsACharge: 2,
         ageEnfants: [5, 8],
         revenuNetCatAnnuel: 50000,
       }));
-      expect(result.allocationsFamiliales).toBe(148.52);
+      expect(result.allocationsFamiliales).toBe(152.25);
     });
 
     it("retourne AF divisées par 2 pour revenus tranche 2", () => {
@@ -36,7 +36,7 @@ describe("simulateCaf", () => {
         ageEnfants: [5, 8],
         revenuNetCatAnnuel: 85000,
       }));
-      expect(result.allocationsFamiliales).toBe(74.26);
+      expect(result.allocationsFamiliales).toBe(76.13);
     });
 
     it("retourne AF divisées par 4 pour revenus très élevés", () => {
@@ -45,7 +45,7 @@ describe("simulateCaf", () => {
         ageEnfants: [5, 8],
         revenuNetCatAnnuel: 120000,
       }));
-      expect(result.allocationsFamiliales).toBe(37.13);
+      expect(result.allocationsFamiliales).toBe(38.07);
     });
 
     it("ajoute le supplément par enfant à partir du 3e", () => {
@@ -54,19 +54,19 @@ describe("simulateCaf", () => {
         ageEnfants: [5, 8, 10],
         revenuNetCatAnnuel: 50000,
       }));
-      // 148.52 + 190.88 = 339.40
-      expect(result.allocationsFamiliales).toBeCloseTo(148.52 + 190.88, 1);
+      // 152.25 + 195.07 = 339.40
+      expect(result.allocationsFamiliales).toBeCloseTo(152.25 + 195.07, 1);
     });
   });
 
   describe("PAJE — allocation de base", () => {
-    it("accorde 196.60 €/mois si enfant < 3 ans et revenus sous plafond", () => {
+    it("accorde 198.16 €/mois si enfant < 3 ans et revenus sous plafond", () => {
       const result = simulateCaf(input({
         nbEnfantsACharge: 1,
         ageEnfants: [1],
         revenuNetCatAnnuel: 30000,
       }));
-      expect(result.pajeAllocationBase).toBe(196.60);
+      expect(result.pajeAllocationBase).toBe(198.16);
     });
 
     it("refuse si aucun enfant < 3 ans", () => {
@@ -76,6 +76,16 @@ describe("simulateCaf", () => {
         revenuNetCatAnnuel: 30000,
       }));
       expect(result.pajeAllocationBase).toBe(0);
+    });
+
+    it("accorde le taux partiel (99.08 €) entre seuil plein et partiel", () => {
+      // 1 enfant : plein < 41 055, partiel 41 055–49 054
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 1,
+        ageEnfants: [1],
+        revenuNetCatAnnuel: 45000,
+      }));
+      expect(result.pajeAllocationBase).toBe(99.08);
     });
 
     it("refuse si revenus au-dessus du plafond", () => {
@@ -220,7 +230,7 @@ describe("simulateCaf", () => {
         ageEnfants: [1],
       }));
       expect(result.totalMensuel).toBeGreaterThanOrEqual(0);
-      expect(result.pajeAllocationBase).toBe(196.60);
+      expect(result.pajeAllocationBase).toBe(198.16);
     });
 
     it("gère un revenu négatif comme 0", () => {

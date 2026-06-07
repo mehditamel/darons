@@ -1,17 +1,16 @@
 /**
  * CAF Simulator — Calcul des droits aux allocations familiales
  *
- * Millésime : prestations à montant fixe revalorisées au 01/04/2026
- * (BMAF 478,16 €, +0,8 %) — allocation de base PAJE, prime de naissance, ARS.
+ * Millésime 2026 (revenus 2024) : montants et plafonds de ressources à jour —
+ * allocation de base PAJE (taux plein/partiel), prime de naissance, allocations
+ * familiales, ARS. Sources : service-public.gouv.fr F2552/F13213/A16342, caf.fr.
  *
- * NB — deux dispositifs suivent des réformes structurelles non encore modélisées
- * ici, et restent estimés sur le modèle pré-réforme :
- *  - CMG : réforme du 01/09/2025 (calcul continu selon ressources, heures de
- *    garde et reste à charge, fin des tranches fixes). Les montants par tranche
- *    ci-dessous sont des maxima indicatifs, pas le calcul officiel.
+ * NB — deux dispositifs suivent des réformes structurelles non modélisées ici :
+ *  - CMG : réforme du 01/09/2025 (calcul continu). Le calcul réformé exact vit
+ *    dans cmg-reform.ts / garde-cost.ts ; les tranches ci-dessous restent une
+ *    estimation indicative (micro-crèche / fallback).
  *  - Majoration des allocations familiales : âge ouvrant droit porté de 14 à
  *    18 ans (01/03/2026) — non pris en compte dans AF_MONTANTS.
- * Sources : service-public.gouv.fr, caf.fr (barèmes 2026).
  */
 
 export interface CafSimulationInput {
@@ -42,39 +41,47 @@ export interface CafDetail {
   raison?: string;
 }
 
-// Plafonds de ressources PAJE 2025 (revenus 2023)
+// Plafonds de ressources PAJE 2026 (revenus 2024) — service-public.gouv.fr (F2552).
+// Simplification assumée : couple = 2 revenus (mêmes seuils que parent isolé),
+// l'input ne distinguant pas le nombre de revenus.
 const PAJE_PLAFONDS = {
-  couple: {
-    base: { un_revenu: 35872, deux_revenus: 47348 },
-    majore: { un_revenu: 27165, deux_revenus: 35987 },
-  },
-  isolee: {
-    base: { un_revenu: 47348 },
-    majore: { un_revenu: 35987 },
-  },
-  supplement_par_enfant: 5765,
+  // Seuil taux plein (au-dessous) et taux partiel (entre plein et partiel) selon
+  // le nombre d'enfants ; au-delà de 3 enfants : +8 908 € par enfant.
+  plein: { 1: 41055, 2: 47268, 3: 54724 } as Record<number, number>,
+  partiel: { 1: 49054, 2: 56478, 3: 65386 } as Record<number, number>,
+  supplementAuDela3: 8908,
 };
 
-// Allocations familiales 2025 — plafonds revenus
+// PAJE — allocation de base mensuelle 2026 (revalorisation 01/04/2026, BMAF 478,16).
+const PAJE_ALLOCATION_BASE = { plein: 198.16, partiel: 99.08 };
+
+function pajePlafond(nbEnfants: number, kind: "plein" | "partiel"): number {
+  const table = PAJE_PLAFONDS[kind];
+  const n = Math.max(1, nbEnfants);
+  if (n <= 3) return table[n];
+  return table[3] + (n - 3) * PAJE_PLAFONDS.supplementAuDela3;
+}
+
+// Allocations familiales 2026 — plafonds revenus (revenus 2024).
 const AF_PLAFONDS = {
-  tranche1: 74966,
-  tranche2: 99922,
-  supplement_par_enfant: 5946,
+  tranche1: 79980,
+  tranche2: 106604,
+  supplement_par_enfant: 6664,
 };
 
-// Montants AF (base, modèle pré-réforme — majoration 18 ans non modélisée)
+// Montants AF 2026 (base, modèle pré-réforme — majoration 18 ans non modélisée).
 const AF_MONTANTS = {
   base: {
-    deux_enfants: 148.52,
-    par_enfant_sup: 190.88,
+    deux_enfants: 152.25,
+    par_enfant_sup: 195.07,
   },
   divise2: {
-    deux_enfants: 74.26,
-    par_enfant_sup: 95.44,
+    deux_enfants: 76.13,
+    par_enfant_sup: 97.53,
   },
   divise4: {
-    deux_enfants: 37.13,
-    par_enfant_sup: 47.72,
+    deux_enfants: 38.07,
+    par_enfant_sup: 48.77,
   },
 };
 
@@ -138,11 +145,16 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
   let pajeBase = 0;
   const hasChildUnder3 = input.ageEnfants.some((age) => age < 3);
   if (hasChildUnder3) {
-    const plafondSup = PAJE_PLAFONDS.couple.base.un_revenu +
-      (input.nbEnfantsACharge - 1) * PAJE_PLAFONDS.supplement_par_enfant;
+    const plafondPlein = pajePlafond(input.nbEnfantsACharge, "plein");
+    const plafondPartiel = pajePlafond(input.nbEnfantsACharge, "partiel");
 
-    if (input.revenuNetCatAnnuel <= plafondSup) {
-      pajeBase = 196.60; // PAJE allocation de base, taux plein (01/04/2026)
+    if (input.revenuNetCatAnnuel <= plafondPlein) {
+      pajeBase = PAJE_ALLOCATION_BASE.plein; // taux plein (01/04/2026)
+    } else if (input.revenuNetCatAnnuel <= plafondPartiel) {
+      pajeBase = PAJE_ALLOCATION_BASE.partiel; // taux partiel
+    }
+
+    if (pajeBase > 0) {
       details.push({
         label: "PAJE — Allocation de base",
         montant: pajeBase,
@@ -172,8 +184,8 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
   let pajeNaissance = 0;
   const hasNewborn = input.ageEnfants.some((age) => age < 1);
   if (hasNewborn) {
-    const plafondNaissance = PAJE_PLAFONDS.couple.base.un_revenu +
-      (input.nbEnfantsACharge - 1) * PAJE_PLAFONDS.supplement_par_enfant;
+    // Prime de naissance : sous le plafond « taux partiel » de l'allocation de base.
+    const plafondNaissance = pajePlafond(input.nbEnfantsACharge, "partiel");
 
     if (input.revenuNetCatAnnuel <= plafondNaissance) {
       pajeNaissance = 1084.43; // Prime de naissance PAJE (01/04/2026)
@@ -220,9 +232,9 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
     });
   }
 
-  // 5. Allocation de rentrée scolaire (enfants 6-18 ans)
+  // 5. Allocation de rentrée scolaire (enfants 6-18 ans) — plafond 2026
   let ars = 0;
-  const arsPlafond = 26231 + input.nbEnfantsACharge * 6135;
+  const arsPlafond = 22274 + input.nbEnfantsACharge * 6682;
   if (input.revenuNetCatAnnuel <= arsPlafond) {
     for (const age of input.ageEnfants) {
       // Allocation de rentrée scolaire — montants rentrée 2026
