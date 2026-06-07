@@ -23,18 +23,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit des dépendances (non bloquant)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
       - name: Lint
         run: npm run lint
 
       - name: Type-check
         run: npx tsc --noEmit
 
-      - name: Unit tests
-        run: npm run test
-
-      - name: Unit tests coverage
+      - name: Unit tests + couverture (seuils appliqués)
         run: npm run test:coverage
-        continue-on-error: true
 
       - name: Build
         run: npm run build
@@ -42,6 +42,23 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder
           NEXT_PUBLIC_APP_URL: https://darons.app
+
+  security:
+    name: Secret scanning (gitleaks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Binaire OSS gitleaks (pas de licence requise, contrairement à l'action).
+      # Non bloquant pour l'instant : on remonte les fuites sans casser le merge.
+      - name: Run gitleaks
+        run: |
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.18.4/gitleaks_8.18.4_linux_x64.tar.gz | tar -xz gitleaks
+          ./gitleaks detect --source . --no-banner --redact --exit-code 0
+        continue-on-error: true
 
   e2e:
     name: E2E Tests (Playwright)

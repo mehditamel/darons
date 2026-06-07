@@ -1,5 +1,10 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import {
+  HAS_HOUSEHOLD_COOKIE,
+  HAS_HOUSEHOLD_COOKIE_MAX_AGE,
+} from "@/lib/auth/household-cookie";
 import { familyMemberSchema, householdSchema, profileSchema, type FamilyMemberFormData, type HouseholdFormData, type ProfileFormData } from "@/lib/validators/family";
 import { validateUUID } from "@/lib/validators/common";
 import { type ActionResult, getAuthenticatedUser } from "@/lib/actions/safe-action";
@@ -68,6 +73,14 @@ export async function createHousehold(
     .single();
 
   if (error) return { success: false, error: "Erreur lors de la création du foyer" };
+
+  // Cache the household existence so the auth middleware skips its DB lookup.
+  cookies().set(HAS_HOUSEHOLD_COOKIE, "1", {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: HAS_HOUSEHOLD_COOKIE_MAX_AGE,
+  });
 
   revalidatePath("/dashboard");
   revalidatePath("/parametres");

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Baby, ArrowRight, Check, X } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
+import { differenceInYears } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +16,7 @@ import { formatCurrency } from "@/lib/utils";
 interface FormValues {
   revenuNetCatAnnuel: number;
   situationFamiliale: "couple" | "isolee";
-  enfants: { age: number }[];
+  enfants: { birthDate: string }[];
   modeGarde: "creche" | "assistante_maternelle" | "garde_domicile" | "aucun";
   coutGardeMensuel: number;
 }
@@ -27,7 +28,7 @@ export default function SimulateurCafPage() {
     defaultValues: {
       revenuNetCatAnnuel: 0,
       situationFamiliale: "couple",
-      enfants: [{ age: 1 }],
+      enfants: [{ birthDate: "" }],
       modeGarde: "aucun",
       coutGardeMensuel: 0,
     },
@@ -36,10 +37,19 @@ export default function SimulateurCafPage() {
   const { fields, append, remove } = useFieldArray({ control, name: "enfants" });
 
   function onSubmit(data: FormValues) {
+    const now = new Date();
+    const enfants = data.enfants.map((e) => {
+      const born = e.birthDate ? new Date(e.birthDate) : null;
+      const age =
+        born && !Number.isNaN(born.getTime()) ? differenceInYears(now, born) : 0;
+      return { birthDate: e.birthDate, age };
+    });
+
     const simulation = simulateCaf({
       revenuNetCatAnnuel: data.revenuNetCatAnnuel,
-      nbEnfantsACharge: data.enfants.length,
-      ageEnfants: data.enfants.map((e) => e.age),
+      nbEnfantsACharge: enfants.length,
+      ageEnfants: enfants.map((e) => e.age),
+      birthDates: enfants.map((e) => e.birthDate),
       situationFamiliale: data.situationFamiliale,
       modeGarde: data.modeGarde,
       coutGardeMensuel: data.coutGardeMensuel,
@@ -54,11 +64,11 @@ export default function SimulateurCafPage() {
           <Baby className="w-7 h-7" />
         </div>
         <h1 className="text-3xl font-serif font-bold">
-          Simulateur allocations CAF 2025
+          Simulateur allocations CAF 2026
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
           Estimez vos droits : allocations familiales, PAJE, CMG, allocation de
-          rentrée scolaire. Barèmes 2025 officiels.
+          rentrée scolaire. Barèmes 2026 officiels.
         </p>
       </div>
 
@@ -93,16 +103,19 @@ export default function SimulateurCafPage() {
 
               <div>
                 <Label>Enfants à charge</Label>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Date de naissance — sert à calculer l'âge et la majoration des
+                  allocations (14 ou 18 ans selon l'année de naissance).
+                </p>
                 <div className="space-y-2 mt-2">
                   {fields.map((field, index) => (
                     <div key={field.id} className="flex items-center gap-2">
                       <Input
-                        type="number"
-                        {...register(`enfants.${index}.age`, { valueAsNumber: true })}
-                        placeholder="Âge"
-                        className="w-24"
+                        type="date"
+                        max={new Date().toISOString().slice(0, 10)}
+                        {...register(`enfants.${index}.birthDate`)}
+                        className="w-44"
                       />
-                      <span className="text-sm text-muted-foreground">ans</span>
                       {fields.length > 1 && (
                         <Button type="button" variant="ghost" size="sm" onClick={() => remove(index)}>
                           <X className="w-4 h-4" />
@@ -110,7 +123,7 @@ export default function SimulateurCafPage() {
                       )}
                     </div>
                   ))}
-                  <Button type="button" variant="outline" size="sm" onClick={() => append({ age: 0 })}>
+                  <Button type="button" variant="outline" size="sm" onClick={() => append({ birthDate: "" })}>
                     + Ajouter un enfant
                   </Button>
                 </div>
@@ -153,7 +166,7 @@ export default function SimulateurCafPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   Vos allocations estimées
-                  <Badge variant="outline">Barèmes 2025</Badge>
+                  <Badge variant="outline">Barèmes 2026</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">

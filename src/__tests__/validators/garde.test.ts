@@ -55,8 +55,28 @@ describe("gardeCostSimulationSchema", () => {
   });
 
   it("accepte les 3 modes de garde valides", () => {
-    for (const mode of ["creche", "assistante_maternelle", "garde_domicile"]) {
-      expect(gardeCostSimulationSchema.safeParse({ ...valid, modeGarde: mode }).success).toBe(true);
+    // Crèche : coût mensuel. Emploi direct : heures + coût horaire (réforme 2025).
+    expect(
+      gardeCostSimulationSchema.safeParse({ ...valid, modeGarde: "creche" }).success
+    ).toBe(true);
+    for (const mode of ["assistante_maternelle", "garde_domicile"]) {
+      expect(
+        gardeCostSimulationSchema.safeParse({
+          ...valid,
+          modeGarde: mode,
+          heuresMensuelles: 120,
+          coutHoraireReel: 6,
+        }).success
+      ).toBe(true);
     }
+  });
+
+  it("refuse l'emploi direct sans heures ni coût horaire", () => {
+    expect(
+      gardeCostSimulationSchema.safeParse({
+        ...valid,
+        modeGarde: "assistante_maternelle",
+      }).success
+    ).toBe(false);
   });
 });

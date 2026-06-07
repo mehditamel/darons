@@ -34,18 +34,14 @@ describe("simulateIR", () => {
 
     it("calcule correctement pour un célibataire tranche 11%", () => {
       const result = simulateIR(input({ revenuNetImposable: 20000, nbParts: 1 }));
-      // QF = 20000, tranche 11%: (20000 - 11295) * 0.11 = 957.55 → arrondi 958
+      // Barème 2026 — QF = 20000, tranche 11% : (20000 - 11601) * 0.11
       expect(result.tmi).toBe(11);
       expect(result.quotientFamilial).toBe(20000);
     });
 
     it("calcule correctement pour un couple 2.5 parts à 60 000 €", () => {
       const result = simulateIR(input({ revenuNetImposable: 60000, nbParts: 2.5 }));
-      // QF = 60000 / 2.5 = 24000
-      // Tranche 0%: 0
-      // Tranche 11%: (24000 - 11295) * 0.11 = 1397.55
-      // Tax per part = 1397.55
-      // Gross = 1397.55 * 2.5 = 3493.875 → arrondi 3494
+      // Barème 2026 — QF = 60000 / 2.5 = 24000 (tranche 11%)
       expect(result.quotientFamilial).toBe(24000);
       expect(result.tmi).toBe(11);
       expect(result.impotBrut).toBeGreaterThan(0);
@@ -64,7 +60,7 @@ describe("simulateIR", () => {
       expect(result.tmi).toBe(41);
     });
 
-    it("calcule TMI 45% pour revenus > 177 106 €", () => {
+    it("calcule TMI 45% pour revenus > 181 917 €", () => {
       const result = simulateIR(input({ revenuNetImposable: 200000, nbParts: 1 }));
       expect(result.tmi).toBe(45);
       expect(result.impotBrut).toBeGreaterThan(0);
@@ -96,13 +92,13 @@ describe("simulateIR", () => {
     it("gère un revenu très élevé (500K, 1 part) — TMI 45%", () => {
       const result = simulateIR(input({ revenuNetImposable: 500000, nbParts: 1 }));
       expect(result.tmi).toBe(45);
-      // Manual calculation:
-      // 0-11294: 0
-      // 11295-28797: (28797-11295)*0.11 = 1925.22
-      // 28798-82341: (82341-28798)*0.30 = 16062.90
-      // 82342-177106: (177106-82342)*0.41 = 38853.24
-      // 177107-500000: (500000-177107)*0.45 = 145302.15
-      // Total per part = 202143.51 → rounded = 202144
+      // Calcul manuel (barème 2026, 1 part) :
+      // 0-11600 : 0
+      // 11601-29579 : (29579-11601)*0.11 = 1977.58
+      // 29580-84577 : (84577-29580)*0.30 = 16499.10
+      // 84578-181917 : (181917-84578)*0.41 = 39908.99
+      // 181918-500000 : (500000-181918)*0.45 = 143136.90
+      // Total ≈ 201522 € (par part)
       expect(result.impotBrut).toBeGreaterThan(200000);
       expect(result.tauxEffectif).toBeGreaterThan(30);
     });
@@ -112,7 +108,7 @@ describe("simulateIR", () => {
     it("plafonne le QF pour couple + 2 enfants (3 parts) à 120K", () => {
       const result = simulateIR(input({ revenuNetImposable: 120000, nbParts: 3 }));
       // Extra half-parts = (3 - 2) / 0.5 = 2
-      // Max benefit = 1759 * 2 = 3518
+      // Max benefit (2026) = 1807 * 2 = 3614
       // Tax with 2 parts (base couple):
       const resultBase = simulateIR(input({ revenuNetImposable: 120000, nbParts: 2 }));
       // The tax with 3 parts should not be more than 3518 less than tax with 2 parts
@@ -134,7 +130,7 @@ describe("simulateIR", () => {
     it("plafonne pour hauts revenus avec 4 parts", () => {
       const result = simulateIR(input({ revenuNetImposable: 200000, nbParts: 4 }));
       // Extra half-parts = (4 - 2) / 0.5 = 4
-      // Max benefit = 1759 * 4 = 7036
+      // Max benefit (2026) = 1807 * 4 = 7228
       expect(result.plafonnementQF).toBeGreaterThan(0);
     });
 
@@ -157,7 +153,7 @@ describe("simulateIR", () => {
     });
 
     it("applique un seuil de décote plus élevé pour un couple", () => {
-      // Couple threshold is 2845 vs single 1929
+      // Seuil de décote couple (3277) vs célibataire (1982) en 2026
       const single = simulateIR(input({ revenuNetImposable: 18000, nbParts: 1 }));
       const couple = simulateIR(input({ revenuNetImposable: 36000, nbParts: 2 }));
       // Same QF but couple has higher décote threshold
@@ -274,6 +270,36 @@ describe("simulateIR", () => {
       expect(result).toHaveProperty("tmi");
       expect(result).toHaveProperty("tauxEffectif");
       expect(result).toHaveProperty("revenueParPart");
+    });
+  });
+
+  describe("millésime fiscal", () => {
+    it("utilise le barème 2026 par défaut (célibataire 30 000 €, 1 part)", () => {
+      const result = simulateIR(input({ revenuNetImposable: 30000, nbParts: 1 }));
+      // Barème 2026 — QF 30000 :
+      // (29579-11601)*0.11 = 1977.58 + (30000-29580)*0.30 = 126 → 2103.58 → 2104
+      // Impôt brut (2104) > seuil décote célibataire (1982) → pas de décote
+      expect(result.impotBrut).toBe(2104);
+      expect(result.impotNet).toBe(2104);
+      expect(result.tmi).toBe(30);
+    });
+
+    it("reproduit le barème 2025 quand on passe taxYear = 2025", () => {
+      const result = simulateIR(
+        input({ revenuNetImposable: 30000, nbParts: 1 }),
+        2025
+      );
+      // Barème 2025 — QF 30000 :
+      // (28797-11295)*0.11 = 1925.22 + (30000-28798)*0.30 = 360.60 → 2285.82 → 2286
+      expect(result.impotBrut).toBe(2286);
+      expect(result.impotNet).toBe(2286);
+      expect(result.tmi).toBe(30);
+    });
+
+    it("le millésime 2026 donne un impôt plus faible que 2025 (indexation)", () => {
+      const in2026 = simulateIR(input({ revenuNetImposable: 30000, nbParts: 1 }), 2026);
+      const in2025 = simulateIR(input({ revenuNetImposable: 30000, nbParts: 1 }), 2025);
+      expect(in2026.impotBrut).toBeLessThan(in2025.impotBrut);
     });
   });
 });

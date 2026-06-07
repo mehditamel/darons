@@ -1,12 +1,32 @@
 /**
  * CAF Simulator — Calcul des droits aux allocations familiales
- * Barèmes 2025
+ *
+ * Millésime 2026 (revenus 2024) : montants et plafonds de ressources à jour —
+ * allocation de base PAJE (taux plein/partiel), prime de naissance, allocations
+ * familiales, ARS. Sources : service-public.gouv.fr F2552/F13213/A16342, caf.fr.
+ *
+ * NB — deux dispositifs suivent des réformes structurelles non modélisées ici :
+ *  - CMG : réforme du 01/09/2025 (calcul continu). Le calcul réformé exact vit
+ *    dans cmg-reform.ts / garde-cost.ts ; les tranches ci-dessous restent une
+ *    estimation indicative (micro-crèche / fallback).
+ *  - Majoration des allocations familiales : âge ouvrant droit porté de 14 à
+ *    18 ans (décret n° 2026-138 du 27/02/2026). Modélisée via la règle
+ *    transitoire exacte (cf. AF_MAJORATION) lorsque les dates de naissance des
+ *    enfants sont fournies (birthDates).
  */
+
+import { differenceInYears } from "date-fns";
 
 export interface CafSimulationInput {
   revenuNetCatAnnuel: number;
   nbEnfantsACharge: number;
   ageEnfants: number[];
+  /**
+   * Dates de naissance ISO (AAAA-MM-JJ) des enfants à charge. Requises pour
+   * appliquer la majoration AF selon l'âge (règle transitoire 14/18 ans).
+   * Si absentes, la majoration n'est pas calculée (rétrocompatible).
+   */
+  birthDates?: string[];
   situationFamiliale: "couple" | "isolee";
   modeGarde?: "creche" | "assistante_maternelle" | "garde_domicile" | "aucun";
   coutGardeMensuel?: number;
@@ -31,43 +51,93 @@ export interface CafDetail {
   raison?: string;
 }
 
-// Plafonds de ressources PAJE 2025 (revenus 2023)
+// Plafonds de ressources PAJE 2026 (revenus 2024) — service-public.gouv.fr (F2552).
+// Simplification assumée : couple = 2 revenus (mêmes seuils que parent isolé),
+// l'input ne distinguant pas le nombre de revenus.
 const PAJE_PLAFONDS = {
-  couple: {
-    base: { un_revenu: 35872, deux_revenus: 47348 },
-    majore: { un_revenu: 27165, deux_revenus: 35987 },
-  },
-  isolee: {
-    base: { un_revenu: 47348 },
-    majore: { un_revenu: 35987 },
-  },
-  supplement_par_enfant: 5765,
+  // Seuil taux plein (au-dessous) et taux partiel (entre plein et partiel) selon
+  // le nombre d'enfants ; au-delà de 3 enfants : +8 908 € par enfant.
+  plein: { 1: 41055, 2: 47268, 3: 54724 } as Record<number, number>,
+  partiel: { 1: 49054, 2: 56478, 3: 65386 } as Record<number, number>,
+  supplementAuDela3: 8908,
 };
 
-// Allocations familiales 2025 — plafonds revenus
+// PAJE — allocation de base mensuelle 2026 (revalorisation 01/04/2026, BMAF 478,16).
+const PAJE_ALLOCATION_BASE = { plein: 198.16, partiel: 99.08 };
+
+function pajePlafond(nbEnfants: number, kind: "plein" | "partiel"): number {
+  const table = PAJE_PLAFONDS[kind];
+  const n = Math.max(1, nbEnfants);
+  if (n <= 3) return table[n];
+  return table[3] + (n - 3) * PAJE_PLAFONDS.supplementAuDela3;
+}
+
+// Allocations familiales 2026 — plafonds revenus (revenus 2024).
 const AF_PLAFONDS = {
-  tranche1: 74966,
-  tranche2: 99922,
-  supplement_par_enfant: 5946,
+  tranche1: 79980,
+  tranche2: 106604,
+  supplement_par_enfant: 6664,
 };
 
-// Montants AF 2025
+// Montants AF de base 2026, par tranche de ressources.
 const AF_MONTANTS = {
   base: {
-    deux_enfants: 148.52,
-    par_enfant_sup: 190.88,
+    deux_enfants: 152.25,
+    par_enfant_sup: 195.07,
   },
   divise2: {
-    deux_enfants: 74.26,
-    par_enfant_sup: 95.44,
+    deux_enfants: 76.13,
+    par_enfant_sup: 97.53,
   },
   divise4: {
-    deux_enfants: 37.13,
-    par_enfant_sup: 47.72,
+    deux_enfants: 38.07,
+    par_enfant_sup: 48.77,
   },
 };
 
-// CMG 2025 — plafonds et montants (enfant < 6 ans)
+// Majoration AF par âge 2026 (par enfant éligible), même tranche de ressources
+// que l'AF de base. Source : décret n° 2026-138, service-public A18828.
+const AF_MAJORATION = {
+  base: 75.53,
+  divise2: 37.77,
+  divise4: 18.88,
+};
+
+// Réforme 01/03/2026 : la majoration ouvre droit à 14 ans pour les enfants nés
+// avant le 01/03/2012, et à 18 ans pour ceux nés à partir de cette date.
+const MAJORATION_BIRTH_CUTOFF = new Date("2012-03-01");
+
+/**
+ * Nombre d'enfants ouvrant droit à la majoration AF, selon la règle transitoire
+ * (14/18 ans par date de naissance) et l'exception des familles de 2 enfants
+ * (seul le 2e enfant — le cadet — est majoré ; l'aîné est exclu). À partir de
+ * 3 enfants, tous les enfants éligibles comptent.
+ */
+function countMajorationChildren(input: CafSimulationInput): number {
+  if (!input.birthDates || input.birthDates.length === 0) return 0;
+  const now = new Date();
+  const kids = input.birthDates
+    .map((iso) => new Date(iso))
+    .filter((d) => !Number.isNaN(d.getTime()))
+    .map((born) => ({
+      born,
+      qualifies:
+        born < MAJORATION_BIRTH_CUTOFF
+          ? differenceInYears(now, born) >= 14
+          : differenceInYears(now, born) >= 18,
+    }))
+    .sort((a, b) => a.born.getTime() - b.born.getTime()); // aîné d'abord
+
+  if (input.nbEnfantsACharge === 2) {
+    return kids[1]?.qualifies ? 1 : 0; // seul le cadet
+  }
+  if (input.nbEnfantsACharge >= 3) {
+    return kids.filter((k) => k.qualifies).length;
+  }
+  return 0;
+}
+
+// CMG — montants maximaux par tranche (modèle pré-réforme 01/09/2025, indicatif)
 const CMG_PLAFONDS = {
   creche: {
     tranche1: { plafond: 22191, montant: 925.38 },
@@ -95,12 +165,13 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
     const plafond1 = AF_PLAFONDS.tranche1 + (input.nbEnfantsACharge - 2) * AF_PLAFONDS.supplement_par_enfant;
     const plafond2 = AF_PLAFONDS.tranche2 + (input.nbEnfantsACharge - 2) * AF_PLAFONDS.supplement_par_enfant;
 
-    let montants = AF_MONTANTS.base;
-    if (input.revenuNetCatAnnuel > plafond2) {
-      montants = AF_MONTANTS.divise4;
-    } else if (input.revenuNetCatAnnuel > plafond1) {
-      montants = AF_MONTANTS.divise2;
-    }
+    const tranche: keyof typeof AF_MONTANTS =
+      input.revenuNetCatAnnuel > plafond2
+        ? "divise4"
+        : input.revenuNetCatAnnuel > plafond1
+          ? "divise2"
+          : "base";
+    const montants = AF_MONTANTS[tranche];
 
     af = montants.deux_enfants;
     if (input.nbEnfantsACharge > 2) {
@@ -113,6 +184,20 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
       periodicite: "mensuel",
       eligible: true,
     });
+
+    // Majoration par âge (14/18 ans) — ajoutée à l'AF si des enfants y ouvrent droit.
+    const nbMajoration = countMajorationChildren(input);
+    if (nbMajoration > 0) {
+      const majoration =
+        Math.round(nbMajoration * AF_MAJORATION[tranche] * 100) / 100;
+      af += majoration;
+      details.push({
+        label: "Majoration âge (14/18 ans)",
+        montant: majoration,
+        periodicite: "mensuel",
+        eligible: true,
+      });
+    }
   } else {
     details.push({
       label: "Allocations familiales",
@@ -127,11 +212,16 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
   let pajeBase = 0;
   const hasChildUnder3 = input.ageEnfants.some((age) => age < 3);
   if (hasChildUnder3) {
-    const plafondSup = PAJE_PLAFONDS.couple.base.un_revenu +
-      (input.nbEnfantsACharge - 1) * PAJE_PLAFONDS.supplement_par_enfant;
+    const plafondPlein = pajePlafond(input.nbEnfantsACharge, "plein");
+    const plafondPartiel = pajePlafond(input.nbEnfantsACharge, "partiel");
 
-    if (input.revenuNetCatAnnuel <= plafondSup) {
-      pajeBase = 184.81;
+    if (input.revenuNetCatAnnuel <= plafondPlein) {
+      pajeBase = PAJE_ALLOCATION_BASE.plein; // taux plein (01/04/2026)
+    } else if (input.revenuNetCatAnnuel <= plafondPartiel) {
+      pajeBase = PAJE_ALLOCATION_BASE.partiel; // taux partiel
+    }
+
+    if (pajeBase > 0) {
       details.push({
         label: "PAJE — Allocation de base",
         montant: pajeBase,
@@ -161,11 +251,11 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
   let pajeNaissance = 0;
   const hasNewborn = input.ageEnfants.some((age) => age < 1);
   if (hasNewborn) {
-    const plafondNaissance = PAJE_PLAFONDS.couple.base.un_revenu +
-      (input.nbEnfantsACharge - 1) * PAJE_PLAFONDS.supplement_par_enfant;
+    // Prime de naissance : sous le plafond « taux partiel » de l'allocation de base.
+    const plafondNaissance = pajePlafond(input.nbEnfantsACharge, "partiel");
 
     if (input.revenuNetCatAnnuel <= plafondNaissance) {
-      pajeNaissance = 1019.40;
+      pajeNaissance = 1084.43; // Prime de naissance PAJE (01/04/2026)
       details.push({
         label: "PAJE — Prime de naissance",
         montant: pajeNaissance,
@@ -209,14 +299,15 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
     });
   }
 
-  // 5. Allocation de rentrée scolaire (enfants 6-18 ans)
+  // 5. Allocation de rentrée scolaire (enfants 6-18 ans) — plafond 2026
   let ars = 0;
-  const arsPlafond = 26231 + input.nbEnfantsACharge * 6135;
+  const arsPlafond = 22274 + input.nbEnfantsACharge * 6682;
   if (input.revenuNetCatAnnuel <= arsPlafond) {
     for (const age of input.ageEnfants) {
-      if (age >= 6 && age <= 10) ars += 416.40;
-      else if (age >= 11 && age <= 14) ars += 439.38;
-      else if (age >= 15 && age <= 18) ars += 454.60;
+      // Allocation de rentrée scolaire — montants rentrée 2026
+      if (age >= 6 && age <= 10) ars += 426.87;
+      else if (age >= 11 && age <= 14) ars += 450.41;
+      else if (age >= 15 && age <= 18) ars += 466.02;
     }
   }
 

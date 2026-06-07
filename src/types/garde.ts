@@ -48,6 +48,16 @@ export interface GardeCostSimulationInput {
   coutMensuelBrut: number;
   revenuAnnuel: number;
   nbEnfantsGardes: number;
+  // Calcul précis du CMG réformé (01/09/2025) pour assistante maternelle /
+  // garde à domicile : si heures + coût horaire sont fournis, on applique la
+  // formule du décret plutôt que l'estimation par tranches.
+  heuresMensuelles?: number;
+  coutHoraireReel?: number;
+  parentIsole?: boolean;
+  // Prise en charge des cotisations sociales (emploi direct) : si le montant
+  // mensuel de cotisations est fourni, on déduit la part couverte par le CMG.
+  coutCotisationsMensuelles?: number;
+  enfantMoins3ans?: boolean;
 }
 
 export interface GardeCostSimulationResult {

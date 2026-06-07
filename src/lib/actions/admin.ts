@@ -15,11 +15,11 @@ async function isAdmin(
 ): Promise<boolean> {
   const { data } = await supabase
     .from("profiles")
-    .select("email")
+    .select("is_admin")
     .eq("id", userId)
     .single();
-  // Admin is identified by email (simple approach for MVP)
-  return data?.email === "mehdi@tamel.fr";
+  // Admin is flagged in the database (profiles.is_admin) — see migration 016.
+  return data?.is_admin === true;
 }
 
 export async function getAdminMetrics(

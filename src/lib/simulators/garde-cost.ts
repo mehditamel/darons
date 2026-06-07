@@ -1,6 +1,8 @@
 /**
- * Garde Cost Simulator — Calcul du reste à charge après aides
- * Barèmes CMG 2025 + crédit d'impôt garde enfant
+ * Garde Cost Simulator — Calcul du reste à charge après aides.
+ * CMG : formule réformée (01/09/2025) pour l'emploi direct si heures + coût
+ * horaire fournis (voir cmg-reform.ts), sinon estimation par tranches.
+ * + crédit d'impôt garde enfant.
  */
 
 import type {
@@ -8,6 +10,7 @@ import type {
   GardeCostSimulationResult,
   GardeCostDetail,
 } from "@/types/garde";
+import { simulateCmgReform, cmgCotisations } from "@/lib/simulators/cmg-reform";
 
 // CMG 2025 — plafonds et montants mensuels (enfant < 6 ans)
 const CMG_BAREMES = {
@@ -43,12 +46,28 @@ function getModeGardeLabel(mode: GardeCostSimulationInput["modeGarde"]): string 
   }
 }
 
-function calculateCmg(
-  mode: GardeCostSimulationInput["modeGarde"],
-  revenuAnnuel: number,
-  coutMensuel: number
-): number {
-  const baremes = CMG_BAREMES[mode];
+function calculateCmg(input: GardeCostSimulationInput): number {
+  const { modeGarde, revenuAnnuel, coutMensuelBrut } = input;
+
+  // Calcul précis (réforme 2025) si l'emploi direct + heures + coût horaire.
+  if (
+    (modeGarde === "assistante_maternelle" || modeGarde === "garde_domicile") &&
+    input.heuresMensuelles &&
+    input.coutHoraireReel
+  ) {
+    const { cmg } = simulateCmgReform({
+      mode: modeGarde,
+      monthlyHours: input.heuresMensuelles,
+      hourlyCost: input.coutHoraireReel,
+      monthlyResources: revenuAnnuel / 12,
+      childCount: input.nbEnfantsGardes,
+      singleParent: input.parentIsole,
+    });
+    return Math.min(cmg, coutMensuelBrut);
+  }
+
+  // Fallback : estimation par tranches (modèle pré-réforme / micro-crèche).
+  const baremes = CMG_BAREMES[modeGarde];
 
   let tranche: { plafond: number; montant: number };
   if (revenuAnnuel <= baremes.tranche1.plafond) {
@@ -60,7 +79,7 @@ function calculateCmg(
   }
 
   // CMG cannot exceed actual cost
-  return Math.min(tranche.montant, coutMensuel);
+  return Math.min(tranche.montant, coutMensuelBrut);
 }
 
 export function simulateGardeCost(
@@ -76,16 +95,42 @@ export function simulateGardeCost(
   });
 
   // 2. CMG
-  const cmg = calculateCmg(
-    input.modeGarde,
-    input.revenuAnnuel,
-    input.coutMensuelBrut
-  );
+  const cmg = calculateCmg(input);
   details.push({
     label: "CMG (Complément mode de garde)",
     montant: -cmg,
     description: `Aide CAF selon vos revenus (${input.revenuAnnuel.toLocaleString("fr-FR")} €/an)`,
   });
+
+  // 2bis. Cotisations sociales et leur prise en charge (emploi direct).
+  let coutCotisations = 0;
+  let cmgCotis = 0;
+  if (
+    (input.modeGarde === "assistante_maternelle" ||
+      input.modeGarde === "garde_domicile") &&
+    input.coutCotisationsMensuelles &&
+    input.coutCotisationsMensuelles > 0
+  ) {
+    coutCotisations = input.coutCotisationsMensuelles;
+    cmgCotis = cmgCotisations({
+      mode: input.modeGarde,
+      childUnder3: input.enfantMoins3ans ?? true,
+      monthlyContributions: coutCotisations,
+    });
+    details.push({
+      label: "Cotisations sociales",
+      montant: coutCotisations,
+      description: "Cotisations employeur (URSSAF / Pajemploi)",
+    });
+    details.push({
+      label: "CMG — prise en charge des cotisations",
+      montant: -cmgCotis,
+      description:
+        input.modeGarde === "assistante_maternelle"
+          ? "100 % des cotisations prises en charge"
+          : "50 % des cotisations, dans la limite mensuelle",
+    });
+  }
 
   // 3. Crédit d'impôt (calculé au prorata mensuel)
   const coutApresAides = input.coutMensuelBrut - cmg;
@@ -106,7 +151,10 @@ export function simulateGardeCost(
   });
 
   // 4. Reste à charge
-  const resteACharge = Math.max(0, input.coutMensuelBrut - cmg - creditImpotMensuel);
+  const resteACharge = Math.max(
+    0,
+    input.coutMensuelBrut + coutCotisations - cmg - cmgCotis - creditImpotMensuel
+  );
   details.push({
     label: "Reste à charge mensuel",
     montant: resteACharge,
@@ -114,7 +162,7 @@ export function simulateGardeCost(
   });
 
   return {
-    coutBrut: input.coutMensuelBrut,
+    coutBrut: input.coutMensuelBrut + coutCotisations,
     cmg,
     creditImpotMensuel,
     resteACharge: Math.round(resteACharge * 100) / 100,

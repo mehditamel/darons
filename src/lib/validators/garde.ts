@@ -36,22 +36,65 @@ export const childcareFavoriteSchema = z.object({
 
 export type ChildcareFavoriteFormData = z.infer<typeof childcareFavoriteSchema>;
 
-export const gardeCostSimulationSchema = z.object({
-  modeGarde: z.enum(["creche", "assistante_maternelle", "garde_domicile"], {
-    required_error: "Le mode de garde est requis",
-  }),
-  coutMensuelBrut: z
-    .number({ required_error: "Le coût mensuel est requis" })
-    .min(1, "Le coût doit être positif"),
-  revenuAnnuel: z
-    .number({ required_error: "Le revenu annuel est requis" })
-    .min(0, "Le revenu ne peut pas être négatif"),
-  nbEnfantsGardes: z
-    .number()
-    .int()
-    .min(1, "Au moins 1 enfant")
-    .max(10)
-    .default(1),
-});
+export const gardeCostSimulationSchema = z
+  .object({
+    modeGarde: z.enum(["creche", "assistante_maternelle", "garde_domicile"], {
+      required_error: "Le mode de garde est requis",
+    }),
+    coutMensuelBrut: z
+      .number({ required_error: "Le coût mensuel est requis" })
+      .min(0, "Le coût ne peut pas être négatif")
+      .default(0),
+    revenuAnnuel: z
+      .number({ required_error: "Le revenu annuel est requis" })
+      .min(0, "Le revenu ne peut pas être négatif"),
+    nbEnfantsGardes: z
+      .number()
+      .int()
+      .min(1, "Au moins 1 enfant")
+      .max(10)
+      .default(1),
+    // Calcul précis du CMG réformé (assistante maternelle / garde à domicile).
+    heuresMensuelles: z
+      .number()
+      .min(0, "Le nombre d'heures ne peut pas être négatif")
+      .max(744, "Maximum 744 heures par mois")
+      .optional(),
+    coutHoraireReel: z
+      .number()
+      .min(0, "Le coût horaire ne peut pas être négatif")
+      .optional(),
+    parentIsole: z.boolean().optional(),
+    // Prise en charge des cotisations sociales (emploi direct).
+    coutCotisationsMensuelles: z
+      .number()
+      .min(0, "Les cotisations ne peuvent pas être négatives")
+      .optional(),
+    enfantMoins3ans: z.boolean().optional(),
+  })
+  .superRefine((data, ctx) => {
+    const isEmploiDirect =
+      data.modeGarde === "assistante_maternelle" ||
+      data.modeGarde === "garde_domicile";
+    const hasHourly = !!data.heuresMensuelles && !!data.coutHoraireReel;
+
+    if (isEmploiDirect) {
+      // Emploi direct : on attend heures + coût horaire (calcul réformé).
+      if (!hasHourly) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["heuresMensuelles"],
+          message: "Renseigne les heures de garde et le coût horaire.",
+        });
+      }
+    } else if (data.coutMensuelBrut <= 0) {
+      // Crèche / micro-crèche : coût mensuel requis.
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["coutMensuelBrut"],
+        message: "Le coût mensuel est requis.",
+      });
+    }
+  });
 
 export type GardeCostSimulationFormData = z.infer<typeof gardeCostSimulationSchema>;

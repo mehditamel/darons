@@ -20,26 +20,60 @@ interface FormValues {
   coutMensuelBrut: number;
   revenuAnnuel: number;
   nbEnfantsGardes: number;
+  heuresMensuelles: number;
+  coutHoraireReel: number;
+  parentIsole: boolean;
+  coutCotisationsMensuelles: number;
+  enfantMoins3ans: boolean;
 }
 
 export default function SimulateurGardePage() {
   const [result, setResult] = useState<GardeCostSimulationResult | null>(null);
 
-  const { register, handleSubmit } = useForm<FormValues>({
+  const { register, handleSubmit, watch } = useForm<FormValues>({
     defaultValues: {
       modeGarde: "assistante_maternelle",
       coutMensuelBrut: 800,
       revenuAnnuel: 40000,
       nbEnfantsGardes: 1,
+      heuresMensuelles: 120,
+      coutHoraireReel: 6,
+      parentIsole: false,
+      coutCotisationsMensuelles: 0,
+      enfantMoins3ans: true,
     },
   });
 
+  const currentMode = watch("modeGarde");
+  const isEmploiDirect =
+    currentMode === "assistante_maternelle" || currentMode === "garde_domicile";
+
   function onSubmit(data: FormValues) {
+    const heures = Number.isFinite(data.heuresMensuelles)
+      ? data.heuresMensuelles
+      : undefined;
+    const coutHoraire = Number.isFinite(data.coutHoraireReel)
+      ? data.coutHoraireReel
+      : undefined;
+    const coutMensuelBrut =
+      isEmploiDirect && heures && coutHoraire
+        ? heures * coutHoraire
+        : data.coutMensuelBrut;
+    const cotisations =
+      isEmploiDirect && Number.isFinite(data.coutCotisationsMensuelles)
+        ? data.coutCotisationsMensuelles
+        : undefined;
+
     const simulation = simulateGardeCost({
       modeGarde: data.modeGarde,
-      coutMensuelBrut: data.coutMensuelBrut,
+      coutMensuelBrut,
       revenuAnnuel: data.revenuAnnuel,
       nbEnfantsGardes: data.nbEnfantsGardes,
+      heuresMensuelles: isEmploiDirect ? heures : undefined,
+      coutHoraireReel: isEmploiDirect ? coutHoraire : undefined,
+      parentIsole: data.parentIsole,
+      coutCotisationsMensuelles: cotisations,
+      enfantMoins3ans: isEmploiDirect ? data.enfantMoins3ans : undefined,
     });
     setResult(simulation);
   }
@@ -79,15 +113,41 @@ export default function SimulateurGardePage() {
                 </select>
               </div>
 
-              <div>
-                <Label htmlFor="coutMensuelBrut">Coût mensuel brut (€)</Label>
-                <Input
-                  id="coutMensuelBrut"
-                  type="number"
-                  {...register("coutMensuelBrut", { valueAsNumber: true })}
-                  placeholder="800"
-                />
-              </div>
+              {!isEmploiDirect && (
+                <div>
+                  <Label htmlFor="coutMensuelBrut">Coût mensuel brut (€)</Label>
+                  <Input
+                    id="coutMensuelBrut"
+                    type="number"
+                    {...register("coutMensuelBrut", { valueAsNumber: true })}
+                    placeholder="800"
+                  />
+                </div>
+              )}
+
+              {isEmploiDirect && (
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="heuresMensuelles">Heures / mois</Label>
+                    <Input
+                      id="heuresMensuelles"
+                      type="number"
+                      {...register("heuresMensuelles", { valueAsNumber: true })}
+                      placeholder="120"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="coutHoraireReel">Coût horaire (€)</Label>
+                    <Input
+                      id="coutHoraireReel"
+                      type="number"
+                      step={0.1}
+                      {...register("coutHoraireReel", { valueAsNumber: true })}
+                      placeholder="6"
+                    />
+                  </div>
+                </div>
+              )}
 
               <div>
                 <Label htmlFor="revenuAnnuel">Revenus annuels du foyer (€)</Label>
@@ -110,6 +170,49 @@ export default function SimulateurGardePage() {
                 />
               </div>
 
+              {isEmploiDirect && (
+                <div>
+                  <Label htmlFor="coutCotisationsMensuelles">
+                    Cotisations sociales / mois (€)
+                  </Label>
+                  <Input
+                    id="coutCotisationsMensuelles"
+                    type="number"
+                    min={0}
+                    step={10}
+                    {...register("coutCotisationsMensuelles", { valueAsNumber: true })}
+                    placeholder="0"
+                  />
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Cotisations employeur (URSSAF / Pajemploi). Laisse à 0 si tu ne les
+                    connais pas — le CMG les prend en charge (100 % nounou, 50 % à
+                    domicile).
+                  </p>
+                </div>
+              )}
+
+              {isEmploiDirect && (
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-input"
+                    {...register("enfantMoins3ans")}
+                  />
+                  Enfant de moins de 3 ans
+                </label>
+              )}
+
+              {isEmploiDirect && (
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-input"
+                    {...register("parentIsole")}
+                  />
+                  Je suis parent isolé
+                </label>
+              )}
+
               <Button type="submit" className="w-full" size="lg">
                 Calculer mon reste à charge
               </Button>
@@ -123,7 +226,9 @@ export default function SimulateurGardePage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   Ton vrai coût
-                  <Badge variant="outline">Barèmes 2025</Badge>
+                  <Badge variant="outline">
+                    {isEmploiDirect ? "CMG réformé 2025" : "Barèmes 2025"}
+                  </Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
