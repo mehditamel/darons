@@ -45,13 +45,21 @@ export function GardeCostSimulatorForm() {
       coutMensuelBrut: 0,
       revenuAnnuel: 0,
       nbEnfantsGardes: 1,
+      parentIsole: false,
     },
   });
 
   const currentMode = watch("modeGarde");
+  const isEmploiDirect =
+    currentMode === "assistante_maternelle" || currentMode === "garde_domicile";
 
   const onSubmit = (data: GardeCostSimulationFormData) => {
-    const simResult = simulateGardeCost(data);
+    // Emploi direct : le coût mensuel brut découle des heures × coût horaire.
+    const coutMensuelBrut =
+      isEmploiDirect && data.heuresMensuelles && data.coutHoraireReel
+        ? data.heuresMensuelles * data.coutHoraireReel
+        : data.coutMensuelBrut;
+    const simResult = simulateGardeCost({ ...data, coutMensuelBrut });
     setResult(simResult);
   };
 
@@ -96,25 +104,73 @@ export function GardeCostSimulatorForm() {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="coutMensuelBrut">
-                  Coût mensuel brut (€)
-                </Label>
-                <Input
-                  id="coutMensuelBrut"
-                  type="number"
-                  inputMode="numeric"
-                  min={0}
-                  step={10}
-                  placeholder="800"
-                  {...register("coutMensuelBrut", { valueAsNumber: true })}
-                />
-                {errors.coutMensuelBrut && (
-                  <p className="text-xs text-destructive" role="alert">
-                    {errors.coutMensuelBrut.message}
-                  </p>
-                )}
-              </div>
+              {!isEmploiDirect && (
+                <div className="space-y-2">
+                  <Label htmlFor="coutMensuelBrut">
+                    Coût mensuel brut (€)
+                  </Label>
+                  <Input
+                    id="coutMensuelBrut"
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    step={10}
+                    placeholder="800"
+                    {...register("coutMensuelBrut", { valueAsNumber: true })}
+                  />
+                  {errors.coutMensuelBrut && (
+                    <p className="text-xs text-destructive" role="alert">
+                      {errors.coutMensuelBrut.message}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {isEmploiDirect && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="heuresMensuelles">Heures de garde / mois</Label>
+                    <Input
+                      id="heuresMensuelles"
+                      type="number"
+                      inputMode="numeric"
+                      min={0}
+                      step={1}
+                      placeholder="120"
+                      {...register("heuresMensuelles", {
+                        setValueAs: (v) =>
+                          v === "" || v == null ? undefined : Number(v),
+                      })}
+                    />
+                    {errors.heuresMensuelles && (
+                      <p className="text-xs text-destructive" role="alert">
+                        {errors.heuresMensuelles.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="coutHoraireReel">Coût horaire (€)</Label>
+                    <Input
+                      id="coutHoraireReel"
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      step={0.1}
+                      placeholder="6"
+                      {...register("coutHoraireReel", {
+                        setValueAs: (v) =>
+                          v === "" || v == null ? undefined : Number(v),
+                      })}
+                    />
+                    {errors.coutHoraireReel && (
+                      <p className="text-xs text-destructive" role="alert">
+                        {errors.coutHoraireReel.message}
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
 
               <div className="space-y-2">
                 <Label htmlFor="revenuAnnuel">
@@ -150,6 +206,24 @@ export function GardeCostSimulatorForm() {
                 />
               </div>
             </div>
+
+            {isEmploiDirect && (
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-input"
+                    {...register("parentIsole")}
+                  />
+                  Je suis parent isolé
+                </label>
+                <p className="text-xs text-muted-foreground">
+                  Calcul précis du CMG selon la réforme du 1ᵉʳ septembre 2025
+                  (heure par heure). Plafond horaire retenu :{" "}
+                  {currentMode === "assistante_maternelle" ? "8 €" : "15 €"}.
+                </p>
+              </div>
+            )}
 
             <Button type="submit" className="w-full sm:w-auto">
               <Calculator className="mr-2 h-4 w-4" />

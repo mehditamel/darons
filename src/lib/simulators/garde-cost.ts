@@ -1,6 +1,8 @@
 /**
- * Garde Cost Simulator — Calcul du reste à charge après aides
- * Barèmes CMG 2025 + crédit d'impôt garde enfant
+ * Garde Cost Simulator — Calcul du reste à charge après aides.
+ * CMG : formule réformée (01/09/2025) pour l'emploi direct si heures + coût
+ * horaire fournis (voir cmg-reform.ts), sinon estimation par tranches.
+ * + crédit d'impôt garde enfant.
  */
 
 import type {
@@ -8,6 +10,7 @@ import type {
   GardeCostSimulationResult,
   GardeCostDetail,
 } from "@/types/garde";
+import { simulateCmgReform } from "@/lib/simulators/cmg-reform";
 
 // CMG 2025 — plafonds et montants mensuels (enfant < 6 ans)
 const CMG_BAREMES = {
@@ -43,12 +46,28 @@ function getModeGardeLabel(mode: GardeCostSimulationInput["modeGarde"]): string 
   }
 }
 
-function calculateCmg(
-  mode: GardeCostSimulationInput["modeGarde"],
-  revenuAnnuel: number,
-  coutMensuel: number
-): number {
-  const baremes = CMG_BAREMES[mode];
+function calculateCmg(input: GardeCostSimulationInput): number {
+  const { modeGarde, revenuAnnuel, coutMensuelBrut } = input;
+
+  // Calcul précis (réforme 2025) si l'emploi direct + heures + coût horaire.
+  if (
+    (modeGarde === "assistante_maternelle" || modeGarde === "garde_domicile") &&
+    input.heuresMensuelles &&
+    input.coutHoraireReel
+  ) {
+    const { cmg } = simulateCmgReform({
+      mode: modeGarde,
+      monthlyHours: input.heuresMensuelles,
+      hourlyCost: input.coutHoraireReel,
+      monthlyResources: revenuAnnuel / 12,
+      childCount: input.nbEnfantsGardes,
+      singleParent: input.parentIsole,
+    });
+    return Math.min(cmg, coutMensuelBrut);
+  }
+
+  // Fallback : estimation par tranches (modèle pré-réforme / micro-crèche).
+  const baremes = CMG_BAREMES[modeGarde];
 
   let tranche: { plafond: number; montant: number };
   if (revenuAnnuel <= baremes.tranche1.plafond) {
@@ -60,7 +79,7 @@ function calculateCmg(
   }
 
   // CMG cannot exceed actual cost
-  return Math.min(tranche.montant, coutMensuel);
+  return Math.min(tranche.montant, coutMensuelBrut);
 }
 
 export function simulateGardeCost(
@@ -76,11 +95,7 @@ export function simulateGardeCost(
   });
 
   // 2. CMG
-  const cmg = calculateCmg(
-    input.modeGarde,
-    input.revenuAnnuel,
-    input.coutMensuelBrut
-  );
+  const cmg = calculateCmg(input);
   details.push({
     label: "CMG (Complément mode de garde)",
     montant: -cmg,
