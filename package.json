@@ -61,7 +61,7 @@
     "react-map-gl": "^8.1.0",
     "recharts": "^2.15.0",
     "resend": "^6.9.4",
-    "stripe": "^14.14.0",
+    "stripe": "^22.2.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "tesseract.js": "^7.0.0",
