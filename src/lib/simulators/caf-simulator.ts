@@ -10,13 +10,23 @@
  *    dans cmg-reform.ts / garde-cost.ts ; les tranches ci-dessous restent une
  *    estimation indicative (micro-crèche / fallback).
  *  - Majoration des allocations familiales : âge ouvrant droit porté de 14 à
- *    18 ans (01/03/2026) — non pris en compte dans AF_MONTANTS.
+ *    18 ans (décret n° 2026-138 du 27/02/2026). Modélisée via la règle
+ *    transitoire exacte (cf. AF_MAJORATION) lorsque les dates de naissance des
+ *    enfants sont fournies (birthDates).
  */
+
+import { differenceInYears } from "date-fns";
 
 export interface CafSimulationInput {
   revenuNetCatAnnuel: number;
   nbEnfantsACharge: number;
   ageEnfants: number[];
+  /**
+   * Dates de naissance ISO (AAAA-MM-JJ) des enfants à charge. Requises pour
+   * appliquer la majoration AF selon l'âge (règle transitoire 14/18 ans).
+   * Si absentes, la majoration n'est pas calculée (rétrocompatible).
+   */
+  birthDates?: string[];
   situationFamiliale: "couple" | "isolee";
   modeGarde?: "creche" | "assistante_maternelle" | "garde_domicile" | "aucun";
   coutGardeMensuel?: number;
@@ -69,7 +79,7 @@ const AF_PLAFONDS = {
   supplement_par_enfant: 6664,
 };
 
-// Montants AF 2026 (base, modèle pré-réforme — majoration 18 ans non modélisée).
+// Montants AF de base 2026, par tranche de ressources.
 const AF_MONTANTS = {
   base: {
     deux_enfants: 152.25,
@@ -84,6 +94,48 @@ const AF_MONTANTS = {
     par_enfant_sup: 48.77,
   },
 };
+
+// Majoration AF par âge 2026 (par enfant éligible), même tranche de ressources
+// que l'AF de base. Source : décret n° 2026-138, service-public A18828.
+const AF_MAJORATION = {
+  base: 75.53,
+  divise2: 37.77,
+  divise4: 18.88,
+};
+
+// Réforme 01/03/2026 : la majoration ouvre droit à 14 ans pour les enfants nés
+// avant le 01/03/2012, et à 18 ans pour ceux nés à partir de cette date.
+const MAJORATION_BIRTH_CUTOFF = new Date("2012-03-01");
+
+/**
+ * Nombre d'enfants ouvrant droit à la majoration AF, selon la règle transitoire
+ * (14/18 ans par date de naissance) et l'exception des familles de 2 enfants
+ * (seul le 2e enfant — le cadet — est majoré ; l'aîné est exclu). À partir de
+ * 3 enfants, tous les enfants éligibles comptent.
+ */
+function countMajorationChildren(input: CafSimulationInput): number {
+  if (!input.birthDates || input.birthDates.length === 0) return 0;
+  const now = new Date();
+  const kids = input.birthDates
+    .map((iso) => new Date(iso))
+    .filter((d) => !Number.isNaN(d.getTime()))
+    .map((born) => ({
+      born,
+      qualifies:
+        born < MAJORATION_BIRTH_CUTOFF
+          ? differenceInYears(now, born) >= 14
+          : differenceInYears(now, born) >= 18,
+    }))
+    .sort((a, b) => a.born.getTime() - b.born.getTime()); // aîné d'abord
+
+  if (input.nbEnfantsACharge === 2) {
+    return kids[1]?.qualifies ? 1 : 0; // seul le cadet
+  }
+  if (input.nbEnfantsACharge >= 3) {
+    return kids.filter((k) => k.qualifies).length;
+  }
+  return 0;
+}
 
 // CMG — montants maximaux par tranche (modèle pré-réforme 01/09/2025, indicatif)
 const CMG_PLAFONDS = {
@@ -113,12 +165,13 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
     const plafond1 = AF_PLAFONDS.tranche1 + (input.nbEnfantsACharge - 2) * AF_PLAFONDS.supplement_par_enfant;
     const plafond2 = AF_PLAFONDS.tranche2 + (input.nbEnfantsACharge - 2) * AF_PLAFONDS.supplement_par_enfant;
 
-    let montants = AF_MONTANTS.base;
-    if (input.revenuNetCatAnnuel > plafond2) {
-      montants = AF_MONTANTS.divise4;
-    } else if (input.revenuNetCatAnnuel > plafond1) {
-      montants = AF_MONTANTS.divise2;
-    }
+    const tranche: keyof typeof AF_MONTANTS =
+      input.revenuNetCatAnnuel > plafond2
+        ? "divise4"
+        : input.revenuNetCatAnnuel > plafond1
+          ? "divise2"
+          : "base";
+    const montants = AF_MONTANTS[tranche];
 
     af = montants.deux_enfants;
     if (input.nbEnfantsACharge > 2) {
@@ -131,6 +184,20 @@ export function simulateCaf(input: CafSimulationInput): CafSimulationResult {
       periodicite: "mensuel",
       eligible: true,
     });
+
+    // Majoration par âge (14/18 ans) — ajoutée à l'AF si des enfants y ouvrent droit.
+    const nbMajoration = countMajorationChildren(input);
+    if (nbMajoration > 0) {
+      const majoration =
+        Math.round(nbMajoration * AF_MAJORATION[tranche] * 100) / 100;
+      af += majoration;
+      details.push({
+        label: "Majoration âge (14/18 ans)",
+        montant: majoration,
+        periodicite: "mensuel",
+        eligible: true,
+      });
+    }
   } else {
     details.push({
       label: "Allocations familiales",

@@ -59,6 +59,81 @@ describe("simulateCaf", () => {
     });
   });
 
+  describe("majoration AF par âge (règle transitoire 14/18 ans)", () => {
+    // Anniversaire il y a `years` années (âges stables dans le temps).
+    function isoYearsAgo(years: number): string {
+      const d = new Date();
+      d.setFullYear(d.getFullYear() - years);
+      return d.toISOString().slice(0, 10);
+    }
+    const findMaj = (r: ReturnType<typeof simulateCaf>) =>
+      r.details.find((d) => d.label === "Majoration âge (14/18 ans)");
+
+    it("majore le cadet d'une famille de 2 enfants nés avant le 01/03/2012", () => {
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 2,
+        ageEnfants: [18, 16],
+        birthDates: ["2008-01-01", "2010-01-01"],
+        revenuNetCatAnnuel: 50000,
+      }));
+      // Famille de 2 : seul le cadet est majoré (l'aîné est exclu), tranche plein.
+      expect(findMaj(result)?.montant).toBe(75.53);
+      expect(result.allocationsFamiliales).toBe(152.25 + 75.53);
+    });
+
+    it("exclut l'aîné d'une famille de 2 même si le cadet né après le cutoff n'a pas droit à 14 ans", () => {
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 2,
+        ageEnfants: [16, 14],
+        birthDates: ["2010-01-01", isoYearsAgo(14)], // cadet né après le cutoff → 18 ans requis
+        revenuNetCatAnnuel: 50000,
+      }));
+      expect(findMaj(result)).toBeUndefined();
+      expect(result.allocationsFamiliales).toBe(152.25);
+    });
+
+    it("ne majore pas un enfant né après le 01/03/2012 tant qu'il n'a pas 18 ans", () => {
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 3,
+        ageEnfants: [16, 14, 5],
+        birthDates: ["2010-01-01", isoYearsAgo(14), isoYearsAgo(5)],
+        revenuNetCatAnnuel: 50000,
+      }));
+      // Seul l'aîné (né avant le cutoff, 16 ans) ouvre droit.
+      expect(findMaj(result)?.montant).toBe(75.53);
+    });
+
+    it("majore tous les enfants éligibles d'une famille de 3 (aîné inclus)", () => {
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 3,
+        ageEnfants: [18, 16, 15],
+        birthDates: ["2008-01-01", "2010-01-01", "2011-01-01"],
+        revenuNetCatAnnuel: 50000,
+      }));
+      expect(findMaj(result)?.montant).toBeCloseTo(3 * 75.53, 2);
+    });
+
+    it("applique la tranche de ressources à la majoration (divisée par 2)", () => {
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 3,
+        ageEnfants: [18, 16, 15],
+        birthDates: ["2008-01-01", "2010-01-01", "2011-01-01"],
+        revenuNetCatAnnuel: 95000, // tranche 2 pour 3 enfants
+      }));
+      expect(findMaj(result)?.montant).toBeCloseTo(3 * 37.77, 2);
+    });
+
+    it("ne calcule pas de majoration sans dates de naissance (rétrocompatible)", () => {
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 2,
+        ageEnfants: [16, 14],
+        revenuNetCatAnnuel: 50000,
+      }));
+      expect(findMaj(result)).toBeUndefined();
+      expect(result.allocationsFamiliales).toBe(152.25);
+    });
+  });
+
   describe("PAJE — allocation de base", () => {
     it("accorde 198.16 €/mois si enfant < 3 ans et revenus sous plafond", () => {
       const result = simulateCaf(input({
