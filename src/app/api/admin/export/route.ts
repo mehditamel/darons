@@ -23,11 +23,11 @@ export async function GET(request: NextRequest) {
   try {
   const { data: profile } = await supabase
     .from("profiles")
-    .select("email")
+    .select("is_admin")
     .eq("id", user.id)
     .single();
 
-  if (profile?.email !== "mehdi@tamel.fr") {
+  if (!profile?.is_admin) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
   }
 

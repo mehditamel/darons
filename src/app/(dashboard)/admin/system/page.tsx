@@ -19,11 +19,11 @@ export default async function AdminSystemPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("email")
+    .select("is_admin")
     .eq("id", user.id)
     .single();
 
-  if (profile?.email !== "mehdi@tamel.fr") redirect("/dashboard");
+  if (!profile?.is_admin) redirect("/dashboard");
 
   const healthResult = await getSystemHealth();
   const health = healthResult.data ?? { services: [], lastErrors: [] };
