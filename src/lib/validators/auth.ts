@@ -56,3 +56,13 @@ export const resetPasswordSchema = z.object({
 });
 
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+
+export const updatePasswordSchema = z.object({
+  password: registerSchema.innerType().shape.password,
+  confirmPassword: z.string().min(1, "Veuillez confirmer le mot de passe"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Les mots de passe ne correspondent pas",
+  path: ["confirmPassword"],
+});
+
+export type UpdatePasswordFormData = z.infer<typeof updatePasswordSchema>;

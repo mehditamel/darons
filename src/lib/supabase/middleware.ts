@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { safeAuthRedirect } from "@/lib/auth/redirect";
 import {
   HAS_HOUSEHOLD_COOKIE,
   HAS_HOUSEHOLD_COOKIE_MAX_AGE,
@@ -51,22 +52,30 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  function redirectWithCookies(url: URL) {
+    const response = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) => response.cookies.set(cookie));
+    return response;
+  }
+
   // Protected routes: only dashboard-related paths require authentication
   const PROTECTED_PREFIXES = [
     "/dashboard", "/identite", "/sante", "/documents", "/scolarite",
     "/activites", "/developpement", "/fiscal", "/budget", "/garde",
     "/demarches", "/sante-enrichie", "/parametres", "/partage",
     "/depenses-partagees", "/parrainage", "/admin", "/onboarding",
-    "/confiance", "/capsule",
+    "/confiance", "/capsule", "/alertes",
   ];
   const isProtectedRoute = PROTECTED_PREFIXES.some((prefix) =>
-    request.nextUrl.pathname.startsWith(prefix)
+    request.nextUrl.pathname === prefix || request.nextUrl.pathname.startsWith(`${prefix}/`)
   );
 
   if (!user && isProtectedRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    return NextResponse.redirect(url);
+    url.search = "";
+    url.searchParams.set("next", request.nextUrl.pathname + request.nextUrl.search);
+    return redirectWithCookies(url);
   }
 
   // If authenticated user tries to access auth pages, redirect to dashboard
@@ -76,8 +85,8 @@ export async function updateSession(request: NextRequest) {
       request.nextUrl.pathname === "/register")
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
-    return NextResponse.redirect(url);
+    const next = safeAuthRedirect(request.nextUrl.searchParams.get("next"));
+    return redirectWithCookies(new URL(next, url.origin));
   }
 
   // Redirect new users (without household) to onboarding.
@@ -98,7 +107,7 @@ export async function updateSession(request: NextRequest) {
       if (!household) {
         const url = request.nextUrl.clone();
         url.pathname = "/onboarding";
-        return NextResponse.redirect(url);
+        return redirectWithCookies(url);
       }
 
       supabaseResponse.cookies.set(HAS_HOUSEHOLD_COOKIE, "1", {

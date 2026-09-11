@@ -16,14 +16,14 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { loginSchema, type LoginFormData } from "@/lib/validators/auth";
+import { loginSchema, resetPasswordSchema, type LoginFormData } from "@/lib/validators/auth";
 import { createClient } from "@/lib/supabase/client";
 
-export function LoginForm() {
+export function LoginForm({ nextPath = "/dashboard", authError = false }: { nextPath?: string; authError?: boolean }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isMagicLink, setIsMagicLink] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(authError ? "Ce lien de connexion est invalide ou a expiré. Demande un nouveau lien ou utilise ton mot de passe." : null);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
 
   const {
@@ -51,14 +51,10 @@ export function LoginForm() {
         return;
       }
 
-      router.push("/dashboard");
+      router.push(nextPath);
       router.refresh();
-    } catch (err) {
-      if (err instanceof Error && err.message.includes("Supabase")) {
-        setError("La connexion à Supabase n'est pas configurée. Vérifiez vos variables d'environnement.");
-      } else {
-        setError("Une erreur est survenue. Veuillez réessayer.");
-      }
+    } catch {
+      setError("La connexion est indisponible. Réessaie dans un instant.");
     } finally {
       setIsLoading(false);
     }
@@ -66,8 +62,8 @@ export function LoginForm() {
 
   async function handleMagicLink() {
     const email = getValues("email");
-    if (!email) {
-      setError("Veuillez saisir votre adresse email");
+    if (!resetPasswordSchema.safeParse({ email }).success) {
+      setError("Veuillez saisir une adresse email valide");
       return;
     }
 
@@ -79,7 +75,8 @@ export function LoginForm() {
       const { error: authError } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/callback`,
+          shouldCreateUser: false,
+          emailRedirectTo: `${window.location.origin}/callback?next=${encodeURIComponent(nextPath)}`,
         },
       });
 
@@ -89,12 +86,8 @@ export function LoginForm() {
       }
 
       setMagicLinkSent(true);
-    } catch (err) {
-      if (err instanceof Error && err.message.includes("Supabase")) {
-        setError("La connexion à Supabase n'est pas configurée. Vérifiez vos variables d'environnement.");
-      } else {
-        setError("Une erreur est survenue. Veuillez réessayer.");
-      }
+    } catch {
+      setError("La connexion est indisponible. Réessaie dans un instant.");
     } finally {
       setIsLoading(false);
     }
@@ -131,7 +124,7 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={isMagicLink ? (event) => { event.preventDefault(); void handleMagicLink(); } : handleSubmit(onSubmit)} className="space-y-4">
           {error && (
             <div role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
               {error}
@@ -145,6 +138,7 @@ export function LoginForm() {
               <Input
                 id="email"
                 type="email"
+                autoComplete="email"
                 placeholder="mehdi@exemple.fr"
                 className="pl-10"
                 {...register("email")}
@@ -171,6 +165,7 @@ export function LoginForm() {
                 <Input
                   id="password"
                   type="password"
+                  autoComplete="current-password"
                   placeholder="••••••••"
                   className="pl-10"
                   {...register("password")}
@@ -186,9 +181,8 @@ export function LoginForm() {
 
           {isMagicLink ? (
             <Button
-              type="button"
+              type="submit"
               className="w-full"
-              onClick={handleMagicLink}
               disabled={isLoading}
             >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -214,7 +208,7 @@ export function LoginForm() {
             type="button"
             variant="outline"
             className="w-full"
-            onClick={() => setIsMagicLink(!isMagicLink)}
+            onClick={() => { setIsMagicLink(!isMagicLink); setError(null); }}
           >
             <Mail className="mr-2 h-4 w-4" />
             {isMagicLink

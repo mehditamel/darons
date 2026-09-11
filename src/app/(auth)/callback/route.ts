@@ -1,41 +1,21 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-
-const ALLOWED_REDIRECTS = [
-  "/dashboard",
-  "/onboarding",
-  "/identite",
-  "/sante",
-  "/documents",
-  "/scolarite",
-  "/activites",
-  "/developpement",
-  "/fiscal",
-  "/budget",
-  "/garde",
-  "/demarches",
-  "/parametres",
-];
-
-function isValidRedirect(path: string): boolean {
-  return ALLOWED_REDIRECTS.some(
-    (allowed) => path === allowed || path.startsWith(`${allowed}/`)
-  );
-}
+import { safeAuthRedirect } from "@/lib/auth/redirect";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const rawNext = searchParams.get("next") ?? "/dashboard";
-  const next = isValidRedirect(rawNext) ? rawNext : "/dashboard";
+  const next = safeAuthRedirect(searchParams.get("next"));
 
   if (code) {
-    const supabase = createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
+      if (!error) return NextResponse.redirect(`${origin}${next}`);
+    } catch {
+      // A failed exchange must offer a new link, never strand the user on a 500.
     }
   }
 
-  return NextResponse.redirect(`${origin}/login?error=auth`);
+  return NextResponse.redirect(`${origin}${next === "/update-password" ? "/reset-password?error=expired" : "/login?error=auth"}`);
 }

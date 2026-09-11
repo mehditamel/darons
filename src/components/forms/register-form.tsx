@@ -64,12 +64,8 @@ export function RegisterForm() {
       }
 
       setSuccess(true);
-    } catch (err) {
-      if (err instanceof Error && err.message.includes("Supabase")) {
-        setError("La connexion à Supabase n'est pas configurée. Vérifiez vos variables d'environnement.");
-      } else {
-        setError("Une erreur est survenue. Veuillez réessayer.");
-      }
+    } catch {
+      setError("La connexion est indisponible. Réessaie dans un instant.");
     } finally {
       setIsLoading(false);
     }
@@ -120,6 +116,7 @@ export function RegisterForm() {
                 <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="firstName"
+                autoComplete="given-name"
                   placeholder="Mehdi"
                   className="pl-10"
                   {...register("firstName")}
@@ -135,6 +132,7 @@ export function RegisterForm() {
               <Label htmlFor="lastName">Nom</Label>
               <Input
                 id="lastName"
+                autoComplete="family-name"
                 placeholder="Dupont"
                 {...register("lastName")}
               />
@@ -152,6 +150,7 @@ export function RegisterForm() {
               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 id="email"
+                autoComplete="email"
                 type="email"
                 placeholder="mehdi@exemple.fr"
                 className="pl-10"
@@ -169,6 +168,7 @@ export function RegisterForm() {
               <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 id="password"
+                autoComplete="new-password"
                 type="password"
                 placeholder="8 caractères minimum"
                 className="pl-10"
@@ -191,6 +191,7 @@ export function RegisterForm() {
               <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 id="confirmPassword"
+                autoComplete="new-password"
                 type="password"
                 placeholder="••••••••"
                 className="pl-10"
