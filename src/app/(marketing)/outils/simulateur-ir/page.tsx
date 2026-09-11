@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { taxSimulationSchema, type TaxSimulationFormData } from "@/lib/validators/fiscal";
 import { simulateIR } from "@/lib/simulators/ir-simulator";
 import type { TaxSimulationResult } from "@/types/fiscal";
+import { CURRENT_TAX_YEAR } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 
 // Static metadata must be in a separate file for client components
@@ -54,10 +55,10 @@ export default function SimulateurIRPage() {
           <Calculator className="w-7 h-7" />
         </div>
         <h1 className="text-3xl font-serif font-bold">
-          Simulateur impôt sur le revenu 2025
+          Simulateur impôt sur le revenu {CURRENT_TAX_YEAR}
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Calculez votre impôt avec le barème 2025 (revenus 2024). Estimez votre
+          Calculez votre impôt avec le barème {CURRENT_TAX_YEAR} (revenus {CURRENT_TAX_YEAR - 1}). Estimez votre
           TMI, vos crédits d'impôt et votre taux effectif.
         </p>
       </div>
@@ -165,7 +166,7 @@ export default function SimulateurIRPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   Résultat de la simulation
-                  <Badge variant="outline">Barème 2025</Badge>
+                  <Badge variant="outline">Barème {CURRENT_TAX_YEAR}</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">

@@ -73,22 +73,22 @@ export default function AuthLayout({
       </div>
 
       {/* Right panel - Form */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-background px-4 py-8">
+      <div className="flex min-w-0 flex-1 flex-col items-center justify-center bg-background px-4 py-8">
         {/* Mobile logo */}
         <div className="mb-8 text-center lg:hidden">
           <Link href="/" className="inline-flex flex-col items-center gap-2">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white font-bold text-lg shadow-lg shadow-warm-orange/20">
               D
             </div>
-            <h1 className="text-2xl font-serif font-bold text-foreground">
+            <p className="text-2xl font-serif font-bold text-foreground">
               Darons
-            </h1>
+            </p>
             <p className="text-sm text-muted-foreground">
               L'app des parents qui gèrent
             </p>
           </Link>
         </div>
-        <div className="w-full max-w-md animate-fade-in-up">{children}</div>
+        <div className="w-full min-w-0 max-w-md animate-fade-in-up [&_button]:h-auto [&_button]:min-h-11 [&_button]:whitespace-normal [&_button]:py-2">{children}</div>
       </div>
     </div>
   );

@@ -8,23 +8,12 @@ import {
   CalendarRange, Ruler, Search,
   type LucideIcon,
 } from "lucide-react";
+import { SECTIONS, TOTAL_TOOLS, type ToolCard } from "@/lib/tools-catalog";
+import { filterTools } from "@/lib/tool-search";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-interface ToolCard {
-  href: string;
-  iconName: string;
-  title: string;
-  description: string;
-  color: string;
-  isNew?: boolean;
-}
-
-interface ToolSection {
-  title: string;
-  tools: ToolCard[];
-}
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Calculator, Baby, Syringe, Wallet, Scale, PiggyBank, Home,
@@ -32,174 +21,50 @@ const ICON_MAP: Record<string, LucideIcon> = {
   CalendarRange, Ruler,
 };
 
-function normalizeText(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-export const SECTIONS: ToolSection[] = [
-  {
-    title: "Argent & droits",
-    tools: [
-      {
-        href: "/outils/simulateur-ir",
-        iconName: "Calculator",
-        title: "Simulateur impôt 2025",
-        description: "Calcule ton impôt, ton TMI et tes crédits d'impôt (garde, emploi domicile, dons). Barème officiel.",
-        color: "text-warm-gold bg-warm-gold/10",
-      },
-      {
-        href: "/outils/simulateur-caf",
-        iconName: "Baby",
-        title: "Simulateur allocations CAF",
-        description: "Allocations familiales, PAJE, CMG, allocation rentrée scolaire. Tous tes droits CAF.",
-        color: "text-warm-teal bg-warm-teal/10",
-      },
-      {
-        href: "/outils/simulateur-garde",
-        iconName: "Baby",
-        title: "Coût de garde : le vrai prix",
-        description: "Crèche, nounou, garde à domicile : calcule ton reste à charge réel après CMG et crédit d'impôt.",
-        color: "text-warm-blue bg-warm-blue/10",
-      },
-      {
-        href: "/outils/simulateur-budget",
-        iconName: "Wallet",
-        title: "Budget familial",
-        description: "Revenus, dépenses par catégorie, reste à vivre. Fais le point sur tes finances de parent.",
-        color: "text-warm-orange bg-warm-orange/10",
-      },
-      {
-        href: "/outils/combien-coute-enfant",
-        iconName: "PiggyBank",
-        title: "Coût d'un enfant (0-18 ans)",
-        description: "Le vrai coût d'un enfant de la naissance à 18 ans. Poste par poste, tranche d'âge par tranche.",
-        color: "text-warm-gold bg-warm-gold/10",
-      },
-      {
-        href: "/outils/mes-droits",
-        iconName: "Scale",
-        title: "Tous tes droits sociaux",
-        description: "Allocations, PAJE, CMG, prime d'activité, RSA : calcule toutes les aides en 2 minutes.",
-        color: "text-warm-green bg-warm-green/10",
-      },
-      {
-        href: "/outils/conge-parental",
-        iconName: "Home",
-        title: "Simulateur congé parental",
-        description: "PreParE taux plein ou mi-temps, durée max, impact sur tes revenus. Compare les options.",
-        color: "text-warm-blue bg-warm-blue/10",
-        isNew: true,
-      },
-    ],
-  },
-  {
-    title: "Santé",
-    tools: [
-      {
-        href: "/outils/calendrier-vaccinal",
-        iconName: "Syringe",
-        title: "Calendrier vaccinal interactif",
-        description: "Les 9 vaccins obligatoires de ton enfant avec les dates personnalisées.",
-        color: "text-warm-orange bg-warm-orange/10",
-      },
-      {
-        href: "/outils/courbe-croissance",
-        iconName: "Ruler",
-        title: "Courbes de croissance OMS",
-        description: "Poids, taille, périmètre crânien. Suis la croissance de ton bébé avec les courbes OMS.",
-        color: "text-warm-teal bg-warm-teal/10",
-      },
-      {
-        href: "/outils/examens-sante",
-        iconName: "Stethoscope",
-        title: "20 examens obligatoires",
-        description: "Le calendrier des 20 visites de santé obligatoires de 8 jours à 18 ans.",
-        color: "text-warm-teal bg-warm-teal/10",
-      },
-      {
-        href: "/outils/numeros-urgence",
-        iconName: "Phone",
-        title: "Numéros d'urgence",
-        description: "SAMU, pompiers, centre antipoison, SOS Médecins. Appel direct en 1 tap.",
-        color: "text-warm-red bg-warm-red/10",
-      },
-      {
-        href: "/outils/ecrans-enfants",
-        iconName: "Monitor",
-        title: "Guide écrans par âge",
-        description: "Recommandations officielles du carnet de santé 2025. Alternatives et conseils.",
-        color: "text-warm-purple bg-warm-purple/10",
-      },
-    ],
-  },
-  {
-    title: "Vie de parent",
-    tools: [
-      {
-        href: "/outils/checklist-naissance",
-        iconName: "ClipboardCheck",
-        title: "Checklist naissance",
-        description: "Toutes les démarches de la grossesse aux 3 ans. Coche au fur et à mesure.",
-        color: "text-warm-orange bg-warm-orange/10",
-      },
-      {
-        href: "/outils/jalons-developpement",
-        iconName: "TrendingUp",
-        title: "Jalons de développement",
-        description: "Premiers mots, premiers pas. Référentiels OMS/HAS par catégorie.",
-        color: "text-warm-purple bg-warm-purple/10",
-        isNew: true,
-      },
-      {
-        href: "/outils/timeline-administrative",
-        iconName: "CalendarRange",
-        title: "Timeline administrative",
-        description: "La frise de la vie de parent : tout ce que tu dois faire, quand.",
-        color: "text-warm-orange bg-warm-orange/10",
-        isNew: true,
-      },
-    ],
-  },
-];
-
-export const TOTAL_TOOLS = SECTIONS.reduce((acc, s) => acc + s.tools.length, 0);
-
 export function ToolsGrid() {
   const [query, setQuery] = useState("");
 
-  const normalizedQuery = normalizeText(query.trim());
+  const [category, setCategory] = useState("Tous");
+  const filteredTools = filterTools(query, category);
+  const filtering = query.trim() !== "" || category !== "Tous";
 
-  const allTools = SECTIONS.flatMap((s) => s.tools);
-  const filteredTools = normalizedQuery
-    ? allTools.filter(
-        (tool) =>
-          normalizeText(tool.title).includes(normalizedQuery) ||
-          normalizeText(tool.description).includes(normalizedQuery)
-      )
-    : null;
+  function resetFilters() {
+    setQuery("");
+    setCategory("Tous");
+  }
 
   return (
     <>
-      <div className="relative max-w-md mx-auto">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="search"
-          placeholder="Rechercher un outil..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="pl-10"
-        />
+      <div className="space-y-4">
+        <div className="relative max-w-md mx-auto">
+          <Search aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <label htmlFor="tool-search" className="sr-only">Rechercher un outil</label>
+          <Input id="tool-search" type="search" placeholder="Impôts, garde, santé…"
+            value={query} onChange={(e) => setQuery(e.target.value)} className="pl-10"
+            aria-controls="tool-results" />
+        </div>
+        <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="Catégories d'outils">
+          {["Tous", ...SECTIONS.map((section) => section.title)].map((label) => (
+            <Button key={label} type="button" variant={category === label ? "default" : "outline"}
+              size="sm" aria-pressed={category === label} onClick={() => setCategory(label)}>
+              {label}
+            </Button>
+          ))}
+        </div>
+        <p role="status" className="text-sm text-muted-foreground text-center">
+          {filtering ? `${filteredTools.length} résultat${filteredTools.length > 1 ? "s" : ""} sur ${TOTAL_TOOLS} outils` : `${TOTAL_TOOLS} outils à découvrir`}
+        </p>
       </div>
-
-      {filteredTools ? (
+      <div id="tool-results" className="space-y-10">
+      {filtering ? (
         <div className="space-y-6">
-          <p className="text-sm text-muted-foreground text-center">
-            {filteredTools.length} résultat{filteredTools.length > 1 ? "s" : ""}
-            {filteredTools.length === 0 ? " — essaie un autre mot-clé" : ""}
-          </p>
+          {filteredTools.length === 0 && (
+            <div className="rounded-2xl border border-dashed p-8 text-center space-y-3">
+              <h2 className="text-lg font-semibold">Aucun outil trouvé</h2>
+              <p className="text-sm text-muted-foreground">Essaie un terme plus simple, comme « garde » ou « budget », ou affiche tous les outils.</p>
+              <Button type="button" variant="outline" onClick={resetFilters}>Afficher tous les outils</Button>
+            </div>
+          )}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filteredTools.map((tool) => (
               <ToolCardComponent key={tool.href} tool={tool} />
@@ -220,6 +85,7 @@ export function ToolsGrid() {
           </div>
         ))
       )}
+      </div>
     </>
   );
 }
@@ -228,7 +94,7 @@ function ToolCardComponent({ tool }: { tool: ToolCard }) {
   const Icon = ICON_MAP[tool.iconName] ?? Calculator;
 
   return (
-    <Link href={tool.href}>
+    <Link href={tool.href} className="rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4">
       <Card className="h-full card-playful cursor-pointer relative">
         {tool.isNew && (
           <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground text-[10px] px-2 py-0.5">

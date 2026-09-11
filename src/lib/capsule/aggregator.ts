@@ -136,8 +136,9 @@ export function quarterBoundsForDate(date: Date): { start: string; end: string }
   const year = date.getFullYear();
   const month = date.getMonth();
   const quarterStartMonth = Math.floor(month / 3) * 3;
-  const start = new Date(year, quarterStartMonth, 1);
-  const end = new Date(year, quarterStartMonth + 3, 0);
+  // Calendar dates must not be shifted by the server's UTC offset.
+  const start = new Date(Date.UTC(year, quarterStartMonth, 1));
+  const end = new Date(Date.UTC(year, quarterStartMonth + 3, 0));
   return {
     start: start.toISOString().slice(0, 10),
     end: end.toISOString().slice(0, 10),

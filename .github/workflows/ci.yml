@@ -61,10 +61,24 @@ jobs:
         continue-on-error: true
 
   e2e:
-    name: E2E Tests (Playwright)
+    name: E2E (${{ matrix.project }})
     needs: quality
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: chromium
+            browser: chromium
+          - project: firefox
+            browser: firefox
+          - project: webkit
+            browser: webkit
+          - project: mobile-chrome
+            browser: chromium
+          - project: mobile-safari
+            browser: webkit
 
     steps:
       - uses: actions/checkout@v4
@@ -78,7 +92,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps ${{ matrix.browser }}
 
       - name: Build
         run: npm run build
@@ -88,7 +102,7 @@ jobs:
           NEXT_PUBLIC_APP_URL: http://localhost:3000
 
       - name: Run E2E tests
-        run: npm run test:e2e
+        run: npm run test:e2e -- --project=${{ matrix.project }}
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder
@@ -98,7 +112,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.project }}
           path: playwright-report/
           retention-days: 7
 
@@ -106,6 +120,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-screenshots
+          name: playwright-screenshots-${{ matrix.project }}
           path: test-results/
           retention-days: 7

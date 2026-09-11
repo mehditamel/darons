@@ -7,7 +7,7 @@ import {
   Wallet,
   Shield,
   ArrowRight,
-  Check,
+  Users,
   Baby,
   ClipboardList,
   Sparkles,
@@ -28,13 +28,15 @@ import { PricingSection } from "@/components/landing/pricing-section";
 import { AnimatedStatsBar } from "@/components/landing/animated-stats-bar";
 import { ScrollSection } from "@/components/landing/scroll-section";
 import { NewsletterSignup } from "@/components/blog/newsletter-signup";
+import { PublicHeader } from "@/components/layout/public-header";
+import { TOTAL_TOOLS } from "@/lib/tools-catalog";
 import { getAllArticles } from "@/lib/blog-data";
 import { BookOpen, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Darons — Toute ta vie de daron. Une seule app.",
   description:
-    "L'app 100% gratuite pour les parents : santé, vaccins, budget, impôts, allocations CAF, démarches. 15 outils sans inscription. C'est Darons.",
+    `Santé, budget, impôts et démarches : un espace pour ta famille et ${TOTAL_TOOLS} outils gratuits sans inscription.`,
   openGraph: {
     title: "Darons — Toute ta vie de daron. Une seule app.",
     description:
@@ -118,13 +120,10 @@ const TOOLS_PREVIEW = [
   { href: "/outils/conge-parental", label: "Congé parental" },
 ];
 
-const COMPETITORS = [
-  { feature: "Suivi santé complet", darons: true, others: "Partiel (Mon Espace Santé)" },
-  { feature: "Budget intelligent + Open Banking", darons: true, others: "Payant (Bankin' 2,99€/mois)" },
-  { feature: "Simulation fiscale + crédits d'impôt", darons: true, others: "Aucun concurrent" },
-  { feature: "Alertes IA proactives", darons: true, others: "Aucun concurrent" },
-  { feature: "Allocations CAF + droits sociaux", darons: true, others: "Basique (caf.fr)" },
-  { feature: "Tout-en-un famille", darons: true, others: "Calendrier seul (FamilyWall 4,99€/mois)" },
+const ACCESS_OPTIONS = [
+  { title: "Besoin d'une réponse rapide ?", description: "Estime ton budget, tes aides ou le coût de garde avec les outils publics.", href: "/outils", cta: "Explorer les outils", icon: Wrench },
+  { title: "Envie de voir comment ça marche ?", description: "Visite le tableau de bord avec un foyer fictif, sans saisir tes informations.", href: "/demo", cta: "Découvrir la démo", icon: Users },
+  { title: "Prêt à organiser ta famille ?", description: "Crée ton espace pour retrouver tes informations et suivre tes démarches.", href: "/register", cta: "Créer mon compte gratuit", icon: ClipboardList },
 ];
 
 export default function LandingPage() {
@@ -154,54 +153,8 @@ export default function LandingPage() {
         }}
       />
 
-      {/* Header */}
-      <header className="sticky top-0 z-50 glass-topbar transition-all">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <Link href="/" className="flex items-center space-x-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white font-bold text-sm shadow-lg shadow-warm-orange/20 transition-transform group-hover:scale-105">
-              D
-            </div>
-            <span className="text-lg font-serif font-bold">Darons</span>
-          </Link>
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link
-              href="/outils"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Outils gratuits
-            </Link>
-            <Link
-              href="/blog"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Blog
-            </Link>
-            <a
-              href="#fonctionnalites"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Fonctionnalités
-            </a>
-            <a
-              href="#securite"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Sécurité
-            </a>
-          </nav>
-          <div className="flex items-center gap-3">
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Connexion
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button size="sm" className="shadow-lg shadow-primary/20">C'est gratuit</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-
+      <PublicHeader />
+      <main id="main-content" tabIndex={-1}>
       {/* Hero */}
       <section data-testid="hero" className="relative overflow-hidden py-20 lg:py-32">
         {/* Floating decorative shapes */}
@@ -225,24 +178,20 @@ export default function LandingPage() {
               <LandingAnimations />
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
-                <Link href="/register">
-                  <Button size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all">
+                <Button asChild size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all"><Link href="/register">
                     C'est gratuit, je m'inscris
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </Link>
-                <Link href="/outils">
-                  <Button variant="outline" size="lg" className="h-14 px-10 text-base">
+                  </Link></Button>
+                <Button asChild variant="outline" size="lg" className="h-14 px-10 text-base"><Link href="/outils">
                     <Wrench className="mr-2 h-4 w-4" />
                     Essayer sans s'inscrire
-                  </Button>
-                </Link>
+                  </Link></Button>
               </div>
               <p className="mt-4 text-sm text-muted-foreground">
                 ou{" "}
                 <Link
                   href="/demo"
-                  className="font-medium text-warm-orange underline-offset-4 hover:underline"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
                 >
                   visite la démo du tableau de bord
                 </Link>
@@ -319,7 +268,7 @@ export default function LandingPage() {
 
           {/* Tools strip */}
           <div className="mt-14 text-center animate-fade-in-up" style={{ animationDelay: "1s" }}>
-            <p className="text-sm text-muted-foreground mb-4">15 outils gratuits, sans inscription</p>
+            <p className="text-sm text-muted-foreground mb-4">{TOTAL_TOOLS} outils gratuits, sans inscription</p>
             <div className="flex flex-wrap justify-center gap-2">
               {TOOLS_PREVIEW.map((tool) => (
                 <Link key={tool.href} href={tool.href}>
@@ -353,14 +302,14 @@ export default function LandingPage() {
                 6 piliers pour gérer ta tribu
               </h2>
               <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-                Aucune solution intégrée n'existe sur le marché français. Jusqu'à aujourd'hui.
+                Les informations essentielles de ta famille, réunies au même endroit.
               </p>
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {FEATURES.map((feature, index) => (
                 <Link key={index} href={feature.href}>
-                  <Card className="card-playful border-0 shadow-md group overflow-hidden h-full">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <Card className="relative card-playful border-0 shadow-md group overflow-hidden h-full">
+                    <div aria-hidden="true" className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                     <CardHeader className="relative">
                       <div
                         className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bgColor} ${feature.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}
@@ -425,49 +374,24 @@ export default function LandingPage() {
         </ScrollSection>
       </section>
 
-      {/* Gratuit vs concurrence */}
-      <section data-testid="competitors" className="py-24">
-        <ScrollSection direction="left">
-        <div className="mx-auto max-w-4xl px-4">
-          <div className="text-center mb-14">
-            <Badge variant="outline" className="mb-4 border-warm-green/30 text-warm-green">Comparatif</Badge>
-            <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-              100% gratuit, pour de vrai
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Pas de premium, pas de piège, pas de version bridée.
-            </p>
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-serif font-bold">Commence par ce qui t'aide aujourd'hui</h2>
+            <p className="mt-4 text-muted-foreground">Les outils sont gratuits. Le compte te permet de retrouver les informations de ta famille.</p>
           </div>
-          <Card className="overflow-hidden shadow-xl">
-            <div className="bg-gradient-to-r from-warm-orange/10 to-warm-teal/10 px-6 py-3 border-b">
-              <div className="flex items-center justify-between text-sm font-semibold">
-                <span>Fonctionnalité</span>
-                <div className="flex items-center gap-8">
-                  <span className="text-success w-20 text-center">Darons</span>
-                  <span className="text-muted-foreground w-48 text-right">Concurrence</span>
-                </div>
-              </div>
-            </div>
-            <CardContent className="pt-2 pb-4">
-              <div className="space-y-0">
-                {COMPETITORS.map((row, index) => (
-                  <div key={index} className="flex items-center justify-between py-3.5 border-b last:border-0 hover:bg-muted/30 transition-colors px-2 -mx-2 rounded-lg">
-                    <span className="text-sm font-medium flex-1">{row.feature}</span>
-                    <div className="flex items-center gap-8">
-                      <span className="flex items-center gap-1.5 text-sm text-success font-bold w-20 justify-center">
-                        <Check className="w-4 h-4" /> Gratuit
-                      </span>
-                      <span className="text-xs text-muted-foreground w-48 text-right">
-                        {row.others}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <div className="grid gap-5 md:grid-cols-3">
+            {ACCESS_OPTIONS.map((option) => (
+              <Card key={option.href} className="flex flex-col">
+                <CardHeader><option.icon className="h-6 w-6 text-primary mb-3" aria-hidden="true" /><CardTitle className="text-xl">{option.title}</CardTitle></CardHeader>
+                <CardContent className="flex flex-col flex-1 gap-6">
+                  <p className="text-sm text-muted-foreground flex-1">{option.description}</p>
+                  <Button asChild variant="outline"><Link href={option.href}>{option.cta}</Link></Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-        </ScrollSection>
       </section>
 
       {/* Security */}
@@ -482,15 +406,15 @@ export default function LandingPage() {
               Tes données sont protégées
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-              Chiffrement de bout en bout, conformité RGPD, hébergement européen.
-              Tes données de santé ne sont jamais partagées.
+              Un espace privé pour ta famille, avec des accès par foyer.
+              Consulte notre politique de confidentialité pour comprendre le traitement de tes données.
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: Lock, label: "Chiffrement AES-256", description: "Toutes tes données sont chiffrées au repos et en transit" },
-              { icon: Shield, label: "Conforme RGPD", description: "Export et suppression de tes données en un clic" },
-              { icon: Globe, label: "Hébergement UE", description: "Tes données restent en Europe, point final" },
+              { icon: Lock, label: "Connexion sécurisée", description: "Les échanges avec le site utilisent HTTPS" },
+              { icon: Shield, label: "Accès par foyer", description: "Un compte personnel pour accéder à ton espace familial" },
+              { icon: Globe, label: "Des informations accessibles", description: "Retrouve notre politique de confidentialité en bas de page" },
               { icon: Star, label: "Zéro tracking pub", description: "Pas de Google Analytics, pas de cookies traceurs" },
             ].map((item) => (
               <Card key={item.label} className="text-center card-playful">
@@ -503,87 +427,6 @@ export default function LandingPage() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </div>
-        </ScrollSection>
-      </section>
-
-      {/* Testimonials */}
-      <section data-testid="testimonials" className="py-24">
-        <ScrollSection direction="up">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center mb-14">
-            <Badge variant="outline" className="mb-4">Ce qu'ils en disent</Badge>
-            <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-              Des parents comme toi
-            </h2>
-            <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-              Ils utilisent Darons au quotidien. Voici pourquoi ils ne reviennent pas en arrière.
-            </p>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                name: "Sarah L.",
-                role: "Maman de 2 enfants (3 ans et 8 mois)",
-                quote: "J'avais les vaccins dans un carnet, les papiers dans un tiroir, et le budget dans ma tête. Maintenant tout est au même endroit. Et les alertes vaccins m'ont sauvé 2 fois.",
-                stars: 5,
-              },
-              {
-                name: "Thomas D.",
-                role: "Papa de jumeaux (18 mois)",
-                quote: "Le simulateur d'impôts m'a fait découvrir 1 800 € de crédit d'impôt que je ne réclamais pas. En 30 secondes. L'app s'est rentabilisée avant même d'être payante.",
-                stars: 5,
-              },
-              {
-                name: "Amira & Karim B.",
-                role: "Parents d'un bébé de 6 mois",
-                quote: "On cherchait une crèche depuis des semaines. Avec la carte de recherche de garde, on a trouvé une micro-crèche à 10 min du boulot qu'on ne connaissait pas.",
-                stars: 5,
-              },
-              {
-                name: "Julie M.",
-                role: "Maman solo d'une fille de 4 ans",
-                quote: "J'ai économisé 1 200 € sur mes impôts grâce à la simulation. Je ne savais même pas que j'avais droit au crédit d'impôt emploi à domicile. Merci Darons !",
-                stars: 5,
-              },
-              {
-                name: "Romain & Sophie P.",
-                role: "Parents de 3 enfants (7, 4 et 1 an)",
-                quote: "On sait enfin où passe notre argent chaque mois. Le budget par enfant et les alertes CAF, c'est exactement ce qu'il nous fallait. Et c'est gratuit, sérieux ?",
-                stars: 5,
-              },
-            ].map((testimonial, index) => (
-              <Card key={index} className="card-playful">
-                <CardContent className="p-6 space-y-4">
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: testimonial.stars }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-warm-gold text-warm-gold" />
-                    ))}
-                  </div>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    &ldquo;{testimonial.quote}&rdquo;
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-warm-teal to-warm-teal/70 text-white text-sm font-semibold">
-                      {testimonial.name[0]}
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold">{testimonial.name}</p>
-                      <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link href="/register">
-              <Button size="lg" variant="outline" className="group">
-                Rejoins les parents qui galèrent moins
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
           </div>
         </div>
         </ScrollSection>
@@ -607,17 +450,13 @@ export default function LandingPage() {
             Ou commence par essayer un outil gratuit.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link href="/register">
-              <Button size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25">
+            <Button asChild size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25"><Link href="/register">
                 C'est gratuit, je m'inscris
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-            <Link href="/outils">
-              <Button variant="outline" size="lg" className="h-14 px-10 text-base">
+              </Link></Button>
+            <Button asChild variant="outline" size="lg" className="h-14 px-10 text-base"><Link href="/outils">
                 Essayer les outils
-              </Button>
-            </Link>
+              </Link></Button>
           </div>
         </div>
         </ScrollSection>
@@ -657,13 +496,11 @@ export default function LandingPage() {
             ))}
           </div>
           <div className="text-center mt-8">
-            <Link href="/blog">
-              <Button variant="outline" size="lg" className="group">
+            <Button asChild variant="outline" size="lg" className="group"><Link href="/blog">
                 <BookOpen className="h-4 w-4 mr-2" />
                 Voir tous les articles
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
+              </Link></Button>
           </div>
         </div>
         </ScrollSection>
@@ -679,6 +516,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   );

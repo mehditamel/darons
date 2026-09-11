@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { TOTAL_TOOLS } from "@/lib/tools-catalog";
 import { trackEvent } from "@/lib/analytics";
 
 const PLANS = [
@@ -22,11 +23,12 @@ const PLANS = [
       "Alertes proactives par email",
       "Recherche de garde géolocalisée",
       "Journal parental + jalons développement",
-      "17 outils gratuits sans inscription",
+      `${TOTAL_TOOLS} outils gratuits sans inscription`,
     ],
     cta: "C'est gratuit, je m'inscris",
     ctaHref: "/register",
-    highlighted: false,
+    highlighted: true,
+    badge: "Disponible aujourd’hui",
   },
   {
     name: "Darons+",
@@ -45,8 +47,8 @@ const PLANS = [
     ],
     cta: "Bientôt disponible",
     ctaHref: "/register",
-    highlighted: true,
-    badge: "Populaire",
+    highlighted: false,
+    badge: "À venir",
   },
   {
     name: "Family Pro",
@@ -106,10 +108,10 @@ const COMPARISON_ROWS: ComparisonRow[] = [
 ];
 
 function renderCell(value?: CellValue) {
-  if (value === true) return <Check className="h-4 w-4 text-warm-green mx-auto" />;
-  if (value === false) return <Minus className="h-4 w-4 text-muted-foreground/40 mx-auto" />;
+  if (value === true) return <span><Check aria-hidden="true" className="h-4 w-4 text-success mx-auto" /><span className="sr-only">Inclus</span></span>;
+  if (value === false) return <span><Minus aria-hidden="true" className="h-4 w-4 text-muted-foreground mx-auto" /><span className="sr-only">Non inclus</span></span>;
   if (typeof value === "string") return <span className="text-xs font-medium">{value}</span>;
-  return <Minus className="h-4 w-4 text-muted-foreground/40 mx-auto" />;
+  return <span><Minus aria-hidden="true" className="h-4 w-4 text-muted-foreground mx-auto" /><span className="sr-only">Non inclus</span></span>;
 }
 
 export function PricingSection() {
@@ -138,7 +140,7 @@ export function PricingSection() {
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-serif font-bold">
-            Gratuit. Vraiment.
+            Un compte gratuit. Des extras à venir.
           </h2>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
             Darons est 100% gratuit au lancement. Les plans payants arriveront plus tard
@@ -152,7 +154,7 @@ export function PricingSection() {
               key={plan.name}
               className={`relative flex flex-col ${
                 plan.highlighted
-                  ? "border-warm-orange shadow-lg shadow-warm-orange/10 scale-[1.02]"
+                  ? "border-warm-orange shadow-lg shadow-warm-orange/10 "
                   : ""
               }`}
             >
@@ -182,31 +184,28 @@ export function PricingSection() {
                     </li>
                   ))}
                 </ul>
-                <Link href={plan.ctaHref} className="mt-6 block">
-                  <Button
-                    className="w-full"
-                    variant={plan.highlighted ? "default" : "outline"}
-                    disabled={plan.cta === "Bientôt disponible"}
-                  >
-                    {plan.cta}
-                  </Button>
-                </Link>
+                {plan.cta === "Bientôt disponible" ? (
+                  <p className="mt-6 rounded-lg bg-muted p-3 text-center text-sm text-muted-foreground">Offre à venir · aucun abonnement ouvert</p>
+                ) : (
+                  <Button asChild className="mt-6 w-full"><Link href={plan.ctaHref}>{plan.cta}</Link></Button>
+                )}
               </CardContent>
             </Card>
           ))}
         </div>
 
         <p className="text-center text-xs text-muted-foreground mt-8">
-          Pas de carte bancaire requise. Pas d'engagement. Tu peux annuler à tout moment.
+          Pas de carte bancaire requise pour le compte gratuit. Les tarifs et extras à venir sont présentés à titre indicatif.
         </p>
 
         {/* Feature comparison table — desktop only */}
         <div className="hidden lg:block mt-16">
           <h3 className="text-xl font-serif font-bold text-center mb-8">
-            Comparatif détaillé
+            Comparatif des offres envisagées
           </h3>
           <div className="rounded-xl border overflow-hidden">
             <table className="w-full text-sm">
+              <caption className="p-4 text-left text-muted-foreground">Projection des futures offres. Au lancement, les modules sont accessibles gratuitement ; aucune offre payante n'est ouverte.</caption>
               <thead>
                 <tr className="border-b bg-muted/50">
                   <th className="text-left p-4 font-semibold">Fonctionnalité</th>

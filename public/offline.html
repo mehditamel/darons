@@ -121,12 +121,12 @@
     <div class="logo" aria-hidden="true">D</div>
     <h1>Le réseau t'a lâché, pas nous</h1>
     <p class="lede">
-      Y'a pas de connexion, mais tes données sont en sécurité. Tu peux toujours consulter les pages déjà chargées.
+      La connexion est indisponible. Reconnecte-toi pour consulter les informations de ta famille. Les modifications nécessitent une connexion pour être enregistrées.
     </p>
     <button class="reload" onclick="window.location.reload()">Réessayer</button>
 
     <div class="cached-section">
-      <h2>Disponible hors ligne</h2>
+      <h2>À retrouver une fois connecté</h2>
       <ul class="cached-list">
         <li><a href="/dashboard"><span class="emoji">🏠</span><span>Tableau de bord</span></a></li>
         <li><a href="/sante"><span class="emoji">💉</span><span>Santé</span></a></li>
@@ -137,15 +137,14 @@
       </ul>
     </div>
 
-    <p id="status" class="status"></p>
+    <p id="status" class="status" role="status"></p>
   </div>
   <script>
     var status = document.getElementById('status');
     function update() {
       if (navigator.onLine) {
         status.className = 'status online';
-        status.textContent = 'Connexion rétablie ! On recharge…';
-        setTimeout(function () { window.location.reload(); }, 600);
+        status.textContent = 'Un réseau est disponible. Appuie sur Réessayer pour te reconnecter.';
       }
     }
     window.addEventListener('online', update);

@@ -14,7 +14,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import {
   resetPasswordSchema,
@@ -70,7 +69,7 @@ export default function ResetPasswordPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-teal/10">
             <Mail className="h-8 w-8 text-warm-teal" />
           </div>
-          <CardTitle>Email envoyé</CardTitle>
+          <h1 className="text-2xl font-semibold leading-none tracking-tight">Email envoyé</h1>
           <CardDescription>
             Si un compte existe avec cette adresse, vous recevrez un lien de
             réinitialisation dans quelques instants.
@@ -91,7 +90,7 @@ export default function ResetPasswordPage() {
   return (
     <Card className="shadow-lg">
       <CardHeader className="text-center">
-        <CardTitle>Mot de passe oublié</CardTitle>
+        <h1 className="text-2xl font-semibold leading-none tracking-tight">Mot de passe oublié</h1>
         <CardDescription>
           Saisissez votre email pour recevoir un lien de réinitialisation
         </CardDescription>
@@ -99,7 +98,7 @@ export default function ResetPasswordPage() {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {error && (
-            <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+            <div role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
               {error}
             </div>
           )}

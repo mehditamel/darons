@@ -18,6 +18,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://darons.app"),
   title: {
     default: "Darons — Toute ta vie de daron. Une seule app.",
     template: "%s | Darons",

@@ -12,7 +12,7 @@ const FAQ_ITEMS = [
   {
     question: "C'est vraiment 100% gratuit ?",
     answer:
-      "Oui, à 100%. Pas de période d'essai, pas de paywall caché, pas de fonctionnalité bloquée. Tous les modules (santé, budget, fiscal, éducation) sont accessibles gratuitement. On prévoit un plan premium optionnel plus tard pour des extras (thèmes, export PDF, sync calendrier), mais le cœur de l'app restera toujours gratuit.",
+      "Les outils publics et le compte de base sont gratuits, sans période d'essai. Tous les modules (santé, budget, fiscal, éducation) sont accessibles gratuitement. On prévoit un plan premium optionnel plus tard pour des extras (thèmes, export PDF, sync calendrier), mais le cœur de l'app restera toujours gratuit.",
   },
   {
     question: "Mes données sont-elles en sécurité ?",
@@ -42,7 +42,7 @@ const FAQ_ITEMS = [
   {
     question: "Comment fonctionne le suivi vaccinal ?",
     answer:
-      "On intègre le calendrier vaccinal français officiel (les 9 vaccins obligatoires). Quand tu ajoutes ton enfant avec sa date de naissance, on calcule automatiquement les dates de chaque dose. Tu reçois des rappels avant chaque vaccin. Tu coches au fur et à mesure, et on te dit ce qui reste à faire.",
+      "On intègre le calendrier vaccinal français officiel . Quand tu ajoutes ton enfant avec sa date de naissance, on calcule automatiquement les dates de chaque dose. Tu reçois des rappels avant chaque vaccin. Tu coches au fur et à mesure, et on te dit ce qui reste à faire.",
   },
   {
     question: "Je peux connecter ma banque ?",
@@ -67,7 +67,7 @@ const FAQ_ITEMS = [
   {
     question: "Comment sont calculés les impôts ?",
     answer:
-      "On utilise le barème officiel de la DGFiP (Direction Générale des Finances Publiques) : tranches progressives, quotient familial, plafonnement, décote. Les crédits d'impôt (garde d'enfant, emploi à domicile, dons) sont calculés avec les plafonds 2025. C'est le même calcul qu'impots.gouv.fr, en plus simple.",
+      "On utilise le barème officiel de la DGFiP (Direction Générale des Finances Publiques) : tranches progressives, quotient familial, plafonnement, décote. Le millésime utilisé est indiqué dans le simulateur. Les résultats restent des estimations : vérifie ta situation sur impots.gouv.fr avant de déclarer.",
   },
 ];
 

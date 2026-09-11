@@ -11,7 +11,7 @@ test.describe("Mode démo public", () => {
     await expect(page.getByText(/Mode démo/i)).toBeVisible();
 
     // Données fictives affichées (le foyer Démo)
-    await expect(page.getByText("Matis")).toBeVisible();
+    await expect(page.getByText("Matis", { exact: true })).toBeVisible();
 
     // CTA d'inscription présent
     await expect(

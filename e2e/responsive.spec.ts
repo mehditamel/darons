@@ -7,7 +7,7 @@ test.describe("Responsive & mobile", () => {
 
     await expect(page.locator("h1")).toBeVisible();
     // CTA should still be visible
-    await expect(page.getByRole("link", { name: /créer|inscription|commencer/i })).toBeVisible();
+    await expect(page.getByTestId("hero").getByRole("link", { name: "C'est gratuit, je m'inscris", exact: true })).toBeVisible();
   });
 
   test("la page login s'affiche correctement sur mobile", async ({ page }) => {
@@ -15,7 +15,7 @@ test.describe("Responsive & mobile", () => {
     await page.goto("/login");
 
     await expect(page.getByLabel(/email/i)).toBeVisible();
-    await expect(page.getByRole("button", { name: /connexion|se connecter/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Se connecter", exact: true })).toBeVisible();
   });
 
   test("le blog s'affiche correctement sur mobile", async ({ page }) => {

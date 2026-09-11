@@ -627,3 +627,6 @@
     max-width: 100% !important;
   }
 }
+
+/* Keep anchored sections clear of the sticky public header. */
+section[id], main[id] { scroll-margin-top: 5rem; }

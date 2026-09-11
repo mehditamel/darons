@@ -6,18 +6,18 @@ test.describe("Authentification", () => {
 
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.getByLabel(/email/i)).toBeVisible();
-    await expect(page.getByLabel(/mot de passe/i)).toBeVisible();
-    await expect(page.getByRole("button", { name: /connexion|se connecter/i })).toBeVisible();
+    await expect(page.getByLabel("Mot de passe", { exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Se connecter", exact: true })).toBeVisible();
   });
 
   test("affiche la page d'inscription", async ({ page }) => {
     await page.goto("/register");
 
     await expect(page.getByLabel(/prénom/i)).toBeVisible();
-    await expect(page.getByLabel(/nom/i)).toBeVisible();
+    await expect(page.getByLabel("Nom", { exact: true })).toBeVisible();
     await expect(page.getByLabel(/email/i)).toBeVisible();
-    await expect(page.getByLabel(/mot de passe/i)).toBeVisible();
-    await expect(page.getByRole("button", { name: /créer|inscription|s'inscrire/i })).toBeVisible();
+    await expect(page.getByLabel("Mot de passe", { exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "C'est parti, c'est gratuit", exact: true })).toBeVisible();
   });
 
   test("affiche la page de réinitialisation de mot de passe", async ({ page }) => {
@@ -40,18 +40,16 @@ test.describe("Authentification", () => {
 
     // Click link to register
     const registerLink = page.getByRole("link", { name: /créer un compte|inscription|s'inscrire/i });
-    if (await registerLink.isVisible()) {
-      await registerLink.click();
-      await expect(page).toHaveURL(/\/register/);
-    }
+    await registerLink.click();
+    await expect(page).toHaveURL(/\/register/);
   });
 
   test("affiche une erreur avec des identifiants invalides", async ({ page }) => {
     await page.goto("/login");
 
     await page.getByLabel(/email/i).fill("invalid@test.fr");
-    await page.getByLabel(/mot de passe/i).fill("wrongpassword");
-    await page.getByRole("button", { name: /connexion|se connecter/i }).click();
+    await page.getByLabel("Mot de passe", { exact: true }).fill("wrongpassword");
+    await page.getByRole("button", { name: "Se connecter", exact: true }).click();
 
     // Should show error or stay on login page
     await page.waitForTimeout(2000);

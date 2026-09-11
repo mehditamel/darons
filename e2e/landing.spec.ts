@@ -11,24 +11,24 @@ test.describe("Landing page", () => {
     await expect(page.getByText("Santé & vaccins")).toBeVisible();
     await expect(page.getByText("Éducation & développement")).toBeVisible();
     await expect(page.getByText("Foyer fiscal")).toBeVisible();
-    await expect(page.getByText("Budget familial")).toBeVisible();
+    await expect(page.getByText("Budget intelligent")).toBeVisible();
 
     // CTA inscription visible
-    await expect(page.getByRole("link", { name: /créer|inscription|commencer/i })).toBeVisible();
+    await expect(page.getByTestId("hero").getByRole("link", { name: "C'est gratuit, je m'inscris", exact: true })).toBeVisible();
   });
 
   test("affiche la section pricing", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.getByText("Gratuit")).toBeVisible();
-    await expect(page.getByText("Premium")).toBeVisible();
-    await expect(page.getByText("Family Pro")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Gratuit", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Darons+", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Family Pro", exact: true })).toBeVisible();
   });
 
   test("le CTA principal redirige vers inscription", async ({ page }) => {
     await page.goto("/");
 
-    const cta = page.getByRole("link", { name: /créer|inscription|commencer/i }).first();
+    const cta = page.getByTestId("hero").getByRole("link", { name: "C'est gratuit, je m'inscris", exact: true }).first();
     await expect(cta).toBeVisible();
     const href = await cta.getAttribute("href");
     expect(href).toMatch(/\/(register|inscription)/);
@@ -73,6 +73,6 @@ test.describe("Landing page", () => {
     await page.goto("/blog/calendrier-vaccinal-2025");
 
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByText(/vaccin/i)).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/vaccinal/i);
   });
 });
