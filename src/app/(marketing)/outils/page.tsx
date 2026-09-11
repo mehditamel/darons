@@ -3,18 +3,20 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/json-ld";
-import { ToolsGrid, TOTAL_TOOLS } from "@/components/outils/tools-grid";
+import { ToolsGrid } from "@/components/outils/tools-grid";
+
+import { TOTAL_TOOLS } from "@/lib/tools-catalog";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "17 outils gratuits pour les parents — Sans inscription",
+  title: `${TOTAL_TOOLS} outils gratuits pour les parents — Sans inscription`,
   description:
     "Simulateurs impôts, allocations CAF, coût de garde, budget familial, courbes de croissance, calendrier vaccinal et plus. 100% gratuit, sans inscription.",
   openGraph: {
     title: "Outils gratuits pour parents — Darons",
     description:
-      "17 outils gratuits pour les parents : impôts, allocations, santé, budget, droits sociaux. Sans inscription.",
+      `${TOTAL_TOOLS} outils gratuits pour les parents : impôts, allocations, santé, budget, droits sociaux. Sans inscription.`,
   },
   alternates: {
     canonical: "https://darons.app/outils",
@@ -57,11 +59,9 @@ export default function OutilsPage() {
           Envie de tout centraliser, recevoir des alertes et utiliser l'IA ?
           C'est gratuit aussi.
         </p>
-        <Link href="/register">
-          <Button size="lg">
+        <Button asChild size="lg"><Link href="/register">
             Créer mon compte gratuit
-          </Button>
-        </Link>
+          </Link></Button>
       </div>
     </div>
   );

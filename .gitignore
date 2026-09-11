@@ -38,3 +38,6 @@ next-env.d.ts
 
 # supabase
 supabase/.temp/
+
+# Generated from sw.template.js before dev and after build
+/public/sw.js

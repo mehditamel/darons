@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 
 interface ScrollRevealProps {
@@ -43,15 +43,16 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, amount: threshold });
+  const reducedMotion = useReducedMotion();
 
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      initial={false}
+      animate={reducedMotion || isInView ? "visible" : undefined}
       variants={directionVariants[direction]}
       transition={{
-        duration,
+        duration: reducedMotion ? 0 : duration,
         delay,
         ease: [0.34, 1.56, 0.64, 1],
       }}
@@ -81,8 +82,8 @@ export function ScrollRevealStagger({
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      initial={false}
+      animate={isInView ? "visible" : undefined}
       variants={{
         visible: {
           transition: { staggerChildren: staggerDelay },

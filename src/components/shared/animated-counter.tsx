@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView } from "framer-motion";
+import { useInView, useReducedMotion } from "framer-motion";
 
 interface AnimatedCounterProps {
   value: number;
@@ -22,14 +22,19 @@ export function AnimatedCounter({
 }: AnimatedCounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [displayValue, setDisplayValue] = useState(0);
+  const reducedMotion = useReducedMotion();
+  const [displayValue, setDisplayValue] = useState(value);
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || reducedMotion || duration <= 0) {
+      setDisplayValue(value);
+      return;
+    }
 
     const startTime = performance.now();
     const durationMs = duration * 1000;
 
+    let frame = 0;
     function update(currentTime: number) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / durationMs, 1);
@@ -38,12 +43,13 @@ export function AnimatedCounter({
       setDisplayValue(eased * value);
 
       if (progress < 1) {
-        requestAnimationFrame(update);
+        frame = requestAnimationFrame(update);
       }
     }
 
-    requestAnimationFrame(update);
-  }, [isInView, value, duration]);
+    frame = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(frame);
+  }, [isInView, value, duration, reducedMotion]);
 
   const formatted = decimals > 0
     ? displayValue.toFixed(decimals)
@@ -51,9 +57,8 @@ export function AnimatedCounter({
 
   return (
     <span ref={ref} className={className}>
-      {prefix}
-      {formatted}
-      {suffix}
+      <span className="sr-only">{prefix}{value.toLocaleString("fr-FR", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}{suffix}</span>
+      <span aria-hidden="true">{prefix}{formatted}{suffix}</span>
     </span>
   );
 }

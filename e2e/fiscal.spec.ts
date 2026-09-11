@@ -36,7 +36,7 @@ test.describe("Module Fiscal", () => {
     expect(bodyText).toMatch(/\d+\s*€/);
 
     // Should show TMI (Tranche Marginale d'Imposition)
-    await expect(page.getByText(/TMI|tranche|marginale/i)).toBeVisible();
+    await expect(page.getByText("TMI", { exact: true })).toBeVisible();
   });
 
   test("le simulateur IR gère les crédits d'impôt", async ({ page }) => {

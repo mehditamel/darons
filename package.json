@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/build-service-worker.mjs",
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "sed \"s/__BUILD_ID__/$(date +%s)/\" public/sw.template.js > public/sw.js",
+    "postbuild": "node scripts/build-service-worker.mjs",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",

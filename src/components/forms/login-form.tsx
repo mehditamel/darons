@@ -15,7 +15,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { loginSchema, type LoginFormData } from "@/lib/validators/auth";
 import { createClient } from "@/lib/supabase/client";
@@ -108,7 +107,7 @@ export function LoginForm() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-teal/10">
             <Mail className="h-8 w-8 text-warm-teal" />
           </div>
-          <CardTitle>Vérifiez vos emails</CardTitle>
+          <h1 className="text-2xl font-semibold leading-none tracking-tight">Vérifiez vos emails</h1>
           <CardDescription>
             Un lien de connexion a été envoyé à votre adresse email.
             Cliquez sur le lien pour vous connecter.
@@ -126,7 +125,7 @@ export function LoginForm() {
   return (
     <Card className="shadow-lg">
       <CardHeader className="text-center">
-        <CardTitle>Connexion</CardTitle>
+        <h1 className="text-2xl font-semibold leading-none tracking-tight">Connexion</h1>
         <CardDescription>
           Connectez-vous à votre espace familial
         </CardDescription>
@@ -134,7 +133,7 @@ export function LoginForm() {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {error && (
-            <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+            <div role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
               {error}
             </div>
           )}
@@ -223,7 +222,7 @@ export function LoginForm() {
               : "Se connecter par magic link"}
           </Button>
 
-          <div className="flex items-center justify-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
               <Shield className="h-3 w-3" /> Chiffré AES-256
             </span>

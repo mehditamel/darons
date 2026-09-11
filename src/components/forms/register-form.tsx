@@ -15,7 +15,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { registerSchema, type RegisterFormData } from "@/lib/validators/auth";
 import { createClient } from "@/lib/supabase/client";
@@ -83,7 +82,7 @@ export function RegisterForm() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10">
             <CheckCircle2 className="h-8 w-8 text-warm-green" />
           </div>
-          <CardTitle>Inscription réussie !</CardTitle>
+          <h1 className="text-2xl font-semibold leading-none tracking-tight">Inscription réussie !</h1>
           <CardDescription>
             Vérifie tes emails pour confirmer ton compte, puis connecte-toi
             pour découvrir ton espace Darons.
@@ -101,7 +100,7 @@ export function RegisterForm() {
   return (
     <Card className="shadow-lg">
       <CardHeader className="text-center">
-        <CardTitle>Crée ton compte</CardTitle>
+        <h1 className="text-2xl font-semibold leading-none tracking-tight">Crée ton compte</h1>
         <CardDescription>
           Rejoins les darons qui gèrent
         </CardDescription>
@@ -109,12 +108,12 @@ export function RegisterForm() {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {error && (
-            <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+            <div role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
               {error}
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">Prénom</Label>
               <div className="relative">
@@ -242,7 +241,7 @@ export function RegisterForm() {
             C'est parti, c'est gratuit
           </Button>
 
-          <div className="flex items-center justify-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
               <Shield className="h-3 w-3" /> Chiffré AES-256
             </span>

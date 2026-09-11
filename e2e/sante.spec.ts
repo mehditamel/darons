@@ -19,9 +19,9 @@ test.describe("Module Santé", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
     // Should display vaccine names
-    await expect(page.getByText(/DTPCa|Diphtérie/i)).toBeVisible();
-    await expect(page.getByText(/ROR|Rougeole/i)).toBeVisible();
-    await expect(page.getByText(/Hépatite B/i)).toBeVisible();
+    await expect(page.getByText(/DTPCa|Diphtérie/i).first()).toBeVisible();
+    await expect(page.getByText(/ROR|Rougeole/i).first()).toBeVisible();
+    await expect(page.getByText(/Hépatite B/i).first()).toBeVisible();
   });
 
   test("la courbe de croissance public est fonctionnelle", async ({ page }) => {
@@ -50,7 +50,7 @@ test.describe("Module Santé", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
     // Should display emergency numbers
-    await expect(page.getByText(/15|SAMU/i)).toBeVisible();
-    await expect(page.getByText(/112/)).toBeVisible();
+    await expect(page.locator('a[href="tel:15"]').first()).toBeVisible();
+    await expect(page.locator('a[href="tel:112"]').first()).toBeVisible();
   });
 });

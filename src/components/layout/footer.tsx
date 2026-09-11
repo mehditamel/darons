@@ -65,12 +65,12 @@ export function Footer({ variant = "full" }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <a href="#fonctionnalites" className="hover:text-foreground transition-colors">
+                <a href="/#fonctionnalites" className="hover:text-foreground transition-colors">
                   Fonctionnalités
                 </a>
               </li>
               <li>
-                <a href="#securite" className="hover:text-foreground transition-colors">
+                <a href="/#securite" className="hover:text-foreground transition-colors">
                   Sécurité
                 </a>
               </li>

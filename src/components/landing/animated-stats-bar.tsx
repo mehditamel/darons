@@ -1,13 +1,14 @@
 "use client";
 
+import { TOTAL_TOOLS } from "@/lib/tools-catalog";
 import { AnimatedCounter } from "@/components/shared/animated-counter";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 
 const STATS: Array<{ value: number; suffix: string; label: string; prefix?: string; isZero?: boolean }> = [
   { value: 6, suffix: " modules", label: "Modules complets" },
-  { value: 15, suffix: " outils", label: "Outils gratuits" },
-  { value: 100, suffix: "% gratuit", label: "Gratuit pour toujours" },
-  { value: 0, suffix: "€", label: "Pas de premium caché", prefix: "", isZero: true },
+  { value: TOTAL_TOOLS, suffix: " outils", label: "Outils gratuits" },
+  { value: 100, suffix: "% gratuit", label: "Outils sans inscription" },
+  { value: 0, suffix: "€", label: "Compte gratuit", prefix: "", isZero: true },
 ];
 
 export function AnimatedStatsBar() {

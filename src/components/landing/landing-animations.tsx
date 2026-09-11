@@ -1,34 +1,37 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { TOTAL_TOOLS } from "@/lib/tools-catalog";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const words = ["Toute", "ta", "vie", "de"];
 const subtitle = "Une seule app.";
 const rotatingWords = ["daron.", "daronne.", "parent."];
 
 export function LandingAnimations() {
+  const reducedMotion = useReducedMotion();
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isRotating, setIsRotating] = useState(false);
 
   useEffect(() => {
+    if (reducedMotion) return;
     // Start rotating after initial animation completes
     const startTimer = setTimeout(() => {
       setIsRotating(true);
     }, 3000);
 
     return () => clearTimeout(startTimer);
-  }, []);
+  }, [reducedMotion]);
 
   useEffect(() => {
-    if (!isRotating) return;
+    if (!isRotating || reducedMotion) return;
 
     const interval = setInterval(() => {
       setCurrentWordIndex((prev) => (prev + 1) % rotatingWords.length);
     }, 2500);
 
     return () => clearInterval(interval);
-  }, [isRotating]);
+  }, [isRotating, reducedMotion]);
 
   return (
     <div>
@@ -36,7 +39,7 @@ export function LandingAnimations() {
         {words.map((word, i) => (
           <motion.span
             key={i}
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.4,
@@ -49,7 +52,7 @@ export function LandingAnimations() {
           </motion.span>
         ))}
         <motion.span
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{
             duration: 0.4,
@@ -90,7 +93,7 @@ export function LandingAnimations() {
           </motion.svg>
         </motion.span>{" "}
         <motion.span
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{
             duration: 0.4,
@@ -104,12 +107,12 @@ export function LandingAnimations() {
       </h1>
 
       <motion.p
-        initial={{ opacity: 0 }}
+        initial={false}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.7 }}
         className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground"
       >
-        Vaccins, budget, impôts, papiers — 100% gratuit, sans piège. 15 outils sans inscription.
+        Vaccins, budget, impôts, papiers — 100% gratuit, sans piège. {TOTAL_TOOLS} outils sans inscription.
       </motion.p>
     </div>
   );
