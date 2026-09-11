@@ -12,16 +12,15 @@ test.describe("Onboarding", () => {
     await page.goto("/register");
 
     const cguLink = page.getByRole("link", { name: /conditions|cgu/i });
-    if (await cguLink.isVisible()) {
-      await expect(cguLink).toHaveAttribute("href", /\/cgu/);
-    }
+    await expect(cguLink).toHaveAttribute("href", /\/cgu/);
   });
 
   test("le formulaire d'inscription valide les champs requis", async ({ page }) => {
     await page.goto("/register");
 
     // Try submitting empty form
-    await page.getByRole("button", { name: /créer|inscription|s'inscrire/i }).click();
+    await page.getByRole("button", { name: "C'est parti, c'est gratuit", exact: true }).click();
+    await expect(page.getByRole("alert").first()).toBeVisible();
 
     // Form should not navigate away (validation errors)
     await expect(page).toHaveURL(/\/register/);

@@ -18,7 +18,10 @@ test.describe("Module Santé", () => {
 
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
-    // Should display vaccine names
+    await page.getByLabel("Date de naissance de l'enfant").fill("2025-01-15");
+    await expect(page.getByRole("heading", { name: "Calendrier personnalisé" })).toBeVisible();
+
+    // The personalized schedule should display vaccine names after entering a birth date.
     await expect(page.getByText(/DTPCa|Diphtérie/i).first()).toBeVisible();
     await expect(page.getByText(/ROR|Rougeole/i).first()).toBeVisible();
     await expect(page.getByText(/Hépatite B/i).first()).toBeVisible();

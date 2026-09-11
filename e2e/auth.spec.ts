@@ -17,7 +17,7 @@ test.describe("Authentification", () => {
     await expect(page.getByLabel("Nom", { exact: true })).toBeVisible();
     await expect(page.getByLabel(/email/i)).toBeVisible();
     await expect(page.getByLabel("Mot de passe", { exact: true })).toBeVisible();
-    await expect(page.getByRole("button", { name: /créer|inscription|s'inscrire/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: "C'est parti, c'est gratuit", exact: true })).toBeVisible();
   });
 
   test("affiche la page de réinitialisation de mot de passe", async ({ page }) => {
@@ -40,10 +40,8 @@ test.describe("Authentification", () => {
 
     // Click link to register
     const registerLink = page.getByRole("link", { name: /créer un compte|inscription|s'inscrire/i });
-    if (await registerLink.isVisible()) {
-      await registerLink.click();
-      await expect(page).toHaveURL(/\/register/);
-    }
+    await registerLink.click();
+    await expect(page).toHaveURL(/\/register/);
   });
 
   test("affiche une erreur avec des identifiants invalides", async ({ page }) => {

@@ -73,7 +73,7 @@ export default function AuthLayout({
       </div>
 
       {/* Right panel - Form */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-background px-4 py-8">
+      <div className="flex min-w-0 flex-1 flex-col items-center justify-center bg-background px-4 py-8">
         {/* Mobile logo */}
         <div className="mb-8 text-center lg:hidden">
           <Link href="/" className="inline-flex flex-col items-center gap-2">
@@ -88,7 +88,7 @@ export default function AuthLayout({
             </p>
           </Link>
         </div>
-        <div className="w-full max-w-md animate-fade-in-up">{children}</div>
+        <div className="w-full min-w-0 max-w-md animate-fade-in-up [&_button]:h-auto [&_button]:min-h-11 [&_button]:whitespace-normal [&_button]:py-2">{children}</div>
       </div>
     </div>
   );

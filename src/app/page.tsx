@@ -191,7 +191,7 @@ export default function LandingPage() {
                 ou{" "}
                 <Link
                   href="/demo"
-                  className="font-medium text-warm-orange underline-offset-4 hover:underline"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
                 >
                   visite la démo du tableau de bord
                 </Link>
@@ -308,8 +308,8 @@ export default function LandingPage() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {FEATURES.map((feature, index) => (
                 <Link key={index} href={feature.href}>
-                  <Card className="card-playful border-0 shadow-md group overflow-hidden h-full">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <Card className="relative card-playful border-0 shadow-md group overflow-hidden h-full">
+                    <div aria-hidden="true" className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                     <CardHeader className="relative">
                       <div
                         className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bgColor} ${feature.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}

@@ -11,7 +11,7 @@ test.describe("Paramètres & RGPD", () => {
     await page.goto("/politique-confidentialite");
 
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByText(/données personnelles|RGPD|confidentialité/i)).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: "Politique de confidentialité" })).toBeVisible();
   });
 
   test("les CGU sont accessibles", async ({ page }) => {
