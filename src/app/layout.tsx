@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | Darons",
   },
   description:
-    "L'app gratuite qui centralise toute la vie de famille : santé des enfants, budget du foyer, fiscalité, éducation — le tout avec une couche IA qui anticipe et simplifie.",
+    "Organise la vie de famille avec Darons : santé des enfants, budget du foyer, fiscalité et documents. Découvre les outils gratuits et les offres disponibles.",
   keywords: [
     "gestion famille",
     "suivi vaccin bébé",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     siteName: "Darons",
     title: "Darons — Toute ta vie de daron. Une seule app.",
     description:
-      "L'app gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
+      "Santé, budget, impôts, papiers : des outils pour organiser le quotidien de ta famille.",
     images: [
       {
         url: "https://darons.app/api/og?title=Toute%20ta%20vie%20de%20daron.%20Une%20seule%20app.",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Darons — Toute ta vie de daron. Une seule app.",
     description:
-      "L'app gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
+      "Santé, budget, impôts, papiers : des outils pour organiser le quotidien de ta famille.",
     images: ["https://darons.app/api/og?title=Toute%20ta%20vie%20de%20daron.%20Une%20seule%20app."],
   },
 };

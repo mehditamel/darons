@@ -11,8 +11,8 @@ const FEATURES = [
   { icon: HeartPulse, text: "Vaccins et santé de tes enfants" },
   { icon: Wallet, text: "Budget familial intelligent" },
   { icon: Calculator, text: "Simulation fiscale gratuite" },
-  { icon: Shield, text: "Données chiffrées et protégées" },
-  { icon: Sparkles, text: "IA qui anticipe pour toi" },
+  { icon: Shield, text: "Tes documents au même endroit" },
+  { icon: Sparkles, text: "Des outils pour préparer tes démarches" },
 ];
 
 export default function AuthLayout({
@@ -48,8 +48,8 @@ export default function AuthLayout({
               <span className="text-warm-orange">Une seule app.</span>
             </h2>
             <p className="mt-4 text-sm text-white/60 max-w-sm leading-relaxed">
-              Vaccins, budget, impôts, papiers. 100% gratuit, sans piège.
-              Rejoins les parents qui galèrent moins.
+              Vaccins, budget, impôts, papiers. Retrouve les informations
+              utiles pour organiser le quotidien de ta famille.
             </p>
           </div>
 
@@ -67,7 +67,7 @@ export default function AuthLayout({
 
         <div className="relative">
           <p className="text-xs text-white/40">
-            &copy; {new Date().getFullYear()} Darons. 100% gratuit, pour de vrai.
+            &copy; {new Date().getFullYear()} Darons. Le quotidien des parents, mieux organisé.
           </p>
         </div>
       </div>
