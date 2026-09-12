@@ -18,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PublicHeader } from "@/components/layout/public-header";
 import { Footer } from "@/components/layout/footer";
+import { FamilyDayTour } from "@/components/landing/family-day-tour";
+import { FamilyReadingProgress } from "@/components/landing/family-motion";
 import { FamilyHero } from "@/components/landing/family-hero";
 import { FamilyReveal } from "@/components/landing/family-reveal";
 import { FaqSection } from "@/components/landing/faq-section";
@@ -144,6 +146,7 @@ export default function LandingPage() {
         }}
       />
       <PublicHeader />
+      <FamilyReadingProgress />
       <main id="main-content" tabIndex={-1}>
         <FamilyHero />
 
@@ -166,6 +169,8 @@ export default function LandingPage() {
             </p>
           </div>
         </section>
+
+        <FamilyDayTour />
 
         <section
           id="fonctionnalites"
@@ -190,14 +195,21 @@ export default function LandingPage() {
             </FamilyReveal>
             <div className="family-feature-grid">
               {FEATURES.map((feature, index) => (
-                <FamilyReveal key={feature.href}>
+                <FamilyReveal key={feature.href} delay={(index % 3) * 0.07}>
                   <Link
                     href={feature.href}
                     className={`family-feature family-tone-${feature.tone}`}
                   >
                     <div className="family-feature-top">
-                      <feature.icon aria-hidden="true" className="h-6 w-6" />
-                      <span aria-hidden="true">0{index + 1}</span>
+                      <span className="family-feature-symbol">
+                        <feature.icon aria-hidden="true" className="h-6 w-6" />
+                      </span>
+                      <span
+                        className="family-feature-number"
+                        aria-hidden="true"
+                      >
+                        0{index + 1}
+                      </span>
                     </div>
                     <p className="family-feature-label">{feature.label}</p>
                     <h3>{feature.title}</h3>
@@ -368,6 +380,12 @@ export default function LandingPage() {
                       className={`family-article-cover family-tone-${index === 0 ? "sage" : index === 1 ? "peach" : "lavender"}`}
                     >
                       <BookOpen aria-hidden="true" className="h-9 w-9" />
+                      <span
+                        className="family-article-number"
+                        aria-hidden="true"
+                      >
+                        0{index + 1}
+                      </span>
                       <span>{article.category}</span>
                     </div>
                     <div className="family-article-body">

@@ -1,5 +1,6 @@
 "use client";
 
+import { DaronsLogo } from "@/components/brand/darons-logo";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -46,12 +47,9 @@ export function PublicHeader() {
           <Link
             href="/"
             aria-label="Darons, accueil"
-            className="family-wordmark shrink-0"
+            className="shrink-0 darons-home-link"
           >
-            <span aria-hidden="true">D</span>Darons
-            <span className="family-wordmark-dot" aria-hidden="true">
-              .
-            </span>
+            <DaronsLogo />
           </Link>
           <nav
             aria-label="Navigation principale"
@@ -70,7 +68,12 @@ export function PublicHeader() {
           </nav>
           <div className="flex items-center gap-1 sm:gap-2">
             <ThemeToggle />
-            <Button asChild variant="ghost" size="sm">
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className="hidden min-[400px]:inline-flex"
+            >
               <Link href="/login">Connexion</Link>
             </Button>
             <Button
@@ -113,7 +116,12 @@ export function PublicHeader() {
                       {link.label}
                     </Link>
                   ))}
-                  <Button asChild className="mt-4">
+                  <Button asChild variant="outline" className="mt-4">
+                    <Link href="/login" onClick={() => setOpen(false)}>
+                      Connexion
+                    </Link>
+                  </Button>
+                  <Button asChild>
                     <Link href="/register" onClick={() => setOpen(false)}>
                       Créer mon compte gratuit
                     </Link>

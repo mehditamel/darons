@@ -1,3 +1,4 @@
+import { DaronsLogo } from "@/components/brand/darons-logo";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Heart } from "lucide-react";
@@ -17,11 +18,12 @@ export default function AuthLayout({
         Aller au formulaire
       </a>
       <div className="family-auth-brand">
-        <Link href="/" aria-label="Darons, accueil" className="family-wordmark">
-          <span aria-hidden="true">D</span>Darons
-          <span className="family-wordmark-dot" aria-hidden="true">
-            .
-          </span>
+        <Link
+          href="/"
+          aria-label="Darons, accueil"
+          className="darons-home-link"
+        >
+          <DaronsLogo />
         </Link>
         <div className="family-auth-story">
           <p className="family-eyebrow">
@@ -69,12 +71,9 @@ export default function AuthLayout({
           <Link
             href="/"
             aria-label="Darons, accueil"
-            className="family-wordmark family-mobile-wordmark mb-8"
+            className="inline-block family-mobile-wordmark darons-home-link mb-8"
           >
-            <span aria-hidden="true">D</span>Darons
-            <span className="family-wordmark-dot" aria-hidden="true">
-              .
-            </span>
+            <DaronsLogo />
           </Link>
           <div className="w-full min-w-0 [&_button]:h-auto [&_button]:min-h-11 [&_button]:whitespace-normal [&_button]:py-2">
             {children}

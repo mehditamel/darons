@@ -1,3 +1,5 @@
+import { FamilyDepth } from "./family-motion";
+import { DaronsMark } from "@/components/brand/darons-logo";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Check, Heart, MoveUpRight, Sparkles } from "lucide-react";
@@ -16,7 +18,16 @@ export function FamilyHero() {
           <h1>
             Toute ta vie de parent.
             <br />
-            <span>Un peu plus légère.</span>
+            <span className="family-hero-emphasis">
+              Un peu plus légère.
+              <svg
+                viewBox="0 0 500 24"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path d="M4 14Q240-4 494 10M80 22Q285 9 448 19" />
+              </svg>
+            </span>
           </h1>
           <p className="family-hero-description">
             Les vaccins, les papiers, le budget… Tout ce qui remplit ta tête,
@@ -47,51 +58,56 @@ export function FamilyHero() {
             <Link href="/outils">{TOTAL_TOOLS} outils sans inscription</Link>
           </p>
         </div>
-        <div
-          className="family-album family-enter"
-          aria-label="Des petits moments de vie de famille"
-        >
-          <div className="family-album-back" aria-hidden="true" />
-          <figure className="family-photo-main">
-            <div className="family-photo-frame">
-              <Image
-                src="/images/family/breakfast.webp"
-                alt="Deux parents et leur enfant préparent un petit-déjeuner ensemble"
-                fill
-                sizes="(min-width: 1024px) 540px, (min-width: 640px) 80vw, 94vw"
-                priority
-                className="object-cover"
-              />
+        <FamilyDepth>
+          <div
+            className="family-album family-enter"
+            aria-label="Des petits moments de vie de famille"
+          >
+            <div className="family-album-aura" aria-hidden="true">
+              <DaronsMark />
             </div>
-            <figcaption>
-              <Heart aria-hidden="true" className="h-4 w-4" />
-              La vraie vie, ensemble.
-            </figcaption>
-          </figure>
-          <div className="family-album-note">
-            <span className="family-note-icon">
-              <Sparkles aria-hidden="true" className="h-5 w-5" />
-            </span>
-            <span>
-              Moins de choses en tête.
-              <br />
-              <strong>Plus de moments ensemble.</strong>
+            <div className="family-album-back" aria-hidden="true" />
+            <figure className="family-photo-main">
+              <div className="family-photo-frame">
+                <Image
+                  src="/images/family/breakfast.webp"
+                  alt="Deux parents et leur enfant préparent un petit-déjeuner ensemble"
+                  fill
+                  sizes="(min-width: 1024px) 540px, (min-width: 640px) 80vw, 94vw"
+                  priority
+                  className="object-cover"
+                />
+              </div>
+              <figcaption>
+                <Heart aria-hidden="true" className="h-4 w-4" />
+                La vraie vie, ensemble.
+              </figcaption>
+            </figure>
+            <div className="family-album-note">
+              <span className="family-note-icon">
+                <Sparkles aria-hidden="true" className="h-5 w-5" />
+              </span>
+              <span>
+                Moins de choses en tête.
+                <br />
+                <strong>Plus de moments ensemble.</strong>
+              </span>
+            </div>
+            <figure className="family-photo-small">
+              <Image
+                src="/images/family/reading.webp"
+                alt="Un papa lit un album avec sa fille sur le canapé"
+                width={180}
+                height={225}
+                sizes="(min-width: 640px) 160px, 108px"
+              />
+              <figcaption>Encore une histoire ?</figcaption>
+            </figure>
+            <span className="family-album-doodle" aria-hidden="true">
+              ✳
             </span>
           </div>
-          <figure className="family-photo-small">
-            <Image
-              src="/images/family/reading.webp"
-              alt="Un papa lit un album avec sa fille sur le canapé"
-              width={180}
-              height={225}
-              sizes="(min-width: 640px) 160px, 108px"
-            />
-            <figcaption>Encore une histoire ?</figcaption>
-          </figure>
-          <span className="family-album-doodle" aria-hidden="true">
-            ✳
-          </span>
-        </div>
+        </FamilyDepth>
       </div>
       <div className="family-container family-hero-bottom">
         <span>Toute ta vie de daron. Une seule app.</span>

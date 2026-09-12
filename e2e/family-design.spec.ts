@@ -125,3 +125,95 @@ test("home remains usable without JavaScript", async ({ browser, baseURL }) => {
     await context.close();
   }
 });
+
+for (const width of [320, 1440]) {
+  test(`the family tour supports keyboard exploration at ${width}px`, async ({
+    page,
+    request,
+  }, testInfo) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "light" });
+    await page.goto("/");
+    const tour = page.getByRole("region", {
+      name: "Une journée bien remplie. Une tête un peu moins.",
+    });
+    const health = tour.getByRole("tab", { name: "La santé", exact: true });
+    await health.focus();
+    await expect(health).toHaveAttribute("aria-selected", "true");
+    await health.press("ArrowRight");
+    const budget = tour.getByRole("tab", { name: "Le budget", exact: true });
+    await expect(budget).toBeFocused();
+    await expect(budget).toHaveAttribute("aria-selected", "true");
+    await expect(
+      tour.getByRole("heading", {
+        name: "Les chiffres clairs. L’esprit aussi.",
+      }),
+    ).toBeVisible();
+    await budget.press("End");
+    await expect(
+      tour.getByRole("tab", { name: "Les papiers", exact: true }),
+    ).toBeFocused();
+    await expect(
+      tour.getByRole("heading", { name: "Retrouvé. Avant même de chercher." }),
+    ).toBeVisible();
+
+    for (const name of ["La santé", "Le budget", "Les papiers"]) {
+      await tour.getByRole("tab", { name, exact: true }).click();
+      const panel = tour.getByRole("tabpanel");
+      await expect(panel).toBeVisible();
+      await expect(
+        panel.getByText("Aperçu illustratif · données fictives"),
+      ).toBeVisible();
+      const href = await panel.getByRole("link").getAttribute("href");
+      expect((await request.get(href!)).ok()).toBe(true);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth + 1,
+        ),
+      ).toBe(true);
+      const audit = await new AxeBuilder({ page })
+        .include(".family-tour")
+        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+        .analyze();
+      expect(
+        audit.violations.filter((v) =>
+          ["serious", "critical"].includes(v.impact ?? ""),
+        ),
+      ).toEqual([]);
+    }
+    await health.click();
+    await tour.screenshot({
+      path: testInfo.outputPath(`tour-${width}-light.png`),
+    });
+  });
+}
+
+test("decorative entrance animations settle without looping", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await expect(
+    page.getByTestId("hero").getByRole("heading", { level: 1 }),
+  ).toBeVisible();
+  await expect
+    .poll(
+      () =>
+        page
+          .getByTestId("hero")
+          .evaluate(
+            (root) =>
+              root
+                .getAnimations({ subtree: true })
+                .filter((animation) => animation.playState === "running")
+                .length,
+          ),
+      { timeout: 7000 },
+    )
+    .toBe(0);
+  await expect(
+    page
+      .getByTestId("hero")
+      .getByRole("link", { name: "Voir la démo", exact: true }),
+  ).toBeVisible();
+});

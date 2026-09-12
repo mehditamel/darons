@@ -1,0 +1,42 @@
+import { cn } from "@/lib/utils";
+
+/** A parent, a child and their shared smile, held inside a D. */
+export function DaronsMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn("darons-mark", className)}
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M8 3h22c18 0 31 12 31 29S48 61 30 61H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5ZM23 13a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm15 12a6 6 0 1 0 0 12 6 6 0 0 0 0-12ZM12 38c-1 10 8 16 18 15 9-1 16-6 18-14 1-3-1-4-3-2-10 8-18 4-25-4-4-4-8 0-8 5Z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+export function DaronsLogo({
+  className,
+  compact = false,
+}: {
+  className?: string;
+  compact?: boolean;
+}) {
+  return (
+    <span className={cn("darons-logo", className)}>
+      <DaronsMark />
+      {compact ? (
+        <span className="sr-only">Darons.app</span>
+      ) : (
+        <span className="darons-logo-type">
+          darons<span className="darons-logo-domain">.app</span>
+        </span>
+      )}
+    </span>
+  );
+}

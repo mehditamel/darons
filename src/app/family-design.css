@@ -999,3 +999,840 @@
     transition-duration: 0s !important;
   }
 }
+/* Darons — a shared smile, an editorial rhythm, and restrained depth. */
+.darons-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  white-space: nowrap;
+  line-height: 1;
+}
+.darons-mark {
+  display: block;
+  width: 2.6rem;
+  height: 2.6rem;
+  flex-shrink: 0;
+  color: hsl(var(--primary));
+}
+.darons-logo-type {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 2rem;
+  letter-spacing: -0.065em;
+}
+.darons-logo-domain {
+  font-size: 0.54em;
+  letter-spacing: -0.025em;
+  margin-left: 0.025em;
+}
+.darons-home-link {
+  border-radius: 0.5rem;
+}
+.darons-home-link:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 6px;
+}
+.family-reading-progress {
+  position: fixed;
+  top: 80px;
+  inset-inline: 0;
+  height: 3px;
+  background: hsl(var(--primary));
+  z-index: 49;
+  transform-origin: left;
+  pointer-events: none;
+}
+.family-hero {
+  position: relative;
+  isolation: isolate;
+}
+.family-hero::before {
+  content: "";
+  position: absolute;
+  width: 34rem;
+  height: 34rem;
+  top: -3rem;
+  right: -17rem;
+  border: 1px solid hsl(var(--secondary) / 0.14);
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+}
+.family-hero-copy {
+  position: relative;
+  z-index: 1;
+}
+.family-hero h1 {
+  line-height: 1.08;
+}
+.family-hero-emphasis {
+  display: inline-block;
+  position: relative;
+  padding-bottom: 0.13em;
+}
+.family-hero-emphasis svg {
+  position: absolute;
+  bottom: -0.1em;
+  inset-inline: 0;
+  width: 100%;
+  height: 0.28em;
+  overflow: visible;
+  fill: none;
+  stroke: hsl(var(--primary) / 0.4);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.family-depth {
+  perspective: 1200px;
+  min-width: 0;
+}
+.family-depth-inner {
+  transform-style: preserve-3d;
+}
+.family-album-aura {
+  position: absolute;
+  inset: -1rem -2rem 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.family-album-aura .darons-mark {
+  width: 100%;
+  height: 100%;
+  color: hsl(var(--secondary) / 0.07);
+  transform: rotate(12deg);
+}
+.family-album-back {
+  background: var(--family-butter);
+  transform: rotate(6deg);
+}
+.family-photo-main {
+  box-shadow:
+    0 24px 60px #263d321a,
+    0 2px 3px #263d3208;
+}
+.family-album-note {
+  border-radius: 1.1rem 1.1rem 1.1rem 0.3rem;
+}
+.family-button {
+  position: relative;
+  gap: 0.5rem;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.2s ease;
+}
+.family-button svg,
+.family-tour-link svg {
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.family-ribbon {
+  position: relative;
+  background: transparent;
+  border-block: 1px solid hsl(var(--border));
+  padding-block: 1.4rem;
+}
+.family-ribbon .family-container > span {
+  color: hsl(var(--primary));
+  font-size: 2.1rem;
+}
+.family-ribbon strong {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 2rem;
+}
+.family-tour-section {
+  padding-bottom: 4rem;
+}
+.family-tour-intro {
+  text-align: center;
+  margin-bottom: 2.4rem;
+}
+.family-tour-intro .family-eyebrow {
+  justify-content: center;
+}
+.family-tour-intro h2 {
+  font-size: clamp(2rem, 4vw, 3.6rem);
+}
+.family-tour-intro em {
+  color: hsl(var(--secondary));
+  font-weight: 400;
+}
+.family-tour-intro > p:last-child {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.95rem;
+  margin-top: 1.4rem;
+}
+.family-tour {
+  background: #203e35;
+  border-radius: 2rem;
+  padding: 2rem 3rem 3rem;
+  color: #fbf8ef;
+  position: relative;
+  overflow: hidden;
+}
+.family-tour .family-tour-tabs {
+  display: flex;
+  height: auto;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 1rem;
+  padding: 0.35rem;
+  gap: 0.3rem;
+  border: 1px solid #fbf8ef30;
+  border-radius: 999px;
+  background: #ffffff08;
+  color: #e0ebe4;
+}
+.family-tour .family-tour-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.8rem 1.3rem;
+  font-size: 0.8rem;
+  color: #e0ebe4;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+}
+.family-tour-tab svg {
+  width: 1rem;
+  height: 1rem;
+}
+.family-tour .family-tour-tab[data-state="active"] {
+  background: #f6ecd8;
+  color: #203e35;
+  box-shadow: 0 2px 8px #0001;
+}
+.family-tour-tab:focus-visible,
+.family-tour-link:focus-visible {
+  outline: 2px solid #ffc49f;
+  outline-offset: 4px;
+}
+.family-tour-panel {
+  margin-top: 0;
+  border-radius: 1rem;
+}
+.family-tour-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  align-items: center;
+  gap: 4rem;
+  min-height: 460px;
+}
+.family-tour-copy {
+  padding-block: 1rem;
+  min-width: 0;
+}
+.family-tour-time {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 2.2rem;
+  color: #f6c293;
+}
+.family-tour-time > span {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: #d3e0d8;
+}
+.family-tour-copy h3 {
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  line-height: 1.13;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  margin: 1.4rem 0 1.3rem;
+  color: #fbf8ef;
+}
+.family-tour-copy > p {
+  color: #d3e0d8;
+  font-size: 0.9rem;
+  line-height: 1.9;
+}
+.family-tour-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  max-width: 100%;
+  margin-top: 2rem;
+  padding-bottom: 0.5rem;
+  color: #fbf8ef;
+  border-bottom: 1px solid #d3e0d870;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.family-tour-link svg {
+  width: 1rem;
+  height: 1rem;
+}
+.family-tour-scene {
+  position: relative;
+  padding: 3rem 0 2.2rem;
+  min-width: 0;
+  isolation: isolate;
+}
+.family-tour-orbit {
+  position: absolute;
+  inset: 1rem -1.6rem;
+  border: 1px solid #fbf8ef22;
+  border-radius: 50%;
+  transform: rotate(-20deg);
+  z-index: -1;
+}
+.family-tour-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 1.5rem -0.9rem;
+  border: 1px solid #fbf8ef18;
+  border-radius: 50%;
+  transform: rotate(35deg);
+}
+.family-tour-card {
+  position: relative;
+  background: #fffcf7;
+  color: #203e35;
+  padding: 1.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 25px 70px #071a2533;
+  transform: rotate(-2deg);
+}
+.family-tour-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.65rem;
+  color: #52675f;
+  border-bottom: 1px solid #e5e7de;
+  padding-bottom: 1.15rem;
+}
+.family-tour-card-top .darons-mark {
+  width: 1.6rem;
+  height: 1.6rem;
+  color: #c34420;
+}
+.family-tour-card-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #387653;
+  margin-left: auto;
+}
+.family-tour-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block: 1.3rem;
+}
+.family-tour-icon {
+  display: grid;
+  place-items: center;
+  background: #e4eddf;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 0.8rem;
+  flex-shrink: 0;
+}
+.family-tour-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.family-tour-card-title h4 {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  font-weight: 700;
+}
+.family-tour-card-title p {
+  font-size: 0.6rem;
+  color: #52675f;
+  margin-top: 0.2rem;
+  line-height: 1.6;
+}
+.family-tour-card ul {
+  display: grid;
+  gap: 0.6rem;
+}
+.family-tour-card li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+  background: #f1f3ec;
+  border: 1px solid #e7eadf;
+  border-radius: 0.65rem;
+  padding: 0.8rem;
+  font-size: 0.7rem;
+}
+.family-tour-check {
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: #dbe9d6;
+  color: #315b3d;
+  flex-shrink: 0;
+}
+.family-tour-check svg {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+.family-tour-row-number {
+  margin-left: auto;
+  color: #52675f;
+  font-size: 0.55rem;
+}
+.family-tour-row-icon {
+  margin-left: auto;
+  width: 0.9rem;
+  height: 0.9rem;
+  flex-shrink: 0;
+}
+.family-tour-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.6rem;
+  color: #52675f;
+  margin-top: 1.2rem;
+}
+.family-tour-status > span {
+  width: 0.3rem;
+  height: 0.3rem;
+  background: #387653;
+  border-radius: 50%;
+}
+.family-tour-sticker {
+  position: absolute;
+  bottom: 0.3rem;
+  right: -1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  max-width: 95%;
+  background: #f6c293;
+  color: #203e35;
+  padding: 0.7rem 1rem;
+  border-radius: 0.7rem;
+  transform: rotate(4deg);
+  box-shadow: 0 5px 15px #071a2533;
+}
+.family-tour-sticker > span:first-child {
+  font-size: 2rem;
+  line-height: 1;
+}
+.family-tour-sticker > span:last-child {
+  max-width: 13rem;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+.family-tour-example {
+  position: absolute;
+  bottom: -1.7rem;
+  inset-inline: 0;
+  color: #d3e0d8;
+  text-align: center;
+  font-size: 0.6rem;
+}
+.family-tour-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.45rem;
+  height: 3.5rem;
+  margin-bottom: 1rem;
+}
+.family-tour-bars span {
+  flex: 1;
+  height: 60%;
+  border-radius: 0.3rem 0.3rem 0 0;
+  background: #d7e4d1;
+  transform-origin: bottom;
+}
+.family-tour-bars span:nth-child(2n) {
+  height: 85%;
+  background: #79a282;
+}
+.family-tour-bars span:nth-child(3n) {
+  height: 45%;
+  background: #edb28e;
+}
+.family-tour-bars span:last-child {
+  height: 100%;
+  background: #c34420;
+}
+.family-feature {
+  position: relative;
+  overflow: hidden;
+  padding: 1.9rem;
+  border: 1px solid hsl(var(--foreground) / 0.05);
+  border-radius: 1.6rem;
+  isolation: isolate;
+}
+.family-feature-top {
+  margin-bottom: 2.8rem;
+  min-height: 3.5rem;
+}
+.family-feature-symbol {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1.1rem;
+  background: hsl(var(--card) / 0.55);
+  box-shadow: 0 4px 0 hsl(var(--foreground) / 0.04);
+  transform: rotate(-6deg);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.family-feature-top .family-feature-number {
+  position: absolute;
+  top: -1rem;
+  right: 0.3rem;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 7rem;
+  line-height: 1.2;
+  opacity: 0.65;
+  z-index: -1;
+}
+.family-feature h3 {
+  max-width: 15rem;
+  font-size: 1.65rem;
+}
+.family-feature-link {
+  border-top-color: hsl(var(--foreground) / 0.18);
+}
+.family-feature-link svg {
+  transition: transform 0.3s ease;
+}
+.family-story-section {
+  border-block: 1px solid hsl(var(--border) / 0.6);
+}
+.family-story-photo {
+  border-radius: 48% 48% 1.5rem 1.5rem;
+}
+.family-tool {
+  border-radius: 1.5rem;
+}
+.family-article-cover {
+  position: relative;
+  overflow: hidden;
+  min-height: 170px;
+  align-items: flex-end;
+  isolation: isolate;
+}
+.family-article-cover .family-article-number {
+  position: absolute;
+  right: 0.4rem;
+  top: -0.7rem;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 9rem;
+  line-height: 1;
+  opacity: 0.65;
+  letter-spacing: -0.08em;
+  z-index: -1;
+}
+.family-article-cover > svg {
+  transform: rotate(-8deg);
+}
+.family-final-cta {
+  border-radius: 2rem;
+  position: relative;
+}
+.family-final-cta > div:first-child {
+  padding: 4rem;
+}
+.family-footer-signature {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-top: 1px solid hsl(var(--border));
+  margin-top: 4rem;
+  padding-top: 3rem;
+  color: var(--family-ink);
+}
+.family-footer-signature .darons-mark {
+  width: clamp(3rem, 8vw, 7rem);
+  height: auto;
+}
+.family-footer-signature > span:nth-child(2) {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: clamp(1.6rem, 6.8vw, 5.5rem);
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+.family-footer-signature > span:last-child {
+  color: hsl(var(--secondary));
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .darons-home-link .darons-mark {
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .darons-home-link:hover .darons-mark {
+    transform: rotate(-8deg) translateY(-2px);
+  }
+  .family-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px hsl(var(--primary) / 0.14);
+  }
+  .family-button:hover svg,
+  .family-tour-link:hover svg {
+    transform: translateX(3px);
+  }
+  .family-feature:hover .family-feature-symbol {
+    transform: rotate(6deg) translateY(-3px);
+  }
+  .family-feature:hover .family-feature-link svg {
+    transform: rotate(-40deg);
+  }
+  .family-tour-card {
+    transition: transform 0.5s ease;
+  }
+  .family-tour-scene:hover .family-tour-card {
+    transform: rotate(0deg) translateY(-4px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .family-hero-copy > * {
+    animation: family-copy-arrive 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .family-hero-copy > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .family-hero-copy > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .family-hero-copy > :nth-child(4) {
+    animation-delay: 0.24s;
+  }
+  .family-hero-copy > :nth-child(5) {
+    animation-delay: 0.32s;
+  }
+  .family-hero-emphasis path {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: family-underline 1.4s 0.45s ease-out forwards;
+  }
+  .family-photo-small {
+    animation: family-small-arrive 1s 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .family-album-doodle {
+    animation: family-doodle-arrive 1.6s 0.1s ease-out both;
+  }
+  .family-tour-bars span {
+    animation: family-bar-rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .family-tour-bars span:nth-child(2n) {
+    animation-delay: 0.1s;
+  }
+  .family-tour-bars span:nth-child(3n) {
+    animation-delay: 0.2s;
+  }
+}
+@keyframes family-copy-arrive {
+  from {
+    opacity: 0.3;
+    translate: 0 24px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes family-underline {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes family-small-arrive {
+  from {
+    opacity: 0;
+    translate: 15px 18px;
+    rotate: -12deg;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    rotate: 0deg;
+  }
+}
+@keyframes family-doodle-arrive {
+  from {
+    opacity: 0;
+    rotate: -90deg;
+    scale: 0.5;
+  }
+  to {
+    opacity: 1;
+    rotate: 0deg;
+    scale: 1;
+  }
+}
+@keyframes family-bar-rise {
+  from {
+    transform: scaleY(0.2);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@media (max-width: 1023px) {
+  .family-tour {
+    padding: 1.5rem 2rem 3rem;
+  }
+  .family-tour-grid {
+    gap: 2rem;
+  }
+  .family-tour-copy h3 {
+    font-size: 2.1rem;
+  }
+  .family-tour-time {
+    flex-wrap: wrap;
+    gap: 0.3rem 0.8rem;
+  }
+  .family-tour-card {
+    padding: 1rem;
+  }
+  .family-final-cta > div:first-child {
+    padding: 2.5rem;
+  }
+}
+@media (max-width: 767px) {
+  .family-tour-grid {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+  .family-tour-copy {
+    padding-top: 1.5rem;
+  }
+  .family-tour-copy h3 {
+    max-width: 24rem;
+  }
+  .family-tour-scene {
+    width: min(100% - 1rem, 440px);
+    margin: 0 auto 1rem;
+  }
+  .family-tour-link {
+    margin-top: 1.2rem;
+  }
+}
+@media (max-width: 639px) {
+  .darons-logo {
+    gap: 0.4rem;
+  }
+  .darons-mark {
+    width: 2rem;
+    height: 2rem;
+  }
+  .darons-logo-type {
+    font-size: 1.5rem;
+  }
+  .family-public-header .darons-logo-domain {
+    font-size: 0.5em;
+  }
+  .family-tour {
+    padding: 1rem 1rem 2rem;
+    border-radius: 1.4rem;
+  }
+  .family-tour .family-tour-tabs {
+    width: 100%;
+    gap: 0.1rem;
+    padding: 0.25rem;
+  }
+  .family-tour .family-tour-tab {
+    flex: 1;
+    padding: 0.7rem 0.25rem;
+    gap: 0.3rem;
+    font-size: 0.68rem;
+  }
+  .family-tour-tab svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+  .family-tour-copy h3 {
+    font-size: 2rem;
+  }
+  .family-tour-intro {
+    text-align: left;
+  }
+  .family-tour-intro .family-eyebrow {
+    justify-content: flex-start;
+  }
+  .family-tour-intro > p:last-child {
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+  .family-tour-card {
+    padding: 0.8rem;
+  }
+  .family-tour-card-top {
+    font-size: 0.6rem;
+  }
+  .family-tour-card-title {
+    gap: 0.5rem;
+  }
+  .family-tour-card-title h4 {
+    font-size: 0.72rem;
+  }
+  .family-tour-card-title p {
+    font-size: 0.58rem;
+  }
+  .family-tour-card li {
+    padding: 0.65rem 0.5rem;
+    gap: 0.45rem;
+    font-size: 0.64rem;
+  }
+  .family-tour-row-number {
+    display: none;
+  }
+  .family-tour-sticker {
+    right: -0.4rem;
+    padding: 0.6rem 0.75rem;
+  }
+  .family-tour-sticker > span:last-child {
+    font-size: 0.72rem;
+  }
+  .family-tour-example {
+    font-size: 0.56rem;
+  }
+  .family-feature {
+    padding: 1.5rem;
+  }
+  .family-feature-top {
+    margin-bottom: 2rem;
+  }
+  .family-final-cta > div:first-child {
+    padding: 2rem;
+  }
+  .family-footer-signature {
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+  }
+  .family-footer-signature > span:last-child {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .darons-home-link *,
+  .family-site *,
+  .family-auth *,
+  .family-app * {
+    animation: none !important;
+    transition-duration: 0s !important;
+  }
+  .family-reading-progress {
+    display: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .family-tour-scene {
+    padding-bottom: 4.5rem;
+  }
+}
