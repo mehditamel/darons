@@ -4,7 +4,7 @@ import { getStripe } from "@/lib/stripe/client";
 import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

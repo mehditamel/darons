@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: households } = await supabase
     .from("households")

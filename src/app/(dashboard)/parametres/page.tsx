@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ParametresPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const { data: profile } = user
     ? await supabase.from("profiles").select("subscription_plan, email, first_name, last_name, calendar_tokens, phone_number").eq("id", user.id).single()

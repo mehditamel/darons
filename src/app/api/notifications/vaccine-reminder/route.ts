@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Non autorise" }, { status: 401 });
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Get all households with children
   const { data: households } = await supabase

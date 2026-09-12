@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getArticleBySlug, getAllArticles } from "@/lib/blog-data";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const alt = "Article Darons";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -20,8 +20,9 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Développement": "#7B5EA7",
 };
 
-export default function OgImage({ params }: { params: { slug: string } }) {
-  const article = getArticleBySlug(params.slug);
+export default async function OgImage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
   const title = article?.title ?? "Article Darons";
   const category = article?.category ?? "Blog";
   const categoryColor = CATEGORY_COLORS[category] ?? "#E8734A";
@@ -43,7 +44,7 @@ export default function OgImage({ params }: { params: { slug: string } }) {
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <span
             style={{
-              display: "inline-flex",
+              display: "flex",
               alignSelf: "flex-start",
               padding: "6px 16px",
               borderRadius: "20px",

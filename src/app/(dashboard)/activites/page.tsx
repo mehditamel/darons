@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ActivitesPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const { data: profile } = user
     ? await supabase.from("profiles").select("subscription_plan").eq("id", user.id).single()

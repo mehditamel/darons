@@ -20,10 +20,11 @@ export const metadata: Metadata = {
 };
 
 interface PageProps {
-  params: { memberId: string };
+  params: Promise<{ memberId: string }>;
 }
 
-export default async function CapsuleMemberPage({ params }: PageProps) {
+export default async function CapsuleMemberPage(props: PageProps) {
+  const params = await props.params;
   const [membersRes, memoriesRes, recapsRes, suggestionRes] = await Promise.all([
     getFamilyMembers(),
     listMemories(params.memberId),

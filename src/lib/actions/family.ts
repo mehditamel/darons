@@ -75,7 +75,7 @@ export async function createHousehold(
   if (error) return { success: false, error: "Erreur lors de la création du foyer" };
 
   // Cache the household existence so the auth middleware skips its DB lookup.
-  cookies().set(HAS_HOUSEHOLD_COOKIE, "1", {
+  (await cookies()).set(HAS_HOUSEHOLD_COOKIE, "1", {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

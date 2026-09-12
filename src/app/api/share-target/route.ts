@@ -10,7 +10,7 @@ import { createClient } from "@/lib/supabase/server";
  * Storing files server-side without explicit confirmation would surprise users.
  */
 export async function POST(request: Request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {

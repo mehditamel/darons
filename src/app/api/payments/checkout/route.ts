@@ -6,7 +6,7 @@ import { rateLimit } from "@/lib/rate-limit";
 import { checkoutSchema } from "@/lib/validators/payments";
 
 export async function POST(request: NextRequest) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

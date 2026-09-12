@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 };
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default async function TrustCardDetailPage({ params }: PageProps) {
+export default async function TrustCardDetailPage(props: PageProps) {
+  const params = await props.params;
   const result = await getTrustCardById(params.id);
   if (!result.success || !result.data) notFound();
 

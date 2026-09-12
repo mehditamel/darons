@@ -9,7 +9,7 @@ export type ActionResult<T = void> = {
   error?: string;
 };
 
-export type SupabaseClient = ReturnType<typeof createClient>;
+export type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
 
 export async function safeAction<T>(
   fn: () => Promise<ActionResult<T>>
@@ -31,7 +31,7 @@ export async function getAuthenticatedUser(): Promise<{
   supabase: SupabaseClient;
 }> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
       error,
@@ -42,7 +42,7 @@ export async function getAuthenticatedUser(): Promise<{
     console.error("[getAuthenticatedUser]", error);
     // Return a stub client — callers check user === null first anyway
     try {
-      const supabase = createClient();
+      const supabase = await createClient();
       return { user: null, supabase };
     } catch {
       // createClient itself threw (env vars missing) — return null user
