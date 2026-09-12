@@ -138,5 +138,45 @@ await check('verified project owner is authorized after the repair',async()=>ass
 await asUser(outsider);
 await check('admin authorization never uses another users flag',async()=>assert.equal((await db.query('SELECT public.is_current_user_admin() AS allowed')).rows[0].allowed,false));
 
+await db.exec('RESET ROLE');
+const newsletterMigration = await readFile(new URL('../supabase/migrations/20260912013955_newsletter_confirmation.sql',import.meta.url),'utf8');
+await db.exec(newsletterMigration);
+await asUser(null,'anon');
+await check('anonymous visitors cannot read newsletter addresses',()=>assert.rejects(db.query('SELECT * FROM public.newsletter_subscribers'),/permission denied/));
+await asUser(outsider);
+await check('authenticated users cannot request newsletter tokens directly',()=>assert.rejects(db.query("SELECT public.request_newsletter_confirmation('test@example.test',$1)",['d'.repeat(64)]),/permission denied/));
+await asUser(null,'service_role');
+await check('newsletter request creates an unconfirmed normalized address',async()=>{
+  assert.equal((await db.query("SELECT public.request_newsletter_confirmation(' Parent@Example.Test ',$1) AS sent",['d'.repeat(64)])).rows[0].sent,true);
+  const row=(await db.query('SELECT email,confirmed FROM public.newsletter_subscribers')).rows[0];
+  assert.deepEqual(row,{email:'parent@example.test',confirmed:false});
+});
+await check('repeated requests cannot resend or rotate a pending token',async()=>{
+  assert.equal((await db.query("SELECT public.request_newsletter_confirmation('parent@example.test',$1) AS sent",['e'.repeat(64)])).rows[0].sent,false);
+  assert.equal((await db.query('SELECT manage_token_hash FROM public.newsletter_subscribers')).rows[0].manage_token_hash,'d'.repeat(64));
+});
+await check('unknown newsletter token cannot confirm an address',async()=>assert.equal((await db.query('SELECT public.confirm_newsletter_subscription($1) AS ok',['e'.repeat(64)])).rows[0].ok,false));
+await check('valid newsletter token confirms exactly once',async()=>{
+  assert.equal((await db.query('SELECT public.confirm_newsletter_subscription($1) AS ok',['d'.repeat(64)])).rows[0].ok,true);
+  assert.equal((await db.query('SELECT public.confirm_newsletter_subscription($1) AS ok',['d'.repeat(64)])).rows[0].ok,false);
+});
+await db.query("UPDATE public.newsletter_subscribers SET confirmation_sent_at=now()-interval '16 minutes'");
+await check('confirmed subscribers do not receive duplicate confirmation emails',async()=>assert.equal((await db.query("SELECT public.request_newsletter_confirmation('parent@example.test',$1) AS sent",['e'.repeat(64)])).rows[0].sent,false));
+await db.query('UPDATE public.newsletter_subscribers SET confirmed=false,unsubscribed_at=now(),manage_token_hash=null');
+await check('unsubscribing makes the former confirmation link unusable',async()=>assert.equal((await db.query('SELECT public.confirm_newsletter_subscription($1) AS ok',['d'.repeat(64)])).rows[0].ok,false));
+await check('resubscription requires a new confirmation',async()=>{
+  assert.equal((await db.query("SELECT public.request_newsletter_confirmation('parent@example.test',$1) AS sent",['e'.repeat(64)])).rows[0].sent,true);
+  assert.equal((await db.query('SELECT confirmed FROM public.newsletter_subscribers')).rows[0].confirmed,false);
+  assert.equal((await db.query('SELECT public.confirm_newsletter_subscription($1) AS ok',['e'.repeat(64)])).rows[0].ok,true);
+  assert.equal((await db.query('SELECT unsubscribed_at FROM public.newsletter_subscribers')).rows[0].unsubscribed_at,null);
+});
+await db.query("SELECT public.request_newsletter_confirmation('expired@example.test',$1)",['f'.repeat(64)]);
+await db.query("UPDATE public.newsletter_subscribers SET confirmation_expires_at=now()-interval '1 second' WHERE email='expired@example.test'");
+await check('expired newsletter tokens cannot confirm',async()=>assert.equal((await db.query('SELECT public.confirm_newsletter_subscription($1) AS ok',['f'.repeat(64)])).rows[0].ok,false));
+await db.exec('RESET ROLE');
+await check('newsletter migration can be reapplied without losing subscriptions',async()=>{
+  await db.exec(newsletterMigration);
+  assert.equal((await db.query('SELECT count(*)::int AS count FROM public.newsletter_subscribers')).rows[0].count,2);
+});
 await db.close();
 console.log(`${checks} database security checks passed`);
