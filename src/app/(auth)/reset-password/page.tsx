@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +26,12 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
 
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("error") === "expired") {
+      setError("Ce lien a expiré ou n'est plus valide. Saisis ton email pour en recevoir un nouveau.");
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -42,7 +48,7 @@ export default function ResetPasswordPage() {
       const supabase = createClient();
       const { error: authError } = await supabase.auth.resetPasswordForEmail(
         data.email,
-        { redirectTo: `${window.location.origin}/callback` }
+        { redirectTo: `${window.location.origin}/callback?next=/update-password` }
       );
 
       if (authError) {
@@ -51,12 +57,8 @@ export default function ResetPasswordPage() {
       }
 
       setSent(true);
-    } catch (err) {
-      if (err instanceof Error && err.message.includes("Supabase")) {
-        setError("La connexion à Supabase n'est pas configurée. Vérifiez vos variables d'environnement.");
-      } else {
-        setError("Une erreur est survenue.");
-      }
+    } catch {
+      setError("La connexion est indisponible. Réessaie dans un instant.");
     } finally {
       setIsLoading(false);
     }
@@ -76,12 +78,12 @@ export default function ResetPasswordPage() {
           </CardDescription>
         </CardHeader>
         <CardFooter className="justify-center">
-          <Link href="/login">
-            <Button variant="ghost">
+          <Button asChild variant="ghost">
+            <Link href="/login">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Retour à la connexion
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </CardFooter>
       </Card>
     );
@@ -109,13 +111,14 @@ export default function ResetPasswordPage() {
               <Input
                 id="email"
                 type="email"
+                autoComplete="email"
                 placeholder="mehdi@exemple.fr"
                 className="pl-10"
                 {...register("email")}
               />
             </div>
             {errors.email && (
-              <p className="text-xs text-destructive">{errors.email.message}</p>
+              <p role="alert" className="text-xs text-destructive">{errors.email.message}</p>
             )}
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
@@ -125,12 +128,12 @@ export default function ResetPasswordPage() {
         </form>
       </CardContent>
       <CardFooter className="justify-center">
-        <Link href="/login">
-          <Button variant="ghost" size="sm">
+        <Button asChild variant="ghost" size="sm">
+          <Link href="/login">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Retour à la connexion
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </CardFooter>
     </Card>
   );
