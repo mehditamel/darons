@@ -14,7 +14,7 @@ import { CookieBanner } from "@/components/shared/cookie-banner";
 import { ScrollToTop } from "@/components/shared/scroll-to-top";
 import { RouteProgress } from "@/components/shared/route-progress";
 import { PageTransition } from "@/components/layout/page-transition";
-import { createClient } from "@/lib/supabase/server";
+import { requireAuthenticatedUser } from "@/lib/auth/require-user";
 
 // Every private page depends on the current authenticated request.
 export const dynamic = "force-dynamic";
@@ -31,6 +31,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { user, supabase } = await requireAuthenticatedUser();
   const initialCompact = (await cookies()).get(SIDEBAR_COOKIE)?.value === "1";
 
   let userEmail = "";
@@ -39,11 +40,6 @@ export default async function DashboardLayout({
   const sidebarBadges: Record<string, number> = {};
 
   try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
     if (user) {
       userEmail = user.email ?? "";
 

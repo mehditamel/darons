@@ -1,6 +1,7 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { safeAuthRedirect } from "@/lib/auth/redirect";
+import { isProtectedPath } from "@/lib/auth/protected-routes";
 import {
   HAS_HOUSEHOLD_COOKIE,
   HAS_HOUSEHOLD_COOKIE_MAX_AGE,
@@ -13,10 +14,25 @@ export async function updateSession(request: NextRequest) {
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const isProtectedRoute = isProtectedPath(request.nextUrl.pathname);
+
+  function redirectWithCookies(url: URL) {
+    const response = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) => response.cookies.set(cookie));
+    return response;
+  }
+
+  function redirectToLogin(unavailable = false) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.search = "";
+    url.searchParams.set("next", request.nextUrl.pathname + request.nextUrl.search);
+    if (unavailable) url.searchParams.set("error", "unavailable");
+    return redirectWithCookies(url);
+  }
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    // Supabase not configured yet — let the request through without auth
-    return supabaseResponse;
+    return isProtectedRoute ? redirectToLogin(true) : supabaseResponse;
   }
 
   const supabase = createServerClient(
@@ -48,34 +64,16 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  function redirectWithCookies(url: URL) {
-    const response = NextResponse.redirect(url);
-    supabaseResponse.cookies.getAll().forEach((cookie) => response.cookies.set(cookie));
-    return response;
+  let session;
+  try {
+    session = await supabase.auth.getUser();
+  } catch {
+    return isProtectedRoute ? redirectToLogin(true) : supabaseResponse;
   }
-
-  // Protected routes: only dashboard-related paths require authentication
-  const PROTECTED_PREFIXES = [
-    "/dashboard", "/identite", "/sante", "/documents", "/scolarite",
-    "/activites", "/developpement", "/fiscal", "/budget", "/garde",
-    "/demarches", "/sante-enrichie", "/parametres", "/partage",
-    "/depenses-partagees", "/parrainage", "/admin", "/onboarding",
-    "/confiance", "/capsule", "/alertes",
-  ];
-  const isProtectedRoute = PROTECTED_PREFIXES.some((prefix) =>
-    request.nextUrl.pathname === prefix || request.nextUrl.pathname.startsWith(`${prefix}/`)
-  );
+  const user = session.data.user;
 
   if (!user && isProtectedRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    url.search = "";
-    url.searchParams.set("next", request.nextUrl.pathname + request.nextUrl.search);
-    return redirectWithCookies(url);
+    return redirectToLogin();
   }
 
   // If authenticated user tries to access auth pages, redirect to dashboard
