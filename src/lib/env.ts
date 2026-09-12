@@ -4,6 +4,7 @@ import { z } from "zod";
 const serverSchema = z.object({
   // Supabase
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional().default(""),
+  SUPABASE_SECRET_KEY: z.string().optional().default(""),
 
   // Anthropic (Claude IA)
   ANTHROPIC_API_KEY: z.string().optional().default(""),
@@ -70,6 +71,7 @@ const serverSchema = z.object({
 const clientSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional().default(""),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().optional().default(""),
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().optional().default(""),
   NEXT_PUBLIC_APP_URL: z
     .string()
     .url()

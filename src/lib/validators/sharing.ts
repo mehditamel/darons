@@ -3,6 +3,8 @@ import { z } from "zod";
 export const invitationSchema = z.object({
   email: z
     .string()
+    .trim()
+    .toLowerCase()
     .email("Adresse email invalide")
     .max(255, "Maximum 255 caractères"),
   role: z.enum(["partner", "viewer", "nanny"], {

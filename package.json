@@ -13,6 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:db-security": "node scripts/test-database-security.mjs",
     "test:e2e": "playwright test",
     "e2e:debug": "playwright test --debug",
     "e2e:ui": "playwright test --ui",
@@ -62,6 +63,7 @@
     "react-map-gl": "^8.1.0",
     "recharts": "2.15.4",
     "resend": "^6.9.4",
+    "server-only": "0.0.1",
     "stripe": "^14.14.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
@@ -71,6 +73,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
+    "@electric-sql/pglite": "0.5.8",
     "@next/bundle-analyzer": "15.5.25",
     "@playwright/test": "^1.58.2",
     "@tailwindcss/typography": "^0.5.19",
