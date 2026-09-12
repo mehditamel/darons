@@ -20,7 +20,7 @@ const links = [
   { href: "/outils", label: "Outils gratuits" },
   { href: "/demo", label: "Démo" },
   { href: "/blog", label: "Blog" },
-  { href: "/#fonctionnalites", label: "Fonctionnalités" },
+  { href: "/outils/plan-famille", label: "Mon plan" },
   { href: "/#pricing", label: "Tarifs" },
 ];
 
@@ -30,7 +30,7 @@ export function PublicHeader() {
   function isActive(href: string) {
     return (
       pathname === href ||
-      (!href.includes("#") && pathname.startsWith(`${href}/`))
+      (!href.includes("#") && pathname.startsWith(`${href}/`) && !links.some((link) => link.href !== href && link.href === pathname))
     );
   }
 

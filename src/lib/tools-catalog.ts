@@ -114,6 +114,14 @@ export const SECTIONS: ToolSection[] = [
     title: "Vie de parent",
     tools: [
       {
+        href: "/outils/plan-famille",
+        iconName: "ClipboardCheck",
+        title: "Mon plan Darons",
+        description: "Futurs et jeunes parents : jusqu’à trois actions adaptées à bébé, à ton besoin et au temps disponible. Un plan à répartir et à emporter.",
+        color: "text-secondary bg-secondary/10",
+        isNew: true,
+      },
+      {
         href: "/outils/checklist-naissance",
         iconName: "ClipboardCheck",
         title: "Checklist naissance",

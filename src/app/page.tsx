@@ -19,6 +19,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { PublicHeader } from "@/components/layout/public-header";
 import { Footer } from "@/components/layout/footer";
 import { FamilyDayTour } from "@/components/landing/family-day-tour";
+import { PlanSpotlight } from "@/components/family-plan/plan-spotlight";
 import { FamilyReadingProgress } from "@/components/landing/family-motion";
 import { FamilyHero } from "@/components/landing/family-hero";
 import { FamilyReveal } from "@/components/landing/family-reveal";
@@ -170,6 +171,7 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <div className="family-container py-12 sm:py-16"><PlanSpotlight /></div>
         <FamilyDayTour />
 
         <section

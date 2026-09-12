@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { TOTAL_TOOLS } from "../src/lib/tools-catalog";
 
 test("mobile menu opens, navigates and closes", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
@@ -18,15 +19,15 @@ test("tool search combines filters and recovers from no results", async ({ page 
   await page.goto("/outils");
   const search = page.getByRole("searchbox", { name: "Rechercher un outil" });
   const tools = page.locator("#tool-results a");
-  await expect(tools).toHaveCount(15);
-  await expect(page).toHaveTitle(/15 outils/);
+  await expect(tools).toHaveCount(TOTAL_TOOLS);
+  await expect(page).toHaveTitle(new RegExp(`${TOTAL_TOOLS} outils`));
   await search.fill("COUT creche");
   await expect(tools).toHaveCount(1);
   await expect(tools).toHaveAttribute("href", "/outils/simulateur-garde");
   await page.getByRole("button", { name: "Santé", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Aucun outil trouvé" })).toBeVisible();
   await page.getByRole("button", { name: "Afficher tous les outils" }).click();
-  await expect(tools).toHaveCount(15);
+  await expect(tools).toHaveCount(TOTAL_TOOLS);
   await expect(search).toHaveValue("");
 });
 

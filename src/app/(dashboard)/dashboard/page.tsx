@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { FamilyWelcome } from "@/components/dashboard/family-welcome";
+import { PlanSpotlight } from "@/components/family-plan/plan-spotlight";
 import { StatCard } from "@/components/shared/stat-card";
 import { AlertsWidget } from "@/components/dashboard/alerts-widget";
 import { UpcomingTimeline } from "@/components/dashboard/upcoming-timeline";
@@ -376,6 +377,8 @@ export default async function DashboardPage() {
         description={greetingMessage}
         date={format(now, "EEEE d MMMM yyyy", { locale: fr })}
       />
+
+      <PlanSpotlight />
 
       {/* Empty state: no children */}
       {children.length === 0 && (
