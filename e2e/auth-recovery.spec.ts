@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("an account service outage leaves public tools reachable", async ({ page }) => {
   await page.goto("/login?error=unavailable&next=%2Fdocuments");
-  await expect(page.getByRole("alert")).toContainText("temporairement indisponible");
+  await expect(page.getByRole("alert").filter({ hasText: "temporairement indisponible" })).toBeVisible();
   await page.getByRole("link", { name: "Accéder aux outils gratuits" }).click();
   await expect(page).toHaveURL(/\/outils$/);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
