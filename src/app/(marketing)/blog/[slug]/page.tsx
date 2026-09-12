@@ -260,16 +260,12 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 }
               </p>
               <div className="flex gap-3 justify-center flex-wrap">
-                <Link href={tool?.href ?? "/outils"}>
-                  <Button variant="outline">
-                    {tool?.label ?? "Outils gratuits"}
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button>
-                    Creer mon compte <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
+                <Button asChild variant="outline" className="h-auto min-h-11 whitespace-normal">
+                  <Link href={tool?.href ?? "/outils"}>{tool?.label ?? "Outils gratuits"}</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/register">Créer mon compte <ArrowRight className="w-4 h-4 ml-2" /></Link>
+                </Button>
               </div>
             </CardContent>
           </Card>
