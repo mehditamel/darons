@@ -20,7 +20,7 @@ await db.exec(`
   CREATE FUNCTION auth.uid() RETURNS uuid LANGUAGE sql STABLE AS $$ SELECT nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
   GRANT USAGE ON SCHEMA public, auth TO anon, authenticated, service_role;
   CREATE TABLE public.profiles(id uuid PRIMARY KEY, email text, first_name text, last_name text, avatar_url text, phone_number text,
-    referral_code text, calendar_tokens jsonb, updated_at timestamptz, subscription_plan text DEFAULT 'free', stripe_customer_id text, role text DEFAULT 'owner');
+    referral_code text, calendar_tokens jsonb, updated_at timestamptz, subscription_plan text DEFAULT 'free', stripe_customer_id text, role text DEFAULT 'owner', is_admin boolean NOT NULL DEFAULT false);
   CREATE TABLE public.households(id uuid PRIMARY KEY, owner_id uuid REFERENCES public.profiles(id));
   CREATE TABLE public.household_members(id uuid PRIMARY KEY DEFAULT gen_random_uuid(), household_id uuid REFERENCES public.households(id),
     user_id uuid REFERENCES public.profiles(id), role text CHECK(role IN ('owner','partner','viewer','nanny')), joined_at timestamptz DEFAULT now(), UNIQUE(household_id,user_id));
@@ -55,9 +55,9 @@ await check('baseline reproduces writable subscription',async()=>assert.equal((a
 await db.exec('RESET ROLE');
 await db.query("UPDATE public.profiles SET subscription_plan='free' WHERE id=$1",[outsider]);
 // The project owner's email in an editable profile must not bootstrap an admin.
-await db.query("UPDATE public.profiles SET email='mehdi@tamel.fr' WHERE id=$1",[outsider]);
+await db.query("UPDATE public.profiles SET email='mehdi@tamel.fr', is_admin=true WHERE id=$1",[outsider]);
 await db.exec(await readFile(new URL('../supabase/migrations/20260912003858_secure_profiles_and_household_invitations.sql',import.meta.url),'utf8'));
-await check('editable profile email cannot bootstrap an administrator',async()=>assert.equal((await db.query('SELECT is_admin FROM public.profiles WHERE id=$1',[outsider])).rows[0].is_admin,false));
+await check('legacy self-assigned flag and editable email cannot bootstrap an administrator',async()=>assert.equal((await db.query('SELECT is_admin FROM public.profiles WHERE id=$1',[outsider])).rows[0].is_admin,false));
 await db.exec('CREATE TRIGGER create_profile AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION public.handle_new_user(); CREATE TRIGGER update_profile BEFORE UPDATE ON public.profiles FOR EACH ROW EXECUTE FUNCTION public.update_updated_at();');
 await check('signup trigger works with fixed search path and ignores privileged metadata',async()=>{
   const id='55555555-1111-4111-8111-111111111111';
@@ -113,5 +113,30 @@ await check('trusted billing client can still update protected fields',async()=>
   const result=await db.query("UPDATE public.profiles SET stripe_customer_id='cus_test', subscription_plan='premium' WHERE id=$1 RETURNING subscription_plan",[owner]);
   assert.equal(result.rows[0].subscription_plan,'premium');
 });
+
+await db.exec('RESET ROLE');
+const trustedAdminMigration = await readFile(new URL('../supabase/migrations/20260912015005_trusted_admin_authorization.sql',import.meta.url),'utf8');
+// Reproduce an installation that already applied the former migration without clearing legacy flags.
+await db.query('UPDATE public.profiles SET is_admin=true WHERE id=$1',[outsider]);
+await db.exec('GRANT UPDATE (is_admin) ON public.profiles TO authenticated');
+await db.exec(trustedAdminMigration);
+await asUser(outsider);
+await check('repair migration clears a pre-existing forged admin flag',async()=>assert.equal((await db.query('SELECT public.is_current_user_admin() AS allowed')).rows[0].allowed,false));
+await check('repair migration revokes legacy column-level self-promotion',()=>assert.rejects(db.query('UPDATE public.profiles SET is_admin=true'),/permission denied/));
+await asUser(null,'anon');
+await check('anonymous admin authorization is denied',()=>assert.rejects(db.query('SELECT public.is_current_user_admin()'),/permission denied/));
+await db.exec('RESET ROLE');
+await db.query("UPDATE auth.users SET email='mehdi@tamel.fr', email_confirmed_at=NULL WHERE id=$1",[owner]);
+await db.exec(trustedAdminMigration);
+await asUser(owner);
+await check('unconfirmed project-owner email cannot bootstrap admin',async()=>assert.equal((await db.query('SELECT public.is_current_user_admin() AS allowed')).rows[0].allowed,false));
+await db.exec('RESET ROLE');
+await db.query('UPDATE auth.users SET email_confirmed_at=now() WHERE id=$1',[owner]);
+await db.exec(trustedAdminMigration);
+await asUser(owner);
+await check('verified project owner is authorized after the repair',async()=>assert.equal((await db.query('SELECT public.is_current_user_admin() AS allowed')).rows[0].allowed,true));
+await asUser(outsider);
+await check('admin authorization never uses another users flag',async()=>assert.equal((await db.query('SELECT public.is_current_user_admin() AS allowed')).rows[0].allowed,false));
+
 await db.close();
 console.log(`${checks} database security checks passed`);
