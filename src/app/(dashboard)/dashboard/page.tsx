@@ -17,7 +17,7 @@ import {
   Palette,
 } from "lucide-react";
 import Link from "next/link";
-import { PageHeader } from "@/components/shared/page-header";
+import { FamilyWelcome } from "@/components/dashboard/family-welcome";
 import { StatCard } from "@/components/shared/stat-card";
 import { AlertsWidget } from "@/components/dashboard/alerts-widget";
 import { UpcomingTimeline } from "@/components/dashboard/upcoming-timeline";
@@ -371,15 +371,11 @@ export default async function DashboardPage() {
     <DashboardShell>
     <div className="space-y-8 page-enter">
       {/* Greeting */}
-      <div className="flex flex-col gap-1">
-        <PageHeader
-          title={`${greeting}, ${displayName}`}
-          description={greetingMessage}
-        />
-        <p className="text-xs text-muted-foreground">
-          {format(now, "EEEE d MMMM yyyy", { locale: fr })}
-        </p>
-      </div>
+      <FamilyWelcome
+        title={`${greeting}, ${displayName}`}
+        description={greetingMessage}
+        date={format(now, "EEEE d MMMM yyyy", { locale: fr })}
+      />
 
       {/* Empty state: no children */}
       {children.length === 0 && (

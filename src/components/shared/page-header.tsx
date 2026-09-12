@@ -27,7 +27,7 @@ export function PageHeader({
   breadcrumbs,
 }: PageHeaderProps) {
   return (
-    <div className={cn("animate-fade-in-up", className)}>
+    <div className={cn("family-page-header animate-fade-in-up", className)}>
       {breadcrumbs && breadcrumbs.length > 0 && (
         <Breadcrumbs items={breadcrumbs} />
       )}

@@ -1,46 +1,38 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
-  HeartPulse,
-  GraduationCap,
-  Calculator,
-  Wallet,
-  Shield,
   ArrowRight,
-  Users,
   Baby,
+  BookOpen,
+  Calculator,
+  Check,
   ClipboardList,
+  GraduationCap,
+  HeartPulse,
+  LockKeyhole,
   Sparkles,
-  Wrench,
-  Star,
-  Zap,
-  Globe,
-  Lock,
+  Wallet,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/json-ld";
-import { LandingAnimations } from "@/components/landing/landing-animations";
+import { PublicHeader } from "@/components/layout/public-header";
 import { Footer } from "@/components/layout/footer";
+import { FamilyHero } from "@/components/landing/family-hero";
+import { FamilyReveal } from "@/components/landing/family-reveal";
 import { FaqSection } from "@/components/landing/faq-section";
 import { PricingSection } from "@/components/landing/pricing-section";
-import { AnimatedStatsBar } from "@/components/landing/animated-stats-bar";
-import { ScrollSection } from "@/components/landing/scroll-section";
 import { NewsletterSignup } from "@/components/blog/newsletter-signup";
-import { PublicHeader } from "@/components/layout/public-header";
 import { TOTAL_TOOLS } from "@/lib/tools-catalog";
 import { getAllArticles } from "@/lib/blog-data";
-import { BookOpen, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Darons — Toute ta vie de daron. Une seule app.",
-  description:
-    `Santé, budget, impôts et démarches : un espace pour ta famille et ${TOTAL_TOOLS} outils gratuits sans inscription.`,
+  description: `Santé, budget, impôts et démarches : un espace pour ta famille et ${TOTAL_TOOLS} outils gratuits sans inscription.`,
   openGraph: {
-    title: "Darons — Toute ta vie de daron. Une seule app.",
+    title: "Darons — Un peu plus de place pour la vie de famille",
     description:
-      "Vaccins, budget, impôts, papiers — 100% gratuit, sans piège. C'est Darons.",
+      "Les vaccins, les papiers, le budget. Tout ce qui remplit ta tête, enfin au même endroit.",
     type: "website",
     url: "https://darons.app",
   },
@@ -51,84 +43,88 @@ const FEATURES = [
     icon: HeartPulse,
     title: "Santé & vaccins",
     description:
-      "Ton gamin a ses vaccins à jour ? On vérifie. Calendrier vaccinal, courbes de croissance OMS, 20 examens obligatoires.",
-    color: "text-warm-teal",
-    bgColor: "bg-warm-teal/10",
-    gradient: "from-warm-teal/10 to-warm-teal/5",
+      "Vaccins, courbes de croissance, rendez-vous. Les repères de santé de tes enfants à portée de main.",
     href: "/sante",
-  },
-  {
-    icon: GraduationCap,
-    title: "Éducation & développement",
-    description:
-      "Premiers mots, premiers pas — note tout. Timeline scolaire, activités, jalons de développement OMS/HAS.",
-    color: "text-warm-blue",
-    bgColor: "bg-warm-blue/10",
-    gradient: "from-warm-blue/10 to-warm-blue/5",
-    href: "/scolarite",
-  },
-  {
-    icon: Calculator,
-    title: "Foyer fiscal",
-    description:
-      "Tes impôts, on t'aide à payer moins. Simulation IR, crédits d'impôt, comparateur avant/après.",
-    color: "text-warm-gold",
-    bgColor: "bg-warm-gold/10",
-    gradient: "from-warm-gold/10 to-warm-gold/5",
-    href: "/fiscal",
+    tone: "sage",
+    label: "Pour les petits qui grandissent",
   },
   {
     icon: Wallet,
     title: "Budget intelligent",
     description:
-      "Où passe ta thune ? On te montre. Connexion bancaire automatique, catégorisation IA, coach budgétaire.",
-    color: "text-warm-purple",
-    bgColor: "bg-warm-purple/10",
-    gradient: "from-warm-purple/10 to-warm-purple/5",
+      "Dépenses, allocations, reste à vivre. Fais le point sur le budget de ta tribu.",
     href: "/budget",
+    tone: "peach",
+    label: "Pour les fins de mois plus claires",
+  },
+  {
+    icon: GraduationCap,
+    title: "Éducation & développement",
+    description:
+      "Les premiers mots, les activités, les années d’école. Garde une trace de leurs grandes étapes.",
+    href: "/scolarite",
+    tone: "lavender",
+    label: "Pour toutes les premières fois",
+  },
+  {
+    icon: Calculator,
+    title: "Foyer fiscal",
+    description:
+      "Parts, crédits d’impôt, frais de garde. Des simulations pour préparer ta déclaration.",
+    href: "/fiscal",
+    tone: "butter",
+    label: "Pour y voir clair dans les chiffres",
   },
   {
     icon: Baby,
     title: "Recherche de garde",
     description:
-      "Crèche ou nounou ? Compare les vrais coûts après CMG et crédit d'impôt. Le reste à charge, pas le prix catalogue.",
-    color: "text-warm-orange",
-    bgColor: "bg-warm-orange/10",
-    gradient: "from-warm-orange/10 to-warm-orange/5",
+      "Crèche ou nounou ? Explore les solutions et compare les coûts après aides.",
     href: "/garde",
+    tone: "peach",
+    label: "Pour trouver votre équilibre",
   },
   {
     icon: ClipboardList,
     title: "Démarches & droits",
     description:
-      "Les papiers qui traînent ? On te rappelle avant que ce soit trop tard. Checklist naissance + alertes IA.",
-    color: "text-warm-green",
-    bgColor: "bg-warm-green/10",
-    gradient: "from-warm-green/10 to-warm-green/5",
+      "Les papiers, les dates, les démarches. Retrouve ce qu’il faut prévoir, au bon endroit.",
     href: "/demarches",
+    tone: "sage",
+    label: "Pour ne plus tout garder en tête",
   },
-];
+] as const;
 
-const TOOLS_PREVIEW = [
-  { href: "/outils/simulateur-ir", label: "Simulateur impôts" },
-  { href: "/outils/simulateur-caf", label: "Allocations CAF" },
-  { href: "/outils/simulateur-garde", label: "Coût de garde" },
-  { href: "/outils/mes-droits", label: "Mes droits sociaux" },
-  { href: "/outils/courbe-croissance", label: "Courbes croissance" },
-  { href: "/outils/checklist-naissance", label: "Checklist naissance" },
-  { href: "/outils/numeros-urgence", label: "Urgences" },
-  { href: "/outils/conge-parental", label: "Congé parental" },
-];
-
-const ACCESS_OPTIONS = [
-  { title: "Besoin d'une réponse rapide ?", description: "Estime ton budget, tes aides ou le coût de garde avec les outils publics.", href: "/outils", cta: "Explorer les outils", icon: Wrench },
-  { title: "Envie de voir comment ça marche ?", description: "Visite le tableau de bord avec un foyer fictif, sans saisir tes informations.", href: "/demo", cta: "Découvrir la démo", icon: Users },
-  { title: "Prêt à organiser ta famille ?", description: "Crée ton espace pour retrouver tes informations et suivre tes démarches.", href: "/register", cta: "Créer mon compte gratuit", icon: ClipboardList },
+const TOOLS = [
+  {
+    title: "Combien va coûter la garde ?",
+    label: "Simulateur de garde",
+    href: "/outils/simulateur-garde",
+    icon: Baby,
+  },
+  {
+    title: "À quelles aides ai-je droit ?",
+    label: "Simulateur allocations CAF",
+    href: "/outils/simulateur-caf",
+    icon: Wallet,
+  },
+  {
+    title: "Et mes impôts, cette année ?",
+    label: "Simulateur d’impôts",
+    href: "/outils/simulateur-ir",
+    icon: Calculator,
+  },
+  {
+    title: "Bébé arrive. Je commence où ?",
+    label: "Checklist naissance",
+    href: "/outils/checklist-naissance",
+    icon: Check,
+  },
 ];
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen">
+    <div className="family-site min-h-screen">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -138,384 +134,298 @@ export default function LandingPage() {
           applicationCategory: "LifestyleApplication",
           operatingSystem: "Web",
           description:
-            "L'app 100% gratuite qui centralise toute la vie de famille : santé, budget, impôts, papiers.",
+            "Un espace pour organiser la vie de famille : santé, budget, impôts et papiers.",
           offers: {
             "@type": "Offer",
             price: "0",
             priceCurrency: "EUR",
-            name: "Gratuit",
-          },
-          publisher: {
-            "@type": "Organization",
-            name: "Darons",
-            url: "https://darons.app",
+            name: "Compte gratuit",
           },
         }}
       />
-
       <PublicHeader />
       <main id="main-content" tabIndex={-1}>
-      {/* Hero */}
-      <section data-testid="hero" className="relative overflow-hidden py-20 lg:py-32">
-        {/* Floating decorative shapes */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="animate-float absolute -top-10 right-[10%] h-72 w-72 rounded-full bg-gradient-to-br from-warm-orange/8 to-warm-orange/3" />
-          <div className="animate-float absolute bottom-0 left-[5%] h-56 w-56 rounded-full bg-gradient-to-br from-warm-teal/8 to-warm-teal/3" style={{ animationDelay: "2s" }} />
-          <div className="animate-float absolute top-1/2 right-[25%] h-40 w-40 rounded-full bg-gradient-to-br from-warm-blue/6 to-warm-blue/2" style={{ animationDelay: "4s" }} />
-          <div className="animate-float absolute top-1/4 left-[15%] h-24 w-24 rounded-full bg-gradient-to-br from-warm-purple/6 to-warm-purple/2" style={{ animationDelay: "3s" }} />
-        </div>
+        <FamilyHero />
 
-        <div className="relative mx-auto max-w-6xl px-4">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12">
-            {/* Hero text — left side on desktop, full width on mobile */}
-            <div className="text-center lg:text-left lg:flex-1">
-              {/* Trust badge */}
-              <div className="inline-flex items-center gap-2 rounded-full bg-warm-green/10 px-4 py-1.5 text-sm text-success font-medium mb-8 animate-fade-in-up">
-                <Zap className="h-3.5 w-3.5" />
-                100% gratuit, sans piège, sans pub intrusive
-              </div>
-
-              <LandingAnimations />
-
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
-                <Button asChild size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all"><Link href="/register">
-                    C'est gratuit, je m'inscris
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link></Button>
-                <Button asChild variant="outline" size="lg" className="h-14 px-10 text-base"><Link href="/outils">
-                    <Wrench className="mr-2 h-4 w-4" />
-                    Essayer sans s'inscrire
-                  </Link></Button>
-              </div>
-              <p className="mt-4 text-sm text-muted-foreground">
-                ou{" "}
-                <Link
-                  href="/demo"
-                  className="font-medium text-primary underline-offset-4 hover:underline"
-                >
-                  visite la démo du tableau de bord
-                </Link>
-              </p>
-            </div>
-
-            {/* Phone mockup — right side on desktop, below text on mobile */}
-            <div className="mt-14 lg:mt-0 flex justify-center lg:flex-shrink-0 animate-fade-in-up" style={{ animationDelay: "0.8s" }}>
-              <div className="animate-float" style={{ perspective: "1200px" }}>
-                <div
-                  className="relative w-[280px] h-[560px] rounded-[3rem] border-[6px] border-foreground/15 bg-card shadow-2xl shadow-black/15 overflow-hidden"
-                  style={{ transform: "rotateY(-8deg) rotateX(4deg)" }}
-                >
-                  {/* Phone notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-foreground/15 rounded-b-2xl z-10" />
-
-                  {/* Mini dashboard content */}
-                  <div className="p-4 pt-10 h-full bg-gradient-to-b from-background to-card">
-                    {/* Mini topbar */}
-                    <div className="flex items-center gap-2 mb-4">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white text-[10px] font-bold">D</div>
-                      <span className="text-xs font-serif font-bold">Darons</span>
-                    </div>
-
-                    {/* Welcome text */}
-                    <p className="text-[11px] text-muted-foreground mb-1">Bonjour Mehdi</p>
-                    <p className="text-sm font-semibold mb-4">Tableau de bord</p>
-
-                    {/* Mini cards */}
-                    <div className="space-y-2.5">
-                      <div className="rounded-xl bg-warm-teal/10 p-3">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <HeartPulse className="h-3.5 w-3.5 text-warm-teal" />
-                          <span className="text-[10px] font-semibold text-warm-teal">Santé</span>
-                        </div>
-                        <p className="text-[10px] text-muted-foreground">Prochain vaccin dans 12 jours</p>
-                        <div className="mt-1.5 h-1.5 w-full rounded-full bg-warm-teal/20">
-                          <div className="h-full w-3/4 rounded-full bg-warm-teal" />
-                        </div>
-                      </div>
-
-                      <div className="rounded-xl bg-warm-purple/10 p-3">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <Wallet className="h-3.5 w-3.5 text-warm-purple" />
-                          <span className="text-[10px] font-semibold text-warm-purple">Budget</span>
-                        </div>
-                        <p className="text-[10px] text-muted-foreground">Reste à vivre : 847 €</p>
-                        <div className="mt-1.5 h-1.5 w-full rounded-full bg-warm-purple/20">
-                          <div className="h-full w-[60%] rounded-full bg-warm-purple" />
-                        </div>
-                      </div>
-
-                      <div className="rounded-xl bg-warm-gold/10 p-3">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <Calculator className="h-3.5 w-3.5 text-warm-gold" />
-                          <span className="text-[10px] font-semibold text-warm-gold">Fiscal</span>
-                        </div>
-                        <p className="text-[10px] text-muted-foreground">Économie estimée : 3 850 €</p>
-                      </div>
-
-                      <div className="rounded-xl bg-warm-orange/10 p-3">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <ClipboardList className="h-3.5 w-3.5 text-warm-orange" />
-                          <span className="text-[10px] font-semibold text-warm-orange">Alertes</span>
-                        </div>
-                        <p className="text-[10px] text-muted-foreground">2 actions à faire cette semaine</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <section
+          data-testid="stats"
+          className="family-ribbon"
+          aria-label="Darons en quelques repères"
+        >
+          <div className="family-container">
+            <p>
+              <strong>6</strong> piliers pour ta tribu
+            </p>
+            <span aria-hidden="true">✳</span>
+            <p>
+              <strong>{TOTAL_TOOLS}</strong> outils gratuits
+            </p>
+            <span aria-hidden="true">✳</span>
+            <p>
+              <strong>1</strong> espace pour tout retrouver
+            </p>
           </div>
+        </section>
 
-          {/* Tools strip */}
-          <div className="mt-14 text-center animate-fade-in-up" style={{ animationDelay: "1s" }}>
-            <p className="text-sm text-muted-foreground mb-4">{TOTAL_TOOLS} outils gratuits, sans inscription</p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {TOOLS_PREVIEW.map((tool) => (
-                <Link key={tool.href} href={tool.href}>
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:bg-warm-orange/10 hover:border-warm-orange/40 transition-all duration-200 py-1.5 px-3 hover:scale-105"
-                  >
-                    {tool.label}
-                  </Badge>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats bar */}
-      <section data-testid="stats" className="border-y bg-card">
-        <div className="mx-auto max-w-6xl px-4 py-8">
-          <AnimatedStatsBar />
-        </div>
-      </section>
-
-      {/* Features */}
-      <section id="fonctionnalites" data-testid="features" className="py-24">
-        <ScrollSection direction="up">
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="text-center mb-16">
-              <Badge variant="outline" className="mb-4">Fonctionnalités</Badge>
-              <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-                6 piliers pour gérer ta tribu
-              </h2>
-              <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-                Les informations essentielles de ta famille, réunies au même endroit.
+        <section
+          id="fonctionnalites"
+          data-testid="features"
+          className="family-section"
+        >
+          <div className="family-container">
+            <FamilyReveal className="family-section-heading">
+              <div>
+                <p className="family-eyebrow">La famille, ça fait beaucoup.</p>
+                <h2>
+                  Une place pour chaque
+                  <br />
+                  <span className="text-secondary">petit grand sujet.</span>
+                </h2>
+              </div>
+              <p>
+                Santé, budget, école, papiers…
+                <br />
+                Les essentiels de votre quotidien, réunis.
               </p>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            </FamilyReveal>
+            <div className="family-feature-grid">
               {FEATURES.map((feature, index) => (
-                <Link key={index} href={feature.href}>
-                  <Card className="relative card-playful border-0 shadow-md group overflow-hidden h-full">
-                    <div aria-hidden="true" className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                    <CardHeader className="relative">
-                      <div
-                        className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bgColor} ${feature.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}
-                      >
-                        <feature.icon className="h-6 w-6" />
-                      </div>
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        {feature.title}
-                        <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="relative">
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
+                <FamilyReveal key={feature.href}>
+                  <Link
+                    href={feature.href}
+                    className={`family-feature family-tone-${feature.tone}`}
+                  >
+                    <div className="family-feature-top">
+                      <feature.icon aria-hidden="true" className="h-6 w-6" />
+                      <span aria-hidden="true">0{index + 1}</span>
+                    </div>
+                    <p className="family-feature-label">{feature.label}</p>
+                    <h3>{feature.title}</h3>
+                    <p className="family-feature-description">
+                      {feature.description}
+                    </p>
+                    <span className="family-feature-link">
+                      Explorer
+                      <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                    </span>
+                  </Link>
+                </FamilyReveal>
               ))}
             </div>
           </div>
-        </ScrollSection>
-      </section>
+        </section>
 
-      {/* AI Section */}
-      <section data-testid="ai-alerts" className="py-24 bg-gradient-to-b from-background to-card">
-        <ScrollSection direction="up">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center mb-14">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-warm-purple/20 to-warm-blue/20 mb-6 shadow-lg shadow-warm-purple/10">
-              <Sparkles className="h-8 w-8 text-warm-purple" />
+        <section
+          data-testid="ai-alerts"
+          className="family-section family-story-section"
+        >
+          <FamilyReveal className="family-container family-story-grid">
+            <figure className="family-story-photo">
+              <Image
+                src="/images/family/park.webp"
+                alt="Une maman et son enfant partagent un moment au parc"
+                fill
+                sizes="(min-width: 1024px) 460px, (min-width: 640px) 50vw, 94vw"
+                className="object-cover"
+              />
+              <figcaption>Le programme ? Être ensemble.</figcaption>
+            </figure>
+            <div className="family-story-copy">
+              <p className="family-eyebrow">
+                <Sparkles aria-hidden="true" className="h-4 w-4" />
+                Un peu d’air dans le quotidien
+              </p>
+              <h2>
+                Tu n’as pas à penser
+                <br />
+                <span className="text-secondary">à tout, tout le temps.</span>
+              </h2>
+              <p>
+                Retrouve tes échéances et les informations de ta famille dans un
+                même espace. Un point de départ pour préparer la semaine, puis
+                passer à autre chose.
+              </p>
+              <ul className="family-checklist">
+                <li>
+                  <Check aria-hidden="true" />
+                  Les dates à garder en vue
+                </li>
+                <li>
+                  <Check aria-hidden="true" />
+                  Les documents à retrouver facilement
+                </li>
+                <li>
+                  <Check aria-hidden="true" />
+                  Le budget à suivre à ton rythme
+                </li>
+              </ul>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="family-button"
+              >
+                <Link href="/demo">
+                  Découvrir le tableau de bord
+                  <ArrowRight aria-hidden="true" className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
             </div>
-            <h2 className="text-3xl font-serif font-bold">
-              Une IA qui pense pour toi
-            </h2>
-            <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-              Darons scanne tes données chaque semaine et te prévient avant que ce soit trop tard.
-              Gratuit, évidemment.
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { text: "La CNI de Yasmine expire dans 47 jours", category: "Documents", color: "border-l-warm-orange", href: "/identite" },
-              { text: "Le vaccin Pneumocoque dose 3 de Matis est en retard", category: "Santé", color: "border-l-warm-red", href: "/sante" },
-              { text: "Tu ne touches pas la prime d'activité (~180€/mois)", category: "Droits", color: "border-l-warm-green", href: "/outils/mes-droits" },
-              { text: "Inscription en PS pour septembre 2028 → c'est maintenant", category: "Scolarité", color: "border-l-warm-blue", href: "/scolarite" },
-              { text: "Tes dépenses santé ont augmenté de 40% ce mois", category: "Budget", color: "border-l-warm-purple", href: "/budget" },
-              { text: "Déclaration IR dans 23 jours → lance ta simulation", category: "Fiscal", color: "border-l-warm-gold", href: "/outils/simulateur-ir" },
-            ].map((alert, index) => (
-              <Link key={index} href={alert.href}>
-                <Card className={`card-playful border-l-4 ${alert.color} group h-full`}>
-                  <CardContent className="py-4 flex items-start gap-3">
-                    <Badge variant="outline" className="shrink-0 text-[10px] mt-0.5">{alert.category}</Badge>
-                    <p className="text-sm leading-relaxed flex-1">{alert.text}</p>
-                    <ArrowRight className="h-4 w-4 shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </CardContent>
-                </Card>
+          </FamilyReveal>
+        </section>
+
+        <section className="family-section">
+          <div className="family-container">
+            <FamilyReveal className="family-section-heading">
+              <div>
+                <p className="family-eyebrow">Une question, un outil.</p>
+                <h2>
+                  On commence
+                  <br />
+                  par ce qui t’aide.
+                </h2>
+              </div>
+              <Link href="/outils" className="family-text-link">
+                Les {TOTAL_TOOLS} outils gratuits
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
-            ))}
-          </div>
-        </div>
-        </ScrollSection>
-      </section>
-
-      <section className="py-16 sm:py-24">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-serif font-bold">Commence par ce qui t'aide aujourd'hui</h2>
-            <p className="mt-4 text-muted-foreground">Les outils sont gratuits. Le compte te permet de retrouver les informations de ta famille.</p>
-          </div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {ACCESS_OPTIONS.map((option) => (
-              <Card key={option.href} className="flex flex-col">
-                <CardHeader><option.icon className="h-6 w-6 text-primary mb-3" aria-hidden="true" /><CardTitle className="text-xl">{option.title}</CardTitle></CardHeader>
-                <CardContent className="flex flex-col flex-1 gap-6">
-                  <p className="text-sm text-muted-foreground flex-1">{option.description}</p>
-                  <Button asChild variant="outline"><Link href={option.href}>{option.cta}</Link></Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Security */}
-      <section id="securite" data-testid="security" className="py-24 bg-card">
-        <ScrollSection direction="up">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center mb-14">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10 mb-6">
-              <Shield className="h-8 w-8 text-warm-green" />
+            </FamilyReveal>
+            <div className="family-tools-grid">
+              {TOOLS.map((tool) => (
+                <Link key={tool.href} href={tool.href} className="family-tool">
+                  <tool.icon
+                    aria-hidden="true"
+                    className="h-6 w-6 text-secondary"
+                  />
+                  <h3>{tool.title}</h3>
+                  <span>
+                    {tool.label}
+                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                  </span>
+                </Link>
+              ))}
             </div>
-            <h2 className="text-3xl font-serif font-bold">
-              Tes données sont protégées
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-              Un espace privé pour ta famille, avec des accès par foyer.
-              Consulte notre politique de confidentialité pour comprendre le traitement de tes données.
+            <p className="mt-6 text-sm text-muted-foreground">
+              Sans inscription. À ton rythme. Et gratuitement.
             </p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { icon: Lock, label: "Connexion sécurisée", description: "Les échanges avec le site utilisent HTTPS" },
-              { icon: Shield, label: "Accès par foyer", description: "Un compte personnel pour accéder à ton espace familial" },
-              { icon: Globe, label: "Des informations accessibles", description: "Retrouve notre politique de confidentialité en bas de page" },
-              { icon: Star, label: "Zéro tracking pub", description: "Pas de Google Analytics, pas de cookies traceurs" },
-            ].map((item) => (
-              <Card key={item.label} className="text-center card-playful">
-                <CardContent className="pt-6 pb-5">
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-warm-green/10 text-warm-green mb-4">
-                    <item.icon className="h-5 w-5" />
-                  </div>
-                  <p className="text-sm font-semibold mb-1">{item.label}</p>
-                  <p className="text-xs text-muted-foreground">{item.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-        </ScrollSection>
-      </section>
+        </section>
 
-      {/* CTA */}
-      <section data-testid="cta" className="py-24 relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-warm-orange/5 via-transparent to-warm-teal/5" />
-        </div>
-        <ScrollSection direction="scale">
-        <div className="relative mx-auto max-w-3xl px-4 text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white mb-8 shadow-xl shadow-warm-orange/20">
-            <Sparkles className="h-7 w-7" />
-          </div>
-          <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-            Prêt à simplifier ta vie de parent ?
-          </h2>
-          <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-            Rejoins les darons et daronnes qui centralisent tout dans une seule app.
-            Ou commence par essayer un outil gratuit.
-          </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button asChild size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25"><Link href="/register">
-                C'est gratuit, je m'inscris
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link></Button>
-            <Button asChild variant="outline" size="lg" className="h-14 px-10 text-base"><Link href="/outils">
-                Essayer les outils
-              </Link></Button>
-          </div>
-        </div>
-        </ScrollSection>
-      </section>
+        <section
+          id="securite"
+          data-testid="security"
+          className="family-section family-security-section"
+        >
+          <FamilyReveal className="family-container family-security">
+            <div className="family-security-icon">
+              <LockKeyhole aria-hidden="true" className="h-8 w-8" />
+            </div>
+            <div>
+              <p className="family-eyebrow">Votre famille. Votre espace.</p>
+              <h2>La confiance fait partie de la maison.</h2>
+              <p>
+                Un compte personnel, des accès par foyer et des échanges en
+                HTTPS. Pour comprendre comment tes données sont traitées,
+                retrouve nos engagements de confidentialité.
+              </p>
+              <Link
+                href="/politique-confidentialite"
+                className="family-text-link"
+              >
+                Lire notre politique de confidentialité
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              </Link>
+            </div>
+          </FamilyReveal>
+        </section>
 
-      {/* Blog articles */}
-      <section className="py-24 bg-card">
-        <ScrollSection direction="up">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-serif font-bold">
-              Du contenu utile, pas du blabla
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Des articles écrits par des parents, pour des parents. Zéro jargon, que du concret.
-            </p>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {getAllArticles().slice(0, 3).map((article) => (
-              <Link key={article.slug} href={`/blog/${article.slug}`}>
-                <Card className="h-full card-playful cursor-pointer">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge variant="outline" className="text-[10px]">{article.category}</Badge>
-                      <span className="text-[11px] text-muted-foreground flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {article.readingTime}
+        <section className="family-section">
+          <div className="family-container">
+            <FamilyReveal className="family-section-heading">
+              <div>
+                <p className="family-eyebrow">Le coin des parents</p>
+                <h2>
+                  Des repères pour
+                  <br />
+                  la vraie vie.
+                </h2>
+              </div>
+              <Link href="/blog" className="family-text-link">
+                Voir tous les articles
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              </Link>
+            </FamilyReveal>
+            <div className="family-articles">
+              {getAllArticles()
+                .slice(0, 3)
+                .map((article, index) => (
+                  <Link
+                    key={article.slug}
+                    href={`/blog/${article.slug}`}
+                    className="family-article"
+                  >
+                    <div
+                      className={`family-article-cover family-tone-${index === 0 ? "sage" : index === 1 ? "peach" : "lavender"}`}
+                    >
+                      <BookOpen aria-hidden="true" className="h-9 w-9" />
+                      <span>{article.category}</span>
+                    </div>
+                    <div className="family-article-body">
+                      <p>{article.readingTime} de lecture</p>
+                      <h3>{article.title}</h3>
+                      <span className="family-text-link">
+                        Lire l’article
+                        <ArrowRight aria-hidden="true" className="h-4 w-4" />
                       </span>
                     </div>
-                    <CardTitle className="text-base leading-snug line-clamp-2">{article.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <p className="text-sm text-muted-foreground line-clamp-3">{article.description}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+                  </Link>
+                ))}
+            </div>
           </div>
-          <div className="text-center mt-8">
-            <Button asChild variant="outline" size="lg" className="group"><Link href="/blog">
-                <BookOpen className="h-4 w-4 mr-2" />
-                Voir tous les articles
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link></Button>
+        </section>
+
+        <PricingSection />
+        <FaqSection />
+
+        <section data-testid="cta" className="family-section">
+          <FamilyReveal className="family-container">
+            <div className="family-final-cta">
+              <div>
+                <p className="family-eyebrow">Bienvenue chez les Darons</p>
+                <h2>
+                  Une tribu à gérer.
+                  <br />
+                  <span>Et plein de vie à partager.</span>
+                </h2>
+                <p>
+                  Fais un peu de place dans ta tête.
+                  <br />
+                  Ton espace familial t’attend.
+                </p>
+                <Button asChild size="lg" className="family-button">
+                  <Link href="/register">
+                    Créer mon compte gratuit
+                    <ArrowRight aria-hidden="true" className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="family-final-photo">
+                <Image
+                  src="/images/family/reading.webp"
+                  alt="Un papa et sa fille profitent d’un moment de lecture"
+                  fill
+                  sizes="(min-width: 768px) 360px, 90vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </FamilyReveal>
+        </section>
+        <section className="px-4 pb-20">
+          <div className="mx-auto max-w-2xl">
+            <NewsletterSignup />
           </div>
-        </div>
-        </ScrollSection>
-      </section>
-
-      <PricingSection />
-
-      <FaqSection />
-
-      <section className="px-4 pb-16">
-        <div className="mx-auto max-w-2xl">
-          <NewsletterSignup />
-        </div>
-      </section>
-
+        </section>
       </main>
       <Footer />
     </div>

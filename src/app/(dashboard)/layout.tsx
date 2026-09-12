@@ -108,7 +108,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background app-ambient">
+    <div className="family-app min-h-screen bg-background app-ambient">
       <RouteProgress />
       <ServiceWorkerRegister />
       <SessionTracker />

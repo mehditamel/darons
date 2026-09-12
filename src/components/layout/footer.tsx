@@ -36,7 +36,7 @@ export function Footer({ variant = "full" }: FooterProps) {
   }
 
   return (
-    <footer className="border-t bg-card py-12">
+    <footer className="border-t bg-card py-16">
       <div className="mx-auto max-w-6xl px-4">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
           <div>
@@ -47,7 +47,7 @@ export function Footer({ variant = "full" }: FooterProps) {
               <span className="font-serif font-bold text-lg">Darons</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              L'app 100% gratuite qui centralise toute la vie de famille.
+              Un peu moins de charge mentale, un peu plus de vie de famille.
               Faite par des parents, pour des parents.
             </p>
           </div>
@@ -147,7 +147,7 @@ export function Footer({ variant = "full" }: FooterProps) {
         </div>
         <div className="mt-10 border-t pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Darons. Tous droits réservés. 100% gratuit.
+            &copy; {new Date().getFullYear()} Darons. Tous droits réservés.
           </p>
           <p className="text-xs text-muted-foreground">
             Fait avec amour à Marseille

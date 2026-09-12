@@ -4,6 +4,7 @@ import { PlausibleProvider } from "@/components/analytics/plausible-provider";
 import { WebVitalsReporter } from "@/components/analytics/web-vitals";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
+import "./family-design.css";
 
 export const viewport: Viewport = {
   width: "device-width",
