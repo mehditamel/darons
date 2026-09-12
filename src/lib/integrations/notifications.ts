@@ -25,12 +25,13 @@ export async function sendEmail(
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const resend = getResend();
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: "Darons <noreply@darons.app>",
       to,
       subject,
       html,
     });
+    if (error) return { success: false, error: "Le service d'email a refusé l'envoi" };
     return { success: true };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Erreur envoi email";

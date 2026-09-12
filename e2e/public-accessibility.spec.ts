@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { SECTIONS } from "../src/lib/tools-catalog";
 
-const routes = ["/", "/demo", "/login", "/register", "/reset-password", "/reset-password?error=expired", "/outils", "/outils/guide-vaccins-obligatoires", "/blog/calendrier-vaccinal-2025", ...SECTIONS.flatMap((section) => section.tools.map((tool) => tool.href))];
+const routes = ["/", "/demo", "/login", "/register", "/reset-password", "/reset-password?error=expired", "/outils", "/outils/guide-vaccins-obligatoires", "/blog/calendrier-vaccinal-2025", "/newsletter/confirmer", "/newsletter/desinscription", ...SECTIONS.flatMap((section) => section.tools.map((tool) => tool.href))];
 
 for (const colorScheme of ["light", "dark"] as const) {
   for (const route of routes) {

@@ -1,76 +1,54 @@
 import { NextRequest, NextResponse } from "next/server";
+import { randomBytes } from "node:crypto";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendEmail } from "@/lib/integrations/notifications";
+import { rateLimitAsync } from "@/lib/rate-limit";
+import { newsletterTokenHash } from "@/lib/newsletter";
 
-const subscribeSchema = z.object({
-  email: z.string().email("Adresse email invalide"),
-});
-
-function welcomeEmailHtml(): string {
-  return `
-    <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; color: #1B2838;">
-      <h1 style="font-size: 22px;">Bienvenue dans la tribu Darons 👋</h1>
-      <p>Merci de t'être inscrit·e ! On t'enverra de temps en temps des astuces
-      concrètes pour gérer la vie de famille — santé, budget, impôts, papiers —
-      sans bla-bla et sans spam.</p>
-      <p>En attendant, jette un œil à nos outils gratuits : simulateur d'impôts,
-      calcul des allocations CAF, calendrier vaccinal…</p>
-      <p style="margin-top: 24px;">
-        <a href="https://darons.app" style="background:#E8734A;color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;">
-          Découvrir Darons
-        </a>
-      </p>
-      <p style="font-size: 12px; color: #6b7280; margin-top: 24px;">
-        Tu reçois cet email car tu t'es inscrit·e sur darons.app.
-      </p>
-    </div>
-  `;
-}
+const subscribeSchema = z.object({ email: z.string().trim().toLowerCase().email().max(254) });
 
 export async function POST(request: NextRequest) {
+  const parsed = subscribeSchema.safeParse(await request.json().catch(() => null));
+  if (!parsed.success) return NextResponse.json({ error: "Adresse email invalide." }, { status: 400 });
+
+  const ip = request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim()
+    || request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (await rateLimitAsync("newsletter:" + ip, 5, 60_000)) {
+    return NextResponse.json({ error: "Trop de demandes. Réessaie dans quelques minutes." }, { status: 429 });
+  }
+
+  let admin;
+  try { admin = createAdminClient(); } catch {
+    return NextResponse.json({ error: "Les inscriptions sont temporairement indisponibles." }, { status: 503 });
+  }
+  const token = randomBytes(32).toString("hex");
+  const hash = newsletterTokenHash(token);
   try {
-    const body = await request.json();
-    const { email } = subscribeSchema.parse(body);
+    const { data: shouldSend, error } = await admin.rpc("request_newsletter_confirmation", {
+      email_address: parsed.data.email, token_hash: hash,
+    });
+    if (error) throw error;
 
-    // Persistance — uniquement si le service_role est configuré (côté serveur).
-    // En local sans clé, on n'échoue pas l'inscription (mode dégradé).
-    if (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      const admin = createAdminClient();
-      const { error } = await admin
-        .from("newsletter_subscribers")
-        .upsert(
-          { email, source: "site" },
-          { onConflict: "email", ignoreDuplicates: true }
-        );
-
-      if (error) {
-        return NextResponse.json(
-          { error: "Inscription impossible pour le moment." },
-          { status: 500 }
-        );
+    if (shouldSend) {
+      const link = "https://www.darons.app/newsletter/confirmer?token=" + token;
+      const unsubscribe = "https://www.darons.app/newsletter/desinscription?token=" + token;
+      const result = await sendEmail(parsed.data.email, "Confirme ton inscription à Darons",
+        '<div style="font-family:sans-serif;max-width:480px;margin:auto"><h1>Encore une étape</h1>'
+        + '<p>Confirme ton adresse pour recevoir les conseils Darons. Ce lien est valable 48 heures.</p>'
+        + '<p><a href="' + link + '">Confirmer mon inscription</a></p>'
+        + '<p>Si tu n’as pas demandé cet email, ignore-le : ton inscription ne sera pas activée.</p>'
+        + '<p><a href="' + unsubscribe + '">Annuler ou me désinscrire</a></p></div>');
+      if (!result.success) {
+        // Release only this challenge so a legitimate retry is possible.
+        await admin.from("newsletter_subscribers").update({ confirmation_sent_at: null })
+          .eq("manage_token_hash", hash).eq("confirmed", false);
+        return NextResponse.json({ error: "L’email n’a pas pu être envoyé. Réessaie dans un instant." }, { status: 503 });
       }
-    } else {
-      console.warn(
-        "[newsletter] SUPABASE_SERVICE_ROLE_KEY absent — souscription non persistée"
-      );
     }
-
-    // Email de bienvenue — best-effort, ne bloque jamais l'inscription
-    // (sendEmail gère en interne l'absence de RESEND_API_KEY).
-    await sendEmail(email, "Bienvenue chez Darons 👋", welcomeEmailHtml());
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Adresse email invalide." },
-        { status: 400 }
-      );
-    }
-    return NextResponse.json(
-      { error: "Une erreur est survenue." },
-      { status: 500 }
-    );
+    // The same response protects addresses that are already registered.
+    return NextResponse.json({ success: true, message: "Vérifie ta boîte email. Si une confirmation est nécessaire, tu vas recevoir un lien." });
+  } catch {
+    return NextResponse.json({ error: "Inscription impossible pour le moment." }, { status: 503 });
   }
 }

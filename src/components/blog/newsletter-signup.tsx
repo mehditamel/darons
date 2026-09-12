@@ -31,7 +31,7 @@ export function NewsletterSignup() {
 
       if (res.ok) {
         setStatus("success");
-        setMessage("Bienvenue dans la team Darons !");
+        setMessage("Vérifie ta boîte email");
         setEmail("");
       } else {
         const data = await res.json();
@@ -53,7 +53,7 @@ export function NewsletterSignup() {
           </div>
           <p className="font-medium text-warm-green">{message}</p>
           <p className="text-sm text-muted-foreground">
-            Tu recevras nos prochains articles par email.
+            Si une confirmation est nécessaire, tu vas recevoir un lien. Ton inscription sera activée après confirmation.
           </p>
         </CardContent>
       </Card>
@@ -69,11 +69,11 @@ export function NewsletterSignup() {
           </div>
           <div>
             <p className="font-medium">
-              Reçois nos meilleurs conseils de daron chaque semaine
+              Reçois les prochains conseils Darons par email
             </p>
             <p className="text-sm text-muted-foreground mt-1">
               Fiscalité, santé, budget, démarches — directement dans ta boîte.
-              Pas de spam, promis.
+              Inscription à confirmer par email, désinscription à tout moment.
             </p>
           </div>
         </div>
