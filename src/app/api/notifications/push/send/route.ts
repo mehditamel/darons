@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createAdminClient, getSupabaseSecretKey } from "@/lib/supabase/admin";
 import webpush from "web-push";
 import { rateLimit } from "@/lib/rate-limit";
 import { z } from "zod";
@@ -11,13 +11,6 @@ const pushBodySchema = z.object({
   body: z.string().min(1, "Le contenu est requis"),
   url: z.string().optional(),
 });
-
-function getSupabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-}
 
 function initVapid() {
   const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || "";
@@ -31,7 +24,7 @@ function initVapid() {
 }
 
 function isAuthorized(authHeader: string | null): boolean {
-  const expectedToken = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const expectedToken = getSupabaseSecretKey();
   if (!authHeader || !expectedToken) return false;
   const token = authHeader.replace("Bearer ", "");
   try {
@@ -70,7 +63,7 @@ export async function POST(request: NextRequest) {
   }
   const { userId, title, body, url } = parsed.data;
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = createAdminClient();
   const { data: subscriptions } = await supabaseAdmin
     .from("push_subscriptions")
     .select("endpoint, p256dh, auth")

@@ -68,6 +68,7 @@ export async function sendInvitation(
     .eq("household_id", householdId)
     .eq("invitee_email", parsed.data.email)
     .eq("status", "pending")
+    .gt("expires_at", new Date().toISOString())
     .single();
 
   if (existing)
@@ -100,13 +101,16 @@ export async function cancelInvitation(id: string): Promise<ActionResult> {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("household_invitations")
     .update({ status: "expired" })
     .eq("id", id)
-    .eq("inviter_id", user.id);
+    .eq("inviter_id", user.id)
+    .eq("status", "pending")
+    .select("id")
+    .maybeSingle();
 
-  if (error) return { success: false, error: "Erreur lors de l'annulation" };
+  if (error || !data) return { success: false, error: "Invitation introuvable ou déjà traitée" };
 
   revalidatePath("/partage");
   return { success: true };
@@ -117,41 +121,21 @@ export async function cancelInvitation(id: string): Promise<ActionResult> {
 
 export async function acceptInvitation(token: string): Promise<ActionResult> {
   try {
+  if (typeof token !== "string" || !/^[a-f0-9]{64}$/i.test(token)) {
+    return { success: false, error: "Invitation introuvable ou expirée" };
+  }
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
-  const { data: invitation, error: fetchError } = await supabase
-    .from("household_invitations")
-    .select("*")
-    .eq("token", token)
-    .eq("status", "pending")
-    .single();
-
-  if (fetchError || !invitation)
-    return { success: false, error: "Invitation introuvable ou expirée" };
-
-  if (new Date(invitation.expires_at) < new Date())
-    return { success: false, error: "L'invitation a expiré" };
-
-  // Add user to household
-  const { error: memberError } = await supabase
-    .from("household_members")
-    .insert({
-      household_id: invitation.household_id,
-      user_id: user.id,
-      role: invitation.role,
-    });
-
-  if (memberError)
-    return { success: false, error: "Erreur lors de l'ajout au foyer" };
-
-  // Mark invitation as accepted
-  await supabase
-    .from("household_invitations")
-    .update({ status: "accepted", accepted_at: new Date().toISOString() })
-    .eq("id", invitation.id);
+  // Postgres verifies the recipient's confirmed Auth email and consumes the
+  // invitation in the same transaction as the membership insertion.
+  const { data, error } = await supabase.rpc("accept_household_invitation", {
+    invitation_token: token,
+  });
+  if (error || !data) return { success: false, error: "Invitation introuvable, expirée ou déjà utilisée. Connecte-toi avec l'adresse invitée et confirmée." };
 
   revalidatePath("/dashboard");
+  revalidatePath("/partage");
   return { success: true };
   } catch {
     return { success: false, error: "Une erreur inattendue est survenue" };
@@ -203,6 +187,8 @@ export async function removeHouseholdMember(
   memberId: string
 ): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(memberId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -218,13 +204,16 @@ export async function removeHouseholdMember(
       success: false,
       error: "Impossible de retirer le propriétaire du foyer",
     };
+  if (!member) return { success: false, error: "Membre introuvable" };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("household_members")
     .delete()
-    .eq("id", memberId);
+    .eq("id", memberId)
+    .select("id")
+    .maybeSingle();
 
-  if (error) return { success: false, error: "Erreur lors de la suppression" };
+  if (error || !data) return { success: false, error: "Suppression impossible ou accès refusé" };
 
   revalidatePath("/partage");
   return { success: true };
@@ -238,15 +227,20 @@ export async function updateMemberRole(
   role: "partner" | "viewer" | "nanny"
 ): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(memberId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+  if (!invitationSchema.shape.role.safeParse(role).success) return { success: false, error: "Rôle invalide" };
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("household_members")
     .update({ role })
-    .eq("id", memberId);
+    .eq("id", memberId)
+    .select("id")
+    .maybeSingle();
 
-  if (error) return { success: false, error: "Erreur lors de la mise à jour" };
+  if (error || !data) return { success: false, error: "Modification impossible ou accès refusé" };
 
   revalidatePath("/partage");
   return { success: true };

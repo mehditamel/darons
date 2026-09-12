@@ -1,4 +1,9 @@
+import "server-only";
 import { createClient } from "@supabase/supabase-js";
+
+export function getSupabaseSecretKey() {
+  return process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+}
 
 /**
  * Supabase admin client using service_role key.
@@ -7,11 +12,11 @@ import { createClient } from "@supabase/supabase-js";
  */
 export function createAdminClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceRoleKey = getSupabaseSecretKey();
 
   if (!supabaseUrl || !serviceRoleKey) {
     throw new Error(
-      "Variables d'environnement manquantes : NEXT_PUBLIC_SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY"
+      "Configuration serveur Supabase manquante"
     );
   }
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { getStripe } from "@/lib/stripe/client";
 import { getStripePlans } from "@/lib/stripe/config";
 import { rateLimit } from "@/lib/rate-limit";
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const body = await request.json();
+  const body = await request.json().catch(() => null);
   const parsed = checkoutSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
@@ -62,16 +63,20 @@ export async function POST(request: NextRequest) {
 
   if (!customerId) {
     try {
+      const admin = createAdminClient();
       const customer = await stripe.customers.create({
-        email: profile.email,
+        email: user.email,
         metadata: { supabase_user_id: user.id },
-      });
+      }, { idempotencyKey: `customer:${user.id}` });
       customerId = customer.id;
 
-      await supabase
+      const { error: saveError, data: saved } = await admin
         .from("profiles")
         .update({ stripe_customer_id: customerId })
-        .eq("id", user.id);
+        .eq("id", user.id)
+        .select("id")
+        .single();
+      if (saveError || !saved) throw new Error("Customer could not be saved");
     } catch {
       return NextResponse.json(
         { error: "Impossible de créer le compte client" },

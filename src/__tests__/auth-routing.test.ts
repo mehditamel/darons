@@ -16,6 +16,7 @@ beforeEach(() => {
   vi.resetAllMocks();
   vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
   vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "placeholder");
+  vi.stubEnv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", "");
   mocks.getUser.mockResolvedValue({ data: { user: null } });
   mocks.single.mockResolvedValue({ data: { id: "household" } });
   const query = { select: vi.fn(), eq: vi.fn(), single: mocks.single };
@@ -52,6 +53,12 @@ describe("authentication callback", () => {
 });
 
 describe("session redirects", () => {
+  it("accepts a modern publishable key without a legacy key", async () => {
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", "sb_publishable_test");
+    await updateSession(new NextRequest("https://darons.app/outils"));
+    expect(mocks.server).toHaveBeenCalledWith("https://example.supabase.co", "sb_publishable_test", expect.any(Object));
+  });
   it.each(["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"])("protects private paths when %s is missing", async (key) => {
     vi.stubEnv(key, "");
     const response = await updateSession(new NextRequest("https://darons.app/documents/item?tab=details"));

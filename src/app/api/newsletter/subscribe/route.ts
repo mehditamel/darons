@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     // Persistance — uniquement si le service_role est configuré (côté serveur).
     // En local sans clé, on n'échoue pas l'inscription (mode dégradé).
-    if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    if (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const admin = createAdminClient();
       const { error } = await admin
         .from("newsletter_subscribers")

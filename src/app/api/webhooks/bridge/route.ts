@@ -1,25 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { rateLimit } from "@/lib/rate-limit";
 import crypto from "crypto";
 
 const BRIDGE_WEBHOOK_SECRET = process.env.BRIDGE_WEBHOOK_SECRET || "";
 
-function getSupabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-}
-
 function verifySignature(payload: string, signature: string): boolean {
-  if (!BRIDGE_WEBHOOK_SECRET) return false;
+  if (!BRIDGE_WEBHOOK_SECRET || !/^[a-f0-9]{64}$/i.test(signature)) return false;
   const expected = crypto
     .createHmac("sha256", BRIDGE_WEBHOOK_SECRET)
     .update(payload)
     .digest("hex");
   return crypto.timingSafeEqual(
-    Buffer.from(signature),
+    Buffer.from(signature.toLowerCase()),
     Buffer.from(expected)
   );
 }
@@ -43,6 +36,9 @@ interface BridgeWebhookEvent {
 }
 
 export async function POST(request: NextRequest) {
+  if (!BRIDGE_WEBHOOK_SECRET) {
+    return NextResponse.json({ error: "Webhook non configuré" }, { status: 503 });
+  }
   const limited = rateLimit("webhook-bridge", 30, 60_000);
   if (limited) {
     return NextResponse.json({ error: "Rate limited" }, { status: 429 });
@@ -52,7 +48,7 @@ export async function POST(request: NextRequest) {
   const body = await request.text();
   const signature = request.headers.get("bridge-signature") || "";
 
-  if (BRIDGE_WEBHOOK_SECRET && !verifySignature(body, signature)) {
+  if (!verifySignature(body, signature)) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
@@ -63,7 +59,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = createAdminClient();
 
   switch (event.type) {
     case "item.refreshed": {

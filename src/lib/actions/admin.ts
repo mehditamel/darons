@@ -1,5 +1,7 @@
 "use server";
-import { type ActionResult, getAuthenticatedUser, type SupabaseClient } from "@/lib/actions/safe-action";
+import { type ActionResult } from "@/lib/actions/safe-action";
+import { getAdminContext } from "@/lib/auth/admin";
+import { validateUUID } from "@/lib/validators/common";
 
 import { revalidatePath } from "next/cache";
 import type { AdminMetricsDaily } from "@/types/sharing";
@@ -9,27 +11,13 @@ import type { CohortData } from "@/components/admin/cohort-heatmap";
 import type { SystemHealthData } from "@/components/admin/system-status";
 
 
-async function isAdmin(
-  supabase: SupabaseClient,
-  userId: string
-): Promise<boolean> {
-  const { data } = await supabase
-    .from("profiles")
-    .select("is_admin")
-    .eq("id", userId)
-    .single();
-  // Admin is flagged in the database (profiles.is_admin) — see migration 016.
-  return data?.is_admin === true;
-}
 
 export async function getAdminMetrics(
   days: number = 30
 ): Promise<ActionResult<AdminMetricsDaily[]>> {
-  const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifié" };
-
-  if (!(await isAdmin(supabase, user.id)))
-    return { success: false, error: "Accès refusé" };
+  const context = await getAdminContext();
+  if (!context.success) return context;
+  const { supabase } = context;
 
   const sinceDate = new Date();
   sinceDate.setDate(sinceDate.getDate() - days);
@@ -62,11 +50,9 @@ export async function getAdminMetrics(
 }
 
 export async function computeDailyMetrics(): Promise<ActionResult> {
-  const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifié" };
-
-  if (!(await isAdmin(supabase, user.id)))
-    return { success: false, error: "Accès refusé" };
+  const context = await getAdminContext();
+  if (!context.success) return context;
+  const { supabase } = context;
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -133,10 +119,9 @@ export async function getAdminEngagementMetrics(): Promise<
     activationRate: number;
   }>
 > {
-  const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifié" };
-  if (!(await isAdmin(supabase, user.id)))
-    return { success: false, error: "Accès refusé" };
+  const context = await getAdminContext();
+  if (!context.success) return context;
+  const { supabase } = context;
 
   const today = new Date().toISOString().split("T")[0];
   const thirtyDaysAgo = new Date();
@@ -189,11 +174,9 @@ export async function getAdminDashboardSummary(): Promise<
     referralCount: number;
   }>
 > {
-  const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifié" };
-
-  if (!(await isAdmin(supabase, user.id)))
-    return { success: false, error: "Accès refusé" };
+  const context = await getAdminContext();
+  if (!context.success) return context;
+  const { supabase } = context;
 
   const { count: totalUsers } = await supabase
     .from("profiles")
@@ -235,10 +218,9 @@ export async function getAdminDashboardSummary(): Promise<
 // ── User Management ──
 
 export async function getAdminUserList(): Promise<ActionResult<AdminUser[]>> {
-  const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifié" };
-  if (!(await isAdmin(supabase, user.id)))
-    return { success: false, error: "Accès refusé" };
+  const context = await getAdminContext();
+  if (!context.success) return context;
+  const { supabase } = context;
 
   const { data: profiles } = await supabase
     .from("profiles")
@@ -285,21 +267,24 @@ export async function updateUserPlan(
   userId: string,
   plan: string
 ): Promise<ActionResult> {
-  const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifié" };
-  if (!(await isAdmin(supabase, user.id)))
-    return { success: false, error: "Accès refusé" };
+  const uuidCheck = validateUUID(userId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+  const context = await getAdminContext();
+  if (!context.success) return context;
+  const { supabase } = context;
 
   const validPlans = ["free", "premium", "family_pro"];
   if (!validPlans.includes(plan))
     return { success: false, error: "Plan invalide" };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("profiles")
     .update({ subscription_plan: plan })
-    .eq("id", userId);
+    .eq("id", userId)
+    .select("id")
+    .maybeSingle();
 
-  if (error) return { success: false, error: "Erreur lors de la mise à jour" };
+  if (error || !data) return { success: false, error: "Utilisateur introuvable ou modification impossible" };
 
   revalidatePath("/admin/users");
   return { success: true };
@@ -308,10 +293,9 @@ export async function updateUserPlan(
 // ── Revenue Metrics ──
 
 export async function getRevenueMetrics(): Promise<ActionResult<RevenueData>> {
-  const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifié" };
-  if (!(await isAdmin(supabase, user.id)))
-    return { success: false, error: "Accès refusé" };
+  const context = await getAdminContext();
+  if (!context.success) return context;
+  const { supabase } = context;
 
   const { count: freeUsers } = await supabase
     .from("profiles")
@@ -369,10 +353,9 @@ export async function getRevenueMetrics(): Promise<ActionResult<RevenueData>> {
 // ── Cohort Analysis ──
 
 export async function getCohortAnalysis(): Promise<ActionResult<CohortData[]>> {
-  const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifié" };
-  if (!(await isAdmin(supabase, user.id)))
-    return { success: false, error: "Accès refusé" };
+  const context = await getAdminContext();
+  if (!context.success) return context;
+  const { supabase } = context;
 
   // Get users grouped by signup week
   const { data: profiles } = await supabase
@@ -446,10 +429,9 @@ export async function getCohortAnalysis(): Promise<ActionResult<CohortData[]>> {
 // ── System Health ──
 
 export async function getSystemHealth(): Promise<ActionResult<SystemHealthData>> {
-  const { user, supabase } = await getAuthenticatedUser();
-  if (!user) return { success: false, error: "Non authentifié" };
-  if (!(await isAdmin(supabase, user.id)))
-    return { success: false, error: "Accès refusé" };
+  const context = await getAdminContext();
+  if (!context.success) return context;
+  const { supabase } = context;
 
   const now = new Date().toISOString();
   const services = [];

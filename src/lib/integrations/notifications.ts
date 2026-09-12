@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseSecretKey } from "@/lib/supabase/admin";
 import { PLAN_LIMITS, type PlanName } from "@/lib/constants";
 
 // ── Email via Resend ──
@@ -218,7 +219,7 @@ export async function sendPushNotification(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+        Authorization: `Bearer ${getSupabaseSecretKey()}`,
       },
       body: JSON.stringify({
         userId: household.owner_id,

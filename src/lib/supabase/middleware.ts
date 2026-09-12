@@ -2,6 +2,7 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { safeAuthRedirect } from "@/lib/auth/redirect";
 import { isProtectedPath } from "@/lib/auth/protected-routes";
+import { getSupabasePublicConfig } from "@/lib/supabase/config";
 import {
   HAS_HOUSEHOLD_COOKIE,
   HAS_HOUSEHOLD_COOKIE_MAX_AGE,
@@ -12,8 +13,7 @@ export async function updateSession(request: NextRequest) {
     request,
   });
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const { url: supabaseUrl, key: supabaseAnonKey } = getSupabasePublicConfig();
   const isProtectedRoute = isProtectedPath(request.nextUrl.pathname);
 
   function redirectWithCookies(url: URL) {
