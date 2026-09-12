@@ -6,7 +6,7 @@ import {
 } from "@/lib/validators/family-plan";
 import { getMission, OWNER_LABELS, selectMissions } from "./catalog";
 
-export const PLAN_STORAGE_KEY = "darons.family-plan.v1";
+export const PLAN_STORAGE_NAME = "darons.family-plan.v1";
 export const MAX_PLAN_BYTES = 64 * 1024;
 
 export function localCalendarDate(now = new Date()): string {

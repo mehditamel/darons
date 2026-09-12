@@ -31,7 +31,7 @@ import {
   exportPlanCalendar,
   MAX_PLAN_BYTES,
   parseFamilyPlan,
-  PLAN_STORAGE_KEY,
+  PLAN_STORAGE_NAME,
   planHandoff,
 } from "@/lib/family-plan/plan";
 import type { FamilyPlan as Plan } from "@/lib/validators/family-plan";
@@ -62,7 +62,7 @@ export function FamilyPlan() {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(PLAN_STORAGE_KEY);
+      const stored = localStorage.getItem(PLAN_STORAGE_NAME);
       if (stored) {
         setPlan(parseFamilyPlan(stored));
         setRemember(true);
@@ -78,7 +78,7 @@ export function FamilyPlan() {
   useEffect(() => {
     if (!ready || !remember || !plan) return;
     try {
-      localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(plan));
+      localStorage.setItem(PLAN_STORAGE_NAME, JSON.stringify(plan));
     } catch {
       setRemember(false);
       setError(
@@ -97,8 +97,8 @@ export function FamilyPlan() {
   function savePreference(checked: boolean) {
     try {
       if (checked && plan)
-        localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(plan));
-      else localStorage.removeItem(PLAN_STORAGE_KEY);
+        localStorage.setItem(PLAN_STORAGE_NAME, JSON.stringify(plan));
+      else localStorage.removeItem(PLAN_STORAGE_NAME);
       setRemember(checked);
       setError("");
       setNotice(
@@ -117,7 +117,7 @@ export function FamilyPlan() {
 
   function resetPlan() {
     try {
-      localStorage.removeItem(PLAN_STORAGE_KEY);
+      localStorage.removeItem(PLAN_STORAGE_NAME);
     } catch {
       setError(
         "Impossible de vérifier l’effacement de la copie locale. Utilise les réglages de stockage de ton navigateur puis réessaie.",

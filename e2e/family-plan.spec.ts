@@ -3,7 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { readFile } from "node:fs/promises";
 import {
   createFamilyPlan,
-  PLAN_STORAGE_KEY,
+  PLAN_STORAGE_NAME,
 } from "../src/lib/family-plan/plan";
 
 const ROUTE = "/outils/plan-famille";
@@ -40,7 +40,7 @@ test("plan validates the family stage and preserves progress only after opt-in",
   );
   await createPlan(page);
   expect(
-    await page.evaluate((key) => localStorage.getItem(key), PLAN_STORAGE_KEY),
+    await page.evaluate((key) => localStorage.getItem(key), PLAN_STORAGE_NAME),
   ).toBeNull();
   const mission = page.locator(".plan-mission").first();
   await mission.getByRole("checkbox").first().check();
@@ -59,7 +59,7 @@ test("plan validates the family stage and preserves progress only after opt-in",
     .getByRole("checkbox", { name: /Garder mon plan sur cet appareil/ })
     .uncheck();
   expect(
-    await page.evaluate((key) => localStorage.getItem(key), PLAN_STORAGE_KEY),
+    await page.evaluate((key) => localStorage.getItem(key), PLAN_STORAGE_NAME),
   ).toBeNull();
   await page.reload();
   await expect(
@@ -167,7 +167,7 @@ test("storage and clipboard failures leave the current plan usable and exportabl
         },
       },
     });
-  }, PLAN_STORAGE_KEY);
+  }, PLAN_STORAGE_NAME);
   await page.goto(ROUTE);
   await expect(page.locator(".family-plan").getByRole("alert")).toContainText(
     "sauvegarde locale",
@@ -215,7 +215,7 @@ test("reset needs confirmation and only removes the plan storage key", async ({
     page.getByRole("heading", { name: "Où en est ta petite famille ?" }),
   ).toBeVisible();
   expect(
-    await page.evaluate((key) => localStorage.getItem(key), PLAN_STORAGE_KEY),
+    await page.evaluate((key) => localStorage.getItem(key), PLAN_STORAGE_NAME),
   ).toBeNull();
   expect(
     await page.evaluate(() =>
