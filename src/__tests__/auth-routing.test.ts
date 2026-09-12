@@ -52,6 +52,28 @@ describe("authentication callback", () => {
 });
 
 describe("session redirects", () => {
+  it.each(["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"])("protects private paths when %s is missing", async (key) => {
+    vi.stubEnv(key, "");
+    const response = await updateSession(new NextRequest("https://darons.app/documents/item?tab=details"));
+    const url = new URL(response.headers.get("location")!);
+    expect(url.pathname).toBe("/login");
+    expect(url.searchParams.get("next")).toBe("/documents/item?tab=details");
+    expect(url.searchParams.get("error")).toBe("unavailable");
+    expect(mocks.server).not.toHaveBeenCalled();
+  });
+  it("keeps public tools and login accessible without account configuration", async () => {
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "");
+    for (const path of ["/", "/outils/simulateur-caf", "/login", "/sante-publique"]) {
+      expect((await updateSession(new NextRequest(`https://darons.app${path}`))).headers.get("location")).toBeNull();
+    }
+  });
+  it("contains an authentication service outage without opening private pages", async () => {
+    mocks.getUser.mockRejectedValue(new Error("offline"));
+    const response = await updateSession(new NextRequest("https://darons.app/dashboard"));
+    expect(new URL(response.headers.get("location")!).searchParams.get("error")).toBe("unavailable");
+    expect((await updateSession(new NextRequest("https://darons.app/outils"))).headers.get("location")).toBeNull();
+    expect(mocks.from).not.toHaveBeenCalled();
+  });
   it("preserves the requested path and query on the login page", async () => {
     const response = await updateSession(new NextRequest("https://darons.app/documents?member=demo"));
     const url = new URL(response.headers.get("location")!);

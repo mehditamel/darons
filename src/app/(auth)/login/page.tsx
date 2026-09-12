@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 
 export default async function LoginPage(props: { searchParams: Promise<{ next?: string; error?: string }> }) {
   const searchParams = await props.searchParams;
-  return <LoginForm nextPath={safeAuthRedirect(searchParams.next)} authError={searchParams.error === "auth"} />;
+  return <LoginForm nextPath={safeAuthRedirect(searchParams.next)} authError={searchParams.error === "auth"} serviceUnavailable={searchParams.error === "unavailable"} />;
 }

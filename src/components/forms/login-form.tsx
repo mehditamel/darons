@@ -19,11 +19,11 @@ import {
 import { loginSchema, resetPasswordSchema, type LoginFormData } from "@/lib/validators/auth";
 import { createClient } from "@/lib/supabase/client";
 
-export function LoginForm({ nextPath = "/dashboard", authError = false }: { nextPath?: string; authError?: boolean }) {
+export function LoginForm({ nextPath = "/dashboard", authError = false, serviceUnavailable = false }: { nextPath?: string; authError?: boolean; serviceUnavailable?: boolean }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isMagicLink, setIsMagicLink] = useState(false);
-  const [error, setError] = useState<string | null>(authError ? "Ce lien de connexion est invalide ou a expiré. Demande un nouveau lien ou utilise ton mot de passe." : null);
+  const [error, setError] = useState<string | null>(serviceUnavailable ? "Ton espace est temporairement indisponible. Réessaie dans un instant. Les outils publics restent accessibles." : authError ? "Ce lien de connexion est invalide ou a expiré. Demande un nouveau lien ou utilise ton mot de passe." : null);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
 
   const {
@@ -128,6 +128,7 @@ export function LoginForm({ nextPath = "/dashboard", authError = false }: { next
           {error && (
             <div role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
               {error}
+              {serviceUnavailable && <Link href="/outils" className="mt-2 block font-medium underline">Accéder aux outils gratuits</Link>}
             </div>
           )}
 
@@ -218,13 +219,13 @@ export function LoginForm({ nextPath = "/dashboard", authError = false }: { next
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
-              <Shield className="h-3 w-3" /> Chiffré AES-256
+              <Shield className="h-3 w-3" /> Espace personnel
             </span>
             <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
-              <CreditCard className="h-3 w-3" /> 100% gratuit
+              <CreditCard className="h-3 w-3" /> Offre gratuite disponible
             </span>
             <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
-              <EyeOff className="h-3 w-3" /> Zéro tracking
+              <EyeOff className="h-3 w-3" /> Préférences de confidentialité
             </span>
           </div>
         </form>
