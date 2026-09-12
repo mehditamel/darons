@@ -50,7 +50,7 @@ export default function CombienCouteEnfantPage() {
       <div className="grid grid-cols-2 gap-4">
         <Card className="card-playful">
           <CardContent className="pt-5 text-center">
-            <p className="text-3xl font-bold text-warm-gold">
+            <p className="text-3xl font-bold text-gold">
               {formatCurrency(totalGlobal)}
             </p>
             <p className="text-xs text-muted-foreground">Coût total estimé (0-18 ans)</p>

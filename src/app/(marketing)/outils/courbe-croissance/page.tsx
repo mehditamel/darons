@@ -253,11 +253,11 @@ export default function CourbeCroissancePage() {
               <p className="font-medium">
                 Crée ton compte pour voir les courbes OMS complètes et les percentiles
               </p>
-              <Link href="/register">
-                <Button>
+              <Button asChild>
+                <Link href="/register">
                   Créer mon compte gratuit <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         </div>

@@ -18,72 +18,33 @@ function calculateReadTime(content: string): string {
 export const BLOG_ARTICLES: BlogArticle[] = [
   {
     slug: "calendrier-vaccinal-2025",
-    title: "Calendrier vaccinal 2025 : les 9 vaccins obligatoires pour votre bébé",
-    description:
-      "Tout savoir sur les vaccins obligatoires en France en 2025 : DTPCa, ROR, Hépatite B, Méningocoque C. Calendrier complet, rappels et conseils pratiques.",
-    date: "2026-01-10",
-    readingTime: "7 min",
+    title: "Calendrier vaccinal : les repères actualisés pour 2026",
+    description: "Les vaccinations du nourrisson, dont les méningocoques B et ACWY, avec les références officielles 2026.",
+    date: "2026-09-12",
+    readingTime: "2 min",
     category: "Santé",
-    content: `## Les vaccins obligatoires en France
+    content: `## Un calendrier actualisé
 
-Depuis 2018, **11 vaccins sont obligatoires** pour les enfants nés en France. Ces vaccins protègent contre des maladies graves et potentiellement mortelles.
+Cette page a été révisée selon le calendrier 2026. L’ancien schéma consacré au méningocoque C a été remplacé chez le nourrisson par la vaccination ACWY ; le méningocoque B fait également partie des obligations actuelles.
 
-### Le calendrier des 9 injections (0-18 mois)
+### Les nouveaux repères
 
-Les vaccins obligatoires sont administrés selon un calendrier précis, en 9 injections principales :
+- Méningocoque B : doses à 3 et 5 mois, puis rappel à 12 mois.
+- Méningocoques ACWY : dose à 6 mois, puis rappel à 12 mois.
 
-**À 2 mois :**
-- DTPCa (Diphtérie, Tétanos, Polio, Coqueluche) — 1ère dose
-- Haemophilus influenzae b (Hib) — 1ère dose
-- Hépatite B — 1ère dose
-- Pneumocoque — 1ère dose
+Les autres repères du nourrisson sont détaillés dans le [guide des vaccinations](/outils/guide-vaccins-obligatoires). Plusieurs protections peuvent être associées dans une même injection.
 
-**À 4 mois :**
-- DTPCa — 2e dose
-- Hib — 2e dose
-- Hépatite B — 2e dose
-- Pneumocoque — 2e dose
+### Vérifier le carnet
 
-**À 5 mois :**
-- Méningocoque C — 1ère dose
+Le [calendrier interactif](/outils/calendrier-vaccinal) donne des dates indicatives. Il ne sait pas quelles doses ont déjà été faites. Pour un retard, une prématurité ou une situation particulière, fais adapter le calendrier par un professionnel de santé.
 
-**À 11 mois :**
-- DTPCa — 3e dose (rappel)
-- Hib — 3e dose (rappel)
-- Hépatite B — 3e dose (rappel)
-- Pneumocoque — 3e dose (rappel)
+Les enfants nés depuis janvier 2023 peuvent être concernés par le rattrapage B et ACWY, selon leur historique.
 
-**À 12 mois :**
-- ROR (Rougeole, Oreillons, Rubéole) — 1ère dose
-- Méningocoque C — 2e dose
+### Sources officielles
 
-**À 16-18 mois :**
-- ROR — 2e dose
+[Santé publique France : nourrissons et enfants](https://vaccination-info-service.fr/La-vaccination-au-cours-de-la-vie/Nourrissons-et-enfants-de-la-naissance-a-10-ans) ; [Service Public : nouveautés 2026](https://www.service-public.gouv.fr/particuliers/actualites/A16520).
 
-### Conseils pratiques
-
-1. **Notez chaque vaccin** dans le carnet de santé de votre enfant
-2. **Anticipez les rendez-vous** : prenez RDV 1 mois à l'avance chez votre pédiatre
-3. **Paracétamol** : votre médecin peut recommander du paracétamol après l'injection
-4. **Effets secondaires** : fièvre légère et rougeur au point d'injection sont normaux
-
-### Que se passe-t-il si un vaccin est en retard ?
-
-Pas de panique ! Il n'est jamais trop tard pour rattraper un retard vaccinal. Consultez votre pédiatre qui adaptera le calendrier. L'important est de compléter le schéma vaccinal, même avec du retard.
-
-### Suivi avec Darons
-
-Notre outil [calendrier vaccinal interactif](/outils/calendrier-vaccinal) te permet de visualiser les dates de vaccin personnalisées pour ton enfant. Crée un compte pour recevoir des rappels automatiques.
-
-### FAQ — Questions fréquentes
-
-**Mon bébé est prématuré, le calendrier change-t-il ?**
-Non, les vaccins suivent l'âge civil (date de naissance), pas l'âge corrigé. Un bébé né à 35 SA recevra ses premiers vaccins à 2 mois comme les autres.
-
-**Peut-on faire plusieurs vaccins le même jour ?**
-Oui, les vaccins combinés (hexavalent par exemple) permettent de protéger contre plusieurs maladies en une seule injection. C'est sûr et recommandé.
-
-**Voir aussi :** [Les 20 examens de santé obligatoires](/blog/20-examens-sante-obligatoires-bebe) | [Checklist démarches après naissance](/blog/checklist-naissance-demarches) | [Coût d'un enfant de 0 à 18 ans](/blog/cout-enfant-0-18-ans-france)`,
+Références vérifiées le 12 septembre 2026.`,
   },
   {
     slug: "credit-impot-garde-enfant-2025",

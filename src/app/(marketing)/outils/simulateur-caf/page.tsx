@@ -112,12 +112,13 @@ export default function SimulateurCafPage() {
                     <div key={field.id} className="flex items-center gap-2">
                       <Input
                         type="date"
+                        aria-label={`Date de naissance de l'enfant ${index + 1}`}
                         max={new Date().toISOString().slice(0, 10)}
                         {...register(`enfants.${index}.birthDate`)}
                         className="w-44"
                       />
                       {fields.length > 1 && (
-                        <Button type="button" variant="ghost" size="sm" onClick={() => remove(index)}>
+                        <Button type="button" variant="ghost" size="sm" aria-label={`Retirer l'enfant ${index + 1}`} onClick={() => remove(index)}>
                           <X className="w-4 h-4" />
                         </Button>
                       )}
