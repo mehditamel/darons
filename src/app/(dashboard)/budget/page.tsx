@@ -54,7 +54,7 @@ export default async function BudgetPage({
   const params = await searchParams;
   const currentMonth = resolveMonth(params.month);
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const { data: profile } = user
     ? await supabase.from("profiles").select("subscription_plan").eq("id", user.id).single()

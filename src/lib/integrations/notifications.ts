@@ -85,7 +85,7 @@ export async function sendInAppNotification(
   subject: string,
   metadata?: Record<string, unknown>
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.from("notification_log").insert({
     household_id: householdId,
@@ -140,7 +140,7 @@ export async function dispatchNotification(
     else if (emailResult.error) errors.push(emailResult.error);
 
     // Log email
-    const supabase = createClient();
+    const supabase = await createClient();
     await supabase.from("notification_log").insert({
       household_id: householdId,
       channel: "email",
@@ -167,7 +167,7 @@ export async function dispatchNotification(
     allowedChannels.includes("sms" as never) &&
     payload.smsBody
   ) {
-    const supabaseSms = createClient();
+    const supabaseSms = await createClient();
     const { data: profileData } = await supabaseSms
       .from("profiles")
       .select("phone_number")
@@ -201,7 +201,7 @@ export async function sendPushNotification(
   body: string,
   url?: string
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Get the household owner
   const { data: household } = await supabase

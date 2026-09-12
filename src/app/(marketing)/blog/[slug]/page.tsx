@@ -36,7 +36,7 @@ const CATEGORY_TOOL_MAP: Record<string, { href: string; label: string }> = {
 };
 
 interface BlogPostPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export const revalidate = 3600; // ISR: revalidate every hour
@@ -45,7 +45,8 @@ export async function generateStaticParams() {
   return getAllArticles().map((article) => ({ slug: article.slug }));
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata(props: BlogPostPageProps): Promise<Metadata> {
+  const params = await props.params;
   const article = getArticleBySlug(params.slug);
   if (!article) return { title: "Article introuvable" };
 
@@ -80,7 +81,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function BlogPostPage(props: BlogPostPageProps) {
+  const params = await props.params;
   const article = getArticleBySlug(params.slug);
   if (!article) notFound();
 

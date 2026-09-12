@@ -8,10 +8,11 @@ export const metadata: Metadata = {
 };
 
 interface PageProps {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 }
 
-export default function TrustCardPublicPage({ params }: PageProps) {
+export default async function TrustCardPublicPage(props: PageProps) {
+  const params = await props.params;
   return (
     <div className="max-w-md mx-auto pt-8">
       <PublicPinForm token={params.token} />

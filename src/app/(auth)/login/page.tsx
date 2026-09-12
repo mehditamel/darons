@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Connexion",
 };
 
-export default function LoginPage({ searchParams }: { searchParams: { next?: string; error?: string } }) {
+export default async function LoginPage(props: { searchParams: Promise<{ next?: string; error?: string }> }) {
+  const searchParams = await props.searchParams;
   return <LoginForm nextPath={safeAuthRedirect(searchParams.next)} authError={searchParams.error === "auth"} />;
 }

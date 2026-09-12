@@ -25,10 +25,11 @@ export const metadata: Metadata = {
 };
 
 interface Props {
-  params: { groupId: string };
+  params: Promise<{ groupId: string }>;
 }
 
-export default async function GroupDetailPage({ params }: Props) {
+export default async function GroupDetailPage(props: Props) {
+  const params = await props.params;
   const [groupResult, membersResult, expensesResult, balancesResult, suggestionsResult, settlementsResult] =
     await Promise.all([
       getExpenseGroup(params.groupId),

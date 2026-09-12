@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
   }
   const memberId = state.slice(colonIndex + 1);
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.redirect(`${appUrl}/login?redirect=/sante`);

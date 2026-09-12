@@ -9,7 +9,7 @@ import { differenceInMonths, format } from "date-fns";
 import type { ActivitySuggestion } from "@/types/ai";
 
 export async function POST(request: NextRequest) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

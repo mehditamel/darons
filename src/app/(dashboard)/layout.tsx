@@ -16,6 +16,9 @@ import { RouteProgress } from "@/components/shared/route-progress";
 import { PageTransition } from "@/components/layout/page-transition";
 import { createClient } from "@/lib/supabase/server";
 
+// Every private page depends on the current authenticated request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   robots: {
     index: false,
@@ -28,7 +31,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const initialCompact = cookies().get(SIDEBAR_COOKIE)?.value === "1";
+  const initialCompact = (await cookies()).get(SIDEBAR_COOKIE)?.value === "1";
 
   let userEmail = "";
   let userInitials = "?";
@@ -36,7 +39,7 @@ export default async function DashboardLayout({
   const sidebarBadges: Record<string, number> = {};
 
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();

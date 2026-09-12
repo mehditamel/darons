@@ -5,10 +5,8 @@ import { renderRecapPdf } from "@/lib/capsule/pdf";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  _request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_request: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const result = await getRecapById(params.id);
   if (!result.success || !result.data) {
     return NextResponse.json({ error: "Récap introuvable" }, { status: 404 });

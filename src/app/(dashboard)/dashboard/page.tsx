@@ -107,7 +107,7 @@ function getQuickActions(youngestAgeMonths: number | null) {
 export default async function DashboardPage() {
   const greeting = getGreeting();
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const { data: profile } = user
     ? await supabase.from("profiles").select("subscription_plan").eq("id", user.id).single()

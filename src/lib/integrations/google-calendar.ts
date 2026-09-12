@@ -36,7 +36,7 @@ export function isCalendarConnected(calendarTokens: unknown): boolean {
  * Returns null if no tokens or refresh fails.
  */
 export async function getValidAccessToken(userId: string): Promise<string | null> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -105,7 +105,7 @@ export async function getValidAccessToken(userId: string): Promise<string | null
  * Revokes Google Calendar access and clears tokens from DB.
  */
 export async function revokeCalendarAccess(userId: string): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: profile } = await supabase
     .from("profiles")
