@@ -47,7 +47,7 @@ export default function CombienCouteEnfantPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
         <Card className="card-playful">
           <CardContent className="pt-5 text-center">
             <p className="text-3xl font-bold text-gold">
@@ -58,7 +58,7 @@ export default function CombienCouteEnfantPage() {
         </Card>
         <Card className="card-playful">
           <CardContent className="pt-5 text-center">
-            <p className="text-3xl font-bold text-warm-orange">
+            <p className="text-3xl font-bold text-primary">
               {formatCurrency(moyenneMensuelle)}
             </p>
             <p className="text-xs text-muted-foreground">Coût moyen / mois</p>
@@ -70,7 +70,7 @@ export default function CombienCouteEnfantPage() {
         {breakdown.map((tranche) => (
           <Card key={tranche.ageRange} className="card-playful">
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-wrap gap-3 items-center justify-between">
                 <CardTitle className="text-base">{tranche.ageRange}</CardTitle>
                 <div className="text-right">
                   <p className="font-bold">{formatCurrency(tranche.totalMensuel)}/mois</p>
@@ -86,7 +86,7 @@ export default function CombienCouteEnfantPage() {
                 .sort((a, b) => b.montant - a.montant)
                 .map((cat) => (
                   <div key={cat.key} className="space-y-1">
-                    <div className="flex justify-between text-sm">
+                    <div className="flex flex-wrap gap-x-3 justify-between text-sm">
                       <span>{cat.label}</span>
                       <span className="font-medium">
                         {formatCurrency(cat.montant)}
@@ -112,12 +112,12 @@ export default function CombienCouteEnfantPage() {
             Calcule tes aides et réduis ce montant avec notre simulateur de droits
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
-            <Link href="/outils/mes-droits">
-              <Button variant="outline">Calculer mes aides</Button>
-            </Link>
-            <Link href="/register">
-              <Button>Créer mon compte gratuit <ArrowRight className="w-4 h-4 ml-2" /></Button>
-            </Link>
+            <Button asChild variant="outline">
+              <Link href="/outils/mes-droits">Calculer mes aides</Link>
+            </Button>
+            <Button asChild className="h-auto min-h-11 whitespace-normal">
+              <Link href="/register">Créer mon compte gratuit <ArrowRight className="w-4 h-4 ml-2" /></Link>
+            </Button>
           </div>
         </CardContent>
       </Card>

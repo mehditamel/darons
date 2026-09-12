@@ -278,7 +278,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Author card */}
       <div className="mt-10 flex items-start gap-4 rounded-xl border p-4 bg-muted/20">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm-orange/10 text-warm-orange">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm-orange/10 text-primary">
           <PenLine className="h-5 w-5" />
         </div>
         <div>
@@ -287,7 +287,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             Des parents comme toi, qui construisent l'app qu'ils auraient voulu avoir.
             Sante, budget, impots, papiers — on simplifie tout.
           </p>
-          <Link href="/blog" className="text-xs text-warm-orange hover:underline mt-1 inline-block">
+          <Link href="/blog" className="text-xs text-primary hover:underline mt-1 inline-block">
             Voir tous nos articles
           </Link>
         </div>
@@ -330,7 +330,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               <ArrowLeft className="inline h-3 w-3 mr-1" />
               Precedent
             </p>
-            <p className="text-sm font-medium group-hover:text-warm-orange transition-colors line-clamp-2">
+            <p className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
               {prevArticle.title}
             </p>
           </Link>
@@ -343,7 +343,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               Suivant
               <ArrowRight className="inline h-3 w-3 ml-1" />
             </p>
-            <p className="text-sm font-medium group-hover:text-warm-orange transition-colors line-clamp-2">
+            <p className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
               {nextArticle.title}
             </p>
           </Link>
@@ -358,6 +358,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 function formatInline(text: string): string {
   return text
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="text-warm-orange underline">$1</a>')
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="text-primary underline">$1</a>')
     .replace(/`(.+?)`/g, '<code class="bg-muted px-1 py-0.5 rounded text-sm">$1</code>');
 }

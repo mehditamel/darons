@@ -51,9 +51,9 @@ const STAT_STYLE: Record<
 };
 
 const ALERT_COLORS: Record<string, string> = {
-  identite: "bg-primary/10 text-primary",
-  sante: "bg-info/10 text-info",
-  fiscal: "bg-gold/10 text-gold",
+  identite: "bg-primary/10 text-foreground hover:bg-primary/10",
+  sante: "bg-info/10 text-foreground hover:bg-info/10",
+  fiscal: "bg-gold/10 text-foreground hover:bg-gold/10",
 };
 
 const ALERT_LABELS: Record<string, string> = {
