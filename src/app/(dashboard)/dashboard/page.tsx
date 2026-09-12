@@ -36,7 +36,7 @@ import { getFamilyMembers } from "@/lib/actions/family";
 import { getIdentityDocuments, getExpiringDocuments } from "@/lib/actions/identity";
 import { getVaccinationsByMembers, getGrowthMeasurements, getUpcomingAppointments } from "@/lib/actions/health";
 import { getDocuments } from "@/lib/actions/documents";
-import { getAlerts, generateProactiveAlerts, dispatchAlertNotifications } from "@/lib/actions/alerts";
+import { getAlerts, generateProactiveAlerts } from "@/lib/actions/alerts";
 import { getActivities, getMilestones } from "@/lib/actions/educational";
 import { getBudgetEntries, getBudgetSummary, getCafAllocations } from "@/lib/actions/budget";
 import { getFiscalYears } from "@/lib/actions/fiscal";
@@ -184,12 +184,10 @@ export default async function DashboardPage() {
   const fiscalYears = fiscalResult.data ?? [];
   const latestFiscal = fiscalYears.length > 0 ? fiscalYears[0] : null;
 
-  // Generate alerts + dispatch notifications for high priority ones
+  // Refresh in-app reminders. Rendering a page must not send emails or SMS:
+  // prefetches and retries can render it without an intentional user visit.
   try { await generateProactiveAlerts(); } catch (e) {
     console.error("[dashboard] Alert generation failed:", e);
-  }
-  try { await dispatchAlertNotifications(); } catch (e) {
-    console.error("[dashboard] Notification dispatch failed:", e);
   }
 
   const alertsResult = await getAlerts();
