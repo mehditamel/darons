@@ -51,9 +51,9 @@ const STAT_STYLE: Record<
 };
 
 const ALERT_COLORS: Record<string, string> = {
-  identite: "bg-warm-orange/10 text-warm-orange",
-  sante: "bg-warm-teal/10 text-warm-teal",
-  fiscal: "bg-warm-gold/10 text-warm-gold",
+  identite: "bg-primary/10 text-foreground hover:bg-primary/10",
+  sante: "bg-info/10 text-foreground hover:bg-info/10",
+  fiscal: "bg-gold/10 text-foreground hover:bg-gold/10",
 };
 
 const ALERT_LABELS: Record<string, string> = {
@@ -66,7 +66,7 @@ export default function DemoPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Bandeau démo */}
-      <div className="sticky top-0 z-50 bg-warm-orange text-white">
+      <div className="sticky top-0 z-50 bg-primary text-primary-foreground">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-4 py-2.5 text-sm sm:flex-row">
           <span className="font-medium">
             🎭 Mode démo — données fictives. Ton vrai foyer, c&apos;est en 2 minutes.

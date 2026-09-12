@@ -1,247 +1,40 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Syringe, ShieldCheck, AlertTriangle } from "lucide-react";
+import { ArrowRight, Syringe } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
-import { Badge } from "@/components/ui/badge";
+import { PUBLIC_INFANT_VACCINATIONS, VACCINATION_REFERENCE_URL } from "@/lib/public-vaccination";
 
 export const metadata: Metadata = {
-  title: "Vaccins obligatoires 2025 : le guide complet — Darons",
-  description:
-    "Calendrier vaccinal français 2025 : les 11 vaccins obligatoires, à quel âge, combien de doses. Tout ce que tu dois savoir en tant que parent.",
-  openGraph: {
-    title: "Vaccins obligatoires 2025 — Darons",
-    description:
-      "Le calendrier vaccinal français expliqué simplement pour les parents.",
-  },
-  alternates: {
-    canonical: "https://darons.app/outils/guide-vaccins-obligatoires",
-  },
+  title: "Vaccinations du nourrisson — Le guide 2026",
+  description: "Les âges repères des vaccinations du nourrisson, dont les méningocoques B et ACWY, avec la référence officielle 2026.",
+  alternates: { canonical: "https://darons.app/outils/guide-vaccins-obligatoires" },
 };
-
-const VACCINES = [
-  {
-    name: "DTPCa",
-    fullName: "Diphtérie, Tétanos, Poliomyélite, Coqueluche",
-    doses: [
-      { age: "2 mois", label: "1ère dose" },
-      { age: "4 mois", label: "2ème dose" },
-      { age: "11 mois", label: "Rappel" },
-    ],
-    description:
-      "Le vaccin combiné le plus courant. Protège contre 4 maladies graves. La coqueluche est particulièrement dangereuse chez les nourrissons.",
-    rappels: "Rappels à 6 ans (DTPCa), 11-13 ans (dTPca), puis tous les 20 ans à l'âge adulte.",
-  },
-  {
-    name: "Haemophilus influenzae b (Hib)",
-    fullName: "Méningite et infections invasives à Haemophilus",
-    doses: [
-      { age: "2 mois", label: "1ère dose" },
-      { age: "4 mois", label: "2ème dose" },
-      { age: "11 mois", label: "Rappel" },
-    ],
-    description:
-      "Protège contre les méningites et pneumonies causées par la bactérie Haemophilus. Souvent combiné dans le même vaccin que le DTPCa (vaccin hexavalent).",
-    rappels: "Pas de rappel nécessaire après le schéma initial.",
-  },
-  {
-    name: "Hépatite B",
-    fullName: "Virus de l'hépatite B",
-    doses: [
-      { age: "2 mois", label: "1ère dose" },
-      { age: "4 mois", label: "2ème dose" },
-      { age: "11 mois", label: "Rappel" },
-    ],
-    description:
-      "L'hépatite B peut devenir chronique et causer des cirrhoses et cancers du foie. La vaccination du nourrisson offre une protection durable.",
-    rappels: "Protection considérée comme acquise à vie après le schéma complet.",
-  },
-  {
-    name: "Pneumocoque",
-    fullName: "Infections invasives à pneumocoque (méningites, pneumonies)",
-    doses: [
-      { age: "2 mois", label: "1ère dose" },
-      { age: "4 mois", label: "2ème dose" },
-      { age: "11 mois", label: "Rappel" },
-    ],
-    description:
-      "Le pneumocoque est la première cause de méningite bactérienne chez le nourrisson en France. Le vaccin protège contre les sérotypes les plus dangereux.",
-    rappels: "Pas de rappel systématique après 11 mois pour les enfants en bonne santé.",
-  },
-  {
-    name: "Méningocoque C",
-    fullName: "Méningite à méningocoque de sérogroupe C",
-    doses: [
-      { age: "5 mois", label: "1ère dose" },
-      { age: "12 mois", label: "Rappel" },
-    ],
-    description:
-      "Les infections à méningocoque peuvent provoquer des méningites et des septicémies foudroyantes. La vaccination a permis de réduire drastiquement les cas.",
-    rappels: "Pas de rappel après 12 mois. Vaccination méningocoque B recommandée en complément.",
-  },
-  {
-    name: "ROR",
-    fullName: "Rougeole, Oreillons, Rubéole",
-    doses: [
-      { age: "12 mois", label: "1ère dose" },
-      { age: "16-18 mois", label: "2ème dose" },
-    ],
-    description:
-      "La rougeole reste une maladie grave (pneumonies, encéphalites). Les oreillons peuvent causer une surdité. La rubéole est dangereuse pendant la grossesse. Deux doses sont nécessaires pour une protection optimale.",
-    rappels: "Deux doses suffisent pour une protection à vie.",
-  },
-];
-
-const FAQ = [
-  {
-    question: "Mon enfant peut-il recevoir plusieurs vaccins le même jour ?",
-    answer:
-      "Oui, c'est courant et sans danger. Le vaccin hexavalent (DTPCa + Hib + Hépatite B) est administré en une seule injection. Le pneumocoque est fait le même jour dans l'autre cuisse.",
-  },
-  {
-    question: "Quels sont les effets secondaires les plus fréquents ?",
-    answer:
-      "Rougeur ou gonflement au point d'injection, fièvre modérée (38-38,5°C) pendant 24-48h, irritabilité. Ces effets sont bénins et passagers. Du paracétamol peut être donné si nécessaire.",
-  },
-  {
-    question: "Que se passe-t-il si je suis en retard sur le calendrier ?",
-    answer:
-      "Il n'est jamais trop tard pour rattraper. On ne recommence pas le schéma vaccinal, on reprend là où on s'est arrêté. Parles-en à ton pédiatre pour établir un calendrier de rattrapage.",
-  },
-  {
-    question: "Les vaccins sont-ils vraiment obligatoires ?",
-    answer:
-      "Oui, depuis le 1er janvier 2018, 11 vaccins sont obligatoires pour les enfants nés à partir de cette date. Ils sont exigés pour l'entrée en collectivité (crèche, école).",
-  },
-  {
-    question: "Les vaccins sont-ils remboursés ?",
-    answer:
-      "Oui, les vaccins obligatoires sont remboursés à 65% par l'Assurance Maladie et le reste par la mutuelle (100% si vaccin réalisé en PMI). Pour les enfants de moins de 7 ans, l'injection elle-même peut être gratuite en PMI.",
-  },
-];
 
 export default function GuideVaccinsObligatoiresPage() {
   return (
     <div className="space-y-8">
-      <Breadcrumbs
-        items={[
-          { label: "Outils", href: "/outils" },
-          { label: "Guide vaccins obligatoires" },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: "Outils", href: "/outils" }, { label: "Vaccinations du nourrisson" }]} />
       <div className="text-center space-y-4">
-        <h1 className="text-3xl font-serif font-bold sm:text-4xl">
-          Vaccins obligatoires 2025
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          11 vaccins sont obligatoires pour les enfants en France.
-          Voici lesquels, quand les faire, et pourquoi c'est important.
-        </p>
+        <h1 className="text-3xl font-serif font-bold sm:text-4xl">Vaccinations du nourrisson : les repères 2026</h1>
+        <p className="mx-auto max-w-2xl text-muted-foreground">Les âges ci-dessous décrivent le schéma habituel du nourrisson. Plusieurs protections peuvent être réunies dans une même injection.</p>
       </div>
-
-      <Card className="bg-warm-teal/5 border-warm-teal/20">
-        <CardContent className="flex items-start gap-3 p-4">
-          <ShieldCheck className="h-5 w-5 text-warm-teal mt-0.5 shrink-0" />
-          <p className="text-sm">
-            <strong>Depuis janvier 2018</strong>, 11 vaccins sont obligatoires
-            pour tout enfant né en France. Ils sont exigés pour l'entrée en
-            crèche, à l'école et en centre de loisirs.
-          </p>
-        </CardContent>
-      </Card>
-
-      <div className="space-y-6">
-        <h2 className="text-2xl font-serif font-semibold">
-          Les 6 vaccins (11 valences)
-        </h2>
-
-        {VACCINES.map((vaccine, index) => (
-          <Card key={index}>
-            <CardHeader className="pb-2">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-warm-teal/10">
-                    <Syringe className="h-5 w-5 text-warm-teal" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-base">{vaccine.name}</CardTitle>
-                    <p className="text-xs text-muted-foreground">
-                      {vaccine.fullName}
-                    </p>
-                  </div>
-                </div>
-                <Badge variant="outline" className="shrink-0">
-                  {vaccine.doses.length} dose{vaccine.doses.length > 1 ? "s" : ""}
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-sm">{vaccine.description}</p>
-
-              <div className="flex flex-wrap gap-2">
-                {vaccine.doses.map((dose, doseIndex) => (
-                  <span
-                    key={doseIndex}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-warm-teal/10 px-3 py-1 text-xs font-medium text-warm-teal"
-                  >
-                    {dose.age} — {dose.label}
-                  </span>
-                ))}
-              </div>
-
-              <p className="text-xs text-muted-foreground">
-                <strong>Rappels :</strong> {vaccine.rappels}
-              </p>
-            </CardContent>
+      <Card><CardContent className="pt-6 space-y-3 text-sm">
+        <p><strong>Le calendrier a évolué :</strong> la vaccination contre les méningocoques ACWY a remplacé celle contre le méningocoque C chez le nourrisson. La vaccination contre le méningocoque B fait aussi partie des obligations actuelles.</p>
+        <p>Pour les enfants nés depuis janvier 2023, un rattrapage peut être nécessaire selon les vaccinations déjà réalisées. Fais vérifier le carnet par un professionnel de santé.</p>
+        <p>Source : <a href={VACCINATION_REFERENCE_URL} className="text-primary underline">Santé publique France — nourrissons et enfants</a>. Référence 2026, vérifiée le 12 septembre 2026.</p>
+      </CardContent></Card>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {PUBLIC_INFANT_VACCINATIONS.map((vaccine) => (
+          <Card key={vaccine.code}>
+            <CardHeader><CardTitle className="flex items-start gap-2 text-lg"><Syringe className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />{vaccine.name}</CardTitle></CardHeader>
+            <CardContent><ul className="space-y-2 text-sm">{vaccine.doses.map((dose) => <li key={dose.doseNumber}><span className="font-medium">{dose.label}</span> — dose {dose.doseNumber}</li>)}</ul></CardContent>
           </Card>
         ))}
       </div>
-
-      <div className="space-y-4">
-        <h2 className="text-2xl font-serif font-semibold">
-          Questions fréquentes
-        </h2>
-
-        {FAQ.map((item, index) => (
-          <Card key={index}>
-            <CardContent className="p-4 space-y-2">
-              <p className="font-medium text-sm">{item.question}</p>
-              <p className="text-sm text-muted-foreground">{item.answer}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <Card className="bg-warm-orange/5 border-warm-orange/20">
-        <CardContent className="flex items-start gap-3 p-4">
-          <AlertTriangle className="h-5 w-5 text-warm-orange mt-0.5 shrink-0" />
-          <p className="text-sm">
-            <strong>Avertissement</strong> : cette page est fournie à titre
-            informatif et ne se substitue pas à l'avis de ton médecin ou
-            pédiatre. Consulte un professionnel de santé pour toute question
-            relative à la vaccination de ton enfant.
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card className="bg-warm-orange/5 border-warm-orange/20">
-        <CardContent className="flex flex-col items-center gap-4 p-6 text-center">
-          <h2 className="text-xl font-serif font-semibold">
-            Suis les vaccins de ton enfant automatiquement
-          </h2>
-          <p className="text-sm text-muted-foreground max-w-md">
-            Avec Darons, on te rappelle chaque vaccin au bon moment.
-            Plus besoin de compter les mois sur tes doigts.
-          </p>
-          <Button asChild>
-            <Link href="/register">
-              C'est gratuit, je m'inscris
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </CardContent>
-      </Card>
+      <p className="text-sm text-muted-foreground">Ce guide ne remplace pas un calendrier individuel. Les rappels après la petite enfance, la prématurité, les situations particulières et les retards nécessitent une adaptation. Apporte le carnet de vaccination à la consultation.</p>
+      <Button asChild><Link href="/outils/calendrier-vaccinal">Voir les dates indicatives <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
     </div>
   );
 }

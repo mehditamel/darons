@@ -128,11 +128,12 @@ export default function JalonsDeveloppementPage() {
                   <div
                     key={milestone.name}
                     className={`flex items-center gap-3 py-2 border-b last:border-0 ${
-                      !isRelevant && ageMonths !== null ? "opacity-40" : ""
+                      !isRelevant && ageMonths !== null ? "bg-muted/30" : ""
                     }`}
                   >
                     <input
                       type="checkbox"
+                      aria-label={`Marquer « ${milestone.name} » comme acquis`}
                       checked={achieved[milestone.name] ?? false}
                       onChange={() => toggleAchieved(milestone.name)}
                       className="h-4 w-4 rounded border-2 accent-warm-green cursor-pointer"

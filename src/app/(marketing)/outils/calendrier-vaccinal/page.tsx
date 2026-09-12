@@ -3,39 +3,19 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Syringe, ArrowRight, Calendar } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { VACCINATION_SCHEDULE } from "@/lib/constants";
+import { publicVaccinationDates, VACCINATION_REFERENCE_URL, VACCINATION_REFERENCE_YEAR } from "@/lib/public-vaccination";
 import { formatDate } from "@/lib/utils";
-import { addMonths } from "date-fns";
+
 
 export default function CalendrierVaccinalPage() {
   const [birthDate, setBirthDate] = useState("");
 
-  const schedule = useMemo(() => {
-    if (!birthDate) return null;
-    const birth = new Date(birthDate);
-    if (isNaN(birth.getTime())) return null;
-
-    const today = new Date();
-    // Flatten vaccines with doses into individual entries
-    return VACCINATION_SCHEDULE.flatMap((vaccine) =>
-      vaccine.doses.map((dose) => {
-        const scheduledDate = addMonths(birth, dose.ageMonths);
-        return {
-          vaccineCode: vaccine.code,
-          vaccineName: vaccine.name,
-          doseNumber: dose.doseNumber,
-          ageMonths: dose.ageMonths,
-          scheduledDate,
-          isPast: scheduledDate < today,
-        };
-      })
-    ).sort((a, b) => a.ageMonths - b.ageMonths);
-  }, [birthDate]);
+  const { dates: schedule, error } = useMemo(() => publicVaccinationDates(birthDate), [birthDate]);
 
   return (
     <div className="space-y-8">
@@ -44,11 +24,11 @@ export default function CalendrierVaccinalPage() {
           <Syringe className="w-7 h-7" />
         </div>
         <h1 className="text-3xl font-serif font-bold">
-          Calendrier vaccinal 2025
+          Calendrier vaccinal {VACCINATION_REFERENCE_YEAR}
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Les 9 vaccins obligatoires pour votre enfant. Entrez sa date de
-          naissance pour voir les dates personnalisées.
+          Les dates indicatives des vaccinations du nourrisson, selon sa date de naissance.
+          Ce calendrier ne détermine pas les doses déjà réalisées ni les rattrapages.
         </p>
       </div>
 
@@ -61,9 +41,18 @@ export default function CalendrierVaccinalPage() {
             value={birthDate}
             onChange={(e) => setBirthDate(e.target.value)}
             className="mt-2"
+            aria-invalid={!!error}
+            aria-describedby={error ? "birth-date-error" : "vaccination-reference"}
           />
+          {error && <p id="birth-date-error" role="alert" className="mt-3 text-sm text-danger">{error}</p>}
         </CardContent>
       </Card>
+
+      <p id="vaccination-reference" className="mx-auto max-w-2xl text-sm text-muted-foreground">
+        Référence : <a href={VACCINATION_REFERENCE_URL} className="text-primary underline">Santé publique France, calendrier 2026</a>.
+        Les méningocoques B et ACWY font partie du schéma actuel. Pour les enfants nés depuis 2023,
+        les éventuels rattrapages sont à adapter au carnet de vaccination avec un professionnel de santé.
+      </p>
 
       {schedule && (
         <div className="space-y-4">
@@ -75,13 +64,13 @@ export default function CalendrierVaccinalPage() {
             {schedule.map((vaccine, i) => (
               <Card
                 key={`${vaccine.vaccineCode}-${vaccine.doseNumber}-${i}`}
-                className={vaccine.isPast ? "opacity-60" : ""}
+
               >
-                <CardContent className="py-4 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                <CardContent className="py-4 flex flex-wrap items-start justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-3">
                     <div className="flex flex-col items-center min-w-[60px]">
                       <span className="text-xs text-muted-foreground">
-                        {vaccine.ageMonths} mois
+                        {vaccine.label}
                       </span>
                       <Calendar className="w-5 h-5 text-warm-orange mt-1" />
                     </div>
@@ -101,10 +90,10 @@ export default function CalendrierVaccinalPage() {
                     </p>
                     {vaccine.isPast ? (
                       <Badge variant="secondary" className="text-xs">
-                        Passé
+                        Date passée
                       </Badge>
                     ) : (
-                      <Badge className="text-xs bg-warm-orange">
+                      <Badge className="text-xs bg-primary text-primary-foreground">
                         À planifier
                       </Badge>
                     )}
@@ -117,19 +106,19 @@ export default function CalendrierVaccinalPage() {
           <Card className="max-w-2xl mx-auto bg-warm-orange/5 border-warm-orange/20">
             <CardContent className="pt-6 text-center space-y-3">
               <p className="font-medium">
-                Recevez des rappels automatiques pour chaque vaccin
+                Retrouve aussi le guide des vaccinations
               </p>
-              <Link href="/register">
-                <Button>
-                  Créer mon compte gratuit <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
+              <Button asChild>
+                <Link href="/outils/guide-vaccins-obligatoires">
+                  Lire le guide <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         </div>
       )}
 
-      {!schedule && (
+      {!schedule && !error && (
         <div className="text-center py-12 text-muted-foreground">
           <Syringe className="w-12 h-12 mx-auto mb-4 opacity-20" />
           <p>Entrez la date de naissance pour générer le calendrier</p>
