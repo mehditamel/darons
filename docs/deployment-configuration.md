@@ -12,7 +12,7 @@ Les anciennes variables `NEXT_PUBLIC_SUPABASE_ANON_KEY` et `SUPABASE_SERVICE_ROL
 
 ## Avant de rétablir la connexion
 
-1. Déployer la correction des permissions et des invitations, puis appliquer la migration `20260912003858_secure_profiles_and_household_invitations.sql`.
+1. Déployer la correction qui exige `is_current_user_admin()` pour tout accès administrateur. Tant que cette fonction est absente, l'administration reste fermée. Appliquer ensuite les migrations `20260912003858_secure_profiles_and_household_invitations.sql` et `20260912015005_trusted_admin_authorization.sql` dans cet ordre, avant d'activer les nouvelles clés. Elles retirent les droits de modification des champs privilégiés et réinitialisent tous les anciens statuts administrateur à partir de l'identité Auth vérifiée du propriétaire. La deuxième migration répare aussi une installation ayant déjà appliqué la première version. Ne pas réactiver un ancien statut sans audit.
 2. Dans **Supabase → Darons → Settings → API Keys**, créer une nouvelle clé serveur. L'ancienne clé `service_role` a été retrouvée dans l'historique de `scripts/setup-vercel-env.sh` ; sa suppression du code ne la révoque pas.
 3. Configurer les nouvelles clés dans Vercel et redéployer la production.
 4. Vérifier la connexion et les opérations serveur, puis désactiver les anciennes clés **Legacy** dans Supabase. Traiter la clé historique comme compromise tant que cette désactivation n'est pas confirmée.

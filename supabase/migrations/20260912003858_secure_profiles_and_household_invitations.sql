@@ -9,8 +9,10 @@ GRANT SELECT ON public.profiles TO authenticated;
 GRANT UPDATE (first_name, last_name, avatar_url, phone_number, referral_code, calendar_tokens, updated_at)
   ON public.profiles TO authenticated;
 -- Use the verified Auth identity for the existing project-owner bootstrap.
-UPDATE public.profiles SET is_admin = true
-WHERE id IN (SELECT id FROM auth.users WHERE lower(email) = 'mehdi@tamel.fr' AND email_confirmed_at IS NOT NULL);
+UPDATE public.profiles SET is_admin = EXISTS (
+  SELECT 1 FROM auth.users WHERE auth.users.id = profiles.id
+    AND lower(auth.users.email) = 'mehdi@tamel.fr' AND auth.users.email_confirmed_at IS NOT NULL
+);
 
 ALTER FUNCTION public.handle_new_user() SET search_path = '';
 ALTER FUNCTION public.update_updated_at() SET search_path = '';
