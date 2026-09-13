@@ -17,7 +17,7 @@ test.describe("Authentification", () => {
     await expect(page.getByLabel("Nom", { exact: true })).toBeVisible();
     await expect(page.getByLabel(/email/i)).toBeVisible();
     await expect(page.getByLabel("Mot de passe", { exact: true })).toBeVisible();
-    await expect(page.getByRole("button", { name: "C'est parti, c'est gratuit", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Créer mon compte gratuit", exact: true })).toBeVisible();
   });
 
   test("affiche la page de réinitialisation de mot de passe", async ({ page }) => {

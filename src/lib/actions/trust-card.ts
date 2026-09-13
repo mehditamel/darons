@@ -42,11 +42,14 @@ function mapCard(row: Record<string, unknown>): TrustCard {
 }
 
 export async function createTrustCard(
-  payload: CreateTrustCardData
+  payload: CreateTrustCardData,
 ): Promise<ActionResult<TrustCardCreated>> {
   const parsed = createTrustCardSchema.safeParse(payload);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.errors[0]?.message ?? "Données invalides" };
+    return {
+      success: false,
+      error: parsed.error.errors[0]?.message ?? "Données invalides",
+    };
   }
 
   const { user, supabase } = await getAuthenticatedUser();
@@ -61,13 +64,14 @@ export async function createTrustCard(
     .eq("id", parsed.data.memberId)
     .eq("household_id", householdId)
     .single();
-  if (!member) return { success: false, error: "Enfant introuvable dans ce foyer" };
+  if (!member)
+    return { success: false, error: "Enfant introuvable dans ce foyer" };
 
   const token = generateToken();
   const pin = generatePin();
   const pinHash = await hashPin(pin);
   const expiresAt = new Date(
-    Date.now() + parsed.data.durationHours * 60 * 60 * 1000
+    Date.now() + parsed.data.durationHours * 60 * 60 * 1000,
   ).toISOString();
 
   const { data, error } = await supabase
@@ -76,11 +80,13 @@ export async function createTrustCard(
       household_id: householdId,
       member_id: parsed.data.memberId,
       created_by: user.id,
-      label: parsed.data.label ?? null,
+      label: parsed.data.label || null,
       token,
       pin_hash: pinHash,
       sections: parsed.data.sections,
-      notes: parsed.data.notes ?? null,
+      notes: parsed.data.sections.includes("routines")
+        ? (parsed.data.notes ?? null)
+        : null,
       expires_at: expiresAt,
     })
     .select()
@@ -102,7 +108,9 @@ export async function createTrustCard(
   };
 }
 
-export async function listTrustCards(): Promise<ActionResult<TrustCardWithMember[]>> {
+export async function listTrustCards(): Promise<
+  ActionResult<TrustCardWithMember[]>
+> {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -133,7 +141,7 @@ export async function listTrustCards(): Promise<ActionResult<TrustCardWithMember
 }
 
 export async function getTrustCardById(
-  id: string
+  id: string,
 ): Promise<ActionResult<TrustCardWithMember>> {
   const uuidCheck = validateUUID(id);
   if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
@@ -184,14 +192,17 @@ export async function revokeTrustCard(id: string): Promise<ActionResult> {
     .eq("household_id", householdId)
     .is("revoked_at", null);
 
-  if (error) return { success: false, error: "Impossible de révoquer le carnet" };
+  if (error)
+    return { success: false, error: "Impossible de révoquer le carnet" };
 
   revalidatePath("/confiance");
   revalidatePath(`/confiance/${id}`);
   return { success: true };
 }
 
-export async function regeneratePin(id: string): Promise<ActionResult<{ pin: string }>> {
+export async function regeneratePin(
+  id: string,
+): Promise<ActionResult<{ pin: string }>> {
   const uuidCheck = validateUUID(id);
   if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
 

@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Copy, Check, ExternalLink } from "lucide-react";
+import { handoffInvitation } from "@/lib/trust-card/handoff";
 
 interface Props {
   pin: string;
@@ -20,8 +21,15 @@ interface Props {
   onClose: () => void;
 }
 
-export function TrustCardCreatedDialog({ pin, shareUrl, label, onClose }: Props) {
+export function TrustCardCreatedDialog({
+  pin,
+  shareUrl,
+  label,
+  onClose,
+}: Props) {
   const [copiedUrl, setCopiedUrl] = useState(false);
+  const [messageCopied, setMessageCopied] = useState(false);
+  const invitation = handoffInvitation(shareUrl);
   const [copiedPin, setCopiedPin] = useState(false);
   const { toast } = useToast();
 
@@ -46,38 +54,99 @@ export function TrustCardCreatedDialog({ pin, shareUrl, label, onClose }: Props)
 
   return (
     <Dialog open onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-lg max-h-[90dvh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Carnet créé{label ? ` — ${label}` : ""} 🎉</DialogTitle>
           <DialogDescription>
-            Envoie le lien à la personne et donne-lui le PIN <strong>par un autre moyen</strong> (SMS, oral).
-            Ne mets jamais le lien et le PIN dans le même message.
+            Envoie le lien à la personne et donne-lui le PIN{" "}
+            <strong>par un autre moyen</strong> (SMS, oral). Ne mets jamais le
+            lien et le PIN dans le même message.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-4 min-w-0">
+          <div className="space-y-2">
+            <label htmlFor="handoff-invitation" className="text-sm font-medium">
+              Ton message est prêt
+            </label>
+            <textarea
+              id="handoff-invitation"
+              readOnly
+              value={invitation}
+              rows={5}
+              className="w-full rounded-lg border border-input bg-background p-3 text-sm"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              className="whitespace-normal h-auto min-h-10"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(invitation);
+                  setMessageCopied(true);
+                } catch {
+                  toast({
+                    title: "Sélectionne et copie le message ci-dessus",
+                    variant: "destructive",
+                  });
+                }
+              }}
+            >
+              Copier le message d’invitation
+            </Button>
+            {messageCopied && (
+              <p role="status" className="text-xs text-muted-foreground">
+                Message copié, sans PIN. Aucun envoi automatique.
+              </p>
+            )}
+          </div>
           <div>
-            <p className="text-xs font-medium uppercase text-muted-foreground">Lien à partager</p>
+            <p className="text-xs font-medium uppercase text-muted-foreground">
+              Lien à partager
+            </p>
             <div className="flex items-center gap-2 mt-1">
-              <code className="flex-1 text-xs bg-muted px-3 py-2 rounded truncate">{shareUrl}</code>
-              <Button size="icon" variant="outline" onClick={() => copy(shareUrl, "url")} aria-label="Copier le lien">
-                {copiedUrl ? <Check className="h-4 w-4 text-warm-green" /> : <Copy className="h-4 w-4" />}
+              <code className="flex-1 min-w-0 text-xs bg-muted px-3 py-2 rounded truncate">
+                {shareUrl}
+              </code>
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => copy(shareUrl, "url")}
+                aria-label="Copier le lien"
+              >
+                {copiedUrl ? (
+                  <Check className="h-4 w-4 text-warm-green" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
               </Button>
             </div>
           </div>
 
           <div>
-            <p className="text-xs font-medium uppercase text-muted-foreground">Code PIN (4 chiffres)</p>
+            <p className="text-xs font-medium uppercase text-muted-foreground">
+              Code PIN (4 chiffres)
+            </p>
             <div className="flex items-center gap-2 mt-1">
               <code className="flex-1 text-2xl font-mono tracking-[0.5em] text-center bg-warm-teal/10 text-warm-teal px-3 py-3 rounded font-semibold">
                 {pin}
               </code>
-              <Button size="icon" variant="outline" onClick={() => copy(pin, "pin")} aria-label="Copier le PIN">
-                {copiedPin ? <Check className="h-4 w-4 text-warm-green" /> : <Copy className="h-4 w-4" />}
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => copy(pin, "pin")}
+                aria-label="Copier le PIN"
+              >
+                {copiedPin ? (
+                  <Check className="h-4 w-4 text-warm-green" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
               </Button>
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              ⚠️ Ce PIN ne sera plus jamais affiché. Note-le ou copie-le maintenant.
+              ⚠️ Ce PIN ne sera plus jamais affiché. Note-le ou copie-le
+              maintenant.
             </p>
           </div>
         </div>

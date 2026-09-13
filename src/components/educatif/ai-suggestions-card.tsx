@@ -51,10 +51,10 @@ export function AiSuggestionsCard({ childId, childName, hasAccess }: AiSuggestio
           <div className="flex-1">
             <p className="text-sm font-medium">Suggestions d'activités IA</p>
             <p className="text-xs text-muted-foreground">
-              Passez au plan Premium pour des suggestions personnalisées.
+              Les suggestions personnalisées sont momentanément indisponibles.
             </p>
           </div>
-          <Badge variant="outline">Premium</Badge>
+          <Badge variant="outline">Indisponible</Badge>
         </CardContent>
       </Card>
     );

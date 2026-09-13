@@ -45,10 +45,10 @@ export function MonthlySummaryCard({ hasAccess }: MonthlySummaryCardProps) {
           <div className="flex-1">
             <p className="text-sm font-medium">Résumé mensuel IA</p>
             <p className="text-xs text-muted-foreground">
-              Passez au plan Premium pour un résumé mensuel personnalisé de votre foyer.
+              Le résumé mensuel est momentanément indisponible.
             </p>
           </div>
-          <Badge variant="outline">Premium</Badge>
+          <Badge variant="outline">Indisponible</Badge>
         </CardContent>
       </Card>
     );

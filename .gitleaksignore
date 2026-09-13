@@ -1,0 +1,4 @@
+# Confirmed false positive in this exact historical commit: the public
+# localStorage namespace "darons.family-plan.v1", not an access credential.
+# The constant is now named PLAN_STORAGE_NAME to avoid ambiguity.
+d45b59347e29e241463b7df5c5612b689433d19c:src/lib/family-plan/plan.ts:generic-api-key:9

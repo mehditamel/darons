@@ -16,6 +16,17 @@ interface ToolSection {
 
 export const SECTIONS: ToolSection[] = [
   {
+    title: "Organisation & reprise",
+    tools: [{
+      href: "/outils/reprise-travail",
+      iconName: "CalendarRange",
+      title: "Ma reprise Darons",
+      description: "Repère les décalages entre travail, trajet et garde. Prépare ton plan daté et ton échange avec les RH.",
+      color: "text-warm-teal bg-warm-teal/10",
+      isNew: true,
+    }],
+  },
+  {
     title: "Argent & droits",
     tools: [
       {
@@ -114,6 +125,14 @@ export const SECTIONS: ToolSection[] = [
     title: "Vie de parent",
     tools: [
       {
+        href: "/outils/plan-famille",
+        iconName: "ClipboardCheck",
+        title: "Mon plan Darons",
+        description: "Futurs et jeunes parents : jusqu’à trois actions adaptées à bébé, à ton besoin et au temps disponible. Un plan à répartir et à emporter.",
+        color: "text-secondary bg-secondary/10",
+        isNew: true,
+      },
+      {
         href: "/outils/checklist-naissance",
         iconName: "ClipboardCheck",
         title: "Checklist naissance",
@@ -141,4 +160,3 @@ export const SECTIONS: ToolSection[] = [
 ];
 
 export const TOTAL_TOOLS = SECTIONS.reduce((acc, s) => acc + s.tools.length, 0);
-

@@ -17,6 +17,9 @@ export default defineConfig({
       // régressions sans bloquer artificiellement.
       include: [
         "src/lib/simulators/**",
+        "src/lib/family-plan/**",
+        "src/lib/return-to-work/**",
+        "src/lib/trust-card/handoff.ts",
         "src/lib/validators/**",
         "src/lib/utils.ts",
         "src/lib/errors.ts",

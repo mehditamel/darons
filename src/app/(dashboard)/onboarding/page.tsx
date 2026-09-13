@@ -174,7 +174,7 @@ export default function OnboardingPage() {
   // Compute child age message
   function getChildMessage(): string {
     const name = childName || "ton enfant";
-    return `${name} est entre de bonnes mains. On va bien s'occuper de tout.`;
+    return `${name} a maintenant son espace. Ajoute les infos qui te seront utiles au prochain rendez-vous ou passage de relais.`;
   }
 
   return (
@@ -508,7 +508,7 @@ export default function OnboardingPage() {
             </CardTitle>
             <CardDescription className="text-center">
               {selectedModules.size > 0 ? (
-                <>On a activé tes modules prioritaires. Commence par un premier quick win :</>
+                <>Tes priorités sont repérées. Ajoute une première information utile :</>
               ) : (
                 <>Tu peux maintenant explorer tous les modules. Par quoi tu commences ?</>
               )}
@@ -530,6 +530,19 @@ export default function OnboardingPage() {
             )}
           </CardHeader>
           <CardContent className="space-y-3">
+            {childName && (
+              <Button
+                variant="outline"
+                className="w-full h-auto min-h-11 whitespace-normal"
+                onClick={() => router.push("/confiance")}
+              >
+                Préparer un Carnet de Confiance
+                <ArrowRight
+                  aria-hidden="true"
+                  className="ml-2 h-4 w-4 shrink-0"
+                />
+              </Button>
+            )}
             {selectedModules.size > 0 ? (
               <>
                 <Button

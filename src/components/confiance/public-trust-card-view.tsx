@@ -14,6 +14,7 @@ import {
 import { format, differenceInMonths, differenceInYears } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { TrustCardPayload } from "@/types/trust-card";
+import { HandoffRecap } from "./handoff-recap";
 
 interface Props {
   payload: TrustCardPayload;
@@ -36,10 +37,13 @@ const SEVERITY_META = {
 } as const;
 
 export function PublicTrustCardView({ payload }: Props) {
-  const hasAllergies = payload.sections.includes("allergies") && payload.allergies && payload.allergies.length > 0;
+  const hasAllergies =
+    payload.sections.includes("allergies") &&
+    payload.allergies &&
+    payload.allergies.length > 0;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 min-w-0 break-words">
       <Card className="border-warm-teal/30 bg-warm-teal/5">
         <CardHeader className="pb-3">
           <div className="flex items-center gap-3">
@@ -51,14 +55,19 @@ export function PublicTrustCardView({ payload }: Props) {
               <p className="text-sm text-muted-foreground">
                 {formatAge(payload.childBirthDate)} · né
                 {payload.identite?.firstName ? "" : ""} le{" "}
-                {format(new Date(payload.childBirthDate), "d MMMM yyyy", { locale: fr })}
+                {format(new Date(payload.childBirthDate), "d MMMM yyyy", {
+                  locale: fr,
+                })}
               </p>
             </div>
           </div>
         </CardHeader>
         <CardContent className="pt-0 text-xs text-muted-foreground flex items-center gap-1">
           <Clock className="h-3 w-3" />
-          Accès jusqu'au {format(new Date(payload.expiresAt), "d MMM 'à' HH:mm", { locale: fr })}
+          Accès jusqu'au{" "}
+          {format(new Date(payload.expiresAt), "d MMM 'à' HH:mm", {
+            locale: fr,
+          })}
         </CardContent>
       </Card>
 
@@ -67,19 +76,28 @@ export function PublicTrustCardView({ payload }: Props) {
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-warm-red" />
-              <CardTitle className="text-base">Allergies — à connaître absolument</CardTitle>
+              <CardTitle className="text-base">
+                Allergies — à connaître absolument
+              </CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-2">
             {payload.allergies!.map((a, i) => {
-              const meta = SEVERITY_META[a.severity as keyof typeof SEVERITY_META] ?? SEVERITY_META.moderate;
+              const meta =
+                SEVERITY_META[a.severity as keyof typeof SEVERITY_META] ??
+                SEVERITY_META.moderate;
               return (
-                <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-warm-red/5 border border-warm-red/20">
+                <div
+                  key={i}
+                  className="flex items-start gap-3 p-3 rounded-lg bg-warm-red/5 border border-warm-red/20"
+                >
                   <Badge className={meta.className}>{meta.label}</Badge>
                   <div className="flex-1">
                     <div className="font-medium">{a.allergen}</div>
                     {a.reaction && (
-                      <div className="text-sm text-muted-foreground">Réaction : {a.reaction}</div>
+                      <div className="text-sm text-muted-foreground">
+                        Réaction : {a.reaction}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -105,57 +123,70 @@ export function PublicTrustCardView({ payload }: Props) {
                 className="flex items-center justify-between p-3 rounded-lg border hover:border-warm-orange hover:bg-warm-orange/5 transition-colors"
               >
                 <span className="text-sm">{c.label}</span>
-                <span className="font-mono font-semibold text-warm-orange">{c.phone}</span>
+                <span className="font-mono font-semibold text-warm-orange">
+                  {c.phone}
+                </span>
               </a>
             ))}
           </CardContent>
         </Card>
       )}
 
-      {payload.sections.includes("practitioners") && payload.practitioners && payload.practitioners.length > 0 && (
-        <Card>
-          <CardHeader className="pb-3">
-            <div className="flex items-center gap-2">
-              <Stethoscope className="h-5 w-5 text-warm-teal" />
-              <CardTitle className="text-base">Médecins de référence</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {payload.practitioners.map((p, i) => (
-              <div key={i} className="p-3 rounded-lg border">
-                <div className="font-medium">{p.name}</div>
-                <div className="text-sm text-muted-foreground capitalize">{p.type}</div>
-                {p.phone && <div className="text-sm mt-1">📍 {p.phone}</div>}
+      {payload.sections.includes("practitioners") &&
+        payload.practitioners &&
+        payload.practitioners.length > 0 && (
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2">
+                <Stethoscope className="h-5 w-5 text-warm-teal" />
+                <CardTitle className="text-base">
+                  Médecins de référence
+                </CardTitle>
               </div>
-            ))}
-          </CardContent>
-        </Card>
-      )}
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {payload.practitioners.map((p, i) => (
+                <div key={i} className="p-3 rounded-lg border">
+                  <div className="font-medium">{p.name}</div>
+                  <div className="text-sm text-muted-foreground capitalize">
+                    {p.type}
+                  </div>
+                  {p.phone && <div className="text-sm mt-1">📍 {p.phone}</div>}
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
 
-      {payload.sections.includes("vaccinations") && payload.vaccinations && payload.vaccinations.length > 0 && (
-        <Card>
-          <CardHeader className="pb-3">
-            <div className="flex items-center gap-2">
-              <Syringe className="h-5 w-5 text-warm-blue" />
-              <CardTitle className="text-base">Vaccinations</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-1.5">
-            {payload.vaccinations.slice(0, 10).map((v, i) => (
-              <div key={i} className="flex items-center justify-between py-1.5 text-sm">
-                <span>{v.vaccineName}</span>
-                <span className="text-muted-foreground text-xs">
-                  {v.administeredDate
-                    ? `✓ ${format(new Date(v.administeredDate), "d MMM yyyy", { locale: fr })}`
-                    : v.status === "overdue"
-                    ? "⚠ en retard"
-                    : "à faire"}
-                </span>
+      {payload.sections.includes("vaccinations") &&
+        payload.vaccinations &&
+        payload.vaccinations.length > 0 && (
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2">
+                <Syringe className="h-5 w-5 text-warm-blue" />
+                <CardTitle className="text-base">Vaccinations</CardTitle>
               </div>
-            ))}
-          </CardContent>
-        </Card>
-      )}
+            </CardHeader>
+            <CardContent className="space-y-1.5">
+              {payload.vaccinations.slice(0, 10).map((v, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between py-1.5 text-sm"
+                >
+                  <span>{v.vaccineName}</span>
+                  <span className="text-muted-foreground text-xs">
+                    {v.administeredDate
+                      ? `✓ ${format(new Date(v.administeredDate), "d MMM yyyy", { locale: fr })}`
+                      : v.status === "overdue"
+                        ? "⚠ en retard"
+                        : "à faire"}
+                  </span>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
 
       {payload.sections.includes("routines") && payload.notes && (
         <Card>
@@ -166,7 +197,9 @@ export function PublicTrustCardView({ payload }: Props) {
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-sm whitespace-pre-wrap leading-relaxed">{payload.notes}</p>
+            <p className="text-sm whitespace-pre-wrap leading-relaxed">
+              {payload.notes}
+            </p>
           </CardContent>
         </Card>
       )}
@@ -183,11 +216,14 @@ export function PublicTrustCardView({ payload }: Props) {
             </div>
             <div>
               <span className="text-muted-foreground">Date de naissance :</span>{" "}
-              {format(new Date(payload.identite.birthDate), "d MMMM yyyy", { locale: fr })}
+              {format(new Date(payload.identite.birthDate), "d MMMM yyyy", {
+                locale: fr,
+              })}
             </div>
           </CardContent>
         </Card>
       )}
+      {payload.sections.includes("routines") && <HandoffRecap />}
     </div>
   );
 }

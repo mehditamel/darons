@@ -32,10 +32,10 @@ export function PhoneNumberSettings({ currentPhoneNumber, hasSms }: PhoneNumberS
           <div className="flex-1">
             <p className="text-sm font-medium">Alertes SMS</p>
             <p className="text-xs text-muted-foreground">
-              Passez au plan Family Pro pour recevoir les alertes critiques par SMS.
+              Les alertes par SMS sont momentanément indisponibles.
             </p>
           </div>
-          <Badge variant="outline">Family Pro</Badge>
+          <Badge variant="outline">Indisponible</Badge>
         </CardContent>
       </Card>
     );

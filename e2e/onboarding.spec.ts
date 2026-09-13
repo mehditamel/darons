@@ -19,7 +19,7 @@ test.describe("Onboarding", () => {
     await page.goto("/register");
 
     // Try submitting empty form
-    await page.getByRole("button", { name: "C'est parti, c'est gratuit", exact: true }).click();
+    await page.getByRole("button", { name: "Créer mon compte gratuit", exact: true }).click();
     await expect(page.getByRole("alert").first()).toBeVisible();
 
     // Form should not navigate away (validation errors)

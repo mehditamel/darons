@@ -1,5 +1,6 @@
 "use client";
 
+import { DaronsLogo } from "@/components/brand/darons-logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -78,41 +79,38 @@ export function Sidebar({
   moduleProgress = {},
 }: SidebarProps) {
   const pathname = usePathname();
-  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
+  const [collapsedGroups, setCollapsedGroups] = useState<
+    Record<string, boolean>
+  >({});
   const { isCompact, toggle } = useSidebar();
 
   function toggleGroup(group: string) {
     setCollapsedGroups((prev) => ({ ...prev, [group]: !prev[group] }));
   }
 
-  const totalBadges = Object.values(badges).reduce((sum, count) => sum + count, 0);
+  const totalBadges = Object.values(badges).reduce(
+    (sum, count) => sum + count,
+    0,
+  );
 
   return (
     <TooltipProvider delayDuration={0}>
       <aside
         className={cn(
           "hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 bg-sidebar transition-all duration-300",
-          isCompact ? "lg:w-16" : "lg:w-64"
+          isCompact ? "lg:w-16" : "lg:w-64",
         )}
         role="navigation"
         aria-label="Navigation principale"
       >
         {/* Logo */}
         <div className="flex h-16 items-center px-4 border-b border-white/10">
-          <Link href="/dashboard" className="flex items-center space-x-3 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white font-bold text-sm shadow-lg shadow-warm-orange/20 transition-transform group-hover:scale-105 shrink-0">
-              D
-            </div>
-            {!isCompact && (
-              <div className="flex flex-col">
-                <span className="text-lg font-serif text-white leading-tight">
-                  Darons
-                </span>
-                <span className="text-[10px] text-sidebar-muted leading-tight">
-                  La vie de famille, simplifiée
-                </span>
-              </div>
-            )}
+          <Link
+            href="/dashboard"
+            aria-label="Darons, tableau de bord"
+            className="darons-home-link text-white"
+          >
+            <DaronsLogo compact={isCompact} />
           </Link>
         </div>
 
@@ -138,12 +136,15 @@ export function Sidebar({
         )}
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-2 py-3 space-y-1 custom-scrollbar" aria-label="Modules">
+        <nav
+          className="flex-1 overflow-y-auto px-2 py-3 space-y-1 custom-scrollbar"
+          aria-label="Modules"
+        >
           {SIDEBAR_NAVIGATION.map((group) => {
             const isCollapsed = collapsedGroups[group.group] ?? false;
             const groupBadgeCount = group.items.reduce(
               (sum, item) => sum + (badges[item.href] ?? 0),
-              0
+              0,
             );
 
             return (
@@ -165,7 +166,7 @@ export function Sidebar({
                       <ChevronDown
                         className={cn(
                           "h-3 w-3 transition-transform duration-200",
-                          isCollapsed && "-rotate-90"
+                          isCollapsed && "-rotate-90",
                         )}
                       />
                     </div>
@@ -174,7 +175,11 @@ export function Sidebar({
                 {(isCompact || !isCollapsed) && (
                   <ul
                     className={cn("space-y-0.5", !isCompact && "mb-3")}
-                    aria-labelledby={isCompact ? undefined : `nav-group-${group.group.replace(/\s+/g, "-").toLowerCase()}`}
+                    aria-labelledby={
+                      isCompact
+                        ? undefined
+                        : `nav-group-${group.group.replace(/\s+/g, "-").toLowerCase()}`
+                    }
                   >
                     {group.items.map((item) => {
                       const Icon = ICON_MAP[item.icon] || LayoutDashboard;
@@ -194,21 +199,33 @@ export function Sidebar({
                             isCompact && "justify-center px-2",
                             isActive
                               ? "bg-gradient-to-r from-warm-orange/20 to-warm-orange/10 text-white font-medium border-l-2 border-warm-orange"
-                              : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white hover:translate-x-0.5"
+                              : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white hover:translate-x-0.5",
                           )}
                         >
                           <div className="relative shrink-0">
-                            <Icon className={cn("h-4 w-4 transition-colors", isActive && "text-warm-orange")} aria-hidden="true" />
+                            <Icon
+                              className={cn(
+                                "h-4 w-4 transition-colors",
+                                isActive && "text-warm-orange",
+                              )}
+                              aria-hidden="true"
+                            />
                             {/* Mini progress ring behind icon */}
-                            {progress !== undefined && progress < 100 && !isCompact && (
-                              <div className="absolute -top-1 -right-1.5">
-                                <MiniProgressRing
-                                  value={progress}
-                                  size={12}
-                                  color={isActive ? "text-warm-orange" : "text-warm-teal"}
-                                />
-                              </div>
-                            )}
+                            {progress !== undefined &&
+                              progress < 100 &&
+                              !isCompact && (
+                                <div className="absolute -top-1 -right-1.5">
+                                  <MiniProgressRing
+                                    value={progress}
+                                    size={12}
+                                    color={
+                                      isActive
+                                        ? "text-warm-orange"
+                                        : "text-warm-teal"
+                                    }
+                                  />
+                                </div>
+                              )}
                           </div>
                           {!isCompact && (
                             <>
@@ -222,7 +239,9 @@ export function Sidebar({
                                 <span
                                   className={cn(
                                     "flex h-5 min-w-5 items-center justify-center rounded-full bg-warm-orange text-[10px] font-medium text-white px-1",
-                                    badgeCount > 5 ? "animate-bounce-gentle" : "animate-pulse-glow"
+                                    badgeCount > 5
+                                      ? "animate-bounce-gentle"
+                                      : "animate-pulse-glow",
                                   )}
                                 >
                                   {badgeCount > 99 ? "99+" : badgeCount}
@@ -248,7 +267,9 @@ export function Sidebar({
                               <TooltipContent side="right" className="text-xs">
                                 {item.label}
                                 {badgeCount > 0 && (
-                                  <span className="ml-1.5 text-warm-orange">({badgeCount})</span>
+                                  <span className="ml-1.5 text-warm-orange">
+                                    ({badgeCount})
+                                  </span>
                                 )}
                               </TooltipContent>
                             </Tooltip>
@@ -271,7 +292,9 @@ export function Sidebar({
           <button
             onClick={toggle}
             className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-sidebar-muted hover:text-sidebar-foreground hover:bg-sidebar-accent/50 transition-all"
-            aria-label={isCompact ? "Agrandir la sidebar" : "Réduire la sidebar"}
+            aria-label={
+              isCompact ? "Agrandir la sidebar" : "Réduire la sidebar"
+            }
           >
             {isCompact ? (
               <ChevronRight className="h-3.5 w-3.5" />
@@ -294,13 +317,15 @@ export function Sidebar({
                     "flex items-center justify-center rounded-lg px-2 py-2 text-sm transition-all duration-200",
                     pathname === "/parametres"
                       ? "bg-gradient-to-r from-warm-orange/20 to-warm-orange/10 text-white font-medium"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white"
+                      : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white",
                   )}
                 >
                   <Settings className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right" className="text-xs">Paramètres</TooltipContent>
+              <TooltipContent side="right" className="text-xs">
+                Paramètres
+              </TooltipContent>
             </Tooltip>
           ) : (
             <Link
@@ -310,7 +335,7 @@ export function Sidebar({
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-200",
                 pathname === "/parametres"
                   ? "bg-gradient-to-r from-warm-orange/20 to-warm-orange/10 text-white font-medium"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white",
               )}
             >
               <Settings className="h-4 w-4" aria-hidden="true" />
@@ -319,7 +344,12 @@ export function Sidebar({
           )}
 
           {/* User avatar */}
-          <div className={cn("flex items-center gap-3 rounded-lg px-3 py-2", isCompact && "justify-center px-2")}>
+          <div
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2",
+              isCompact && "justify-center px-2",
+            )}
+          >
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-warm-teal/20 text-warm-teal text-xs font-semibold shrink-0">
               {userInitials}
             </div>

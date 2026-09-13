@@ -9,7 +9,8 @@ import {
   Sparkles,
   Wrench,
 } from "lucide-react";
-import { PageHeader } from "@/components/shared/page-header";
+import { FamilyWelcome } from "@/components/dashboard/family-welcome";
+import { PublicHeader } from "@/components/layout/public-header";
 import { StatCard } from "@/components/shared/stat-card";
 import { HouseholdWeather } from "@/components/dashboard/household-weather";
 import { FamilyOverviewCard } from "@/components/dashboard/family-overview-card";
@@ -64,12 +65,13 @@ const ALERT_LABELS: Record<string, string> = {
 
 export default function DemoPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="family-app min-h-screen bg-background">
+      <PublicHeader />
       {/* Bandeau démo */}
-      <div className="sticky top-0 z-50 bg-primary text-primary-foreground">
+      <div className="bg-secondary text-secondary-foreground">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-4 py-2.5 text-sm sm:flex-row">
           <span className="font-medium">
-            🎭 Mode démo — données fictives. Ton vrai foyer, c&apos;est en 2 minutes.
+            Mode démo — données fictives. Découvre ton futur espace familial.
           </span>
           <Button asChild size="sm" variant="secondary" className="shrink-0">
             <Link href="/register">
@@ -80,8 +82,8 @@ export default function DemoPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-5xl space-y-8 px-4 py-8">
-        <PageHeader
+      <main id="main-content" tabIndex={-1} className="mx-auto max-w-5xl space-y-8 px-4 py-8">
+        <FamilyWelcome
           title="Le foyer Démo, en un coup d'œil"
           description="Voici à quoi ressemble ton tableau de bord Darons une fois ta tribu ajoutée."
         />
@@ -162,7 +164,7 @@ export default function DemoPage() {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </main>
     </div>
   );
 }

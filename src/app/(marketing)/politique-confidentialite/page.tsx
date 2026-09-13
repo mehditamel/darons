@@ -14,7 +14,7 @@ export default function PolitiqueConfidentialitePage() {
     <div className="prose prose-stone max-w-none">
       <h1 className="font-serif">Politique de confidentialité</h1>
       <p className="text-muted-foreground">
-        Dernière mise à jour : 19 mars 2026
+        Dernière mise à jour : 13 septembre 2026
       </p>
 
       <h2>1. Responsable du traitement</h2>
@@ -56,7 +56,7 @@ export default function PolitiqueConfidentialitePage() {
         <li>Fourniture des services (suivi santé, budget, fiscal, etc.)</li>
         <li>Alertes et notifications personnalisées</li>
         <li>Amélioration du service (analytics anonymisées)</li>
-        <li>Facturation des abonnements payants</li>
+        <li>Gestion des éventuels historiques de facturation ; aucun nouvel abonnement parent n’est proposé</li>
       </ul>
 
       <h2>4. Base légale</h2>
@@ -112,7 +112,7 @@ export default function PolitiqueConfidentialitePage() {
           </tr>
           <tr>
             <td>Stripe</td>
-            <td>Paiements</td>
+            <td>Gestion des éventuels historiques de facturation</td>
             <td>UE / US</td>
           </tr>
           <tr>

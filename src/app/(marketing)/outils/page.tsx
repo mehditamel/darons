@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ToolsGrid } from "@/components/outils/tools-grid";
+import { AccountValue } from "@/components/landing/account-value";
+import { RepriseSpotlight } from "@/components/return-to-work/reprise-spotlight";
 
 import { TOTAL_TOOLS } from "@/lib/tools-catalog";
 
@@ -15,8 +17,7 @@ export const metadata: Metadata = {
     "Simulateurs impôts, allocations CAF, coût de garde, budget familial, courbes de croissance, calendrier vaccinal et plus. 100% gratuit, sans inscription.",
   openGraph: {
     title: "Outils gratuits pour parents — Darons",
-    description:
-      `${TOTAL_TOOLS} outils gratuits pour les parents : impôts, allocations, santé, budget, droits sociaux. Sans inscription.`,
+    description: `${TOTAL_TOOLS} outils gratuits pour les parents : impôts, allocations, santé, budget, droits sociaux. Sans inscription.`,
   },
   alternates: {
     canonical: "https://darons.app/outils",
@@ -42,27 +43,40 @@ export default function OutilsPage() {
       />
 
       <div className="text-center space-y-3">
-        <Badge variant="outline" className="mb-2">100% gratuit, sans inscription</Badge>
+        <Badge variant="outline" className="mb-2">
+          100% gratuit, sans inscription
+        </Badge>
         <h1 className="text-3xl font-serif font-bold">
           {TOTAL_TOOLS} outils gratuits pour les parents
         </h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Pas besoin de compte. Simule tes impôts, calcule tes aides, suis la
-          croissance de ton bébé — tout est là, gratuit, sans piège.
+          Un coût de garde à estimer, une naissance à préparer ? Trouve ici un
+          coup de main pour ta question du moment, sans créer de compte.
         </p>
       </div>
 
+      <section className="tools-purpose" aria-labelledby="tools-purpose-title">
+        <div>
+          <p className="family-eyebrow">Et Darons, au quotidien ?</p>
+          <h2 id="tools-purpose-title">
+            Un carnet pour bébé. Un relais plus simple pour toi.
+          </h2>
+          <p>
+            Prépare les consignes du jour, reprends celles d’un ancien carnet et
+            partage-les avec un proche. Il consulte le carnet sans compte et
+            peut préparer un retour de garde à te transmettre. Tu gardes ses
+            infos et ses documents dans ton espace.
+          </p>
+        </div>
+        <Button asChild variant="outline" className="family-button">
+          <Link href="/#quotidien">Essayer un passage de relais</Link>
+        </Button>
+      </section>
+
+      <RepriseSpotlight />
       <ToolsGrid />
 
-      <div className="text-center pt-8 border-t">
-        <p className="text-muted-foreground mb-4">
-          Envie de tout centraliser, recevoir des alertes et utiliser l'IA ?
-          C'est gratuit aussi.
-        </p>
-        <Button asChild size="lg"><Link href="/register">
-            Créer mon compte gratuit
-          </Link></Button>
-      </div>
+      <AccountValue />
     </div>
   );
 }

@@ -1,19 +1,8 @@
+import { DaronsLogo } from "@/components/brand/darons-logo";
+import Image from "next/image";
 import Link from "next/link";
-import {
-  HeartPulse,
-  Wallet,
-  Calculator,
-  Shield,
-  Sparkles,
-} from "lucide-react";
-
-const FEATURES = [
-  { icon: HeartPulse, text: "Vaccins et santé de tes enfants" },
-  { icon: Wallet, text: "Budget familial intelligent" },
-  { icon: Calculator, text: "Simulation fiscale gratuite" },
-  { icon: Shield, text: "Tes documents au même endroit" },
-  { icon: Sparkles, text: "Des outils pour préparer tes démarches" },
-];
+import { ArrowLeft, Heart } from "lucide-react";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export default function AuthLayout({
   children,
@@ -21,74 +10,81 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen">
-      {/* Left panel - Branding (hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-[45%] lg:flex-col lg:justify-between bg-gradient-to-br from-sidebar via-sidebar to-sidebar/95 p-10 text-white relative overflow-hidden">
-        {/* Decorative shapes */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-warm-orange/10 blur-3xl" />
-          <div className="absolute bottom-10 -left-10 h-64 w-64 rounded-full bg-warm-teal/10 blur-3xl" />
-          <div className="absolute top-1/2 right-1/4 h-48 w-48 rounded-full bg-warm-blue/5 blur-2xl" />
-        </div>
-
-        <div className="relative">
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white font-bold shadow-lg shadow-warm-orange/20">
-              D
+    <div className="family-auth min-h-screen">
+      <a
+        href="#auth-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-card focus:p-3"
+      >
+        Aller au formulaire
+      </a>
+      <div className="family-auth-brand">
+        <Link
+          href="/"
+          aria-label="Darons, accueil"
+          className="darons-home-link"
+        >
+          <DaronsLogo />
+        </Link>
+        <div className="family-auth-story">
+          <p className="family-eyebrow">
+            Le carnet familial, pour la vraie vie.
+          </p>
+          <h2>
+            Tu connais bébé par cœur.
+            <br />
+            <span className="text-secondary">
+              Aide tes proches à prendre le relais.
+            </span>
+          </h2>
+          <figure>
+            <div className="family-auth-photo">
+              <Image
+                src="/images/family/reading.webp"
+                alt="Un père lit une histoire à sa fille"
+                fill
+                sizes="(min-width: 1024px) 420px, 1px"
+                className="object-cover"
+              />
             </div>
-            <span className="text-2xl font-serif font-bold">Darons</span>
-          </Link>
-        </div>
-
-        <div className="relative space-y-8">
-          <div>
-            <h2 className="text-3xl font-serif font-bold leading-tight">
-              Toute ta vie de daron.
-              <br />
-              <span className="text-warm-orange">Une seule app.</span>
-            </h2>
-            <p className="mt-4 text-sm text-white/60 max-w-sm leading-relaxed">
-              Vaccins, budget, impôts, papiers. Retrouve les informations
-              utiles pour organiser le quotidien de ta famille.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {FEATURES.map((feature) => (
-              <div key={feature.text} className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10">
-                  <feature.icon className="h-4 w-4 text-warm-orange" />
-                </div>
-                <span className="text-sm text-white/80">{feature.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative">
-          <p className="text-xs text-white/40">
-            &copy; {new Date().getFullYear()} Darons. Le quotidien des parents, mieux organisé.
+            <figcaption>
+              <Heart aria-hidden="true" className="h-4 w-4" />
+              Encore une page. Puis une autre.
+            </figcaption>
+          </figure>
+          <p>
+            Ses rendez-vous, ses documents, les infos que tu choisis de
+            transmettre : un espace pour retrouver le fil et préparer le
+            prochain relais.
           </p>
         </div>
+        <p className="family-auth-copyright">
+          © {new Date().getFullYear()} Darons. Le quotidien des parents, mieux
+          organisé.
+        </p>
       </div>
-
-      {/* Right panel - Form */}
-      <div className="flex min-w-0 flex-1 flex-col items-center justify-center bg-background px-4 py-8">
-        {/* Mobile logo */}
-        <div className="mb-8 text-center lg:hidden">
-          <Link href="/" className="inline-flex flex-col items-center gap-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white font-bold text-lg shadow-lg shadow-warm-orange/20">
-              D
-            </div>
-            <p className="text-2xl font-serif font-bold text-foreground">
-              Darons
-            </p>
-            <p className="text-sm text-muted-foreground">
-              L'app des parents qui gèrent
-            </p>
+      <div className="family-auth-main">
+        <div className="family-auth-navigation">
+          <Link href="/" className="family-text-link">
+            <ArrowLeft aria-hidden="true" className="h-4 w-4" />
+            Retour à l’accueil
           </Link>
+          <ThemeToggle />
         </div>
-        <div className="w-full min-w-0 max-w-md animate-fade-in-up [&_button]:h-auto [&_button]:min-h-11 [&_button]:whitespace-normal [&_button]:py-2">{children}</div>
+        <main id="auth-content" className="family-auth-form" tabIndex={-1}>
+          <Link
+            href="/"
+            aria-label="Darons, accueil"
+            className="inline-block family-mobile-wordmark darons-home-link mb-8"
+          >
+            <DaronsLogo />
+          </Link>
+          <div className="w-full min-w-0 [&_button]:h-auto [&_button]:min-h-11 [&_button]:whitespace-normal [&_button]:py-2">
+            {children}
+          </div>
+        </main>
+        <p className="family-auth-bottom">
+          Un petit coup de main pour les grandes journées.
+        </p>
       </div>
     </div>
   );

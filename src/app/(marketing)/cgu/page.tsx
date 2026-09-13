@@ -14,7 +14,7 @@ export default function CguPage() {
     <div className="prose prose-stone max-w-none">
       <h1 className="font-serif">Conditions générales d'utilisation</h1>
       <p className="text-muted-foreground">
-        Dernière mise à jour : 19 mars 2026
+        Dernière mise à jour : 13 septembre 2026
       </p>
 
       <h2>1. Objet</h2>
@@ -43,9 +43,10 @@ export default function CguPage() {
 
       <h2>4. Gratuité du service</h2>
       <p>
-        Darons est gratuit. Des options premium pourront être proposées
-        ultérieurement sans jamais restreindre les fonctionnalités de base.
-        Les tarifs éventuels peuvent être modifiés avec un préavis de 30 jours.
+        Toutes les fonctionnalités de Darons sont accessibles gratuitement aux
+        familles, sans abonnement payant. Des limites d’usage communes, notamment
+        pour le stockage et les services d’intelligence artificielle, permettent
+        de maintenir le service et ne constituent pas une offre payante.
       </p>
 
       <h2>5. Données personnelles</h2>

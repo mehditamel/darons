@@ -15,9 +15,12 @@ import {
   TrendingUp,
   Stethoscope,
   Palette,
+  HandHeart,
 } from "lucide-react";
 import Link from "next/link";
-import { PageHeader } from "@/components/shared/page-header";
+import { FamilyWelcome } from "@/components/dashboard/family-welcome";
+import { PlanSpotlight } from "@/components/family-plan/plan-spotlight";
+import { RepriseSpotlight } from "@/components/return-to-work/reprise-spotlight";
 import { StatCard } from "@/components/shared/stat-card";
 import { AlertsWidget } from "@/components/dashboard/alerts-widget";
 import { UpcomingTimeline } from "@/components/dashboard/upcoming-timeline";
@@ -371,15 +374,47 @@ export default async function DashboardPage() {
     <DashboardShell>
     <div className="space-y-8 page-enter">
       {/* Greeting */}
-      <div className="flex flex-col gap-1">
-        <PageHeader
-          title={`${greeting}, ${displayName}`}
-          description={greetingMessage}
-        />
-        <p className="text-xs text-muted-foreground">
-          {format(now, "EEEE d MMMM yyyy", { locale: fr })}
-        </p>
-      </div>
+      <FamilyWelcome
+        title={`${greeting}, ${displayName}`}
+        description={greetingMessage}
+        date={format(now, "EEEE d MMMM yyyy", { locale: fr })}
+      />
+
+      {children.length > 0 && (
+        <Card className="border-secondary/25 bg-secondary/5">
+          <CardContent className="flex flex-wrap items-center gap-5 p-5 sm:p-6">
+            <HandHeart
+              aria-hidden="true"
+              className="h-8 w-8 shrink-0 text-secondary"
+            />
+            <div className="min-w-0 flex-1 basis-64">
+              <h2 className="text-lg font-serif">
+                Un proche garde ton enfant bientôt ?
+              </h2>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                Prépare les infos à lui transmettre dans un Carnet de
+                Confiance : les rubriques de ton choix, tes notes, un lien
+                temporaire et un PIN.
+              </p>
+            </div>
+            <Button
+              asChild
+              variant="outline"
+              className="h-auto min-h-11 max-w-full whitespace-normal"
+            >
+              <Link href="/confiance">
+                Préparer un relais
+                <ArrowRight
+                  aria-hidden="true"
+                  className="ml-2 h-4 w-4 shrink-0"
+                />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+      <RepriseSpotlight />
+      <PlanSpotlight />
 
       {/* Empty state: no children */}
       {children.length === 0 && (

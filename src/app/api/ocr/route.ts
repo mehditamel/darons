@@ -44,23 +44,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
   }
 
-  // Check subscription plan (OCR = Family Pro only)
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("subscription_plan")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || profile.subscription_plan !== "family_pro") {
-    return NextResponse.json(
-      {
-        error:
-          "L'OCR des ordonnances est réservé au plan Family Pro.",
-      },
-      { status: 403 }
-    );
-  }
-
+  // OCR is available to every authenticated parent; request limits still apply.
   try {
     const formData = await request.formData();
     const file = formData.get("file");

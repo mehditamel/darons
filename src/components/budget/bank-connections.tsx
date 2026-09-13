@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Building2, RefreshCw, Link2, AlertTriangle, Loader2 } from "lucide-react";
 import type { BankConnection } from "@/lib/actions/banking";
 import { syncBankAccounts } from "@/lib/actions/banking";
-import { UpgradeButton } from "@/components/parametres/upgrade-button";
 
 interface BankConnectionsProps {
   connections: BankConnection[];
@@ -60,11 +59,8 @@ export function BankConnections({ connections, hasOpenBanking }: BankConnections
           <div className="rounded-lg border border-dashed p-6 text-center">
             <Building2 className="mx-auto h-10 w-10 text-muted-foreground/50" />
             <p className="mt-2 text-sm text-muted-foreground">
-              La connexion bancaire est disponible avec le plan Premium ou Family Pro.
+              La connexion bancaire est momentanément indisponible. Tu peux continuer à saisir tes dépenses manuellement.
             </p>
-            <div className="mt-3 inline-flex">
-              <UpgradeButton plan="premium" label="Passer à Premium" />
-            </div>
           </div>
         </CardContent>
       </Card>

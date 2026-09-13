@@ -5,7 +5,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Lock, User, Loader2, CheckCircle2, Shield, CreditCard, EyeOff } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  User,
+  Loader2,
+  CheckCircle2,
+  Shield,
+  CreditCard,
+  EyeOff,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -78,10 +87,13 @@ export function RegisterForm() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10">
             <CheckCircle2 className="h-8 w-8 text-warm-green" />
           </div>
-          <h1 className="text-2xl font-semibold leading-none tracking-tight">Inscription réussie !</h1>
+          <h1 className="text-2xl font-semibold leading-none tracking-tight">
+            Inscription réussie !
+          </h1>
           <CardDescription>
-            Vérifie tes emails pour confirmer ton compte, puis connecte-toi
-            pour découvrir ton espace Darons.
+            Vérifie tes emails pour confirmer ton compte, puis connecte-toi pour
+            créer ton foyer et le profil de ton enfant. Tu pourras ensuite
+            préparer ton premier Carnet de Confiance.
           </CardDescription>
         </CardHeader>
         <CardFooter className="justify-center">
@@ -96,15 +108,26 @@ export function RegisterForm() {
   return (
     <Card className="shadow-lg">
       <CardHeader className="text-center">
-        <h1 className="text-2xl font-semibold leading-none tracking-tight">Crée ton compte</h1>
+        <h1 className="text-2xl font-semibold leading-none tracking-tight">
+          Crée l’espace de ton enfant
+        </h1>
         <CardDescription>
-          Rejoins les darons qui gèrent
+          Ses infos à retrouver. Son carnet à partager avec les proches qui
+          prennent le relais.
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <p className="mb-5 rounded-xl bg-secondary/10 p-4 text-sm leading-relaxed text-foreground">
+          D’abord ton compte gratuit. Après confirmation de ton email, ajoute
+          ton foyer et ton enfant. Tu pourras ensuite ouvrir le Carnet de
+          Confiance et préparer un premier relais.
+        </p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {error && (
-            <div role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+            <div
+              role="alert"
+              className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive"
+            >
               {error}
             </div>
           )}
@@ -116,7 +139,7 @@ export function RegisterForm() {
                 <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="firstName"
-                autoComplete="given-name"
+                  autoComplete="given-name"
                   placeholder="Mehdi"
                   className="pl-10"
                   {...register("firstName")}
@@ -158,7 +181,9 @@ export function RegisterForm() {
               />
             </div>
             {errors.email && (
-              <p className="text-xs text-destructive" role="alert">{errors.email.message}</p>
+              <p className="text-xs text-destructive" role="alert">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -180,9 +205,7 @@ export function RegisterForm() {
                 {errors.password.message}
               </p>
             )}
-            {watchedPassword && (
-              <PasswordStrength password={watchedPassword} />
-            )}
+            {watchedPassword && <PasswordStrength password={watchedPassword} />}
           </div>
 
           <div className="space-y-2">
@@ -239,18 +262,19 @@ export function RegisterForm() {
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            C'est parti, c'est gratuit
+            Créer mon compte gratuit
           </Button>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
-              <Shield className="h-3 w-3" /> Chiffré AES-256
+              <Shield aria-hidden="true" className="h-3 w-3" /> Accès par foyer
             </span>
             <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
               <CreditCard className="h-3 w-3" /> Sans carte bancaire
             </span>
             <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
-              <EyeOff className="h-3 w-3" /> Zéro tracking
+              <EyeOff aria-hidden="true" className="h-3 w-3" /> Partage à ton
+              choix
             </span>
           </div>
         </form>
@@ -258,7 +282,10 @@ export function RegisterForm() {
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
           Déjà inscrit ?{" "}
-          <Link href="/login" className="text-primary underline underline-offset-2 hover:text-primary/80">
+          <Link
+            href="/login"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
             Se connecter
           </Link>
         </p>
@@ -267,7 +294,11 @@ export function RegisterForm() {
   );
 }
 
-function getPasswordStrength(password: string): { score: number; label: string; color: string } {
+function getPasswordStrength(password: string): {
+  score: number;
+  label: string;
+  color: string;
+} {
   let score = 0;
   if (password.length >= 8) score++;
   if (/[A-Z]/.test(password)) score++;
