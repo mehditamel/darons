@@ -294,3 +294,103 @@
     transition: none;
   }
 }
+
+.reprise-scenario {
+  border-color: hsl(var(--secondary) / 0.4);
+  background: linear-gradient(
+    135deg,
+    hsl(var(--secondary) / 0.06),
+    hsl(var(--card)) 70%
+  );
+}
+.reprise-scenario-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.reprise-scenario-days label {
+  align-items: center;
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  padding: 0.5rem 0.85rem;
+  background: hsl(var(--card));
+  font-size: 0.85rem;
+}
+.reprise-scenario-days label:has(:checked) {
+  border-color: hsl(var(--secondary));
+  background: hsl(var(--secondary) / 0.1);
+}
+.reprise-scenario-inputs {
+  display: grid;
+  gap: 1.2rem;
+}
+.reprise-scenario-inputs label {
+  min-width: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.reprise-scenario-inputs label > span {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.6;
+}
+.reprise-scenario-result {
+  border-top: 1px solid hsl(var(--border));
+  padding-top: 1.5rem;
+  animation: reprise-result-in 220ms ease-out both;
+}
+.reprise-scenario-totals {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: center;
+}
+.reprise-scenario-totals > div {
+  border-radius: 1rem;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: hsl(var(--secondary) / 0.08);
+}
+.reprise-scenario-totals > svg {
+  justify-self: center;
+}
+.reprise-scenario-totals strong {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+.reprise-scenario-totals span {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.reprise-scenario-totals small {
+  color: hsl(var(--muted-foreground));
+}
+@media (min-width: 640px) {
+  .reprise-scenario-inputs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .reprise-scenario-totals {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+}
+@keyframes reprise-result-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reprise-scenario-result {
+    animation: none;
+  }
+}

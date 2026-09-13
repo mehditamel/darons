@@ -43,6 +43,7 @@ import {
   type WorkProfile,
 } from "@/lib/return-to-work/plan";
 import { RepriseForm } from "./reprise-form";
+import { RepriseScenario } from "./reprise-scenario";
 
 function download(
   text: string,
@@ -148,7 +149,16 @@ export function RepriseWorkspace() {
   const brief = plan ? employerBrief(plan, sharedTopics) : "";
   return (
     <div className="space-y-6">
-      {!ready && <p className="reprise-note">Le parcours interactif nécessite JavaScript. Tu peux consulter les sources officielles en bas de cette page et <Link className="reprise-link" href="/outils/simulateur-garde">le simulateur de garde</Link>. Aucun parcours n’a été créé.</p>}
+      {!ready && (
+        <p className="reprise-note">
+          Le parcours interactif nécessite JavaScript. Tu peux consulter les
+          sources officielles en bas de cette page et{" "}
+          <Link className="reprise-link" href="/outils/simulateur-garde">
+            le simulateur de garde
+          </Link>
+          . Aucun parcours n’a été créé.
+        </p>
+      )}
       <p
         role="status"
         aria-live="polite"
@@ -283,6 +293,14 @@ export function RepriseWorkspace() {
               ))}
             </div>
           </section>
+          <RepriseScenario
+            key={`${plan.id}:${JSON.stringify(plan.profile)}`}
+            profile={plan.profile}
+            fromExample={plan.fromExample}
+            onDownload={(text) =>
+              download(text, "darons-reprise-hypothese.txt")
+            }
+          />
           <section className="reprise-panel" aria-labelledby="actions-title">
             <p className="reprise-kicker">
               03 / Un parcours jusqu’à la reprise

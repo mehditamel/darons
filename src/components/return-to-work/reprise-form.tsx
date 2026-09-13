@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, Clock3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +31,12 @@ export function RepriseForm({
   );
   const [errors, setErrors] = useState<string[]>([]);
   const [isExample, setIsExample] = useState(initialExample);
+  const [copiedDays, setCopiedDays] = useState<WorkDay[] | null>(null);
+  const [copyNotice, setCopyNotice] = useState("");
+  const errorRef = useRef<HTMLDivElement>(null);
   function updateDay(index: number, patch: Partial<WorkDay>) {
+    setCopiedDays(null);
+    setCopyNotice("");
     setDraft((current) => ({
       ...current,
       days: current.days.map((row) =>
@@ -46,6 +51,7 @@ export function RepriseForm({
       setErrors([
         ...new Set(parsed.error.issues.map((issue) => issue.message)),
       ]);
+      requestAnimationFrame(() => errorRef.current?.focus());
       return;
     }
     setErrors([]);
@@ -67,6 +73,8 @@ export function RepriseForm({
                 setDraft(exampleProfile());
                 setIsExample(true);
                 setErrors([]);
+                setCopiedDays(null);
+                setCopyNotice("");
               }}
             >
               Essayer avec un exemple
@@ -156,6 +164,28 @@ export function RepriseForm({
           </p>
         </div>
         <div className="space-y-3">
+          {copyNotice && (
+            <div className="reprise-note">
+              <p role="status">{copyNotice}</p>
+              {copiedDays && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                  onClick={() => {
+                    setDraft((current) => ({ ...current, days: copiedDays }));
+                    setCopiedDays(null);
+                    setCopyNotice(
+                      "Copie annulée. Chaque journée a retrouvé ses horaires.",
+                    );
+                  }}
+                >
+                  Annuler la copie des horaires
+                </Button>
+              )}
+            </div>
+          )}
           {draft.days.map((row) => (
             <div className="reprise-day" key={row.day}>
               <label className="reprise-check">
@@ -247,20 +277,24 @@ export function RepriseForm({
                   <p className="text-xs text-muted-foreground mt-2">
                     Horaires de garde inconnus ? Laisse les deux champs vides.
                   </p>
-                  {row.day === 0 && (
+                  {draft.days.filter((day) => day.active).length > 1 && (
                     <Button
                       className="mt-3"
                       variant="outline"
                       size="sm"
                       type="button"
-                      onClick={() =>
+                      onClick={() => {
+                        setCopiedDays(draft.days);
+                        setCopyNotice(
+                          `Horaires du ${DAYS[row.day].toLowerCase()} copiés sur les ${draft.days.filter((day) => day.active).length - 1} autres jours cochés. Tu peux annuler cette copie avant de modifier une journée.`,
+                        );
                         setDraft((current) => ({
                           ...current,
                           days: current.days.map((day) =>
                             day.active ? { ...row, day: day.day } : day,
                           ),
-                        }))
-                      }
+                        }));
+                      }}
                     >
                       Appliquer ces horaires aux jours cochés
                     </Button>
@@ -304,7 +338,12 @@ export function RepriseForm({
           </p>
         )}
         {errors.length > 0 && (
-          <div role="alert" className="reprise-error">
+          <div
+            role="alert"
+            ref={errorRef}
+            tabIndex={-1}
+            className="reprise-error"
+          >
             <p className="font-semibold">
               Quelques informations sont à compléter :
             </p>

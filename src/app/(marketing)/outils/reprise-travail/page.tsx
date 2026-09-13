@@ -41,12 +41,12 @@ export default function ReprisePage() {
         </h1>
         <p>
           La réunion finit à 17 h 30. La garde aussi. Et entre les deux, il y a
-          le trajet. Repère ce qui coince, prépare les bons échanges et organise
-          ta reprise, une étape à la fois.
+          le trajet. Repère ce qui coince, teste des ajustements et repars avec
+          des horaires à discuter et un plan pour ta reprise.
         </p>
         <ul aria-label="Ce que tu prépares">
           {[
-            "Un bilan de tes horaires",
+            "Un bilan et des scénarios à comparer",
             "Un parcours daté",
             "Un document pour les RH",
           ].map((item) => (
