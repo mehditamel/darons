@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 import { Clock3, LockKeyhole } from "lucide-react";
 import { DaronsMark } from "@/components/brand/darons-logo";
+import { HandoffNotesEditor } from "@/components/confiance/handoff-notes-editor";
+import { HandoffRecap } from "@/components/confiance/handoff-recap";
 
 export function HandoffDemo() {
   const [ready, setReady] = useState(false);
   const [identity, setIdentity] = useState(true);
   const [routines, setRoutines] = useState(true);
   const [duration, setDuration] = useState("6 heures");
+  const [notes, setNotes] = useState(
+    "Son doudou lapin est dans le sac. Elle adore qu’on lui lise « Petit Ours ».",
+  );
   useEffect(() => setReady(true), []);
   const count = Number(identity) + Number(routines);
 
@@ -86,9 +91,8 @@ export function HandoffDemo() {
           {routines && (
             <div>
               <h5>Notes & routines</h5>
-              <p>
-                Son doudou lapin est dans le sac. Elle adore qu’on lui lise «
-                Petit Ours ».
+              <p className="whitespace-pre-wrap break-words">
+                {notes || "Aucune consigne renseignée dans cet exemple."}
               </p>
             </div>
           )}
@@ -102,6 +106,26 @@ export function HandoffDemo() {
           </span>
         </div>
       </div>
+      <details className="mt-5 rounded-xl border border-white/30 p-4">
+        <summary className="cursor-pointer text-sm font-medium min-h-8">
+          1. Essayer les consignes du jour
+        </summary>
+        <div className="mt-4 rounded-xl bg-card text-card-foreground p-3">
+          <HandoffNotesEditor
+            value={notes}
+            onChange={setNotes}
+            disabled={!ready}
+          />
+        </div>
+      </details>
+      <details className="mt-3 rounded-xl border border-white/30 p-4">
+        <summary className="cursor-pointer text-sm font-medium min-h-8">
+          2. Essayer le retour de garde
+        </summary>
+        <div className="mt-4">
+          <HandoffRecap example />
+        </div>
+      </details>
       <p className="handoff-feedback" role="status">
         {count} rubrique{count > 1 ? "s" : ""} visible{count > 1 ? "s" : ""} ·
         durée choisie : {duration}

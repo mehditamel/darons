@@ -21,6 +21,7 @@ import { Footer } from "@/components/layout/footer";
 import { FamilyDayTour } from "@/components/landing/family-day-tour";
 import { AccountValue } from "@/components/landing/account-value";
 import { PlanSpotlight } from "@/components/family-plan/plan-spotlight";
+import { RepriseSpotlight } from "@/components/return-to-work/reprise-spotlight";
 import { FamilyReadingProgress } from "@/components/landing/family-motion";
 import { FamilyHero } from "@/components/landing/family-hero";
 import { FamilyReveal } from "@/components/landing/family-reveal";
@@ -328,7 +329,8 @@ export default function LandingPage() {
             <p className="mt-6 text-sm text-muted-foreground">
               Sans inscription. À ton rythme. Et gratuitement.
             </p>
-            <div className="mt-8">
+            <div className="mt-8 space-y-6">
+              <RepriseSpotlight />
               <PlanSpotlight />
             </div>
           </div>

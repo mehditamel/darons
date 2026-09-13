@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ShieldCheck, Plus, Sparkles } from "lucide-react";
 import { listTrustCards } from "@/lib/actions/trust-card";
 import { getFamilyMembers } from "@/lib/actions/family";
@@ -21,17 +27,19 @@ export default async function ConfiancePage() {
 
   const cards = cardsRes.data ?? [];
   const childMembers =
-    membersRes.data?.filter((m) => m.memberType === "child").map((m) => ({
-      id: m.id,
-      firstName: m.firstName,
-      lastName: m.lastName,
-    })) ?? [];
+    membersRes.data
+      ?.filter((m) => m.memberType === "child")
+      .map((m) => ({
+        id: m.id,
+        firstName: m.firstName,
+        lastName: m.lastName,
+      })) ?? [];
 
   return (
     <div className="section-stack">
       <PageHeader
         title="Carnet de Confiance"
-        description="Confie ton enfant sereinement : un lien + un PIN, accès limité dans le temps."
+        description="Les consignes à l’aller. Le récit de sa journée au retour. Un relais simple, même avec un proche sans compte Darons."
         icon={<ShieldCheck className="h-5 w-5" />}
         iconColor="bg-warm-teal/15 text-warm-teal"
       />
@@ -42,9 +50,11 @@ export default async function ConfiancePage() {
           <div className="text-sm space-y-1">
             <p className="font-medium">Comment ça marche ?</p>
             <p className="text-muted-foreground">
-              1. Tu crées un carnet pour ton enfant (allergies, vaccins, urgences, routines).
-              2. Tu envoies le lien à la personne. 3. Tu lui donnes le PIN par un autre moyen (SMS, oral).
-              4. Elle a accès aux infos pendant la durée que tu choisis. À tout moment, tu peux révoquer.
+              Prépare les consignes du jour et choisis les rubriques à
+              transmettre. Partage le lien, puis le PIN séparément. Le proche
+              consulte le carnet sans créer de compte et peut préparer un récap
+              de la garde à te transmettre dans votre conversation habituelle.
+              Tu choisis la durée d’accès et peux révoquer le carnet.
             </p>
           </div>
         </CardContent>
@@ -52,7 +62,9 @@ export default async function ConfiancePage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-4">
-          <h2 className="text-lg font-semibold">Mes carnets ({cards.length})</h2>
+          <h2 className="text-lg font-semibold">
+            Mes carnets ({cards.length})
+          </h2>
           <TrustCardList cards={cards} />
         </div>
 
@@ -62,12 +74,28 @@ export default async function ConfiancePage() {
               <Plus className="h-5 w-5 text-warm-teal" />
               <div>
                 <CardTitle>Nouveau carnet</CardTitle>
-                <CardDescription>Configure-le en 30 secondes</CardDescription>
+                <CardDescription>
+                  Un carnet pour ce passage de relais
+                </CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            <TrustCardForm members={childMembers} />
+            <TrustCardForm
+              members={childMembers}
+              previousNotes={cards
+                .filter((card) => card.notes && !card.revokedAt)
+                .slice(0, 30)
+                .map((card) => ({
+                  id: card.id,
+                  memberId: card.memberId,
+                  label: card.label ?? "Carnet",
+                  notes: card.notes!,
+                  date: new Intl.DateTimeFormat("fr-FR").format(
+                    new Date(card.createdAt),
+                  ),
+                }))}
+            />
           </CardContent>
         </Card>
       </div>

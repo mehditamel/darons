@@ -18,7 +18,7 @@ interface LoadOptions {
 
 export async function loadTrustCardPayload(
   supabase: SupabaseClient,
-  opts: LoadOptions
+  opts: LoadOptions,
 ): Promise<TrustCardPayload | null> {
   const { data: member } = await supabase
     .from("family_members")
@@ -33,7 +33,7 @@ export async function loadTrustCardPayload(
     childBirthDate: member.birth_date,
     childPhotoUrl: member.photo_url,
     sections: opts.sections,
-    notes: opts.notes,
+    notes: opts.sections.includes("routines") ? opts.notes : null,
     expiresAt: opts.expiresAt,
     generatedAt: new Date().toISOString(),
   };

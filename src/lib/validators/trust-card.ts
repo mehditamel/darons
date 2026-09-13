@@ -10,11 +10,21 @@ export const TRUST_CARD_DURATIONS = [
 
 export const createTrustCardSchema = z.object({
   memberId: z.string().uuid("Enfant invalide"),
-  label: z.string().min(2, "Donne un nom à ce carnet").max(60).optional(),
-  durationHours: z.coerce.number().refine(
-    (v) => TRUST_CARD_DURATIONS.some((d) => d.value === v),
-    "Durée invalide"
-  ),
+  label: z
+    .string()
+    .trim()
+    .max(60)
+    .refine(
+      (value) => value === "" || value.length >= 2,
+      "Utilise au moins 2 caractères, ou laisse le nom vide.",
+    )
+    .optional(),
+  durationHours: z.coerce
+    .number()
+    .refine(
+      (v) => TRUST_CARD_DURATIONS.some((d) => d.value === v),
+      "Durée invalide",
+    ),
   sections: z
     .array(z.enum(TRUST_CARD_SECTIONS))
     .min(1, "Sélectionne au moins une section"),

@@ -18,6 +18,7 @@ import {
 
 const links = [
   { href: "/outils", label: "Outils gratuits" },
+  { href: "/outils/reprise-travail", label: "Ma reprise" },
   { href: "/demo", label: "Démo" },
   { href: "/blog", label: "Blog" },
   { href: "/outils/plan-famille", label: "Mon plan" },
@@ -53,7 +54,7 @@ export function PublicHeader() {
           </Link>
           <nav
             aria-label="Navigation principale"
-            className="hidden lg:flex items-center gap-5"
+            className="hidden lg:flex items-center gap-3 xl:gap-5"
           >
             {links.map((link) => (
               <Link

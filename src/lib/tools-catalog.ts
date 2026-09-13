@@ -16,6 +16,17 @@ interface ToolSection {
 
 export const SECTIONS: ToolSection[] = [
   {
+    title: "Organisation & reprise",
+    tools: [{
+      href: "/outils/reprise-travail",
+      iconName: "CalendarRange",
+      title: "Ma reprise Darons",
+      description: "Repère les décalages entre travail, trajet et garde. Prépare ton plan daté et ton échange avec les RH.",
+      color: "text-warm-teal bg-warm-teal/10",
+      isNew: true,
+    }],
+  },
+  {
     title: "Argent & droits",
     tools: [
       {
@@ -149,4 +160,3 @@ export const SECTIONS: ToolSection[] = [
 ];
 
 export const TOTAL_TOOLS = SECTIONS.reduce((acc, s) => acc + s.tools.length, 0);
-

@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ToolsGrid } from "@/components/outils/tools-grid";
 import { AccountValue } from "@/components/landing/account-value";
+import { RepriseSpotlight } from "@/components/return-to-work/reprise-spotlight";
 
 import { TOTAL_TOOLS } from "@/lib/tools-catalog";
 
@@ -61,9 +62,10 @@ export default function OutilsPage() {
             Un carnet pour bébé. Un relais plus simple pour toi.
           </h2>
           <p>
-            Ton compte garde ses infos et ses documents. Le Carnet de Confiance
-            te permet de transmettre les rubriques choisies à la nounou ou aux
-            grands-parents, avec un accès temporaire protégé par un PIN.
+            Prépare les consignes du jour, reprends celles d’un ancien carnet et
+            partage-les avec un proche. Il consulte le carnet sans compte et
+            peut préparer un retour de garde à te transmettre. Tu gardes ses
+            infos et ses documents dans ton espace.
           </p>
         </div>
         <Button asChild variant="outline" className="family-button">
@@ -71,6 +73,7 @@ export default function OutilsPage() {
         </Button>
       </section>
 
+      <RepriseSpotlight />
       <ToolsGrid />
 
       <AccountValue />

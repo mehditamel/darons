@@ -20,6 +20,7 @@ import {
 import Link from "next/link";
 import { FamilyWelcome } from "@/components/dashboard/family-welcome";
 import { PlanSpotlight } from "@/components/family-plan/plan-spotlight";
+import { RepriseSpotlight } from "@/components/return-to-work/reprise-spotlight";
 import { StatCard } from "@/components/shared/stat-card";
 import { AlertsWidget } from "@/components/dashboard/alerts-widget";
 import { UpcomingTimeline } from "@/components/dashboard/upcoming-timeline";
@@ -412,6 +413,7 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       )}
+      <RepriseSpotlight />
       <PlanSpotlight />
 
       {/* Empty state: no children */}

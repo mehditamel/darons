@@ -4,6 +4,7 @@ import { getAllArticles } from "@/lib/blog-data";
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://darons.app";
 
 const TOOL_PAGES = [
+  "reprise-travail",
   "plan-famille",
   "simulateur-ir",
   "simulateur-caf",
@@ -42,6 +43,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   return [
+    {
+      url: `${BASE_URL}/entreprises`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
     {
       url: BASE_URL,
       lastModified: new Date(),

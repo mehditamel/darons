@@ -15,6 +15,8 @@
 
 **Stratégie — décision de Mehdi du 13 septembre 2026** : toutes les fonctionnalités de la plateforme restent gratuites pour les familles. Aucun abonnement parent, essai devenant payant ou formule Premium. Des limites d’usage communes peuvent maîtriser les coûts sans paiement pour les dépasser. Le financement professionnel (services aux entreprises/CSE, puis partenariats transparents) est à valider ; aucun contrat n’est acquis. Voir `docs/product/gratuite-et-financement.md`. Les références historiques aux forfaits payants ci-dessous ne doivent pas réintroduire de paiement ou de restrictions par abonnement.
 
+**Parents salariés — précision du 13 septembre 2026** : le service demandé est entièrement numérique. Ne pas proposer d’atelier animé, de consultation ou de rendez-vous humain. Le parcours « Ma reprise Darons » fournit un bilan d’horaires, un plan et un document pour le travail. Le portail employeur administrable reste à construire et ne doit pas être présenté comme livré. Les données individuelles des familles ne sont pas des indicateurs RH. Voir `docs/product/ma-reprise-darons.md`.
+
 **Domaines** :
 - `darons.app` — domaine principal (HTTPS natif .app)
 - `daron.app` — redirect 301 → darons.app

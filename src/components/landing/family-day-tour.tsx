@@ -22,7 +22,7 @@ const moments = [
     time: "14:00",
     title: "Tu confies bébé. Les infos suivent.",
     detail:
-      "Le doudou, les habitudes, les infos à connaître… Au lieu de tout réexpliquer, prépare un Carnet de Confiance pour la nounou ou les grands-parents. Tu choisis les rubriques et la durée d’accès. Tu peux le révoquer à tout moment.",
+      "Le doudou, les habitudes, les infos à connaître… Prépare les consignes du jour pour la nounou ou les grands-parents. Ils consultent ton carnet sans compte, puis préparent un récap à te transmettre : repas, sieste, petite anecdote. Au prochain relais, tu peux reprendre tes consignes et les actualiser.",
     task: "Un après-midi chez mamie",
     subtitle: "Le Carnet de Confiance",
     status: "Les informations que tu choisis",
