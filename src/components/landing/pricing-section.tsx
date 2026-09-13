@@ -14,13 +14,13 @@ const PLANS = [
     name: "Gratuit",
     price: "0€",
     period: "pour toujours",
-    description: "Tout ce qu'il faut pour gérer ta famille au quotidien.",
+    description: "Le carnet de ton enfant et les essentiels du foyer.",
     features: [
       "Suivi santé complet (vaccins, croissance, RDV)",
       "Budget manuel + allocations CAF",
       "Simulation fiscale (IR, crédits d'impôt)",
       "Coffre-fort numérique (1 Go)",
-      "Alertes proactives par email",
+      "Carnet de Confiance : lien temporaire + PIN",
       "Recherche de garde géolocalisée",
       "Journal parental + jalons développement",
       `${TOTAL_TOOLS} outils gratuits sans inscription`,
@@ -82,12 +82,21 @@ interface ComparisonRow {
 const COMPARISON_ROWS: ComparisonRow[] = [
   { label: "Santé", isGroup: true },
   { label: "Suivi vaccins & croissance", free: true, plus: true, pro: true },
-  { label: "RDV médicaux & rappels", free: true, plus: true, pro: true },
-  { label: "20 examens obligatoires", free: true, plus: true, pro: true },
-  { label: "OCR ordonnances", free: "5/mois", plus: "Illimité", pro: "Illimité" },
+  {
+    label: "Rendez-vous médicaux enregistrés",
+    free: true,
+    plus: true,
+    pro: true,
+  },
+  { label: "Suivi des examens renseignés", free: true, plus: true, pro: true },
+  {
+    label: "OCR ordonnances",
+    free: "5/mois",
+    plus: "Illimité",
+    pro: "Illimité",
+  },
   { label: "Budget & Finances", isGroup: true },
   { label: "Budget manuel + catégories", free: true, plus: true, pro: true },
-  { label: "Open Banking (Bridge)", free: true, plus: true, pro: true },
   { label: "Coach IA budget", free: true, plus: true, pro: true },
   { label: "Simulation IR & crédits", free: true, plus: true, pro: true },
   { label: "Documents & Outils", isGroup: true },
@@ -96,9 +105,20 @@ const COMPARISON_ROWS: ComparisonRow[] = [
   { label: "Export PDF", free: false, plus: true, pro: true },
   { label: "Sync calendrier", free: false, plus: true, pro: true },
   { label: "Notifications", isGroup: true },
-  { label: "Alertes email + push", free: true, plus: true, pro: true },
+  {
+    label: "Échéances dans le tableau de bord",
+    free: true,
+    plus: true,
+    pro: true,
+  },
   { label: "Alertes SMS urgentes", free: false, plus: true, pro: true },
   { label: "Collaboration", isGroup: true },
+  {
+    label: "Carnet de Confiance temporaire",
+    free: true,
+    plus: true,
+    pro: true,
+  },
   { label: "Multi-foyers", free: false, plus: false, pro: true },
   { label: "Dépenses partagées", free: false, plus: false, pro: true },
   { label: "Support prioritaire", free: false, plus: false, pro: true },
@@ -108,10 +128,34 @@ const COMPARISON_ROWS: ComparisonRow[] = [
 ];
 
 function renderCell(value?: CellValue) {
-  if (value === true) return <span><Check aria-hidden="true" className="h-4 w-4 text-success mx-auto" /><span className="sr-only">Inclus</span></span>;
-  if (value === false) return <span><Minus aria-hidden="true" className="h-4 w-4 text-muted-foreground mx-auto" /><span className="sr-only">Non inclus</span></span>;
-  if (typeof value === "string") return <span className="text-xs font-medium">{value}</span>;
-  return <span><Minus aria-hidden="true" className="h-4 w-4 text-muted-foreground mx-auto" /><span className="sr-only">Non inclus</span></span>;
+  if (value === true)
+    return (
+      <span>
+        <Check aria-hidden="true" className="h-4 w-4 text-success mx-auto" />
+        <span className="sr-only">Inclus</span>
+      </span>
+    );
+  if (value === false)
+    return (
+      <span>
+        <Minus
+          aria-hidden="true"
+          className="h-4 w-4 text-muted-foreground mx-auto"
+        />
+        <span className="sr-only">Non inclus</span>
+      </span>
+    );
+  if (typeof value === "string")
+    return <span className="text-xs font-medium">{value}</span>;
+  return (
+    <span>
+      <Minus
+        aria-hidden="true"
+        className="h-4 w-4 text-muted-foreground mx-auto"
+      />
+      <span className="sr-only">Non inclus</span>
+    </span>
+  );
 }
 
 export function PricingSection() {
@@ -143,8 +187,9 @@ export function PricingSection() {
             Un compte gratuit. Des extras à venir.
           </h2>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-            Darons est 100% gratuit au lancement. Les plans payants arriveront plus tard
-            pour des extras — mais le cœur de l'app restera toujours gratuit.
+            Darons est 100% gratuit au lancement. Les plans payants arriveront
+            plus tard pour des extras — mais le cœur de l'app restera toujours
+            gratuit.
           </p>
         </div>
 
@@ -178,16 +223,23 @@ export function PricingSection() {
               <CardContent className="flex-1 flex flex-col">
                 <ul className="space-y-2.5 flex-1">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm">
+                    <li
+                      key={feature}
+                      className="flex items-start gap-2 text-sm"
+                    >
                       <Check className="h-4 w-4 text-warm-green shrink-0 mt-0.5" />
                       <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
                 {plan.cta === "Bientôt disponible" ? (
-                  <p className="mt-6 rounded-lg bg-muted p-3 text-center text-sm text-muted-foreground">Offre à venir · aucun abonnement ouvert</p>
+                  <p className="mt-6 rounded-lg bg-muted p-3 text-center text-sm text-muted-foreground">
+                    Offre à venir · aucun abonnement ouvert
+                  </p>
                 ) : (
-                  <Button asChild className="mt-6 w-full"><Link href={plan.ctaHref}>{plan.cta}</Link></Button>
+                  <Button asChild className="mt-6 w-full">
+                    <Link href={plan.ctaHref}>{plan.cta}</Link>
+                  </Button>
                 )}
               </CardContent>
             </Card>
@@ -195,7 +247,8 @@ export function PricingSection() {
         </div>
 
         <p className="text-center text-xs text-muted-foreground mt-8">
-          Pas de carte bancaire requise pour le compte gratuit. Les tarifs et extras à venir sont présentés à titre indicatif.
+          Pas de carte bancaire requise pour le compte gratuit. Les tarifs et
+          extras à venir sont présentés à titre indicatif.
         </p>
 
         {/* Feature comparison table — desktop only */}
@@ -205,32 +258,46 @@ export function PricingSection() {
           </h3>
           <div className="rounded-xl border overflow-hidden">
             <table className="w-full text-sm">
-              <caption className="p-4 text-left text-muted-foreground">Projection des futures offres. Au lancement, les modules sont accessibles gratuitement ; aucune offre payante n'est ouverte.</caption>
+              <caption className="p-4 text-left text-muted-foreground">
+                Projection des futures offres. Au lancement, les modules sont
+                accessibles gratuitement ; aucune offre payante n'est ouverte.
+              </caption>
               <thead>
                 <tr className="border-b bg-muted/50">
-                  <th className="text-left p-4 font-semibold">Fonctionnalité</th>
+                  <th className="text-left p-4 font-semibold">
+                    Fonctionnalité
+                  </th>
                   <th className="text-center p-4 font-semibold">Gratuit</th>
-                  <th className="text-center p-4 font-semibold text-primary">Darons+</th>
+                  <th className="text-center p-4 font-semibold text-primary">
+                    Darons+
+                  </th>
                   <th className="text-center p-4 font-semibold">Family Pro</th>
                 </tr>
               </thead>
               <tbody>
-                {COMPARISON_ROWS.map((row, i) => (
+                {COMPARISON_ROWS.map((row, i) =>
                   row.isGroup ? (
                     <tr key={i} className="bg-muted/30">
-                      <td colSpan={4} className="p-3 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+                      <td
+                        colSpan={4}
+                        className="p-3 font-semibold text-xs uppercase tracking-wider text-muted-foreground"
+                      >
                         {row.label}
                       </td>
                     </tr>
                   ) : (
                     <tr key={i} className="border-b last:border-0">
                       <td className="p-3 pl-4">{row.label}</td>
-                      <td className="p-3 text-center">{renderCell(row.free)}</td>
-                      <td className="p-3 text-center">{renderCell(row.plus)}</td>
+                      <td className="p-3 text-center">
+                        {renderCell(row.free)}
+                      </td>
+                      <td className="p-3 text-center">
+                        {renderCell(row.plus)}
+                      </td>
                       <td className="p-3 text-center">{renderCell(row.pro)}</td>
                     </tr>
-                  )
-                ))}
+                  ),
+                )}
               </tbody>
             </table>
           </div>

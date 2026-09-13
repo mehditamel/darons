@@ -23,6 +23,7 @@ for (const width of [320, 1440]) {
     test(`family pages remain readable at ${width}px in ${theme} mode`, async ({
       page,
     }, testInfo) => {
+      test.setTimeout(60000);
       await page.setViewportSize({ width, height: 1000 });
       await page.emulateMedia({ reducedMotion: "reduce", colorScheme: theme });
       await page.addInitScript(
@@ -30,7 +31,7 @@ for (const width of [320, 1440]) {
         theme,
       );
 
-      for (const route of ["/", "/login", "/demo"]) {
+      for (const route of ["/", "/login", "/register", "/outils", "/demo"]) {
         await page.goto(route);
         await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
         await expect(page.locator("html")).toHaveClass(new RegExp(theme));
@@ -109,7 +110,7 @@ test("home remains usable without JavaScript", async ({ browser, baseURL }) => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(
       page.getByTestId("hero").getByRole("link", {
-        name: "C'est gratuit, je m'inscris",
+        name: "Créer le carnet de mon enfant",
         exact: true,
       }),
     ).toBeVisible();
@@ -135,34 +136,48 @@ for (const width of [320, 1440]) {
     await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "light" });
     await page.goto("/");
     const tour = page.getByRole("region", {
-      name: "Une journée bien remplie. Une tête un peu moins.",
+      name: "Trois moments où tu seras content de l’avoir.",
     });
-    const health = tour.getByRole("tab", { name: "La santé", exact: true });
+    const health = tour.getByRole("tab", {
+      name: "Je passe le relais",
+      exact: true,
+    });
     await health.focus();
     await expect(health).toHaveAttribute("aria-selected", "true");
     await health.press("ArrowRight");
-    const budget = tour.getByRole("tab", { name: "Le budget", exact: true });
+    const budget = tour.getByRole("tab", {
+      name: "Je prépare un RDV",
+      exact: true,
+    });
     await expect(budget).toBeFocused();
     await expect(budget).toHaveAttribute("aria-selected", "true");
     await expect(
       tour.getByRole("heading", {
-        name: "Les chiffres clairs. L’esprit aussi.",
+        name: "Chez le pédiatre, tu retrouves le fil.",
       }),
     ).toBeVisible();
     await budget.press("End");
     await expect(
-      tour.getByRole("tab", { name: "Les papiers", exact: true }),
+      tour.getByRole("tab", { name: "Je retrouve un papier", exact: true }),
     ).toBeFocused();
     await expect(
-      tour.getByRole("heading", { name: "Retrouvé. Avant même de chercher." }),
+      tour.getByRole("heading", {
+        name: "La crèche demande un papier. Tu sais où il est.",
+      }),
     ).toBeVisible();
 
-    for (const name of ["La santé", "Le budget", "Les papiers"]) {
+    for (const name of [
+      "Je passe le relais",
+      "Je prépare un RDV",
+      "Je retrouve un papier",
+    ]) {
       await tour.getByRole("tab", { name, exact: true }).click();
       const panel = tour.getByRole("tabpanel");
       await expect(panel).toBeVisible();
       await expect(
-        panel.getByText("Aperçu illustratif · données fictives"),
+        name === "Je passe le relais"
+          ? panel.getByText(/Données fictives. Aucun lien créé/)
+          : panel.getByText("Aperçu illustratif · données fictives"),
       ).toBeVisible();
       const href = await panel.getByRole("link").getAttribute("href");
       expect((await request.get(href!)).ok()).toBe(true);
@@ -214,6 +229,6 @@ test("decorative entrance animations settle without looping", async ({
   await expect(
     page
       .getByTestId("hero")
-      .getByRole("link", { name: "Voir la démo", exact: true }),
+      .getByRole("link", { name: "Essayer un passage de relais", exact: true }),
   ).toBeVisible();
 });

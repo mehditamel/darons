@@ -14,7 +14,7 @@ test.describe("Landing page", () => {
     await expect(page.getByText("Budget intelligent")).toBeVisible();
 
     // CTA inscription visible
-    await expect(page.getByTestId("hero").getByRole("link", { name: "C'est gratuit, je m'inscris", exact: true })).toBeVisible();
+    await expect(page.getByTestId("hero").getByRole("link", { name: "Créer le carnet de mon enfant", exact: true })).toBeVisible();
   });
 
   test("affiche la section pricing", async ({ page }) => {
@@ -28,7 +28,7 @@ test.describe("Landing page", () => {
   test("le CTA principal redirige vers inscription", async ({ page }) => {
     await page.goto("/");
 
-    const cta = page.getByTestId("hero").getByRole("link", { name: "C'est gratuit, je m'inscris", exact: true }).first();
+    const cta = page.getByTestId("hero").getByRole("link", { name: "Créer le carnet de mon enfant", exact: true }).first();
     await expect(cta).toBeVisible();
     const href = await cta.getAttribute("href");
     expect(href).toMatch(/\/(register|inscription)/);

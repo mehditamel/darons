@@ -22,8 +22,8 @@ test.describe("Mode démo public", () => {
   test("est accessible depuis la landing", async ({ page }) => {
     await page.goto("/");
     await page
-      .getByTestId("hero")
-      .getByRole("link", { name: "Voir la démo", exact: true })
+      .getByRole("main")
+      .getByRole("link", { name: "Découvrir le tableau de bord", exact: true })
       .click();
     await expect(page).toHaveURL(/\/demo$/);
   });

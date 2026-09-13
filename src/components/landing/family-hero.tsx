@@ -13,13 +13,13 @@ export function FamilyHero() {
         <div className="family-hero-copy family-enter">
           <p className="family-eyebrow">
             <span aria-hidden="true" className="family-dot" />
-            Pour les darons. Et les daronnes.
+            Le carnet familial des jeunes parents
           </p>
           <h1>
-            Toute ta vie de parent.
+            Le carnet de ton bébé.
             <br />
             <span className="family-hero-emphasis">
-              Un peu plus légère.
+              Prêt pour la vraie vie.
               <svg
                 viewBox="0 0 500 24"
                 preserveAspectRatio="none"
@@ -30,13 +30,14 @@ export function FamilyHero() {
             </span>
           </h1>
           <p className="family-hero-description">
-            Les vaccins, les papiers, le budget… Tout ce qui remplit ta tête,
-            enfin au même endroit. Pour faire un peu plus de place au reste.
+            Retrouve ses rendez-vous, ses documents et ses infos de santé. Et
+            quand tu confies bébé à un proche, partage les infos utiles dans un
+            Carnet de Confiance temporaire.
           </p>
           <div className="family-hero-actions">
             <Button asChild size="lg" className="family-button">
               <Link href="/register">
-                C&apos;est gratuit, je m&apos;inscris
+                Créer le carnet de mon enfant
                 <ArrowRight aria-hidden="true" className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -46,8 +47,8 @@ export function FamilyHero() {
               size="lg"
               className="family-button"
             >
-              <Link href="/demo">
-                Voir la démo
+              <Link href="#quotidien">
+                Essayer un passage de relais
                 <MoveUpRight aria-hidden="true" className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -88,9 +89,9 @@ export function FamilyHero() {
                 <Sparkles aria-hidden="true" className="h-5 w-5" />
               </span>
               <span>
-                Moins de choses en tête.
+                Cet après-midi, c’est mamie.
                 <br />
-                <strong>Plus de moments ensemble.</strong>
+                <strong>Les infos de bébé suivent.</strong>
               </span>
             </div>
             <figure className="family-photo-small">
@@ -110,9 +111,11 @@ export function FamilyHero() {
         </FamilyDepth>
       </div>
       <div className="family-container family-hero-bottom">
-        <span>Toute ta vie de daron. Une seule app.</span>
-        <Link href="#fonctionnalites">
-          On te fait visiter{" "}
+        <span>
+          À garder pour toi. À partager avec ceux qui prennent le relais.
+        </span>
+        <Link href="#quotidien">
+          Vois ce que ça change{" "}
           <ArrowRight aria-hidden="true" className="h-4 w-4 rotate-90" />
         </Link>
       </div>

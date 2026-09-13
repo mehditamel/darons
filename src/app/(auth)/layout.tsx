@@ -27,12 +27,14 @@ export default function AuthLayout({
         </Link>
         <div className="family-auth-story">
           <p className="family-eyebrow">
-            Les petits moments font les grandes familles.
+            Le carnet familial, pour la vraie vie.
           </p>
           <h2>
-            Moins de choses en tête.
+            Tu connais bébé par cœur.
             <br />
-            <span className="text-secondary">Plus de place pour eux.</span>
+            <span className="text-secondary">
+              Aide tes proches à prendre le relais.
+            </span>
           </h2>
           <figure>
             <div className="family-auth-photo">
@@ -50,8 +52,9 @@ export default function AuthLayout({
             </figcaption>
           </figure>
           <p>
-            Santé, budget, papiers : retrouve les essentiels de ta famille dans
-            un espace à vous.
+            Ses rendez-vous, ses documents, les infos que tu choisis de
+            transmettre : un espace pour retrouver le fil et préparer le
+            prochain relais.
           </p>
         </div>
         <p className="family-auth-copyright">

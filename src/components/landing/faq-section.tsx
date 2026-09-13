@@ -10,64 +10,44 @@ import { JsonLd } from "@/components/seo/json-ld";
 
 const FAQ_ITEMS = [
   {
-    question: "C'est vraiment 100% gratuit ?",
+    question: "À quoi sert Darons, concrètement ?",
     answer:
-      "Les outils publics et le compte de base sont gratuits, sans période d'essai. Tous les modules (santé, budget, fiscal, éducation) sont accessibles gratuitement. On prévoit un plan premium optionnel plus tard pour des extras (thèmes, export PDF, sync calendrier), mais le cœur de l'app restera toujours gratuit.",
+      "À garder les informations de ton enfant et à les retrouver quand tu en as besoin : rendez-vous, mesures, vaccins enregistrés et documents. Le Carnet de Confiance permet aussi de préparer les informations à transmettre à un proche qui garde ton enfant.",
   },
   {
-    question: "Mes données sont-elles en sécurité ?",
+    question: "Pourquoi créer un compte si les outils sont gratuits ?",
     answer:
-      "Tes données sont chiffrées en transit (HTTPS) et au repos (AES-256). On utilise Supabase avec des politiques de sécurité par ligne (RLS) : chaque foyer ne voit que ses propres données. Zéro tracking publicitaire, zéro Google Analytics. On utilise Plausible, un outil respectueux de la vie privée.",
+      "Un simulateur répond à une question du moment. Le compte conserve les informations que tu ajoutes dans les modules de ton foyer et te permet de créer un Carnet de Confiance. Les essais publics ne sont pas transférés automatiquement : Mon plan Darons, par exemple, reste sur ton appareil lorsque tu actives sa sauvegarde.",
   },
   {
-    question: "Les données de santé de mon enfant sont protégées ?",
+    question: "Comment fonctionne le Carnet de Confiance ?",
     answer:
-      "Les données de santé sont des données sensibles au sens du RGPD (article 9). Elles sont chiffrées et stockées sur des serveurs européens. On prépare la migration vers un hébergeur certifié HDS (Hébergeur de Données de Santé) pour le lancement public. Aucune donnée de santé n'apparaît dans les logs serveur.",
+      "Après avoir ajouté ton enfant, ouvre le Carnet de Confiance. Choisis les rubriques, ajoute tes notes et une durée de 6 heures à 7 jours. Tu obtiens un lien à partager et un PIN à transmettre séparément. Le proche consulte le carnet sans créer de compte. Le prénom et la date de naissance de l’enfant figurent dans son en-tête. Tu peux révoquer l’accès à tout moment.",
   },
   {
-    question: "Je peux supprimer mon compte et mes données ?",
+    question: "Je dois tout remplir avant de commencer ?",
     answer:
-      "Bien sûr. Tu peux exporter toutes tes données (JSON/CSV) à tout moment depuis les paramètres, puis supprimer ton compte. La suppression entraîne l'effacement complet de toutes tes données dans un délai de 30 jours maximum, backups inclus. C'est ton droit, on le respecte.",
+      "Commence par confirmer ton email, créer ton foyer et ajouter ton enfant. Tu peux ensuite préparer un seul carnet pour un prochain relais, ou enregistrer un rendez-vous. Les autres modules restent disponibles quand tu en as besoin.",
   },
   {
-    question: "Ça marche sur mobile ?",
+    question: "Bébé n’est pas encore né : je commence où ?",
     answer:
-      "Darons est conçu mobile-first : l'interface s'adapte parfaitement à tous les écrans. Tu peux aussi installer l'app sur ton téléphone comme une appli native (PWA) directement depuis le navigateur — pas besoin de l'App Store. Ça marche même hors ligne pour les fonctionnalités de base.",
+      "La checklist naissance, les simulateurs et Mon plan Darons sont accessibles sans compte pour préparer l’arrivée de bébé. Après sa naissance, tu pourras créer son profil avec sa date de naissance pour commencer son suivi dans ton espace familial.",
   },
   {
-    question: "Vous allez revendre mes données ?",
+    question: "Mon ou ma partenaire peut participer ?",
     answer:
-      "Non. Jamais. On ne vend pas, on ne loue pas, on ne partage pas tes données avec des tiers à des fins publicitaires. Point. Les seuls sous-traitants qui accèdent à tes données sont ceux nécessaires au fonctionnement de l'app (hébergement, emails), et ils sont tous conformes au RGPD avec des DPA signés.",
+      "Tu peux inviter ton ou ta partenaire à rejoindre ton foyer avec son propre compte. Vous retrouvez les informations du même foyer selon le rôle attribué. Pour un proche qui garde ponctuellement ton enfant, le Carnet de Confiance donne un accès temporaire aux rubriques choisies.",
   },
   {
-    question: "Comment fonctionne le suivi vaccinal ?",
+    question: "Le carnet familial est-il gratuit ?",
     answer:
-      "On intègre le calendrier vaccinal français officiel . Quand tu ajoutes ton enfant avec sa date de naissance, on calcule automatiquement les dates de chaque dose. Tu reçois des rappels avant chaque vaccin. Tu coches au fur et à mesure, et on te dit ce qui reste à faire.",
+      "Le compte de base et le Carnet de Confiance sont gratuits, sans carte bancaire à l’inscription. Les offres Darons+ et Family Pro sont indiquées comme à venir : elles ne sont pas encore proposées à la souscription.",
   },
   {
-    question: "Je peux connecter ma banque ?",
+    question: "Est-ce le carnet de santé officiel ?",
     answer:
-      "Oui, via Open Banking (Bridge API, certifié DSP2 et ACPR). Tes identifiants bancaires ne transitent jamais par nos serveurs — c'est Bridge qui gère la connexion sécurisée. On récupère tes transactions pour les catégoriser automatiquement par enfant et par poste de dépense. Tu peux aussi tout saisir manuellement si tu préfères.",
-  },
-  {
-    question: "L'IA analyse mes données ?",
-    answer:
-      "L'IA (Claude by Anthropic) est utilisée côté serveur uniquement pour te donner des suggestions personnalisées : coach budget, alertes proactives, résumé mensuel. Tes données ne sont jamais utilisées pour entraîner des modèles IA. Tu peux désactiver les fonctionnalités IA à tout moment dans les paramètres.",
-  },
-  {
-    question: "Mon/ma conjoint(e) peut accéder au compte ?",
-    answer:
-      "Oui ! Tu peux inviter ton/ta partenaire sur ton foyer avec un rôle dédié (partenaire ou lecteur). Chacun a son propre compte, mais vous partagez les mêmes données famille. Pratique pour gérer le budget à deux ou suivre les vaccins sans se demander \"t'as pris le RDV ?\".",
-  },
-  {
-    question: "Ça remplace le carnet de santé officiel ?",
-    answer:
-      "Non, Darons est un complément numérique. Le carnet de santé papier reste le document officiel. On te permet de centraliser les infos (vaccins, mesures, RDV) pour y accéder facilement depuis ton téléphone. On prépare la synchronisation avec Mon Espace Santé (API FHIR) dès que l'API sera disponible.",
-  },
-  {
-    question: "Comment sont calculés les impôts ?",
-    answer:
-      "On utilise le barème officiel de la DGFiP (Direction Générale des Finances Publiques) : tranches progressives, quotient familial, plafonnement, décote. Le millésime utilisé est indiqué dans le simulateur. Les résultats restent des estimations : vérifie ta situation sur impots.gouv.fr avant de déclarer.",
+      "Darons est un espace d’organisation familial. Tu y retrouves les informations que tu renseignes ; il ne remplace pas le carnet de santé officiel ni les échanges avec les professionnels qui suivent ton enfant.",
   },
 ];
 
@@ -94,7 +74,7 @@ export function FaqSection() {
             Les questions que tu te poses
           </h2>
           <p className="mt-3 text-muted-foreground">
-            On répond cash, comme d'hab.
+            Ce que ton compte permet, et comment commencer.
           </p>
         </div>
         <Accordion type="single" collapsible className="w-full space-y-3">

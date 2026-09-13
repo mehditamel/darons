@@ -19,6 +19,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { PublicHeader } from "@/components/layout/public-header";
 import { Footer } from "@/components/layout/footer";
 import { FamilyDayTour } from "@/components/landing/family-day-tour";
+import { AccountValue } from "@/components/landing/account-value";
 import { PlanSpotlight } from "@/components/family-plan/plan-spotlight";
 import { FamilyReadingProgress } from "@/components/landing/family-motion";
 import { FamilyHero } from "@/components/landing/family-hero";
@@ -30,12 +31,13 @@ import { TOTAL_TOOLS } from "@/lib/tools-catalog";
 import { getAllArticles } from "@/lib/blog-data";
 
 export const metadata: Metadata = {
-  title: "Darons — Toute ta vie de daron. Une seule app.",
-  description: `Santé, budget, impôts et démarches : un espace pour ta famille et ${TOTAL_TOOLS} outils gratuits sans inscription.`,
+  title: "Darons — Le carnet de ton bébé, prêt pour la vraie vie",
+  description:
+    "Retrouve les rendez-vous et documents de ton enfant. Prépare un Carnet de Confiance temporaire pour la nounou ou les grands-parents. Compte gratuit.",
   openGraph: {
-    title: "Darons — Un peu plus de place pour la vie de famille",
+    title: "Darons — Le carnet de ton bébé, prêt pour la vraie vie",
     description:
-      "Les vaccins, les papiers, le budget. Tout ce qui remplit ta tête, enfin au même endroit.",
+      "Les infos de ton enfant à retrouver pour toi, à partager avec ceux qui prennent le relais.",
     type: "website",
     url: "https://darons.app",
   },
@@ -158,21 +160,23 @@ export default function LandingPage() {
         >
           <div className="family-container">
             <p>
-              <strong>6</strong> piliers pour ta tribu
+              <strong>Garder</strong> les infos utiles
             </p>
             <span aria-hidden="true">✳</span>
             <p>
-              <strong>{TOTAL_TOOLS}</strong> outils gratuits
+              <strong>Retrouver</strong> le fil du quotidien
             </p>
             <span aria-hidden="true">✳</span>
             <p>
-              <strong>1</strong> espace pour tout retrouver
+              <strong>Partager</strong> avec un proche
             </p>
           </div>
         </section>
 
-        <div className="family-container py-12 sm:py-16"><PlanSpotlight /></div>
         <FamilyDayTour />
+        <div className="family-container py-12 sm:py-16">
+          <AccountValue />
+        </div>
 
         <section
           id="fonctionnalites"
@@ -182,17 +186,17 @@ export default function LandingPage() {
           <div className="family-container">
             <FamilyReveal className="family-section-heading">
               <div>
-                <p className="family-eyebrow">La famille, ça fait beaucoup.</p>
+                <p className="family-eyebrow">Et quand tu en as besoin</p>
                 <h2>
-                  Une place pour chaque
+                  Ton espace grandit
                   <br />
-                  <span className="text-secondary">petit grand sujet.</span>
+                  <span className="text-secondary">avec ta famille.</span>
                 </h2>
               </div>
               <p>
                 Santé, budget, école, papiers…
                 <br />
-                Les essentiels de votre quotidien, réunis.
+                Explore les autres modules à ton rythme.
               </p>
             </FamilyReveal>
             <div className="family-feature-grid">
@@ -292,7 +296,9 @@ export default function LandingPage() {
           <div className="family-container">
             <FamilyReveal className="family-section-heading">
               <div>
-                <p className="family-eyebrow">Une question, un outil.</p>
+                <p className="family-eyebrow">
+                  Bébé arrive ? Commence ici, sans compte.
+                </p>
                 <h2>
                   On commence
                   <br />
@@ -322,6 +328,9 @@ export default function LandingPage() {
             <p className="mt-6 text-sm text-muted-foreground">
               Sans inscription. À ton rythme. Et gratuitement.
             </p>
+            <div className="mt-8">
+              <PlanSpotlight />
+            </div>
           </div>
         </section>
 
@@ -411,20 +420,22 @@ export default function LandingPage() {
           <FamilyReveal className="family-container">
             <div className="family-final-cta">
               <div>
-                <p className="family-eyebrow">Bienvenue chez les Darons</p>
+                <p className="family-eyebrow">
+                  Pour le prochain « tu me renvoies l’info ? »
+                </p>
                 <h2>
-                  Une tribu à gérer.
+                  Cette fois,
                   <br />
-                  <span>Et plein de vie à partager.</span>
+                  <span>tu auras son carnet.</span>
                 </h2>
                 <p>
-                  Fais un peu de place dans ta tête.
+                  Crée le profil de ton enfant. Ajoute ce qui te sert.
                   <br />
-                  Ton espace familial t’attend.
+                  Prépare ton premier passage de relais.
                 </p>
                 <Button asChild size="lg" className="family-button">
                   <Link href="/register">
-                    Créer mon compte gratuit
+                    Créer le carnet de mon enfant
                     <ArrowRight aria-hidden="true" className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>

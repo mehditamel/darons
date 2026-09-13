@@ -7,7 +7,7 @@ test.describe("Responsive & mobile", () => {
 
     await expect(page.locator("h1")).toBeVisible();
     // CTA should still be visible
-    await expect(page.getByTestId("hero").getByRole("link", { name: "C'est gratuit, je m'inscris", exact: true })).toBeVisible();
+    await expect(page.getByTestId("hero").getByRole("link", { name: "Créer le carnet de mon enfant", exact: true })).toBeVisible();
   });
 
   test("la page login s'affiche correctement sur mobile", async ({ page }) => {

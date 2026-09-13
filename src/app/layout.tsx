@@ -5,6 +5,7 @@ import { WebVitalsReporter } from "@/components/analytics/web-vitals";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import "./family-design.css";
+import "./family-value.css";
 
 export const viewport: Viewport = {
   width: "device-width",

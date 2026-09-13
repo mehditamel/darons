@@ -1439,32 +1439,6 @@
   text-align: center;
   font-size: 0.6rem;
 }
-.family-tour-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.45rem;
-  height: 3.5rem;
-  margin-bottom: 1rem;
-}
-.family-tour-bars span {
-  flex: 1;
-  height: 60%;
-  border-radius: 0.3rem 0.3rem 0 0;
-  background: #d7e4d1;
-  transform-origin: bottom;
-}
-.family-tour-bars span:nth-child(2n) {
-  height: 85%;
-  background: #79a282;
-}
-.family-tour-bars span:nth-child(3n) {
-  height: 45%;
-  background: #edb28e;
-}
-.family-tour-bars span:last-child {
-  height: 100%;
-  background: #c34420;
-}
 .family-feature {
   position: relative;
   overflow: hidden;
@@ -1623,15 +1597,6 @@
   }
   .family-album-doodle {
     animation: family-doodle-arrive 1.6s 0.1s ease-out both;
-  }
-  .family-tour-bars span {
-    animation: family-bar-rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  }
-  .family-tour-bars span:nth-child(2n) {
-    animation-delay: 0.1s;
-  }
-  .family-tour-bars span:nth-child(3n) {
-    animation-delay: 0.2s;
   }
 }
 @keyframes family-copy-arrive {
