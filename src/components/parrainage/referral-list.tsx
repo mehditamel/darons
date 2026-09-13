@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge";
-import { REWARD_TYPE_LABELS } from "@/types/sharing";
 import type { Referral } from "@/types/sharing";
 import { formatDate } from "@/lib/utils";
 
@@ -10,8 +9,8 @@ interface ReferralListProps {
 const STATUS_LABELS: Record<string, string> = {
   pending: "En attente",
   signed_up: "Inscrit",
-  subscribed: "Abonné",
-  rewarded: "Récompensé",
+  subscribed: "Inscrit",
+  rewarded: "Inscrit",
 };
 
 const STATUS_COLORS: Record<string, string> = {
@@ -36,11 +35,6 @@ export function ReferralList({ referrals }: ReferralListProps) {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            {referral.rewardApplied && (
-              <Badge variant="outline" className="bg-warm-gold/10 text-warm-gold border-warm-gold/20">
-                {REWARD_TYPE_LABELS[referral.rewardType]}
-              </Badge>
-            )}
             <Badge className={STATUS_COLORS[referral.status]}>
               {STATUS_LABELS[referral.status]}
             </Badge>

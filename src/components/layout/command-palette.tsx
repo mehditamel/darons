@@ -49,7 +49,7 @@ const NAVIGATION_ITEMS: CommandItem[] = [
   { label: "Recherche de garde", href: "/garde", icon: Baby, keywords: ["crèche", "nounou", "assistante maternelle"] },
   { label: "Santé enrichie", href: "/sante-enrichie", icon: Stethoscope, keywords: ["examens", "allergies", "ordonnances"] },
   { label: "Démarches & droits", href: "/demarches", icon: ClipboardList, keywords: ["administratif", "courrier", "caf"] },
-  { label: "Paramètres", href: "/parametres", icon: Settings, keywords: ["compte", "profil", "abonnement"] },
+  { label: "Paramètres", href: "/parametres", icon: Settings, keywords: ["compte", "profil", "préférences"] },
 ];
 
 const ACTION_ITEMS: CommandItem[] = [

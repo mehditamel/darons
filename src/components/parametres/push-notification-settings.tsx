@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Bell, BellOff } from "lucide-react";
-import { UpgradeButton } from "./upgrade-button";
 
 interface PushNotificationSettingsProps {
   hasPush: boolean;
@@ -92,11 +91,8 @@ export function PushNotificationSettings({ hasPush }: PushNotificationSettingsPr
           <div className="rounded-lg border border-dashed p-4 text-center">
             <BellOff className="mx-auto h-8 w-8 text-muted-foreground/50" />
             <p className="mt-2 text-sm text-muted-foreground">
-              Les notifications push sont disponibles avec le plan Premium.
+              Les notifications push sont momentanément indisponibles.
             </p>
-            <div className="mt-2 inline-flex">
-              <UpgradeButton plan="premium" label="Passer à Premium" />
-            </div>
           </div>
         ) : (
           <div className="flex items-center justify-between">

@@ -42,7 +42,7 @@ const FAQ_ITEMS = [
   {
     question: "Le carnet familial est-il gratuit ?",
     answer:
-      "Le compte de base et le Carnet de Confiance sont gratuits, sans carte bancaire à l’inscription. Les offres Darons+ et Family Pro sont indiquées comme à venir : elles ne sont pas encore proposées à la souscription.",
+      "Toutes les fonctionnalités de Darons sont gratuites pour les familles, sans abonnement ni carte bancaire. Des limites d’usage communes permettent de maîtriser les coûts du stockage et de l’IA. Les pistes de financement professionnel sont à l’étude ; les éventuels partenariats seront identifiés clairement.",
   },
   {
     question: "Est-ce le carnet de santé officiel ?",

@@ -92,7 +92,7 @@ export function InvitationForm({ disabled }: InvitationFormProps) {
 
       {disabled && (
         <p className="text-xs text-muted-foreground text-center">
-          Passez au plan Family Pro pour inviter des proches.
+          Les invitations sont momentanément indisponibles. Aucun abonnement n’est nécessaire.
         </p>
       )}
     </form>

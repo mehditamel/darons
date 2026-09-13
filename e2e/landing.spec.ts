@@ -17,12 +17,11 @@ test.describe("Landing page", () => {
     await expect(page.getByTestId("hero").getByRole("link", { name: "Créer le carnet de mon enfant", exact: true })).toBeVisible();
   });
 
-  test("affiche la section pricing", async ({ page }) => {
+  test("explique la gratuité sans proposer de forfait payant", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { name: "Gratuit", exact: true })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Darons+", exact: true })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Family Pro", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Tout Darons. Zéro abonnement.", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Darons\+|Family Pro/ })).toHaveCount(0);
   });
 
   test("le CTA principal redirige vers inscription", async ({ page }) => {

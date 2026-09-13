@@ -6,11 +6,11 @@ import { ReferralCodeCard } from "@/components/parrainage/referral-code-card";
 import { ReferralInviteForm } from "@/components/parrainage/referral-invite-form";
 import { ReferralList } from "@/components/parrainage/referral-list";
 import { getMyReferralCode, getMyReferrals, getReferralStats } from "@/lib/actions/referral";
-import { Gift, Users, Star, Trophy } from "lucide-react";
+import { Gift, Users, Star } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Parrainage",
-  description: "Parrainez vos proches et gagnez des récompenses",
+  description: "Faites découvrir Darons gratuitement à vos proches",
 };
 
 export default async function ParrainagePage() {
@@ -33,10 +33,10 @@ export default async function ParrainagePage() {
     <div className="section-stack">
       <PageHeader
         title="Programme de parrainage"
-        description="Invite tes proches à rejoindre Darons et gagne des récompenses"
+        description="Fais découvrir le carnet familial à tes proches, gratuitement"
       />
 
-      {/* Reward explanation */}
+      {/* Referral explanation */}
       <Card className="bg-gradient-to-r from-warm-orange/10 to-warm-gold/10 border-warm-orange/20">
         <CardContent className="p-6">
           <div className="flex items-start gap-4">
@@ -54,7 +54,7 @@ export default async function ParrainagePage() {
                 </li>
                 <li className="flex gap-2">
                   <Badge variant="outline" className="shrink-0">3</Badge>
-                  <span>Quand ils souscrivent un abonnement, vous recevez <strong>1 mois gratuit</strong></span>
+                  <span>Ils profitent gratuitement de toutes les fonctionnalités, comme toi</span>
                 </li>
               </ol>
             </div>
@@ -63,7 +63,7 @@ export default async function ParrainagePage() {
       </Card>
 
       {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <Card>
           <CardContent className="p-4 text-center">
             <Users className="h-5 w-5 text-warm-blue mx-auto mb-1" />
@@ -76,20 +76,6 @@ export default async function ParrainagePage() {
             <Star className="h-5 w-5 text-warm-teal mx-auto mb-1" />
             <p className="text-2xl font-bold">{stats.signedUp}</p>
             <p className="text-xs text-muted-foreground">Inscrits</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <Trophy className="h-5 w-5 text-warm-gold mx-auto mb-1" />
-            <p className="text-2xl font-bold">{stats.subscribed}</p>
-            <p className="text-xs text-muted-foreground">Abonnés</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <Gift className="h-5 w-5 text-warm-orange mx-auto mb-1" />
-            <p className="text-2xl font-bold">{stats.rewardsEarned}</p>
-            <p className="text-xs text-muted-foreground">Récompenses gagnées</p>
           </CardContent>
         </Card>
       </div>

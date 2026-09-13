@@ -46,10 +46,9 @@ export default async function PartagePage() {
           <CardContent className="p-4 flex items-center gap-3">
             <Shield className="h-5 w-5 text-warm-orange shrink-0" />
             <div>
-              <p className="text-sm font-medium">Fonctionnalité Family Pro</p>
+              <p className="text-sm font-medium">Partage momentanément indisponible</p>
               <p className="text-xs text-muted-foreground">
-                Le partage multi-foyers est réservé au plan Family Pro (19,90 €/mois).
-                Vous pouvez inviter grands-parents, nounou ou co-parent.
+                Le partage du foyer ne nécessite aucun abonnement payant. Réessaie dans un instant.
               </p>
             </div>
           </CardContent>

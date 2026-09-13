@@ -16,25 +16,23 @@ import { DeleteAccountDialog } from "@/components/parametres/delete-account-dial
 import { ConsentManager } from "@/components/parametres/consent-manager";
 import { PhoneNumberSettings } from "@/components/parametres/phone-number-settings";
 import { EditProfileForm } from "@/components/parametres/edit-profile-form";
-import { UpgradeButton } from "@/components/parametres/upgrade-button";
 import { getFamilyMembers } from "@/lib/actions/family";
 import { getUserConsents, getDeletionStatus } from "@/lib/actions/rgpd";
-import { PLAN_LIMITS, APP_VERSION } from "@/lib/constants";
+import { APP_LIMITS, APP_VERSION } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Paramètres — Darons",
-  description: "Configurez votre profil, gérez votre abonnement, vos consentements RGPD et les préférences de votre foyer",
+  description: "Configurez votre profil, vos consentements RGPD et les préférences de votre foyer",
 };
 
 export default async function ParametresPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const { data: profile } = user
-    ? await supabase.from("profiles").select("subscription_plan, email, first_name, last_name, calendar_tokens, phone_number").eq("id", user.id).single()
+    ? await supabase.from("profiles").select("email, first_name, last_name, calendar_tokens, phone_number").eq("id", user.id).single()
     : { data: null };
-  const plan = (profile?.subscription_plan ?? "free") as keyof typeof PLAN_LIMITS;
-  const planLimits = PLAN_LIMITS[plan];
+  const planLimits = APP_LIMITS;
 
   const [membersResult, consentsResult, deletionStatus] = await Promise.all([
     getFamilyMembers(),
@@ -143,11 +141,11 @@ export default async function ParametresPage() {
               <div>
                 <CardTitle className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-warm-gold" />
-                  Abonnement
+                  Ton accès gratuit
                 </CardTitle>
-                <CardDescription>Ton plan actuel et ses limites</CardDescription>
+                <CardDescription>Toutes les fonctionnalités, avec les mêmes limites d’usage pour tous</CardDescription>
               </div>
-              <Badge>{plan === "free" ? "Gratuit" : plan === "premium" ? "Premium" : "Family Pro"}</Badge>
+              <Badge>100% gratuit</Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -183,9 +181,9 @@ export default async function ParametresPage() {
                 </span>
               </li>
             </ul>
-            {plan === "free" && (
-              <UpgradeButton plan="premium" label="Passer à Premium — 9,90 €/mois" />
-            )}
+            <p className="text-sm text-muted-foreground">
+              Aucun abonnement à souscrire. Ton accès ne dépend pas d’une formule payante.
+            </p>
           </CardContent>
         </Card>
 

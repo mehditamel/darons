@@ -21,7 +21,7 @@ const links = [
   { href: "/demo", label: "Démo" },
   { href: "/blog", label: "Blog" },
   { href: "/outils/plan-famille", label: "Mon plan" },
-  { href: "/#pricing", label: "Tarifs" },
+  { href: "/#pricing", label: "100% gratuit" },
 ];
 
 export function PublicHeader() {

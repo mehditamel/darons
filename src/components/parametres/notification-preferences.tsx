@@ -87,7 +87,7 @@ export function NotificationPreferences({
             {!hasPush && (
               <Badge variant="outline" className="text-[10px]">
                 <Lock className="mr-1 h-3 w-3" />
-                Premium
+                Indisponible
               </Badge>
             )}
           </div>
@@ -106,7 +106,7 @@ export function NotificationPreferences({
             {!hasSms && (
               <Badge variant="outline" className="text-[10px]">
                 <Lock className="mr-1 h-3 w-3" />
-                Family Pro
+                Indisponible
               </Badge>
             )}
           </div>

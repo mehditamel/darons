@@ -13,7 +13,7 @@
 
 **Positionnement** : Il n'existe pas de solution intégrée sur le marché français combinant ces 4 piliers. Les apps existantes sont verticales (Mon Enfant / CAF, Carnet de Santé numérique, Bankin). Darons unifie tout + IA proactive. Le ton est décalé, accessible, zéro bullshit — on parle aux parents comme à des potes, pas comme à des administrés.
 
-**Stratégie** : 100% gratuit au lancement. Monétisation progressive et non-bloquante (premium optionnel, pas de paywall agressif). Objectif : acquisition massive par le bouche-à-oreille et la viralité du nom. Disrupter le marché en offrant gratuitement ce que les concurrents font payer.
+**Stratégie — décision de Mehdi du 13 septembre 2026** : toutes les fonctionnalités de la plateforme restent gratuites pour les familles. Aucun abonnement parent, essai devenant payant ou formule Premium. Des limites d’usage communes peuvent maîtriser les coûts sans paiement pour les dépasser. Le financement professionnel (services aux entreprises/CSE, puis partenariats transparents) est à valider ; aucun contrat n’est acquis. Voir `docs/product/gratuite-et-financement.md`. Les références historiques aux forfaits payants ci-dessous ne doivent pas réintroduire de paiement ou de restrictions par abonnement.
 
 **Domaines** :
 - `darons.app` — domaine principal (HTTPS natif .app)

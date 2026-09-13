@@ -56,10 +56,10 @@ export function CalendarSyncCard({ hasAccess, isConnected }: CalendarSyncCardPro
           <div className="flex-1">
             <p className="text-sm font-medium">Synchronisation calendrier</p>
             <p className="text-xs text-muted-foreground">
-              Passez au plan Premium pour synchroniser vos RDV médicaux et échéances avec Google Calendar.
+              La synchronisation du calendrier est momentanément indisponible.
             </p>
           </div>
-          <Badge variant="outline">Premium</Badge>
+          <Badge variant="outline">Indisponible</Badge>
         </CardContent>
       </Card>
     );

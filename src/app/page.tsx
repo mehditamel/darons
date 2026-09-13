@@ -25,7 +25,7 @@ import { FamilyReadingProgress } from "@/components/landing/family-motion";
 import { FamilyHero } from "@/components/landing/family-hero";
 import { FamilyReveal } from "@/components/landing/family-reveal";
 import { FaqSection } from "@/components/landing/faq-section";
-import { PricingSection } from "@/components/landing/pricing-section";
+import { FreeAccessSection } from "@/components/landing/free-access-section";
 import { NewsletterSignup } from "@/components/blog/newsletter-signup";
 import { TOTAL_TOOLS } from "@/lib/tools-catalog";
 import { getAllArticles } from "@/lib/blog-data";
@@ -413,7 +413,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <PricingSection />
+        <FreeAccessSection />
         <FaqSection />
 
         <section data-testid="cta" className="family-section">
